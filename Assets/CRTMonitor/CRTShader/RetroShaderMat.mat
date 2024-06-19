@@ -44,7 +44,7 @@ Material:
     - _QueueOffset: 0
     - _ScanningLines: 8
     - _ScanningLinesAmount: 0
-    - _ScanningLinesIntensity: 0.016
+    - _ScanningLinesIntensity: 0.015
     - _ScanningLinesSpeed: 1
     m_Colors:
     - _Color: {r: 0.83290505, g: 0.86694217, b: 0.29852253, a: 1}
