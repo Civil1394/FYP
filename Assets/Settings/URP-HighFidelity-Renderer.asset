@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14d53604b0121fc4f97db43765000dbe, type: 3}
   m_Name: Retro
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     Event: 500
     blitMaterial: {fileID: 2100000, guid: 63aecba05db287a4da483d1f358d3fdf, type: 2}
@@ -22,9 +22,9 @@ MonoBehaviour:
     srcType: 0
     srcTextureId: _CameraColorTexture
     srcTextureObject: {fileID: 0}
-    dstType: 0
+    dstType: 2
     dstTextureId: _BlitPassTexture
-    dstTextureObject: {fileID: 0}
+    dstTextureObject: {fileID: 8600000, guid: ea4b79022485c824b8038144a20d43d7, type: 2}
     overrideGraphicsFormat: 0
     graphicsFormat: 4
     canShowInSceneView: 1
