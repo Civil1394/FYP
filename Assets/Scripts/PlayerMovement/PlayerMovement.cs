@@ -49,9 +49,6 @@ public class PlayerMovement : MonoBehaviour
             Vector3 newPosition = rb.position + movement * moveSpeed * Time.fixedDeltaTime;
             rb.MovePosition(newPosition);
 
-            // Debug new position
-            Debug.Log($"New Position: {newPosition}");
-
             // Rotate the player to face the movement direction
             Quaternion toRotation = Quaternion.LookRotation(movement, Vector3.up);
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, toRotation, rotationSpeed * Time.fixedDeltaTime));

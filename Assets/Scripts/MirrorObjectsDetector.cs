@@ -23,43 +23,59 @@ public class MirrorObjectDetector : MonoBehaviour
         {
             mirrorCamera = GameObject.Find("MirrorCamera").GetComponent<Camera>();
         }
-    }
-
-    void Update()
-    {
+        
         DetectReflectedObjects();
         UpdateReflectedObjectsList();
     }
 
-    void DetectReflectedObjects()
+    void Update()
+    {
+        
+    }
+
+  void DetectReflectedObjects()
 {
     reflectedObjectsDict.Clear();
     gizmoRays.Clear();
 
     Vector3 mirrorNormal = -transform.forward;
     Vector3 mirrorRight = transform.right;
-    Vector3 mirrorUp = transform.up;
+    Vector3 mirrorUp = transform.forward;
 
-    Bounds mirrorBounds = mirrorCollider.bounds;
-    Vector3 mirrorSize = mirrorBounds.size;
+    // Get the mesh from the MeshFilter component
+    Mesh mirrorMesh = GetComponent<MeshFilter>().mesh;
+    Vector3[] vertices = mirrorMesh.vertices;
 
+    // Transform vertices to world space
+    for (int i = 0; i < vertices.Length; i++)
+    {
+        vertices[i] = transform.TransformPoint(vertices[i]);
+        Debug.Log(vertices[i]);
+    }
+
+    // Calculate actual bounds from transformed vertices
+    Bounds actualBounds = new Bounds(vertices[0], Vector3.zero);
+    for (int i = 1; i < vertices.Length; i++)
+    {
+        actualBounds.Encapsulate(vertices[i]);
+    }
+
+    Vector3 mirrorSize = actualBounds.size;
+    Vector3 mirrorCenter = actualBounds.center;
+    
     for (int x = 0; x < horizontalRays; x++)
     {
         for (int y = 0; y < verticalRays; y++)
         {
             float xPercent = x / (float)(horizontalRays - 1);
             float yPercent = y / (float)(verticalRays - 1);
+            //Debug.Log(verticalRays + " , " +yPercent);
+            // Calculate the world position on the mirror plane
+            Vector3 rayStart = mirrorCenter + 
+                (mirrorRight * (xPercent - 0.5f) * mirrorSize.x) +
+                (mirrorUp * (yPercent - 0.5f) * mirrorSize.y);
 
-            // Calculate the local position on the mirror plane
-            Vector3 localPos = new Vector3(
-                Mathf.Lerp(-mirrorSize.x * 0.5f, mirrorSize.x * 0.5f, xPercent),
-                Mathf.Lerp(-mirrorSize.y * 0.5f, mirrorSize.y * 0.5f, yPercent),
-                0
-            );
-            Debug.Log(y + " , " + localPos);
-            // Transform the local position to world space
-            Vector3 rayStart = transform.TransformPoint(localPos);
-            Debug.Log(y + " , " + rayStart);
+            //Debug.Log(verticalRays + " , " +rayStart);
             // Calculate direction from mirror camera through the ray start point
             Vector3 cameraToPoint = rayStart - mirrorCamera.transform.position;
             Vector3 rayDirection = cameraToPoint.normalized;
@@ -112,7 +128,6 @@ public class MirrorObjectDetector : MonoBehaviour
         foreach (Ray ray in gizmoRays)
         {
             Gizmos.DrawRay(ray.origin, ray.direction * rayDistance);
-            // Draw a small sphere at the ray origin for better visibility
             Gizmos.DrawSphere(ray.origin, 0.02f);
         }
 
@@ -123,11 +138,23 @@ public class MirrorObjectDetector : MonoBehaviour
             Gizmos.DrawSphere(objData.Position, 0.1f);
         }
 
-        // Draw the mirror plane
+        // Draw the actual mirror bounds
         Gizmos.color = Color.blue;
-        Gizmos.matrix = transform.localToWorldMatrix;
-        Gizmos.DrawWireCube(Vector3.zero, mirrorCollider.bounds.size);
-        Gizmos.matrix = Matrix4x4.identity;
+        if (GetComponent<MeshFilter>() != null)
+        {
+            Mesh mirrorMesh = GetComponent<MeshFilter>().mesh;
+            Vector3[] vertices = mirrorMesh.vertices;
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                vertices[i] = transform.TransformPoint(vertices[i]);
+            }
+            Bounds actualBounds = new Bounds(vertices[0], Vector3.zero);
+            for (int i = 1; i < vertices.Length; i++)
+            {
+                actualBounds.Encapsulate(vertices[i]);
+            }
+            Gizmos.DrawWireCube(actualBounds.center, actualBounds.size);
+        }
     }
 }
 
