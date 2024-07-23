@@ -38,17 +38,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _NoiseAmount: 0.05
+    - _NoiseAmount: 0.049
     - _NoiseScale: 100
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ScanningLines: 15
     - _ScanningLinesAmount: 0
-    - _ScanningLinesIntensity: 0.008
+    - _ScanningLinesIntensity: 0
     - _ScanningLinesSpeed: 1
     m_Colors:
-    - _Color: {r: 0.86986405, g: 0.9056604, b: 0.32894266, a: 1}
-    - _NoiseSpeed: {r: 0, g: 0.1, b: 0, a: 0}
+    - _Color: {r: 0.759434, g: 1, b: 0.9618149, a: 1}
+    - _NoiseSpeed: {r: 0, g: 0.05, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3741145012211740568
 MonoBehaviour:

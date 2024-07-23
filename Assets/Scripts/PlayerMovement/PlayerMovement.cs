@@ -4,71 +4,79 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Vector3 _input;
-    [SerializeField] private Rigidbody rb;
-    Plane plane = new Plane(Vector3.up, 0);
-    [SerializeField] private float _speed = 5;
-    [SerializeField] private Transform firePivot;
-    private bool canFire;
-    private Vector3 rotatedInput;
-    private Vector3 mousePos;
-    Camera mainCamera;
-    [SerializeField] private float _turnSpeed;
-    // Start is called before the first frame update
+    public float moveSpeed = 5f;
+    public float rotationSpeed = 10f;
+    public float gizmoLength = 2f; // Length of the forward direction gizmo
+    public Color gizmoColor = Color.blue; // Color of the gizmo
+
+    private Rigidbody rb;
+    private Vector3 movement;
+    private Vector3 lastMovementDirection;
+
     void Start()
     {
-        mainCamera = FindFirstObjectByType<Camera>();
+        rb = GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody component not found on the player object!");
+        }
+        else
+        {
+            rb.velocity = Vector3.zero; // Ensure no initial velocity
+            rb.angularVelocity = Vector3.zero;
+        }
     }
-     void FixedUpdate()
-    {
-        Move();
-       
-    }
-    // Update is called once per frame
+
     void Update()
     {
+        // Get input
+        float moveHorizontal = Input.GetAxisRaw("Horizontal");
+        float moveVertical = Input.GetAxisRaw("Vertical");
 
-    
-        GatherInput();
-        Look();
+        // Calculate movement vector
+        movement = new Vector3(moveHorizontal, 0f, moveVertical).normalized;
+
+        // Convert movement to isometric direction
+        movement = Quaternion.Euler(0, 45, 0) * movement;
     }
 
-    void GatherInput()
-    {   //movement
-        _input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-        rotatedInput = Quaternion.Euler(0, 45, 0) * _input;
-        plane = new Plane(new Vector3(0,this.transform.position.y,0), 0);
-        //rotation
-         float distance;
-         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (plane.Raycast(ray, out distance))
+    void FixedUpdate()
+    {
+        // Apply movement
+        if (movement != Vector3.zero)
         {
-            mousePos = ray.GetPoint(distance);
+            // Move the player
+            Vector3 newPosition = rb.position + movement * moveSpeed * Time.fixedDeltaTime;
+            rb.MovePosition(newPosition);
+
+            // Debug new position
+            Debug.Log($"New Position: {newPosition}");
+
+            // Rotate the player to face the movement direction
+            Quaternion toRotation = Quaternion.LookRotation(movement, Vector3.up);
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, toRotation, rotationSpeed * Time.fixedDeltaTime));
+
+            lastMovementDirection = movement;
         }
-
+        else if (lastMovementDirection != Vector3.zero)
+        {
+            // If not moving but we have a last movement direction, keep facing that direction
+            Quaternion toRotation = Quaternion.LookRotation(lastMovementDirection, Vector3.up);
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, toRotation, rotationSpeed * Time.fixedDeltaTime));
+        }
     }
 
-    void Move()
+    void OnDrawGizmos()
     {
-        //rb.MovePosition(transform.position + (transform.forward * _input.magnitude) * _speed * Time.deltaTime);
-        rb.velocity = new Vector3(rotatedInput.x* _speed ,rb.velocity.y,rotatedInput.z* _speed );
-        //rb.AddForce(rotatedInput* _speed);
-    }
+        // Draw a line showing the forward direction of the player
+        Gizmos.color = gizmoColor;
+        Vector3 direction = transform.forward * gizmoLength;
+        Gizmos.DrawLine(transform.position, transform.position + direction);
 
-    void Look()
-    {
-         if(_input != Vector3.zero)
-         {        
-            
-             var relative = (transform.position + _input.ToIso()) - transform.position;
-             var rot = Quaternion.LookRotation(relative, Vector3.up);
-                //transform.rotation =rot;
-
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, _turnSpeed) ;
-         }
-        //Vector3 mousePosition = new Vector3( mousePos.x, this.transform.position.y, mousePos.z ) ;
-        //Debug.Log(mousePosition);
-        //this.transform.LookAt( mousePosition ) ;
-
+        // Draw an arrowhead
+        Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 + 20, 0) * new Vector3(0, 0, 1);
+        Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 - 20, 0) * new Vector3(0, 0, 1);
+        Gizmos.DrawLine(transform.position + direction, transform.position + direction + right * 0.25f);
+        Gizmos.DrawLine(transform.position + direction, transform.position + direction + left * 0.25f);
     }
 }
