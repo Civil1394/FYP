@@ -24,13 +24,13 @@ public class MirrorObjectDetector : MonoBehaviour
             mirrorCamera = GameObject.Find("MirrorCamera").GetComponent<Camera>();
         }
         
-        DetectReflectedObjects();
-        UpdateReflectedObjectsList();
+       
     }
 
     void Update()
     {
-        
+        DetectReflectedObjects();
+        UpdateReflectedObjectsList();
     }
 
   void DetectReflectedObjects()
