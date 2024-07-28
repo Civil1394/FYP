@@ -23,7 +23,7 @@ public class MirrorObjectDetector : MonoBehaviour
         {
             mirrorCamera = GameObject.Find("MirrorCamera").GetComponent<Camera>();
         }
-        
+       
        
     }
 
@@ -33,60 +33,33 @@ public class MirrorObjectDetector : MonoBehaviour
         UpdateReflectedObjectsList();
     }
 
-  void DetectReflectedObjects()
-{
-    reflectedObjectsDict.Clear();
-    gizmoRays.Clear();
-
-    Vector3 mirrorNormal = -transform.forward;
-    Vector3 mirrorRight = transform.right;
-    Vector3 mirrorUp = transform.forward;
-
-    // Get the mesh from the MeshFilter component
-    Mesh mirrorMesh = GetComponent<MeshFilter>().mesh;
-    Vector3[] vertices = mirrorMesh.vertices;
-
-    // Transform vertices to world space
-    for (int i = 0; i < vertices.Length; i++)
+    void DetectReflectedObjects()
     {
-        vertices[i] = transform.TransformPoint(vertices[i]);
-        Debug.Log(vertices[i]);
-    }
+        reflectedObjectsDict.Clear();
+        gizmoRays.Clear();
 
-    // Calculate actual bounds from transformed vertices
-    Bounds actualBounds = new Bounds(vertices[0], Vector3.zero);
-    for (int i = 1; i < vertices.Length; i++)
-    {
-        actualBounds.Encapsulate(vertices[i]);
-    }
+        // Get the mesh from the MeshFilter component
+        Mesh mirrorMesh = GetComponent<MeshFilter>().mesh;
+        Vector3[] vertices = mirrorMesh.vertices;
+        Vector3[] normals = mirrorMesh.normals;
 
-    Vector3 mirrorSize = actualBounds.size;
-    Vector3 mirrorCenter = actualBounds.center;
-    
-    for (int x = 0; x < horizontalRays; x++)
-    {
-        for (int y = 0; y < verticalRays; y++)
+        // Transform vertices and normals to world space
+        for (int i = 0; i < vertices.Length; i++)
         {
-            float xPercent = x / (float)(horizontalRays - 1);
-            float yPercent = y / (float)(verticalRays - 1);
-            //Debug.Log(verticalRays + " , " +yPercent);
-            // Calculate the world position on the mirror plane
-            Vector3 rayStart = mirrorCenter + 
-                (mirrorRight * (xPercent - 0.5f) * mirrorSize.x) +
-                (mirrorUp * (yPercent - 0.5f) * mirrorSize.y);
+            vertices[i] = transform.TransformPoint(vertices[i]);
+            normals[i] = transform.TransformDirection(normals[i]);
+        }
 
-            //Debug.Log(verticalRays + " , " +rayStart);
-            // Calculate direction from mirror camera through the ray start point
-            Vector3 cameraToPoint = rayStart - mirrorCamera.transform.position;
-            Vector3 rayDirection = cameraToPoint.normalized;
-
-            // Reflect the ray direction off the mirror surface
-            Vector3 reflectedDirection = Vector3.Reflect(rayDirection, mirrorNormal);
+        // Shoot rays from each vertex
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            Vector3 rayStart = vertices[i];
+            Vector3 rayDirection = normals[i].normalized;
 
             // Store the ray for gizmo drawing
-            gizmoRays.Add(new Ray(rayStart, reflectedDirection));
+            gizmoRays.Add(new Ray(rayStart, rayDirection));
 
-            RaycastHit[] hits = Physics.RaycastAll(rayStart, reflectedDirection, rayDistance, detectionLayers);
+            RaycastHit[] hits = Physics.RaycastAll(rayStart, rayDirection, rayDistance, detectionLayers);
 
             foreach (RaycastHit hit in hits)
             {
@@ -103,7 +76,6 @@ public class MirrorObjectDetector : MonoBehaviour
             }
         }
     }
-}
 
     void UpdateReflectedObjectsList()
     {
