@@ -100,7 +100,7 @@ public class MirrorRTController : MonoBehaviour
             {
                 EditorGUILayout.Space();
                 EditorGUILayout.LabelField("RenderTexture Preview");
-                EditorGUI.DrawPreviewTexture(GUILayoutUtility.GetRect(100, 100), mirror.renderTexture);
+                EditorGUI.DrawPreviewTexture(GUILayoutUtility.GetRect(100, 300), mirror.renderTexture);
             }
         }
     }
