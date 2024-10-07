@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class #SCRIPTNAME# : MonoBehaviour 
+public class AISensor : MonoBehaviour 
 {
-	
 }
+
