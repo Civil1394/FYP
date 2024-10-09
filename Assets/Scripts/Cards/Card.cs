@@ -9,7 +9,7 @@ public class Card : ICard
 	public string Desc { get; private set; }
 	public Suit Suit { get; private set; }
 	public AbilityData AbilityData { get; private set; }
-
+	
 	public void SetSuit(Suit suit) => Suit = suit;
 	public void SetAbilityData(AbilityData abilityData)
 	{
@@ -22,6 +22,8 @@ public class Card : ICard
 	{
 		AbilityData.TriggerAbility();
 	}
+
+	
 }
 
 

@@ -11942,6 +11942,7 @@ GameObject:
   m_Component:
   - component: {fileID: 174916267}
   - component: {fileID: 174916268}
+  - component: {fileID: 174916269}
   m_Layer: 5
   m_Name: HandCardContainer
   m_TagString: Untagged
@@ -11997,6 +11998,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
+--- !u!114 &174916269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174916266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92b1b373fb894ff448979b8670b3fb4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handCardPrefab: {fileID: 7316864427589113860, guid: f9a66d40e3c8c7a4c9b9dcaaea465bf9,
+    type: 3}
 --- !u!1 &179319371
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,11 +1,12 @@
+using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class CardsManager : Singleton<CardsManager>
 {
-
     private List<Card> deck;
     private List<Card> hand;
     private List<Card> discardPile;
@@ -15,6 +16,8 @@ public class CardsManager : Singleton<CardsManager>
     public IReadOnlyList<Card> DiscardPile => discardPile.AsReadOnly();
 
     private System.Random random;
+
+    public Action<Card> OnCardDrawn;
 
     private void Awake()
     {
@@ -43,7 +46,8 @@ public class CardsManager : Singleton<CardsManager>
 
         deck.RemoveAt(index);
         hand.Add(newCard);
-
+        OnCardDrawn?.Invoke(newCard);
+            
         return (Deck, Hand, newCard);
     }
 
