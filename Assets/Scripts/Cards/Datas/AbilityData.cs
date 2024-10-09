@@ -8,6 +8,8 @@ public class AbilityData : ScriptableObject
 
 	[Header("Text")]
 	public string title;
+
+	public int initCost;
 	[TextArea(5, 7)]
 	public string desc;
 	
