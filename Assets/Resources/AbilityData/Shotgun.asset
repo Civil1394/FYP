@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
-  id: Shotgun
+  id: 3
   title: Shotgun
-  desc: 
+  initCost: 3
+  desc: aaaaaa
   trigger: 0
   target: 0
   effects:

@@ -47,4 +47,20 @@ public class CostManager : Singleton<CostManager>
 	{
 		availCost = _availCost;
 	}
+
+	public void AddAvailCost(int addAmount)
+	{
+		Mathf.Clamp(availCost , availCost += addAmount,5);
+		OnCostUpdated.Invoke();
+	}
+	
+	public bool MinusAvailCost(int minusAmount)
+	{
+		int newAvailCost = availCost - minusAmount;
+		if (newAvailCost < 0) return false;
+    
+		availCost = newAvailCost;
+		OnCostUpdated.Invoke();
+		return true;
+	}
 }

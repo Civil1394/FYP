@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
   m_Name: Uzi
   m_EditorClassIdentifier: 
-  id: Uzi
+  id: 5
   title: Uzi
-  desc: 
+  initCost: 1
+  desc: aaaaaaaaaaaaaaa
   trigger: 0
   target: 0
   effects:

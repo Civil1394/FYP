@@ -18,7 +18,7 @@ public class CardsManager : Singleton<CardsManager>
     private System.Random random;
 
     public Action<Card> OnCardDrawn;
-
+    public Action<Card> OnCardPlayed;
     private void Awake()
     {
         random = new System.Random();
@@ -65,10 +65,16 @@ public class CardsManager : Singleton<CardsManager>
             return (Hand, DiscardPile, null);
         }
 
-        hand.Remove(cardToPlay);
-        discardPile.Add(cardToPlay);
-
-        return (Hand, DiscardPile, cardToPlay);
+        if (CostManager.Instance.MinusAvailCost(cardToPlay.Cost))
+        {
+            cardToPlay.TriggerCard();
+            hand.Remove(cardToPlay);
+            OnCardPlayed.Invoke(cardToPlay);
+            discardPile.Add(cardToPlay);
+            return (Hand, DiscardPile, cardToPlay);
+        }
+        
+        return (Hand, DiscardPile, null);
     }
     
 }

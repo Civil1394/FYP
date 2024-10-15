@@ -68,6 +68,6 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     /// </summary>
     private void OnApplicationQuit()
     {
-       // _applicationIsQuitting = true;
+       Destroy(this);
     }
 }

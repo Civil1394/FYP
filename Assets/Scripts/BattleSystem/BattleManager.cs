@@ -17,8 +17,8 @@ public class BattleManager : Singleton<BattleManager>
 		for (int i = 0; i < 3; i++)
 		{
 			Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase,"1", abilityDatabase.GetRandomAbilityFromList("1").id);
-			Debug.Log($"Found Card: {testCard.Name}");
 			CardsManager.Instance.AddCardToDeck(testCard);
+			CardsManager.Instance.DrawCard();
 		}
 		
 	}
@@ -30,13 +30,17 @@ public class BattleManager : Singleton<BattleManager>
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Mouse0))
+		if (Input.GetKeyDown(KeyCode.R))
 		{
+			if (CardsManager.Instance.Hand.Count < 3)
+			{
+				Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase,"1", abilityDatabase.GetRandomAbilityFromList("1").id);
+				CardsManager.Instance.AddCardToDeck(testCard);
+			}
 			var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
 			if (drawnCard != null)
 			{
 				Debug.Log($"Drew card: {drawnCard.Name}");
-				drawnCard.TriggerCard();
 			}
 			else
 			{
@@ -45,6 +49,9 @@ public class BattleManager : Singleton<BattleManager>
 			
 		}
 		
+		
 	}
+
+	
 }
 

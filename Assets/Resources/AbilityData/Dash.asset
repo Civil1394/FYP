@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
   m_Name: Dash
   m_EditorClassIdentifier: 
-  id: Dash
+  id: 1
   title: Dash
-  desc: abc
+  initCost: 1
+  desc: Dash
   trigger: 0
   target: 0
   effects:
-  - {fileID: 11400000, guid: 2ba49c753f10380418c27f69eba31e3e, type: 2}
+  - {fileID: 11400000, guid: 815f606f6e695094fa61b7b8718f53af, type: 2}
   status: []
   value: 0
   duration: 0
