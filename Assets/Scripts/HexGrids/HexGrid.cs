@@ -1,29 +1,45 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 public class HexGrid : MonoBehaviour
 {
     public HexMeshGenerator hexPrefab;
-    public int numberOfHexagons = 5;
+    public int numberInRow = 5;
+    public int numberOfColumn = 5;
 
     void Start()
     {
         CreateHexagonRow();
+        
     }
 
     void CreateHexagonRow()
     {
-        float hexWidth = hexPrefab.GetHexagonWidth();
-        Debug.Log(hexWidth);
-        for (int i = 0; i < numberOfHexagons; i++)
+        for (int j = 0; j < numberOfColumn; j++)
         {
-            HexMeshGenerator hex = Instantiate(hexPrefab, transform);
-            float xPosition = i * hexWidth;
-            hex.transform.localPosition = new Vector3(xPosition, 0.1f, 0f);
+            for (int i = 0; i < numberInRow; i++)
+            {
+                HexMeshGenerator hex = Instantiate(hexPrefab, transform);
+                
+                float hexWidth = hex.GetHexagonWidth();
+                float zPosition = j * (hex.innerRadius + hex.outerRadius/2);
+                if(j%2 == 0)hex.transform.localPosition = new Vector3(i*hexWidth, 0.1f, zPosition);
+                if(j%2 == 1)hex.transform.localPosition = new Vector3(i*hexWidth + hexWidth/2, 0.1f, zPosition);
+                hex.gameObject.name = "HexCell ( " + i + " , " + j + " )";
+                // Check for collision and destroy if necessary
+                if (hex.CheckForCollisionAtCurrentPosition())
+                {
+                    Debug.Log($"Hex at position { ( i , j ) } overlaps with another object. Destroying.");
+                    Destroy(hex.gameObject);
+                    continue;
+                }
+            } 
         }
+        
     }
 
-
+  
     private void Awake()
     {
         

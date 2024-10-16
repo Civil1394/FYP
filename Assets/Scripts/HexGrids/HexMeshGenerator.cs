@@ -10,6 +10,7 @@ public class HexMeshGenerator : MonoBehaviour
     {
         innerRadius = outerRadius * 0.866025404f; // Calculate innerRadius in Awake
         GetComponent<MeshFilter>().mesh = GenerateHexMesh();
+        OnDrawGizmosSelected();
     }
 
     private Mesh GenerateHexMesh()
@@ -43,6 +44,7 @@ public class HexMeshGenerator : MonoBehaviour
         mesh.triangles = triangles;
         mesh.RecalculateNormals();
 
+        //this.gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
         return mesh;
     }
 
@@ -51,12 +53,24 @@ public class HexMeshGenerator : MonoBehaviour
         if (flatTopped)
         {
             // For flat-topped hexagons, the width is 2 * outerRadius
-            return outerRadius * 2f;
+            return innerRadius * 2f;
         }
         else
         {
             // For pointy-topped hexagons, the width is 2 * innerRadius
-            return 2f * innerRadius;
+            return 2f * outerRadius;
         }
+    }
+    
+    public bool CheckForCollisionAtCurrentPosition()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, innerRadius );
+        return colliders.Length > 1; // > 1 because it will detect its own collider
+    }
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, innerRadius);
     }
 }
