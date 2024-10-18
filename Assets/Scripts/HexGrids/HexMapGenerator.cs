@@ -60,7 +60,6 @@ public class HexMapGenerator : MonoBehaviour
                 newCell.Initialize(cellData);
                 
                 BattleManager.Instance.hexgrid.AddCell(newCell);
-                //TODO: Connect cell's neighbors
                 xStartPos += hexWidth;
                 r += 1;
             } while (xStartPos < rightBotLocalLoc.x - innerRadius);

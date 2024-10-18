@@ -33,23 +33,22 @@ public class BattleManager : Singleton<BattleManager>
 	{
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			// if (CardsManager.Instance.Hand.Count < 3)
-			// {
-			// 	Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase,"1", abilityDatabase.GetRandomAbilityFromList("1").id);
-			// 	CardsManager.Instance.AddCardToDeck(testCard);
-			// }
-			// var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
-			// if (drawnCard != null)
-			// {
-			// 	Debug.Log($"Drew card: {drawnCard.Name}");
-			// }
-			// else
-			// {
-			// 	Debug.Log("No cards left in the deck");
-			// }
+			if (CardsManager.Instance.Hand.Count < 3)
+			{
+				Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase,"1", abilityDatabase.GetRandomAbilityFromList("1").id);
+				CardsManager.Instance.AddCardToDeck(testCard);
+			}
+			var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
+			if (drawnCard != null)
+			{
+				Debug.Log($"Drew card: {drawnCard.Name}");
+			}
+			else
+			{
+				Debug.Log("No cards left in the deck");
+			}
 			
 			
-			hexgrid.GetCell(new Vector3Int(5,0,2)).DebugTest();
 		}
 		
 		

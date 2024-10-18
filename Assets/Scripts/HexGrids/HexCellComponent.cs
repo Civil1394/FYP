@@ -16,6 +16,11 @@ public class HexCellComponent : MonoBehaviour
 	public void DebugTest()
 	{
 		this.gameObject.transform.localPosition += Vector3.up * 10;
+		foreach (var c in CellData.Neighbors)
+		{
+			if(c!=null)
+				Debug.Log($"{c.Coordinates}");
+		}
 	}
 }
 
