@@ -1,16 +1,15 @@
 using UnityEngine;
 
-public class HexMeshGenerator : MonoBehaviour
+public class HexCellMeshGenerator : MonoBehaviour
 {
-    public float outerRadius = 1f;
-    public float innerRadius;
+    public static float outerRadius = 0.2f;
+    public static float innerRadius;
     public bool flatTopped = false;
 
     private void Awake()
     {
-        innerRadius = outerRadius * 0.866025404f; // Calculate innerRadius in Awake
         GetComponent<MeshFilter>().mesh = GenerateHexMesh();
-        OnDrawGizmosSelected();
+        //OnDrawGizmosSelected();
     }
 
     private Mesh GenerateHexMesh()
@@ -43,34 +42,35 @@ public class HexMeshGenerator : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.RecalculateNormals();
-
-        //this.gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
+        
         return mesh;
     }
 
-    public float GetHexagonWidth()
+    public static float GetHexagonWidth()
     {
-        if (flatTopped)
-        {
-            // For flat-topped hexagons, the width is 2 * outerRadius
-            return innerRadius * 2f;
-        }
-        else
-        {
-            // For pointy-topped hexagons, the width is 2 * innerRadius
-            return 2f * outerRadius;
-        }
+        return GetInnerRadius() * 2f;
+    }
+
+    public static float GetInnerRadius()
+    {
+        innerRadius = outerRadius * 0.866025404f;
+        return innerRadius;
+    }
+    public static float GetHexArea()
+    {
+        float area = innerRadius / 2 * Mathf.PI;
+        return area;
     }
     
     public bool CheckForCollisionAtCurrentPosition()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, innerRadius );
+        Collider[] colliders = Physics.OverlapSphere(transform.position, innerRadius*2 );
         return colliders.Length > 1; // > 1 because it will detect its own collider
     }
     void OnDrawGizmosSelected()
     {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position, innerRadius);
+        Gizmos.DrawSphere(transform.position, innerRadius*2);
     }
 }

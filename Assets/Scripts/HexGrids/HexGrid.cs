@@ -1,81 +1,75 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.Mathematics;
 using UnityEngine.Serialization;
 
-public class HexGrid : MonoBehaviour
+public class HexGrid 
 {
-    public HexMeshGenerator hexPrefab;
-    public int numberInRow = 5;
-    public int numberOfColumn = 5;
-
-    void Start()
-    {
-        CreateHexagonRow();
-        
-    }
-
-    void CreateHexagonRow()
-    {
-        for (int j = 0; j < numberOfColumn; j++)
-        {
-            for (int i = 0; i < numberInRow; i++)
-            {
-                HexMeshGenerator hex = Instantiate(hexPrefab, transform);
-                
-                float hexWidth = hex.GetHexagonWidth();
-                float zPosition = j * (hex.innerRadius + hex.outerRadius/2);
-                if(j%2 == 0)hex.transform.localPosition = new Vector3(i*hexWidth, 0.1f, zPosition);
-                if(j%2 == 1)hex.transform.localPosition = new Vector3(i*hexWidth + hexWidth/2, 0.1f, zPosition);
-                hex.gameObject.name = "HexCell ( " + i + " , " + j + " )";
-                // Check for collision and destroy if necessary
-                if (hex.CheckForCollisionAtCurrentPosition())
-                {
-                    Debug.Log($"Hex at position { ( i , j ) } overlaps with another object. Destroying.");
-                    Destroy(hex.gameObject);
-                    continue;
-                }
-            } 
-        }
-        
-    }
-
-  
-    private void Awake()
-    {
-        
-    }
-
-    private void CreateCell(int x, int z, int i)
-    {
-
-        
-    }
-
-    // public HexCell GetCell(Vector3Int coordinates)
-    // {
-    //
-    // }
-    //
-    // public HexCell GetCell(int xOffset, int zOffset)
-    // {
-    //     
-    // }
+   
+    private Dictionary<Vector3Int, HexCellComponent> cells = new Dictionary<Vector3Int, HexCellComponent>();
     
-    // public void FitToSurface(Collider surfaceCollider)
-    // {
-    //     Bounds bounds = surfaceCollider.bounds;
-    //
-    //     // Calculate the number of cells that can fit in the surface
-    //     float cellWidth = HexSize * 1.732f;
-    //     float cellHeight = HexSize * 1.5f;
-    //
-    //     Width = Mathf.FloorToInt(bounds.size.x / cellWidth);
-    //     Height = Mathf.FloorToInt(bounds.size.z / cellHeight);
-    //
-    //     // Recenter the grid
-    //     transform.position = bounds.center - new Vector3(Width * cellWidth * 0.5f, 0f, Height * cellHeight * 0.5f);
-    //
-    //     // Recreate the grid with new dimensions
-    //     Awake();
-    // }
+    public int Width { get; private set; }
+    public int Height { get; private set; }
+
+    public HexGrid()
+    {
+    }
+
+    public void AddCell(HexCellComponent cell)
+    {
+        if (!cells.ContainsKey(cell.CellData.Coordinates))
+        {
+            cells[cell.CellData.Coordinates] = cell;
+            SetupNeighbors(cell);
+        }
+    }
+
+    public HexCellComponent GetCell(Vector3Int coordinates)
+    {
+        return cells.TryGetValue(coordinates, out HexCellComponent cell) ? cell : null;
+    }
+
+    private void SetupNeighbors(HexCellComponent cell)
+    {
+        for (HexDirection direction = HexDirection.NE; direction <= HexDirection.NW; direction++)
+        {
+            Vector3Int neighborCoordinates = GetNeighborCoordinates(cell.CellData.Coordinates, direction);
+            if (cells.TryGetValue(neighborCoordinates, out HexCellComponent neighbor))
+            {
+                cell.CellData.SetNeighbor(direction, neighbor.CellData);
+            }
+        }
+    }
+
+    private Vector3Int GetNeighborCoordinates(Vector3Int coordinates, HexDirection direction)
+    {
+        Vector3Int neighbor = coordinates;
+        switch (direction)
+        {
+            case HexDirection.NE:
+                neighbor.x += 1;
+                neighbor.z += coordinates.x % 2 == 0 ? 0 : 1;
+                break;
+            case HexDirection.E:
+                neighbor.x += 1;
+                break;
+            case HexDirection.SE:
+                neighbor.x += 1;
+                neighbor.z -= coordinates.x % 2 == 0 ? 1 : 0;
+                break;
+            case HexDirection.SW:
+                neighbor.x -= 1;
+                neighbor.z -= coordinates.x % 2 == 0 ? 1 : 0;
+                break;
+            case HexDirection.W:
+                neighbor.x -= 1;
+                break;
+            case HexDirection.NW:
+                neighbor.x -= 1;
+                neighbor.z += coordinates.x % 2 == 0 ? 0 : 1;
+                break;
+        }
+        return neighbor;
+    }
 }

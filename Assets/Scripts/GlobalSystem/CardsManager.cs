@@ -7,24 +7,22 @@ using Unity.VisualScripting;
 
 public class CardsManager : Singleton<CardsManager>
 {
-    private List<Card> deck;
-    private List<Card> hand;
-    private List<Card> discardPile;
+    private List<Card> deck = new List<Card>();
+    private List<Card> hand = new List<Card>();
+    private List<Card> discardPile = new List<Card>();
     
     public IReadOnlyList<Card> Deck => deck.AsReadOnly();
     public IReadOnlyList<Card> Hand => hand.AsReadOnly();
     public IReadOnlyList<Card> DiscardPile => discardPile.AsReadOnly();
 
-    private System.Random random;
+    private System.Random random  = new System.Random();
 
     public Action<Card> OnCardDrawn;
     public Action<Card> OnCardPlayed;
     private void Awake()
     {
-        random = new System.Random();
-        deck = new List<Card>();
-        hand = new List<Card>();
-        discardPile = new List<Card>();
+        
+
     }
     
     public void AddCardToDeck(Card newCard)
