@@ -54,12 +54,15 @@ public class HexMapGenerator : MonoBehaviour
                     Debug.Log($"Hex at position {(r, c)} overlaps with another object. Destroying.");
                     Destroy(newCell.gameObject);
                 }
+                else
+                {
+                    newCell.gameObject.name = "HexCell ( " + r + " , " + c + " )";
+                    HexCell cellData =  new HexCell("HexCell ( " + r + " , " + c + " )", new Vector3Int(r,0,c),CellType.Empty);
+                    newCell.Initialize(cellData);
                 
-                newCell.gameObject.name = "HexCell ( " + r + " , " + c + " )";
-                HexCell cellData =  new HexCell("HexCell ( " + r + " , " + c + " )", new Vector3Int(r,0,c),CellType.Empty);
-                newCell.Initialize(cellData);
+                    BattleManager.Instance.hexgrid.AddCell(newCell);
+                }
                 
-                BattleManager.Instance.hexgrid.AddCell(newCell);
                 xStartPos += hexWidth;
                 r += 1;
             } while (xStartPos < rightBotLocalLoc.x - innerRadius);
@@ -143,11 +146,6 @@ public class HexMapGenerator : MonoBehaviour
     {
         
     }
-
-    private void CreateCell(int x, int z, int i)
-    {
-
-        
-    }
+    
     
 }
