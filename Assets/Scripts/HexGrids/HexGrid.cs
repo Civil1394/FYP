@@ -55,38 +55,8 @@ public class HexGrid
             {
                 cell.CellData.SetNeighbor(HexDirection.NE, neNeighbor.CellData);
             }
-       }
+        }
        
     }
-
-    private Vector3Int GetNeighborCoordinates(Vector3Int coordinates, HexDirection direction)
-    {
-        Vector3Int neighbor = coordinates;
-        switch (direction)
-        {
-            case HexDirection.NE:
-                neighbor.x += 1;
-                neighbor.z += coordinates.x % 2 == 0 ? 0 : 1;
-                break;
-            case HexDirection.E:
-                neighbor.x += 1;
-                break;
-            case HexDirection.SE:
-                neighbor.x += 1;
-                neighbor.z -= coordinates.x % 2 == 0 ? 1 : 0;
-                break;
-            case HexDirection.SW:
-                neighbor.x -= 1;
-                neighbor.z -= coordinates.x % 2 == 0 ? 1 : 0;
-                break;
-            case HexDirection.W:
-                neighbor.x -= 1;
-                break;
-            case HexDirection.NW:
-                neighbor.x -= 1;
-                neighbor.z += coordinates.x % 2 == 0 ? 0 : 1;
-                break;
-        }
-        return neighbor;
-    }
+    
 }
