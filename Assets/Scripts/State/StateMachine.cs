@@ -19,6 +19,10 @@ public class StateMachine
     {
         current.State?.FixedUpdate();
     }
+    public void OnTurnStart()
+    {
+        current.State?.TurnAction();
+    }
     public void SetState(IState state)
     {
         current = nodes[state.GetType()];

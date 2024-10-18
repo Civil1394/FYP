@@ -1,12 +1,11 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.AI;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 public class AIBrain : MonoBehaviour
 {
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform testPlayer;
+    [SerializeField] AISensor visionSenor;
     StateMachine stateMachine;
 
     public Vector3 alertPos;
@@ -22,29 +21,12 @@ public class AIBrain : MonoBehaviour
         stateMachine = new StateMachine();
         var wanderState = new EnemyWander(this, null, agent, 3);
         var chaseState = new EnemyChase(this, null, agent);
-        stateMachine.AddAnyTransition(wanderState,new FuncPredicate(()=> seePlayer()==false));
-        stateMachine.AddTransition(wanderState, chaseState, new FuncPredicate(()=> seePlayer()));
+        stateMachine.AddAnyTransition(wanderState,new FuncPredicate(()=> !visionSenor.seePlayer));
+        stateMachine.AddTransition(wanderState, chaseState, new FuncPredicate(()=> visionSenor.seePlayer));
         stateMachine.SetState(wanderState);
     }
     private void Update()
     {
-        seePlayer();
         stateMachine.Update();
     }
-    bool seePlayer()
-    {
-        if (testIsFirstTime)
-        {
-            testIsFirstTime = false;
-        }
-        var range = Vector3.Distance(testPlayer.position, transform.position);
-        if (range <5)
-        {
-            playerPos = testPlayer.position;
-            return true;
-        }
-        lastSeemPlayerPos = testPlayer.position;
-        return false;
-    }
 }
-

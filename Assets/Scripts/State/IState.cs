@@ -6,4 +6,5 @@ public interface IState
     void OnExit();
     void FixedUpdate();
     void Update();
+    void TurnAction();
 }

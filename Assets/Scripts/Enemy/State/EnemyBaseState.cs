@@ -30,5 +30,10 @@ public abstract class EnemyBaseState : IState
     {
 
     }
+    
+    public virtual void TurnAction()
+    {
+
+    }
 }
 
