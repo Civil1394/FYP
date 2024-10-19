@@ -42,7 +42,8 @@ public class HexCellMeshGenerator : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.RecalculateNormals();
-        
+
+        this.GetComponent<MeshCollider>().sharedMesh = mesh;
         return mesh;
     }
 

@@ -47,22 +47,22 @@ public class HexMapGenerator : MonoBehaviour
             {
                 HexCellComponent newCell = Instantiate(hexCellPrefab, transform);
                 newCell.transform.localPosition = new Vector3(xStartPos, 0.1f,zStartPos);
-               
+                newCell.gameObject.name = "HexCell ( " + r + " , " + c + " )";
                 // Check for collision and destroy if necessary
                 if (newCell.GetComponent<HexCellMeshGenerator>().CheckForCollisionAtCurrentPosition())
                 {
                     Debug.Log($"Hex at position {(r, c)} overlaps with another object. Destroying.");
-                    Destroy(newCell.gameObject);
+                    
+                    HexCell cellData =  new HexCell("HexCell ( " + r + " , " + c + " )", new Vector3Int(r,0,c),CellType.Invalid);
+                    newCell.Initialize(cellData);
                 }
                 else
                 {
-                    newCell.gameObject.name = "HexCell ( " + r + " , " + c + " )";
                     HexCell cellData =  new HexCell("HexCell ( " + r + " , " + c + " )", new Vector3Int(r,0,c),CellType.Empty);
                     newCell.Initialize(cellData);
-                
-                    BattleManager.Instance.hexgrid.AddCell(newCell);
                 }
                 
+                BattleManager.Instance.hexgrid.AddCell(newCell);
                 xStartPos += hexWidth;
                 r += 1;
             } while (xStartPos < rightBotLocalLoc.x - innerRadius);

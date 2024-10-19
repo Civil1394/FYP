@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -5935395439078335500}
   m_Layer: 0
   m_Name: HexCellPrefab
-  m_TagString: Untagged
+  m_TagString: Cell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,11 +103,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeebdcab1e56084a865ce283071362e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HexCellData:
+  CellData:
     ID: 
     Coordinates: {x: 0, y: 0, z: 0}
-    Neighbors: []
     CellType: 0
+  emptyCellMat: {fileID: 0}
+  validCellMat: {fileID: 0}
+  validColor: {r: 0.07971394, g: 1, b: 0, a: 0.40392157}
+  invalidColor: {r: 1, g: 0, b: 0, a: 0.41960785}
 --- !u!33 &-1572925275366574524
 MeshFilter:
   m_ObjectHideFlags: 0

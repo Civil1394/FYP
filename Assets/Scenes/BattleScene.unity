@@ -375,6 +375,10 @@ MonoBehaviour:
     ID: 
     Coordinates: {x: 0, y: 0, z: 0}
     CellType: 0
+  emptyCellMat: {fileID: 0}
+  validCellMat: {fileID: 0}
+  validColor: {r: 0, g: 0, b: 0, a: 0}
+  invalidColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &174916266
 GameObject:
   m_ObjectHideFlags: 0
@@ -2155,7 +2159,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2dd6dc7e81fbbb24aa00f17d24c1ae2c, type: 2}
+  - {fileID: 2100000, guid: a731c7eee68d26a448ed9c058b3a6e5b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

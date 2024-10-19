@@ -7,10 +7,25 @@ public class HexCellComponent : MonoBehaviour
 {
 
 	public HexCell CellData;
-
+	private MeshRenderer meshRenderer;
+	[SerializeField] private Material emptyCellMat;
+	[SerializeField]private Material validCellMat;
+	[SerializeField] private Color validColor;
+	[SerializeField] private Color invalidColor;
 	public void Initialize(HexCell hexCell)
 	{
 		CellData = hexCell;
+		meshRenderer = this.GetComponent<MeshRenderer>();
+		emptyCellMat= new Material(meshRenderer.material);
+		validCellMat = new Material(meshRenderer.material);
+		
+		if(hexCell.CellType == CellType.Empty)validCellMat.color = validColor;
+		if (hexCell.CellType == CellType.Invalid)
+		{
+			emptyCellMat.color = invalidColor;
+			validCellMat.color = invalidColor;
+			meshRenderer.material = validCellMat;
+		}
 	}
 
 	public void DebugTest()
@@ -21,6 +36,14 @@ public class HexCellComponent : MonoBehaviour
 			if(c!=null)
 				Debug.Log($"{c.Coordinates}");
 		}
+	}
+
+	public void ChangeCellColor(bool pointEnter)
+	{
+		if (pointEnter)
+			meshRenderer.material = validCellMat;
+		else
+			meshRenderer.material = emptyCellMat;
 	}
 }
 
