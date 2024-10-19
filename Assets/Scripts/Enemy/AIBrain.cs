@@ -8,6 +8,7 @@ public class AIBrain : MonoBehaviour
     [SerializeField] PlayerDetector playerDetector;
     StateMachine stateMachine;
 
+    public Vector3Int currentCoord;
     public Vector3 alertPos;
     public Transform player;
     public Transform lastSeemPlayer;
@@ -28,6 +29,7 @@ public class AIBrain : MonoBehaviour
     {
         RememberPlayer();
         stateMachine.Update();
+
     }
     private void RememberPlayer()
     {

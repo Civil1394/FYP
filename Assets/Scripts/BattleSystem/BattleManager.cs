@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class BattleManager : Singleton<BattleManager>
 {
 	public AbilityDatabase AbilityDatabase;
-	public HexGrid hexgrid = new HexGrid();
+	public HexGrid hexgrid = new HexGrid() ;
 	public void InitBattle()
 	{
 		if (AbilityDatabase == null)
@@ -22,6 +22,7 @@ public class BattleManager : Singleton<BattleManager>
 			CardsManager.Instance.DrawCard();
 		}
 		
+		EnemyManager.Instance.InitEnemies();
 	}
 
 	private void Start()
