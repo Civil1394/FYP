@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 public class BattleManager : Singleton<BattleManager>
 {
-	[SerializeField] private AbilityDatabase abilityDatabase;
+	public AbilityDatabase AbilityDatabase;
 	public HexGrid hexgrid = new HexGrid();
 	public void InitBattle()
 	{
-		if (abilityDatabase == null)
+		if (AbilityDatabase == null)
 		{
 			Debug.LogError("AbilityDatabase is not assigned to BattleManager!");
 			return;
@@ -17,7 +17,7 @@ public class BattleManager : Singleton<BattleManager>
 
 		for (int i = 0; i < 3; i++)
 		{
-			Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase,"1", abilityDatabase.GetRandomAbilityFromList("1").id);
+			Card testCard = CardFactory.Instance.CreateCardFromList(AbilityDatabase,"1", AbilityDatabase.GetRandomAbilityFromList("1").id);
 			CardsManager.Instance.AddCardToDeck(testCard);
 			CardsManager.Instance.DrawCard();
 		}
@@ -31,25 +31,7 @@ public class BattleManager : Singleton<BattleManager>
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			// if (CardsManager.Instance.Hand.Count < 3)
-			// {
-			// 	Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase,"1", abilityDatabase.GetRandomAbilityFromList("1").id);
-			// 	CardsManager.Instance.AddCardToDeck(testCard);
-			// }
-			// var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
-			// if (drawnCard != null)
-			// {
-			// 	Debug.Log($"Drew card: {drawnCard.Name}");
-			// }
-			// else
-			// {
-			// 	Debug.Log("No cards left in the deck");
-			// }
-			hexgrid.GetCell(new Vector3Int(15,0,19)).DebugTest();
-			
-		}
+		
 		
 		
 	}

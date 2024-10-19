@@ -8,6 +8,8 @@ public class InputHandler : MonoBehaviour
 	private void Update()
 	{
 		GetPointerEnterExist();
+		DrawCardController();
+		PlayCardController();
 	}
 	
 	private void PlayCardController()
@@ -26,8 +28,29 @@ public class InputHandler : MonoBehaviour
 				CardsManager.Instance.PlayCard(CardsManager.Instance.Hand[2]);
 		
 	}
-	
-	
+
+	private void DrawCardController()
+	{
+		AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			if (CardsManager.Instance.Hand.Count < 3)
+			{
+				Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase,"1", abilityDatabase.GetRandomAbilityFromList("1").id);
+				CardsManager.Instance.AddCardToDeck(testCard);
+			}
+			var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
+			if (drawnCard != null)
+			{
+				Debug.Log($"Drew card: {drawnCard.Name}");
+			}
+			else
+			{
+				Debug.Log("No cards left in the deck");
+			}
+
+		}
+	}
 	private GameObject GetMousePointedGameObject()
 	{
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

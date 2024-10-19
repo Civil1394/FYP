@@ -5,6 +5,7 @@ public class HexCellMeshGenerator : MonoBehaviour
     public static float outerRadius = 0.2f;
     public static float innerRadius;
     public bool flatTopped = false;
+    [SerializeField] private float collideOffset = 1.5f;
 
     private void Awake()
     {
@@ -65,13 +66,13 @@ public class HexCellMeshGenerator : MonoBehaviour
     
     public bool CheckForCollisionAtCurrentPosition()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, innerRadius*2 );
+        Collider[] colliders = Physics.OverlapSphere(transform.position, innerRadius*collideOffset);
         return colliders.Length > 1; // > 1 because it will detect its own collider
     }
     void OnDrawGizmosSelected()
     {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position, innerRadius*2);
+        Gizmos.DrawSphere(transform.position, innerRadius*collideOffset);
     }
 }
