@@ -8,13 +8,17 @@ public class AISensor : MonoBehaviour
     [SerializeField] float distance;
     [SerializeField] float angle;
     [SerializeField] float height;
+    Vector3 playerPos;
     MeshCollider meshCollider;
     Mesh mesh;
+    Color redColor = new Color(1, 0, 0, 0.25f);
 
-    public bool seePlayer = false;
+    public bool haveDirLineOfSightToPlayer = false;
     private void Start()
     {
         meshCollider = gameObject.AddComponent<MeshCollider>();
+        meshCollider.convex = true;
+        meshCollider.isTrigger = true;
         if (mesh)
         {
             meshCollider.sharedMesh = mesh;
@@ -22,25 +26,33 @@ public class AISensor : MonoBehaviour
         else
         {
             meshCollider.sharedMesh = CreateWedgeMesh();
-        }        
+        }
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        print("something enter");
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             RaycastHit hit;
-            var dir = collision.transform.position - transform.position+Vector3.up;
+            var dir = other.transform.position - (transform.position + Vector3.up*2);
             Physics.Raycast(transform.position + Vector3.up, dir, out hit, distance);
             Debug.DrawRay(transform.position + Vector3.up, dir, Color.green);
             if (!hit.collider)
             {
-                seePlayer = false;
+                haveDirLineOfSightToPlayer = false;
             }
-            seePlayer = hit.transform.CompareTag("Player");
+            else
+            {
+                print("have direct line of sight to player");
+                haveDirLineOfSightToPlayer = hit.transform.CompareTag("Player");
+            }
         }
     }
 
+    public bool CanDetectPlayer(out Vector3 PlayerPos)
+    {
+        PlayerPos = playerPos;
+        return haveDirLineOfSightToPlayer;
+    }
     Mesh CreateWedgeMesh()
     {
         Mesh mesh  = new Mesh();
@@ -120,7 +132,7 @@ public class AISensor : MonoBehaviour
     {
         if (mesh)
         {
-            Gizmos.color = Color.red;
+            Gizmos.color = redColor;
             Gizmos.DrawMesh(mesh,transform.position, transform.rotation);
         }
     }

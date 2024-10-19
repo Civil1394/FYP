@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 271475361}
   - component: {fileID: 271475360}
   - component: {fileID: 271475365}
+  - component: {fileID: 271475366}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -251,8 +252,7 @@ Transform:
   m_LocalPosition: {x: -0.13945132, y: 2.23, z: -11.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 459070863}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &271475365
@@ -269,11 +269,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   testPlayer: {fileID: 1971870603}
-  visionSenor: {fileID: 459070864}
+  playerDetector: {fileID: 0}
   alertPos: {x: 0, y: 0, z: 0}
-  playerPos: {x: 0, y: 0, z: 0}
-  lastSeemPlayerPos: {x: 0, y: 0, z: 0}
+  player: {fileID: 0}
+  lastSeemPlayer: {fileID: 0}
   projectileVector: {x: 0, y: 0, z: 0}
+--- !u!114 &271475366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271475358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ca700dd9f31f8459166c941ee810da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angleOfRange: 60
+  distanceOfRange: 10
+  innerSphereRadius: 3
 --- !u!1 &346242571
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,54 +352,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &459070862
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 459070863}
-  - component: {fileID: 459070864}
-  m_Layer: 0
-  m_Name: Sensor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &459070863
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 459070862}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 271475364}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &459070864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 459070862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 705f2cfe26ed36a4795863ac6c690d04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distance: 10
-  angle: 30
-  height: 2
-  seePlayer: 0
 --- !u!1 &647813282
 GameObject:
   m_ObjectHideFlags: 0
@@ -955,54 +922,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &952500129
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 952500130}
-  - component: {fileID: 952500131}
-  m_Layer: 0
-  m_Name: Sensor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &952500130
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952500129}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1512175709}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &952500131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952500129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 705f2cfe26ed36a4795863ac6c690d04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distance: 10
-  angle: 30
-  height: 2
-  seePlayer: 0
 --- !u!1 &1166379817
 GameObject:
   m_ObjectHideFlags: 0
@@ -1227,6 +1146,7 @@ GameObject:
   - component: {fileID: 1512175706}
   - component: {fileID: 1512175705}
   - component: {fileID: 1512175704}
+  - component: {fileID: 1512175710}
   m_Layer: 0
   m_Name: Cylinder (1)
   m_TagString: Untagged
@@ -1248,10 +1168,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   testPlayer: {fileID: 1971870603}
-  visionSenor: {fileID: 952500131}
+  playerDetector: {fileID: 0}
   alertPos: {x: 0, y: 0, z: 0}
-  playerPos: {x: 0, y: 0, z: 0}
-  lastSeemPlayerPos: {x: 0, y: 0, z: 0}
+  player: {fileID: 0}
+  lastSeemPlayer: {fileID: 0}
   projectileVector: {x: 0, y: 0, z: 0}
 --- !u!195 &1512175705
 NavMeshAgent:
@@ -1360,10 +1280,24 @@ Transform:
   m_LocalPosition: {x: 6.97, y: 2.23, z: 0.68}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 952500130}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1512175710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512175703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ca700dd9f31f8459166c941ee810da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angleOfRange: 60
+  distanceOfRange: 10
+  innerSphereRadius: 3
 --- !u!1 &1962078490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1596,7 +1530,7 @@ Transform:
   m_GameObject: {fileID: 1971870598}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.8, y: 2.15, z: 10.35}
+  m_LocalPosition: {x: 8.74, y: 2.15, z: -8.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
