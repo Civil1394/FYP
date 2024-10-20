@@ -12,7 +12,7 @@ public class PlayerDetector : MonoBehaviour
     {
         player = GameObject.FindObjectOfType<PlayerMovement>().transform;
     }
-    public bool CanDetectPlayer(out Transform playerPos)
+    public bool CanDetectPlayer(out Transform playerPos, out HexCellComponent playerGrid)
     {
         var dirToPlayer = player.position - transform.position;
         var angleToPlayer = Vector3.Angle(dirToPlayer,transform.forward);
@@ -20,6 +20,7 @@ public class PlayerDetector : MonoBehaviour
         if ((angleToPlayer > angleOfRange / 2 || dirToPlayer.magnitude > distanceOfRange)&& dirToPlayer.magnitude > innerSphereRadius)
         {
             playerPos = null;
+            playerGrid = null;
             return false;
         }
         RaycastHit hit;
@@ -30,9 +31,12 @@ public class PlayerDetector : MonoBehaviour
         if (!haveDirLineOfSight)
         {
             playerPos = null;
+            playerGrid = null;
             return false;
         }
         playerPos = player;
+        playerGrid = BattleManager.Instance.hexgrid.GetCell(new Vector3Int(13,0,19));//should be player hex component here
+        //print(playerGrid.CellData.CellType.ToString());
         return true;
     }
     private void OnDrawGizmos()

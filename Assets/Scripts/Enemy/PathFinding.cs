@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -32,12 +33,14 @@ public class PathFinding
 {
     private HexCellComponent start, end;
     private HexGrid map;
+    private bool stopOneCellEarlier;
 
     public PathFinding(HexCellComponent start, HexCellComponent end)
     {
         this.start = start;
         this.end = end;
         this.map = BattleManager.Instance.hexgrid;
+        this.stopOneCellEarlier = end.CellData.CellType != CellType.Empty;
     }
 
     public async Task<List<HexCell>> FindPathAsync()
@@ -51,14 +54,17 @@ public class PathFinding
         HashSet<HexCell> isVisited = new HashSet<HexCell>();
         float h = CalculateHValue(start.CellData);
         openList.Add(new Node(start.CellData, 0, h));
-
+        if (end.CellData.CellType != CellType.Empty)
+        {
+            stopOneCellEarlier = true;
+        }
         while (openList.Count > 0)
         {
             Node currentNode = openList.Min;
             isVisited.Add(currentNode.HexCell);
             openList.Remove(currentNode);
 
-            if (currentNode.HexCell == end.CellData)
+            if ((stopOneCellEarlier && currentNode.HexCell.GetAllNeighbor().Contains(end.CellData)) || currentNode.HexCell == end.CellData)
             {
                 return ReconstructPath(currentNode);
             }
@@ -66,7 +72,6 @@ public class PathFinding
             foreach (HexCell nextCell in currentNode.HexCell.GetAllNeighbor())
             {
                 if (nextCell == null || isVisited.Contains(nextCell) || nextCell.CellType != CellType.Empty) continue;
-
                 h = CalculateHValue(nextCell);
                 openList.Add(new Node(nextCell, currentNode.Cost + 1, h, currentNode));
             }

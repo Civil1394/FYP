@@ -20,7 +20,7 @@ public class EnemyChase : EnemyBaseState
     public override void Update()
     {
         NavMeshHit hit;
-        Vector3 targetPos = enemyBrain.player? enemyBrain.player.position : enemyBrain.lastSeemPlayer.position;
+        Vector3 targetPos = enemyBrain.player? enemyBrain.player.position : enemyBrain.lastSeenPlayer.position;
         NavMesh.SamplePosition(targetPos, out hit, 1.0f, NavMesh.AllAreas);
         var finalPosition = hit.position;
         agent.SetDestination(finalPosition);

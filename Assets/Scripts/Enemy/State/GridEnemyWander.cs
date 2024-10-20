@@ -3,17 +3,18 @@ using UnityEngine;
 
 public class GridEnemyWander : EnemyBaseState
 {
-    readonly Vector3 startPoint;
     readonly float wanderRadius;
     List<HexCell> path;
+    List<Vector3> pathLine;
     int pathProgress = 1;
+
     public GridEnemyWander(AIBrain enemyBrain, Animator animator, float wanderRadius) : base(enemyBrain, animator)
     {
-        startPoint = enemyBrain.transform.position;
         this.wanderRadius = wanderRadius;
     }
     public override void OnEnter()
     {
+        pathLine = new List<Vector3>();
         Debug.Log("start wandering");
         RunPathfindingAsync();
     }
@@ -35,7 +36,7 @@ public class GridEnemyWander : EnemyBaseState
         if (path.Count <= 0) return;
         if (HasReachedDestination())
         {
-            Debug.Log("arrived");
+            //Debug.Log("arrived");
             RunPathfindingAsync();
             pathProgress = 1;
         }
@@ -65,7 +66,17 @@ public class GridEnemyWander : EnemyBaseState
             randomPos = new Vector3Int((int)UnityEngine.Random.Range(-wanderRadius, wanderRadius), 0, (int)UnityEngine.Random.Range(-wanderRadius, wanderRadius));
             randomPos += enemyBrain.currentCoord;
         }while (!BattleManager.Instance.hexgrid.HasCell(randomPos));
-        Debug.Log(randomPos.ToString());
+        //Debug.Log(randomPos.ToString());
         return BattleManager.Instance.hexgrid.GetCell(randomPos);
+    }
+    void GetCellTransform()
+    {
+        pathLine.Clear();
+        if (path == null) return;
+        foreach (HexCell cell in path)
+        {
+            pathLine.Add(BattleManager.Instance.hexgrid.GetCell(cell.Coordinates).transform.position);
+        }
+        enemyBrain.pathLine = pathLine;
     }
 }

@@ -1,47 +1,78 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GridEnemyChase : EnemyBaseState
 {
-    private List<HexCellComponent> path;
+    List<HexCell> path;
+    List<Vector3> pathLine;
+    int pathProgress = 1;
+    bool isPlayerMoved = false;
+
     public GridEnemyChase(AIBrain enemyBrain, Animator animator) : base(enemyBrain, animator)
     {
     }
+
     public override void OnEnter()
     {
+        pathLine = new List<Vector3>();
+        RunPathfindingAsync();
         Debug.Log("start chase");
-
     }
+
     public override void OnExit()
     {
-
     }
+
     public override void Update()
     {
-
     }
 
     public override void FixedUpdate()
     {
-
     }
+
     public override void TurnAction()
     {
-
+        if (path == null) return;
+        if (path.Count <= 0) return;
+        if (pathProgress < path.Count)
+        {
+            enemyBrain.Move(path[pathProgress++]);
+        }
+        else
+        {
+            RunPathfindingAsync();
+        }
     }
-    bool HasReachedDestination()
-    {
-        return false;
 
-    }
     private async void RunPathfindingAsync()
     {
+        pathProgress = 1;
+        if (path == null)
+        {
+            path = new List<HexCell>();
+        }
+        else
+        {
+            path.Clear();
+        }
         HexCellComponent start = BattleManager.Instance.hexgrid.GetCell(enemyBrain.currentCoord);
-        HexCellComponent end = BattleManager.Instance.hexgrid.GetCell(enemyBrain.currentCoord);
-        PathFinding pathFinding = new PathFinding(start, end);
-        List<HexCell> path = await pathFinding.FindPathAsync();
+        HexCellComponent end = enemyBrain.playerGrid ? enemyBrain.playerGrid : enemyBrain.lastSeenPlayerGrid;
+        if (!end) return;
 
-        // Use the path (e.g., move a character along it)
+        PathFinding pathFinding = new PathFinding(start, end);
+        path = await pathFinding.FindPathAsync();
+        GetCellTransform();
+    }
+
+    void GetCellTransform()
+    {
+        pathLine.Clear();
+        if (path == null) return;
+        foreach (HexCell cell in path)
+        {
+            pathLine.Add(BattleManager.Instance.hexgrid.GetCell(cell.Coordinates).transform.position);
+        }
+        enemyBrain.pathLine = pathLine;
     }
 }
