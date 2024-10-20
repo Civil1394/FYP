@@ -21,14 +21,16 @@ public class AIBrain : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         stateMachine = new StateMachine();
         var wanderState = new GridEnemyWander(this, null, 10);
+        stateMachine.AddAnyTransition(wanderState, new FuncPredicate(() => true));
         //var chaseState = new EnemyChase(this, null, agent);
         //stateMachine.AddTransition(chaseState, wanderState, new FuncPredicate(()=> !playerDetector.CanDetectPlayer(out player)));
         //stateMachine.AddTransition(wanderState, chaseState, new FuncPredicate(()=> playerDetector.CanDetectPlayer(out player)));
         stateMachine.SetState(wanderState);
+        StartCoroutine(TestTurn());
     }
     private void Update()
     {
-
+        stateMachine.Update();
     }
     private void RememberPlayer()
     {
@@ -37,6 +39,7 @@ public class AIBrain : MonoBehaviour
     public void Move(HexCell cellToMove)
     {
         transform.position = BattleManager.Instance.hexgrid.GetCell(cellToMove.Coordinates).transform.position;
+        currentCoord = cellToMove.Coordinates;
     }
     IEnumerator TestTurn()
     {

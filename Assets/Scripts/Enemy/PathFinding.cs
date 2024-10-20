@@ -90,6 +90,6 @@ public class PathFinding
     public float CalculateHValue(HexCell current)
     {
         return Mathf.Abs(current.Coordinates.x - end.CellData.Coordinates.x) +
-               Mathf.Abs(current.Coordinates.y - end.CellData.Coordinates.y);
+               Mathf.Abs(current.Coordinates.z - end.CellData.Coordinates.z);
     }
 }

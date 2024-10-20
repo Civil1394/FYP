@@ -29,6 +29,10 @@ public class HexGrid
     {
         return cells.TryGetValue(coordinates, out HexCellComponent cell) ? cell : null;
     }
+    public bool HasCell(Vector3Int coordinates)
+    {
+        return cells.ContainsKey(coordinates);
+    }
     private void SetupNeighbors(HexCellComponent cell)
     {
         //W direction

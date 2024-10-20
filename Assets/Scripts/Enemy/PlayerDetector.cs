@@ -10,7 +10,7 @@ public class PlayerDetector : MonoBehaviour
     Color transparentYellow = new Color(0, 1, 1, 0.25f);
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindObjectOfType<PlayerMovement>().transform;
     }
     public bool CanDetectPlayer(out Transform playerPos)
     {

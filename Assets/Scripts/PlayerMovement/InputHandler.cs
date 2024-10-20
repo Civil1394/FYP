@@ -81,14 +81,14 @@ public class InputHandler : MonoBehaviour
 			if (lastPointedObject != null)
 			{
 				// Mouse stopped pointing at lastPointedObject
-				Debug.Log("Stopped pointing at: " + lastPointedObject.name);
+				//Debug.Log("Stopped pointing at: " + lastPointedObject.name);
 				lastPointedObject.GetComponent<HexCellComponent>().ChangeCellColor(false);
 			}
 
 			if (pointedObject != null)
 			{
 				// Mouse started pointing at pointedObject
-				Debug.Log("Started pointing at: " + pointedObject.name);
+				//Debug.Log("Started pointing at: " + pointedObject.name);
 				// Add logic for when mouse enters an object
 				pointedObject.GetComponent<HexCellComponent>().ChangeCellColor(true);
 			}
