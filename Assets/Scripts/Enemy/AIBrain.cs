@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -27,12 +28,23 @@ public class AIBrain : MonoBehaviour
     }
     private void Update()
     {
-        RememberPlayer();
-        stateMachine.Update();
 
     }
     private void RememberPlayer()
     {
         if (player != null) lastSeemPlayer = player;
+    }
+    public void Move(HexCell cellToMove)
+    {
+        transform.position = BattleManager.Instance.hexgrid.GetCell(cellToMove.Coordinates).transform.position;
+    }
+    IEnumerator TestTurn()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            RememberPlayer();
+            stateMachine.OnTurnStart();
+        }
     }
 }

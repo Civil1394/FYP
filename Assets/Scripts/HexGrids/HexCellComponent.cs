@@ -68,9 +68,12 @@ public class HexCell
 	{
 		return Neighbors[(int)direction];
 	}
-    
-	// Helper method to set a neighbor in a specific direction
-	public void SetNeighbor(HexDirection direction, HexCell cell)
+    public HexCell[] GetAllNeighbor()
+    {
+        return Neighbors;
+    }
+    // Helper method to set a neighbor in a specific direction
+    public void SetNeighbor(HexDirection direction, HexCell cell)
 	{
 		Neighbors[(int)direction] = cell;
 		cell.Neighbors[(int)direction.Opposite()] = this;

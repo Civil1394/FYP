@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class HexGrid 
 {
-   
+
     private Dictionary<Vector3Int, HexCellComponent> cells = new Dictionary<Vector3Int, HexCellComponent>();
     
     public int Width { get; private set; }
@@ -29,7 +29,6 @@ public class HexGrid
     {
         return cells.TryGetValue(coordinates, out HexCellComponent cell) ? cell : null;
     }
-
     private void SetupNeighbors(HexCellComponent cell)
     {
         //W direction
