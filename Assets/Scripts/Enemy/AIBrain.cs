@@ -20,10 +20,10 @@ public class AIBrain : MonoBehaviour
         playerDetector = GetComponent<PlayerDetector>();
         agent = GetComponent<NavMeshAgent>();
         stateMachine = new StateMachine();
-        var wanderState = new EnemyWander(this, null, agent, 3);
-        var chaseState = new EnemyChase(this, null, agent);
-        stateMachine.AddTransition(chaseState, wanderState, new FuncPredicate(()=> !playerDetector.CanDetectPlayer(out player)));
-        stateMachine.AddTransition(wanderState, chaseState, new FuncPredicate(()=> playerDetector.CanDetectPlayer(out player)));
+        var wanderState = new GridEnemyWander(this, null, 10);
+        //var chaseState = new EnemyChase(this, null, agent);
+        //stateMachine.AddTransition(chaseState, wanderState, new FuncPredicate(()=> !playerDetector.CanDetectPlayer(out player)));
+        //stateMachine.AddTransition(wanderState, chaseState, new FuncPredicate(()=> playerDetector.CanDetectPlayer(out player)));
         stateMachine.SetState(wanderState);
     }
     private void Update()
