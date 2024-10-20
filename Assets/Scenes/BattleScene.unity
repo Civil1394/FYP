@@ -2546,6 +2546,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 4181602255125513476, guid: dff3b617fb3ffb94390f72185b793ff7,
     type: 3}
   playerSpawnCoord: {x: 13, y: 19}
+  playerCamera: {fileID: 1930980852}
   initTurnDur: 0
   IsPlayerTurn: 0
   IsBattleMode: 0

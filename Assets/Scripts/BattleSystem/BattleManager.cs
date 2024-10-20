@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using Unity.Mathematics;
 
 public class BattleManager : Singleton<BattleManager>
@@ -9,7 +10,7 @@ public class BattleManager : Singleton<BattleManager>
 	[Header("Player-related ref")] public AbilityDatabase AbilityDatabase;
 	[SerializeField] private GameObject playerPrefab;
 	[SerializeField] private Vector2Int playerSpawnCoord;
-
+	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	public HexGrid hexgrid = new HexGrid();
 
 	[Header("Turn Related Ref")] [SerializeField]
@@ -62,6 +63,7 @@ public class BattleManager : Singleton<BattleManager>
 			GameObject newInstance = 
 				Instantiate(playerPrefab, new Vector3(cell.transform.position.x,playerPrefab.transform.position.y,cell.transform.position.z)
 					, quaternion.identity);
+			playerCamera.Follow = newInstance.transform;
 			//newInstance.currentCoord = cell.CellData.Coordinates;
 			cell.CellData.CellType = CellType.Player;
 		}
