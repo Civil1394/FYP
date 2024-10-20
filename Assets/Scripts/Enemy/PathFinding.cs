@@ -89,7 +89,6 @@ public class PathFinding
 
     public float CalculateHValue(HexCell current)
     {
-        return Mathf.Abs(current.Coordinates.x - end.CellData.Coordinates.x) +
-               Mathf.Abs(current.Coordinates.z - end.CellData.Coordinates.z);
+        return Vector3.Distance(current.Coordinates, end.CellData.Coordinates);
     }
 }

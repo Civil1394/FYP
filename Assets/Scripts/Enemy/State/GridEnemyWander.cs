@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GridEnemyWander : EnemyBaseState
@@ -8,7 +6,7 @@ public class GridEnemyWander : EnemyBaseState
     readonly Vector3 startPoint;
     readonly float wanderRadius;
     List<HexCell> path;
-    int pathProgress = 0;
+    int pathProgress = 1;
     public GridEnemyWander(AIBrain enemyBrain, Animator animator, float wanderRadius) : base(enemyBrain, animator)
     {
         startPoint = enemyBrain.transform.position;
@@ -27,7 +25,6 @@ public class GridEnemyWander : EnemyBaseState
     {
 
     }
-
     public override void FixedUpdate()
     {
 
@@ -40,7 +37,7 @@ public class GridEnemyWander : EnemyBaseState
         {
             Debug.Log("arrived");
             RunPathfindingAsync();
-            pathProgress = 0;
+            pathProgress = 1;
         }
         else
         {
@@ -51,13 +48,13 @@ public class GridEnemyWander : EnemyBaseState
     {
         return pathProgress>=path.Count;
     }
-    private void RunPathfindingAsync()
+    private async void RunPathfindingAsync()
     {
         path?.Clear();
         HexCellComponent start = BattleManager.Instance.hexgrid.GetCell(enemyBrain.currentCoord);
         HexCellComponent end = GetRandomTargetPos();
         PathFinding pathFinding = new PathFinding(start, end);
-        path = pathFinding.FindPath();
+        path = await pathFinding.FindPathAsync();
         // Use the path (e.g., move a character along it)
     }
     private HexCellComponent GetRandomTargetPos()
