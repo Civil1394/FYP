@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private void Move(HexCellComponent targetCell)
     {
         HexCellComponent playerCell = BattleManager.Instance.hexgrid.GetCellByType(CellType.Player);
-        if (BattleManager.Instance.hexgrid.CheckCellInRange(playerCell, targetCell, 1))
+        if (targetCell.CellData.CellGuiType == CellGuiType.ValidMoveRange)
         {
             this.transform.DOMove(targetCell.CalPosForAction(), 0.5f);
             this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
