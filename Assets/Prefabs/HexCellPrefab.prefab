@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5139704593720545627}
   - component: {fileID: -1572925275366574524}
   - component: {fileID: -5935395439078335500}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HexCellPrefab
   m_TagString: Cell
   m_Icon: {fileID: 0}

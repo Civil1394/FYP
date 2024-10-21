@@ -1,31 +1,22 @@
 using System;
 using UnityEngine;
 using System.Collections;
-
-public class InputHandler : MonoBehaviour 
+using UnityEngine.EventSystems;
+public class InputHandler : MonoBehaviour
 {
 	private GameObject lastPointedObject;
+	public Action<HexCellComponent> OnClickCell;
 	private void Update()
 	{
 		GetPointerEnterExist();
+		GetPointerDown();
 		DrawCardController();
 		PlayCardController();
 	}
 	
 	private void PlayCardController()
 	{
-		if (CardsManager.Instance.Hand.Count == 0) return;
-			
-		if (Input.GetKeyDown(KeyCode.Mouse0) && !Input.GetKeyDown(KeyCode.Mouse1))
-			CardsManager.Instance.PlayCard(CardsManager.Instance.Hand[0]);
-
-		if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKeyDown(KeyCode.Mouse1) )
-			if(CardsManager.Instance.Hand.Count >1)
-				CardsManager.Instance.PlayCard(CardsManager.Instance.Hand[1]);
-
-		if (Input.GetKeyDown(KeyCode.Mouse1) && !Input.GetKeyDown(KeyCode.Mouse0))
-			if(CardsManager.Instance.Hand.Count >2)
-				CardsManager.Instance.PlayCard(CardsManager.Instance.Hand[2]);
+	
 		
 	}
 
@@ -56,7 +47,9 @@ public class InputHandler : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 		
-		if (Physics.Raycast(ray, out hit))
+		int layerMask = LayerMask.GetMask("Cell"); 
+		
+		if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
 		{
 			if (hit.collider.gameObject.CompareTag("Cell"))
 			{
@@ -64,12 +57,8 @@ public class InputHandler : MonoBehaviour
 				{
 					return hit.collider.gameObject;
 				}
-				
 			}
-				
-			
 		}
-		
 		return null;
 	}
 	void GetPointerEnterExist()
@@ -91,9 +80,19 @@ public class InputHandler : MonoBehaviour
 				//Debug.Log("Started pointing at: " + pointedObject.name);
 				// Add logic for when mouse enters an object
 				pointedObject.GetComponent<HexCellComponent>().ChangeCellColor(true);
+				
 			}
 
 			lastPointedObject = pointedObject;
+		}
+	}
+
+	void GetPointerDown()
+	{
+		GameObject pointedObject = GetMousePointedGameObject();
+		if (Input.GetKeyDown(KeyCode.Mouse1) && pointedObject)
+		{
+			OnClickCell.Invoke(pointedObject.GetComponent<HexCellComponent>());
 		}
 	}
 }

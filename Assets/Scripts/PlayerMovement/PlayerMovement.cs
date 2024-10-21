@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(InputHandler))]
@@ -13,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private Vector3 movement;
     private Vector3 lastMovementDirection;
-
+    private InputHandler inputHandler;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -26,15 +28,19 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = Vector3.zero; 
             rb.angularVelocity = Vector3.zero;
         }
+
+        inputHandler = GetComponent<InputHandler>();
+        inputHandler.OnClickCell += Move;
     }
 
+    private void Move(HexCellComponent targetCell)
+    {
+        this.transform.DOMove(targetCell.CalPosForAction(), 1f);
+        this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
+    }
     void Update()
     {
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        float moveVertical = Input.GetAxisRaw("Vertical");
-        
-        movement = new Vector3(moveHorizontal, 0f, moveVertical).normalized;
-        movement = Quaternion.Euler(0, 45, 0) * movement;
+
     }
 
     void FixedUpdate()
@@ -66,5 +72,10 @@ public class PlayerMovement : MonoBehaviour
         Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 - 20, 0) * new Vector3(0, 0, 1);
         Gizmos.DrawLine(transform.position + direction, transform.position + direction + right * 0.25f);
         Gizmos.DrawLine(transform.position + direction, transform.position + direction + left * 0.25f);
+    }
+
+    private void OnDestroy()
+    {
+        inputHandler.OnClickCell -= Move;
     }
 }

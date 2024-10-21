@@ -28,6 +28,10 @@ public class HexCellComponent : MonoBehaviour
 		}
 	}
 
+	public Vector3 CalPosForAction()
+	{
+		return new Vector3(transform.position.x, 0.9f, transform.position.z);
+	}
 	public void DebugTest()
 	{
 		this.gameObject.transform.localPosition += Vector3.up * 10;
