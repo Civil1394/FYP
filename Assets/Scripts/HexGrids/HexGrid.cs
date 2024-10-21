@@ -25,14 +25,122 @@ public class HexGrid
         }
     }
 
-    public HexCellComponent GetCell(Vector3Int coordinates)
+    public HexCellComponent GetCellInCoord(Vector3Int coordinates)
     {
         return cells.TryGetValue(coordinates, out HexCellComponent cell) ? cell : null;
     }
+    
+    public HexCellComponent[] GetCellsInRange(HexCellComponent pivotCell, int range)
+    {
+        HashSet<Vector3Int> visitedCoordinates = new HashSet<Vector3Int>();
+        Queue<(HexCellComponent, int)> queue = new Queue<(HexCellComponent, int)>();
+        List<HexCellComponent> cellsInRange = new List<HexCellComponent>();
+    
+        queue.Enqueue((pivotCell, 0));
+        visitedCoordinates.Add(pivotCell.CellData.Coordinates);
+
+        while (queue.Count > 0)
+        {
+            var (currentCell, currentDistance) = queue.Dequeue();
+
+            if (currentDistance > range)
+            {
+                continue;
+            }
+
+            cellsInRange.Add(currentCell);
+
+            if (currentDistance < range)
+            {
+                foreach (var neighbor in currentCell.CellData.GetAllNeighbor())
+                {
+                    if (neighbor != null && !visitedCoordinates.Contains(neighbor.Coordinates))
+                    {
+                        visitedCoordinates.Add(neighbor.Coordinates);
+                        queue.Enqueue((GetCellInCoord(neighbor.Coordinates), currentDistance + 1));
+                    }
+                }
+            }
+        }
+
+        return cellsInRange.ToArray();
+    }
+
+    public HexCellComponent[] GetCellsInRangeByType(HexCellComponent pivotCell, int range, CellType cellType)
+    {
+        return GetCellsInRange(pivotCell, range)
+            .Where(cell => cell.CellData.CellType == cellType)
+            .ToArray();
+    }
+
     public bool HasCell(Vector3Int coordinates)
     {
         return cells.ContainsKey(coordinates);
     }
+
+    public bool CheckCellsInRange(HexCellComponent pivotCell, HexCellComponent[] cellsToCheck, int range)
+    {
+        HashSet<Vector3Int> visitedCoordinates = new HashSet<Vector3Int>();
+        Queue<(HexCellComponent, int)> queue = new Queue<(HexCellComponent, int)>();
+    
+        queue.Enqueue((pivotCell, 0));
+        visitedCoordinates.Add(pivotCell.CellData.Coordinates);
+
+        while (queue.Count > 0)
+        {
+            var (currentCell, currentDistance) = queue.Dequeue();
+
+            if (currentDistance > range)
+            {
+                continue;
+            }
+
+            foreach (var cellToCheck in cellsToCheck)
+            {
+                if (currentCell.CellData.Coordinates == cellToCheck.CellData.Coordinates)
+                {
+                    cellsToCheck = cellsToCheck.Where(c => c != cellToCheck).ToArray();
+                    if (cellsToCheck.Length == 0)
+                    {
+                        return true; // All cells are within range
+                    }
+                    break;
+                }
+            }
+
+            if (currentDistance < range)
+            {
+                foreach (var neighbor in currentCell.CellData.GetAllNeighbor())
+                {
+                    if (neighbor != null && !visitedCoordinates.Contains(neighbor.Coordinates))
+                    {
+                        visitedCoordinates.Add(neighbor.Coordinates);
+                        queue.Enqueue((GetCellInCoord(neighbor.Coordinates), currentDistance + 1));
+                    }
+                }
+            }
+        }
+
+        return false; // Not all cells are within range
+    }
+    
+    public bool CheckCellInRange(HexCellComponent pivotCell, HexCellComponent cellToCheck, int range)
+    {
+        return CheckCellsInRange(pivotCell, new[] { cellToCheck }, range);
+    }
+    
+    public HexCellComponent[] GetCellsByType(CellType cellType)
+    {
+        return cells.Values
+            .Where(cell => cell.CellData.CellType == cellType)
+            .ToArray();
+    }
+    public HexCellComponent GetCellByType(CellType cellType)
+    {
+        return cells.Values
+            .FirstOrDefault(cell => cell.CellData.CellType == cellType);
+    }
+   
     private void SetupNeighbors(HexCellComponent cell)
     {
         //W direction

@@ -20,5 +20,13 @@ public enum CellType
     Empty = 0,
     Player = 1,
     Enemy = 2,
-    Invalid = 3
+    Invalid = 3,
+   
+}
+
+public enum CellGuiType
+{
+    Empty = 0,
+    ValidMoveRange = 1,
+    ValidAttackRange = 2
 }

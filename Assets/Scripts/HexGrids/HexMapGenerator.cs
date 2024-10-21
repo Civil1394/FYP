@@ -24,7 +24,7 @@ public class HexMapGenerator : MonoBehaviour
         
         float hexWidth = HexCellMeshGenerator.GetHexagonWidth();
         float innerRadius = HexCellMeshGenerator.GetInnerRadius();
-        float outerRadius = HexCellMeshGenerator.outerRadius;
+        float outerRadius = HexCellMeshGenerator.OUTER_RADIUS;
         Vector3 topLeftWorldLoc = GetLeftTopCorner(this.GetComponent<MeshFilter>().mesh, this.transform);
     
         // Convert world position to local position
@@ -114,7 +114,7 @@ public class HexMapGenerator : MonoBehaviour
     {
         float hexWidth = HexCellMeshGenerator.GetHexagonWidth();
         float innerRadius = HexCellMeshGenerator.GetInnerRadius();
-        float outerRadius = HexCellMeshGenerator.outerRadius;
+        float outerRadius = HexCellMeshGenerator.OUTER_RADIUS;
         Vector3 topLeftWorldLoc = GetLeftTopCorner(this.GetComponent<MeshFilter>().mesh, this.transform);
     
         // Convert world position to local position

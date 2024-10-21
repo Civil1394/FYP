@@ -13,12 +13,13 @@ public class BattleManager : Singleton<BattleManager>
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	public HexGrid hexgrid = new HexGrid();
 
-	[Header("Turn Related Ref")] [SerializeField]
-	private float initTurnDur;
+	[Header("Turn Related Ref")]
+	[SerializeField] private float initTurnDur = 2f;
 
 	public bool IsPlayerTurn;
-	public bool IsBattleMode = false;
-	public Action<bool> OnTurnSwitch;
+	public bool IsInBattle = false;
+	public Action<bool> OnTurnStart;
+	public Action<HexCellComponent, HexCellComponent> OnPlayerMove;
 
 	public void InitBattle()
 	{
@@ -39,8 +40,10 @@ public class BattleManager : Singleton<BattleManager>
 		InitPlayer();
 		EnemyManager.Instance.InitEnemies();
 
-		IsBattleMode = true;
-		//StartCoroutine(_TurnBaseCoroutine());
+		OnPlayerMove += onPlayerMove;
+		
+		IsInBattle = true;
+		StartCoroutine(_TurnBaseCoroutine());
 	}
 
 	private void Start()
@@ -57,7 +60,7 @@ public class BattleManager : Singleton<BattleManager>
 
 	private void InitPlayer()
 	{
-		HexCellComponent cell = hexgrid.GetCell(new Vector3Int(playerSpawnCoord.x, 0, playerSpawnCoord.y));
+		HexCellComponent cell = hexgrid.GetCellInCoord(new Vector3Int(playerSpawnCoord.x, 0, playerSpawnCoord.y));
 		if (cell.CellData.CellType == CellType.Empty)
 		{
 			GameObject newInstance = 
@@ -65,20 +68,42 @@ public class BattleManager : Singleton<BattleManager>
 					, quaternion.identity);
 			playerCamera.Follow = newInstance.transform;
 			//newInstance.currentCoord = cell.CellData.Coordinates;
-			cell.CellData.CellType = CellType.Player;
+			cell.CellData.SetType(CellType.Player);
 		}
 		else
 		{
 			Debug.LogError("Not valid cell to spawn!");
 		}
 	}
-
-
+	
+	private void onPlayerMove(HexCellComponent originCell, HexCellComponent targetCell)
+	{
+		HexCellComponent[] oldNearbyCells = hexgrid.GetCellsInRange(hexgrid.GetCellByType(CellType.Player), 1);
+		for (int i = 0; i < oldNearbyCells.Length; i++)
+		{
+			oldNearbyCells[i].CellData.SetGuiType(CellGuiType.Empty);
+		}
+		
+		originCell.CellData.SetType(CellType.Empty);
+		targetCell.CellData.SetType(CellType.Player);
+		HexCellComponent[] newNearbyCells = hexgrid.GetCellsInRange(hexgrid.GetCellByType(CellType.Player), 1);
+		for (int i = 0; i < newNearbyCells.Length; i++)
+		{
+			newNearbyCells[i].CellData.SetGuiType(CellGuiType.ValidMoveRange);
+		}
+	}
 
 	private IEnumerator _TurnBaseCoroutine()
 	{
-		while (IsBattleMode)
+		HexCellComponent[] newNearbyCells = hexgrid.GetCellsInRange(hexgrid.GetCellByType(CellType.Player), 1);
+		for (int i = 0; i < newNearbyCells.Length; i++)
 		{
+			newNearbyCells[i].CellData.SetGuiType(CellGuiType.ValidMoveRange);
+		}
+		while (IsInBattle)
+		{
+			OnTurnStart.Invoke(true);
+			
 			yield return new WaitForSeconds(initTurnDur);
 		}
 	}

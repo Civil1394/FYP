@@ -52,7 +52,7 @@ public class GridEnemyWander : EnemyBaseState
     private async void RunPathfindingAsync()
     {
         path?.Clear();
-        HexCellComponent start = BattleManager.Instance.hexgrid.GetCell(enemyBrain.currentCoord);
+        HexCellComponent start = BattleManager.Instance.hexgrid.GetCellInCoord(enemyBrain.currentCoord);
         HexCellComponent end = GetRandomTargetPos();
         PathFinding pathFinding = new PathFinding(start, end);
         path = await pathFinding.FindPathAsync();
@@ -67,7 +67,7 @@ public class GridEnemyWander : EnemyBaseState
             randomPos += enemyBrain.currentCoord;
         }while (!BattleManager.Instance.hexgrid.HasCell(randomPos));
         //Debug.Log(randomPos.ToString());
-        return BattleManager.Instance.hexgrid.GetCell(randomPos);
+        return BattleManager.Instance.hexgrid.GetCellInCoord(randomPos);
     }
     void GetCellTransform()
     {
@@ -75,7 +75,7 @@ public class GridEnemyWander : EnemyBaseState
         if (path == null) return;
         foreach (HexCell cell in path)
         {
-            pathLine.Add(BattleManager.Instance.hexgrid.GetCell(cell.Coordinates).transform.position);
+            pathLine.Add(BattleManager.Instance.hexgrid.GetCellInCoord(cell.Coordinates).transform.position);
         }
         enemyBrain.pathLine = pathLine;
     }

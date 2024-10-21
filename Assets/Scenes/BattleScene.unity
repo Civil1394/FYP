@@ -451,11 +451,11 @@ MonoBehaviour:
   CellData:
     ID: 
     Coordinates: {x: 0, y: 0, z: 0}
-    CellType: 0
-  emptyCellMat: {fileID: 0}
-  validCellMat: {fileID: 0}
-  validColor: {r: 0, g: 0, b: 0, a: 0}
+  sharedCellMat: {fileID: 0}
+  emptyColor: {r: 0, g: 0, b: 0, a: 0}
   invalidColor: {r: 0, g: 0, b: 0, a: 0}
+  validMoveRangeColor: {r: 0, g: 0, b: 0, a: 0}
+  validAttackRangeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &174916266
 GameObject:
   m_ObjectHideFlags: 0
@@ -2661,7 +2661,7 @@ MonoBehaviour:
   playerCamera: {fileID: 1930980852}
   initTurnDur: 0
   IsPlayerTurn: 0
-  IsBattleMode: 0
+  IsInBattle: 0
 --- !u!114 &1921585517
 MonoBehaviour:
   m_ObjectHideFlags: 0

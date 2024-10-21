@@ -23,13 +23,13 @@ public class EnemyManager : Singleton<EnemyManager>
 	{
 		foreach (var coord in spawnCoords)
 		{
-			HexCellComponent cell = BattleManager.Instance.hexgrid.GetCell(new Vector3Int(coord.x, 0, coord.y));
+			HexCellComponent cell = BattleManager.Instance.hexgrid.GetCellInCoord(new Vector3Int(coord.x, 0, coord.y));
 			if (cell.CellData.CellType == CellType.Empty)
 			{
 				AIBrain newInstance = Instantiate(enemyPrefab, cell.transform.position, quaternion.identity, enemyGroup);
 				newInstance.currentCoord = cell.CellData.Coordinates;
 				enemiesDict.Add(newInstance,newInstance.currentCoord);
-				cell.CellData.CellType = CellType.Enemy;
+				cell.CellData.SetType(CellType.Enemy);
 			}
 			else
 			{
@@ -41,14 +41,14 @@ public class EnemyManager : Singleton<EnemyManager>
 
 	public void EnemyCatcher(AIBrain enemy,Vector3Int targetCoord)
 	{
-		HexCellComponent oldCell = BattleManager.Instance.hexgrid.GetCell(enemy.currentCoord);
-		oldCell.CellData.CellType = CellType.Empty;
-		HexCellComponent targetCell = BattleManager.Instance.hexgrid.GetCell(targetCoord);
+		HexCellComponent oldCell = BattleManager.Instance.hexgrid.GetCellInCoord(enemy.currentCoord);
+		oldCell.CellData.SetType(CellType.Empty);
+		HexCellComponent targetCell = BattleManager.Instance.hexgrid.GetCellInCoord(targetCoord);
 
 		if(enemiesDict.ContainsKey(enemy))
 		{
 			enemiesDict[enemy] = targetCoord;
 		}
-		targetCell.CellData.CellType = CellType.Enemy;
+		targetCell.CellData.SetType(CellType.Enemy);
 	}
 }

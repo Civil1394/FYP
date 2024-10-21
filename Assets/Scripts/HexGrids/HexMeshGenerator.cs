@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class HexCellMeshGenerator : MonoBehaviour
 {
-    public static float outerRadius = 0.2f;
-    public static float innerRadius;
+    public static float OUTER_RADIUS = 0.2f;
+    public static float INNER_RADIUS;
     public bool flatTopped = false;
     [SerializeField] private float collideOffset = 1.5f;
 
@@ -30,7 +30,7 @@ public class HexCellMeshGenerator : MonoBehaviour
             {
                 angle += 30f * Mathf.Deg2Rad;
             }
-            vertices[i + 1] = new Vector3(outerRadius * Mathf.Cos(angle), 0f, outerRadius * Mathf.Sin(angle));
+            vertices[i + 1] = new Vector3(OUTER_RADIUS * Mathf.Cos(angle), 0f, OUTER_RADIUS * Mathf.Sin(angle));
         }
 
         for (int i = 0; i < 6; i++)
@@ -55,24 +55,24 @@ public class HexCellMeshGenerator : MonoBehaviour
 
     public static float GetInnerRadius()
     {
-        innerRadius = outerRadius * 0.866025404f;
-        return innerRadius;
+        INNER_RADIUS = OUTER_RADIUS * 0.866025404f;
+        return INNER_RADIUS;
     }
     public static float GetHexArea()
     {
-        float area = innerRadius / 2 * Mathf.PI;
+        float area = INNER_RADIUS / 2 * Mathf.PI;
         return area;
     }
     
     public bool CheckForCollisionAtCurrentPosition()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, innerRadius*collideOffset);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, INNER_RADIUS*collideOffset);
         return colliders.Length > 1; // > 1 because it will detect its own collider
     }
     void OnDrawGizmosSelected()
     {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position, innerRadius*collideOffset);
+        Gizmos.DrawSphere(transform.position, INNER_RADIUS*collideOffset);
     }
 }

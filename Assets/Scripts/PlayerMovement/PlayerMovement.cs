@@ -18,16 +18,6 @@ public class PlayerMovement : MonoBehaviour
     private InputHandler inputHandler;
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        if (rb == null)
-        {
-            Debug.LogError("Rigidbody component not found on the player object!");
-        }
-        else
-        {
-            rb.velocity = Vector3.zero; 
-            rb.angularVelocity = Vector3.zero;
-        }
 
         inputHandler = GetComponent<InputHandler>();
         inputHandler.OnClickCell += Move;
@@ -35,8 +25,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move(HexCellComponent targetCell)
     {
-        this.transform.DOMove(targetCell.CalPosForAction(), 1f);
-        this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
+        HexCellComponent playerCell = BattleManager.Instance.hexgrid.GetCellByType(CellType.Player);
+        if (BattleManager.Instance.hexgrid.CheckCellInRange(playerCell, targetCell, 1))
+        {
+            this.transform.DOMove(targetCell.CalPosForAction(), 0.5f);
+            this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
+            BattleManager.Instance.OnPlayerMove(playerCell, targetCell);
+        }
+       
     }
     void Update()
     {
@@ -45,21 +41,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (movement != Vector3.zero)
-        {
-            Vector3 newPosition = rb.position + movement * moveSpeed * Time.fixedDeltaTime;
-            rb.MovePosition(newPosition);
-            
-            Quaternion toRotation = Quaternion.LookRotation(movement, Vector3.up);
-            rb.MoveRotation(Quaternion.Slerp(rb.rotation, toRotation, rotationSpeed * Time.fixedDeltaTime));
 
-            lastMovementDirection = movement;
-        }
-        else if (lastMovementDirection != Vector3.zero)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(lastMovementDirection, Vector3.up);
-            rb.MoveRotation(Quaternion.Slerp(rb.rotation, toRotation, rotationSpeed * Time.fixedDeltaTime));
-        }
     }
 
     void OnDrawGizmos()

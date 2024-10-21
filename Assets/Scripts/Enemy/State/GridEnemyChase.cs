@@ -56,7 +56,7 @@ public class GridEnemyChase : EnemyBaseState
         {
             path.Clear();
         }
-        HexCellComponent start = BattleManager.Instance.hexgrid.GetCell(enemyBrain.currentCoord);
+        HexCellComponent start = BattleManager.Instance.hexgrid.GetCellInCoord(enemyBrain.currentCoord);
         HexCellComponent end = enemyBrain.playerGrid ? enemyBrain.playerGrid : enemyBrain.lastSeenPlayerGrid;
         if (!end) return;
 
@@ -71,7 +71,7 @@ public class GridEnemyChase : EnemyBaseState
         if (path == null) return;
         foreach (HexCell cell in path)
         {
-            pathLine.Add(BattleManager.Instance.hexgrid.GetCell(cell.Coordinates).transform.position);
+            pathLine.Add(BattleManager.Instance.hexgrid.GetCellInCoord(cell.Coordinates).transform.position);
         }
         enemyBrain.pathLine = pathLine;
     }
