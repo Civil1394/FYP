@@ -52,6 +52,7 @@ public class AIBrain : MonoBehaviour
         // Use DOTween to rotate towards the target direction
 
         transform.DOMove(BattleManager.Instance.hexgrid.GetCellInCoord(cellToMove.Coordinates).transform.position, 0.5f);
+        EnemyManager.Instance.OnMove(this, cellToMove.Coordinates);
         transform.DORotateQuaternion(targetRotation, 0.5f);
         currentCoord = cellToMove.Coordinates;
     }
