@@ -12,14 +12,13 @@ public class PlayerDetector : MonoBehaviour
     {
         player = GameObject.FindObjectOfType<PlayerMovement>().transform;
     }
-    public bool CanDetectPlayer(out Transform playerPos, out HexCellComponent playerGrid)
+    public bool CanDetectPlayer(out HexCellComponent playerGrid)
     {
         var dirToPlayer = player.position - transform.position;
         var angleToPlayer = Vector3.Angle(dirToPlayer,transform.forward);
 
         if ((angleToPlayer > angleOfRange / 2 || dirToPlayer.magnitude > distanceOfRange)&& dirToPlayer.magnitude > innerSphereRadius)
         {
-            playerPos = null;
             playerGrid = null;
             return false;
         }
@@ -30,11 +29,9 @@ public class PlayerDetector : MonoBehaviour
         var haveDirLineOfSight = hit.collider.CompareTag("Player");
         if (!haveDirLineOfSight)
         {
-            playerPos = null;
             playerGrid = null;
             return false;
         }
-        playerPos = player;
         playerGrid = BattleManager.Instance.hexgrid.GetCellInCoord(new Vector3Int(13,0,19));//should be player hex component here
         //print(playerGrid.CellData.CellType.ToString());
         return true;

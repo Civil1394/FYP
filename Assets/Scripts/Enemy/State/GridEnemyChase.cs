@@ -73,6 +73,5 @@ public class GridEnemyChase : EnemyBaseState
         {
             pathLine.Add(BattleManager.Instance.hexgrid.GetCellInCoord(cell.Coordinates).transform.position);
         }
-        enemyBrain.pathLine = pathLine;
     }
 }
