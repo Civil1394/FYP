@@ -5,7 +5,14 @@ using UnityEngine.EventSystems;
 public class InputHandler : MonoBehaviour
 {
 	private GameObject lastPointedObject;
-	public Action<HexCellComponent> OnClickCell;
+	public GenericAction OnClick = new GenericAction();
+	private TurnManager turnManager;
+
+	private void Start()
+	{
+		turnManager = BattleManager.Instance.GetComponent<TurnManager>();
+	}
+	
 	private void Update()
 	{
 		GetPointerEnterExist();
@@ -22,24 +29,28 @@ public class InputHandler : MonoBehaviour
 
 	private void DrawCardController()
 	{
+
 		AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
 		if (Input.GetKeyDown(KeyCode.R))
 		{
+			if (!turnManager.CanExecuteAction(TurnActionType.DrawCard))
+				return;
 			if (CardsManager.Instance.Hand.Count < 3)
 			{
-				Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase,"1", abilityDatabase.GetRandomAbilityFromList("1").id);
+				Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase,"1", 
+					abilityDatabase.GetRandomAbilityFromList("1").id);
 				CardsManager.Instance.AddCardToDeck(testCard);
 			}
 			var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
 			if (drawnCard != null)
 			{
+				turnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: {drawnCard.Name}");
 				Debug.Log($"Drew card: {drawnCard.Name}");
 			}
 			else
 			{
 				Debug.Log("No cards left in the deck");
 			}
-
 		}
 	}
 	private GameObject GetMousePointedGameObject()
@@ -90,9 +101,9 @@ public class InputHandler : MonoBehaviour
 	void GetPointerDown()
 	{
 		GameObject pointedObject = GetMousePointedGameObject();
-		if (Input.GetKeyDown(KeyCode.Mouse1) && pointedObject)
+		if (Input.GetKeyDown(KeyCode.Mouse0) && pointedObject)
 		{
-			OnClickCell.Invoke(pointedObject.GetComponent<HexCellComponent>());
+			OnClick.Invoke(pointedObject.GetComponent<HexCellComponent>());
 		}
 	}
 }

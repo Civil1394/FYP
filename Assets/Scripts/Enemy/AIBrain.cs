@@ -24,6 +24,7 @@ public class AIBrain : MonoBehaviour
 
     private void Start()
     {
+        BattleManager.Instance.OnTurnStart.AddListener(stateMachine.OnTurnStart);
         playerDetector = GetComponentInChildren<PlayerDetector>();
         //agent = GetComponent<NavMeshAgent>();
         stateMachine = new StateMachine();

@@ -19,31 +19,17 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
 
-        inputHandler = GetComponent<InputHandler>();
-        inputHandler.OnClickCell += Move;
+        BattleManager.Instance.OnPlayerMove += Move;
     }
 
     private void Move(HexCellComponent targetCell)
     {
-        HexCellComponent playerCell = BattleManager.Instance.hexgrid.GetCellByType(CellType.Player);
-        if (targetCell.CellData.CellGuiType == CellGuiType.ValidMoveRange)
-        {
-            this.transform.DOMove(targetCell.CalPosForAction(), 0.5f);
-            this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
-            BattleManager.Instance.OnPlayerMove(playerCell, targetCell);
-        }
+
+        this.transform.DOMove(targetCell.CalPosForAction(), 0.5f);
+        this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
+
        
     }
-    void Update()
-    {
-
-    }
-
-    void FixedUpdate()
-    {
-
-    }
-
     void OnDrawGizmos()
     {
         Gizmos.color = gizmoColor;
@@ -58,6 +44,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDestroy()
     {
-        inputHandler.OnClickCell -= Move;
+        BattleManager.Instance.OnPlayerMove -= Move;
     }
 }
