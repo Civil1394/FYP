@@ -133,13 +133,21 @@ public class BattleManager : Singleton<BattleManager>
 		{
 			Debug.Log("New Turn Started");
 			turnManager.StartNewTurn();
+        
+			float remainingTime = initTurnDur;
+			actionExecuted = false;
+
+			// Invoke both versions of OnTurnStart
 			OnTurnStart?.Invoke(initTurnDur);
 			OnTurnStart?.Invoke();
-        
-			actionExecuted = false;
-			yield return new WaitUntil(() => actionExecuted || initTurnDur <= 0);
-			
-        
+
+			// Use Time.deltaTime for more precise timing
+			while (!actionExecuted && remainingTime > 0)
+			{
+				remainingTime -= Time.deltaTime;
+				yield return null;
+			}
+
 			turnManager.EndTurn();
 		}
 	}
