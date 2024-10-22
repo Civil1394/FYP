@@ -77,7 +77,6 @@ public class EnemyManager : Singleton<EnemyManager>
 		foreach (var c in enemyReservations)
 		{
 			var temp = BattleManager.Instance.hexgrid.GetCellInCoord(c.Value.Coordinates);
-			print(c.Value.Coordinates);
 			Gizmos.DrawCube(temp.transform.position, Vector3.one);
 		}
     }
