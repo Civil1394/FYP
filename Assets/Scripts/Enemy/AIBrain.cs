@@ -16,16 +16,16 @@ public class AIBrain : MonoBehaviour
 
     private void Start()
     {
-        BattleManager.Instance.OnTurnStart.AddListener(stateMachine.OnTurnStart);
         playerDetector = GetComponentInChildren<PlayerDetector>();
         //agent = GetComponent<NavMeshAgent>();
         stateMachine = new StateMachine();
+        BattleManager.Instance.OnTurnStart.AddListener(stateMachine.OnTurnStart);
         var wanderState = new GridEnemyWander(this, null, 10);
         var chaseState = new GridEnemyChase(this, null);
         stateMachine.AddTransition(chaseState, wanderState, new FuncPredicate(() => !playerDetector.CanDetectPlayer(out playerGrid)));
         stateMachine.AddTransition(wanderState, chaseState, new FuncPredicate(() => playerDetector.CanDetectPlayer(out playerGrid)));
         stateMachine.SetState(wanderState);
-        StartCoroutine(TestTurn());
+        //StartCoroutine(TestTurn());
     }
     private void Update()
     {
