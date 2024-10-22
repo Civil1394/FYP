@@ -19,12 +19,19 @@ public class CardsManager : Singleton<CardsManager>
 
     public Action<Card> OnCardDrawn;
     public Action<Card> OnCardPlayed;
+
+    private TurnManager turnManager;
     private void Awake()
     {
         
 
     }
-    
+
+    private void Start()
+    {
+        if (turnManager == null) turnManager = BattleManager.Instance.turnManager;
+    }
+
     public void AddCardToDeck(Card newCard)
     {
         deck.Add(newCard);
@@ -58,21 +65,29 @@ public class CardsManager : Singleton<CardsManager>
 
     public (IReadOnlyList<Card>, IReadOnlyList<Card>, Card) PlayCard(Card cardToPlay)
     {
+
         if (!hand.Contains(cardToPlay))
         {
             return (Hand, DiscardPile, null);
         }
 
-        if (CostManager.Instance.MinusAvailCost(cardToPlay.Cost))
+        if (!turnManager.CanExecuteAction(TurnActionType.PlayCard))
         {
-            cardToPlay.TriggerCard();
-            hand.Remove(cardToPlay);
-            OnCardPlayed.Invoke(cardToPlay);
-            discardPile.Add(cardToPlay);
-            return (Hand, DiscardPile, cardToPlay);
+            return (Hand, DiscardPile, null);
         }
+            
         
-        return (Hand, DiscardPile, null);
+        cardToPlay.TriggerCard();
+        hand.Remove(cardToPlay);
+        OnCardPlayed.Invoke(cardToPlay);
+        discardPile.Add(cardToPlay);
+        
+        turnManager.ExecuteAction(TurnActionType.PlayCard,
+            $"Played Card {cardToPlay.Name}");
+        return (Hand, DiscardPile, cardToPlay);
+        
+       
+        
     }
     
 }

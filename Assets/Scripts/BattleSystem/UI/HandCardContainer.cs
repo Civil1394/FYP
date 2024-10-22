@@ -26,7 +26,7 @@ public class HandCardContainer : MonoBehaviour
     private void GenerateNewProduct(Card card)
     {
         GameObject _handCardPrefab = Instantiate(handCardPrefab, this.transform);
-        _handCardPrefab.GetComponent<HandCardUIProduct>().Init(card.AbilityData);
+        _handCardPrefab.GetComponent<HandCardUIProduct>().Init(card);
         cardIdToUIMap[card.Id] = _handCardPrefab;
     }
 

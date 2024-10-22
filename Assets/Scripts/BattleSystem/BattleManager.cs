@@ -21,8 +21,14 @@ public class BattleManager : Singleton<BattleManager>
 	public GenericAction OnTurnStart = new GenericAction();
 	public Action<HexCellComponent> OnPlayerMove;
 
-	private TurnManager turnManager;
-	
+	public TurnManager turnManager { get; private set; }
+	[SerializeField] private bool actionExecuted = false;
+	protected override void Awake()
+	{
+		base.Awake();
+		turnManager = new TurnManager();
+	}
+
 	public void InitBattle()
 	{
 		if (AbilityDatabase == null)
@@ -48,7 +54,7 @@ public class BattleManager : Singleton<BattleManager>
 		EnemyManager.Instance.InitEnemies();
 		
 		//InitTurn
-		turnManager = new TurnManager();
+		
 		turnManager.OnActionExecuted += HandleActionExecuted;
 		IsBattleStarted = true;
 		StartCoroutine(_TurnBaseCoroutine());
@@ -56,16 +62,13 @@ public class BattleManager : Singleton<BattleManager>
 	private void HandleActionExecuted(TurnAction action)
 	{
 		Debug.Log($"Action executed: {action.ActionType} - {action.Description}");
+		actionExecuted = true;
 	}
 	private void Start()
 	{
 		InitBattle();
 	}
-
-	private void OnDestroy()
-	{
-		inputHandler.OnClick.RemoveListener<HexCellComponent>(onPlayerMove);
-	}
+	
 
 	private void InitPlayer()
 	{
@@ -116,7 +119,7 @@ public class BattleManager : Singleton<BattleManager>
 				$"Moved from {playerCell.CellData.Coordinates} to {targetCell.CellData.Coordinates}");
 		}
 	}
-
+	
 	private IEnumerator _TurnBaseCoroutine()
 	{
 		//init player valid move range
@@ -125,15 +128,18 @@ public class BattleManager : Singleton<BattleManager>
 		{
 			newNearbyCells[i].CellData.SetGuiType(CellGuiType.ValidMoveRange);
 		}
-        
+    
 		while (IsBattleStarted)
 		{
 			Debug.Log("New Turn Started");
 			turnManager.StartNewTurn();
 			OnTurnStart?.Invoke(initTurnDur);
-            OnTurnStart?.Invoke();
-			yield return new WaitForSeconds(initTurnDur);
-            
+			OnTurnStart?.Invoke();
+        
+			actionExecuted = false;
+			yield return new WaitUntil(() => actionExecuted || initTurnDur <= 0);
+			
+        
 			turnManager.EndTurn();
 		}
 	}

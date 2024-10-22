@@ -10,7 +10,7 @@ public class InputHandler : MonoBehaviour
 
 	private void Start()
 	{
-		turnManager = BattleManager.Instance.GetComponent<TurnManager>();
+		if(turnManager==null)turnManager = BattleManager.Instance.turnManager;
 	}
 	
 	private void Update()
@@ -18,7 +18,6 @@ public class InputHandler : MonoBehaviour
 		GetPointerEnterExist();
 		GetPointerDown();
 		DrawCardController();
-		PlayCardController();
 	}
 	
 	private void PlayCardController()
