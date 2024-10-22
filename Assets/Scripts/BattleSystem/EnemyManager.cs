@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class EnemyManager : Singleton<EnemyManager>
 {
@@ -12,7 +13,9 @@ public class EnemyManager : Singleton<EnemyManager>
 	[SerializeField] private Transform enemyGroup;
 
 	private Dictionary<AIBrain, Vector3Int> enemiesDict = new Dictionary<AIBrain, Vector3Int>();
-	public Action<AIBrain,Vector3Int> OnMove;
+    private Dictionary<AIBrain, HexCell> enemyReservations = new Dictionary<AIBrain, HexCell>();
+
+    public Action<AIBrain,Vector3Int> OnMove;
 
 	private void Start()
 	{
@@ -39,7 +42,24 @@ public class EnemyManager : Singleton<EnemyManager>
 		
 	}
 
-	public void EnemyCatcher(AIBrain enemy,Vector3Int targetCoord)
+    public bool ReserveCell(AIBrain enemy, HexCell cell)
+    {
+		if (IsCellReserved(cell)) return false;
+        enemyReservations[enemy] = cell;
+		return true;
+    }
+
+    public void ReleaseCell(AIBrain enemy)
+    {
+        enemyReservations.Remove(enemy);
+    }
+
+    public bool IsCellReserved(HexCell cell)
+    {
+        return enemyReservations.ContainsValue(cell);
+    }
+
+    public void EnemyCatcher(AIBrain enemy,Vector3Int targetCoord)
 	{
 		HexCellComponent oldCell = BattleManager.Instance.hexgrid.GetCellInCoord(enemy.currentCoord);
 		oldCell.CellData.SetType(CellType.Empty);
@@ -51,4 +71,14 @@ public class EnemyManager : Singleton<EnemyManager>
 		}
 		targetCell.CellData.SetType(CellType.Enemy);
 	}
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.black;
+		foreach (var c in enemyReservations)
+		{
+			var temp = BattleManager.Instance.hexgrid.GetCellInCoord(c.Value.Coordinates);
+			print(c.Value.Coordinates);
+			Gizmos.DrawCube(temp.transform.position, Vector3.one);
+		}
+    }
 }

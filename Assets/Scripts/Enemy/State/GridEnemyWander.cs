@@ -6,7 +6,7 @@ public class GridEnemyWander : EnemyBaseState
     readonly float wanderRadius;
     List<HexCell> path;
     List<Vector3> pathLine;
-    int pathProgress = 1;
+    int pathProgress = 0;
 
     public GridEnemyWander(AIBrain enemyBrain, Animator animator, float wanderRadius) : base(enemyBrain, animator)
     {
@@ -38,24 +38,39 @@ public class GridEnemyWander : EnemyBaseState
         {
             //Debug.Log("arrived");
             RunPathfindingAsync();
-            pathProgress = 1;
+            return;
         }
+        if (path[pathProgress + 1].CellType != CellType.Empty) { RunPathfindingAsync(); return; }
+        if (!EnemyManager.Instance.ReserveCell(enemyBrain, path[pathProgress + 1])) { RunPathfindingAsync(); return; }
         else
         {
-            enemyBrain.Move(path[pathProgress++]);
+            enemyBrain.Move(path[++pathProgress]);
         }
     }
     bool HasReachedDestination()
     {
-        return pathProgress>=path.Count;
+        return pathProgress>=path.Count-1;
     }
     private async void RunPathfindingAsync()
     {
-        path?.Clear();
+        pathProgress = 0;
+        if (path == null)
+        {
+            path = new List<HexCell>();
+        }
+        else
+        {
+            path.Clear();
+        }
         HexCellComponent start = BattleManager.Instance.hexgrid.GetCellInCoord(enemyBrain.currentCoord);
         HexCellComponent end = GetRandomTargetPos();
         PathFinding pathFinding = new PathFinding(start, end);
         path = await pathFinding.FindPathAsync();
+        enemyBrain.gPath = path;
+        //if(!EnemyManager.Instance.ReserveCell(enemyBrain, path[pathProgress]))
+        //{
+        //    path = await pathFinding.FindPathAsync();
+        //}
         // Use the path (e.g., move a character along it)
     }
     private HexCellComponent GetRandomTargetPos()
@@ -68,14 +83,5 @@ public class GridEnemyWander : EnemyBaseState
         }while (!BattleManager.Instance.hexgrid.HasCell(randomPos));
         //Debug.Log(randomPos.ToString());
         return BattleManager.Instance.hexgrid.GetCellInCoord(randomPos);
-    }
-    void GetCellTransform()
-    {
-        pathLine.Clear();
-        if (path == null) return;
-        foreach (HexCell cell in path)
-        {
-            pathLine.Add(BattleManager.Instance.hexgrid.GetCellInCoord(cell.Coordinates).transform.position);
-        }
     }
 }

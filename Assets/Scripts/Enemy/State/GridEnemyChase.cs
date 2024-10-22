@@ -5,7 +5,7 @@ public class GridEnemyChase : EnemyBaseState
 {
     List<HexCell> path;
     List<Vector3> pathLine;
-    int pathProgress = 1;
+    int pathProgress = 0;
     bool isPlayerMoved = false;
 
     public GridEnemyChase(AIBrain enemyBrain, Animator animator) : base(enemyBrain, animator)
@@ -35,19 +35,25 @@ public class GridEnemyChase : EnemyBaseState
     {
         if (path == null) return;
         if (path.Count <= 0) return;
-        if (pathProgress < path.Count)
-        {
-            enemyBrain.Move(path[pathProgress++]);
-        }
-        else
+        if (HasReachedDestination())
         {
             RunPathfindingAsync();
+            return;
+        }
+        if (path[pathProgress + 1].CellType != CellType.Empty) { RunPathfindingAsync(); return; }
+        if (!EnemyManager.Instance.ReserveCell(enemyBrain, path[pathProgress + 1])) { RunPathfindingAsync(); return; }
+        else
+        {
+            enemyBrain.Move(path[++pathProgress]);
         }
     }
-
+    bool HasReachedDestination()
+    {
+        return pathProgress >= path.Count-1;
+    }
     private async void RunPathfindingAsync()
     {
-        pathProgress = 1;
+        pathProgress = 0;
         if (path == null)
         {
             path = new List<HexCell>();
@@ -62,16 +68,11 @@ public class GridEnemyChase : EnemyBaseState
 
         PathFinding pathFinding = new PathFinding(start, end);
         path = await pathFinding.FindPathAsync();
-        GetCellTransform();
-    }
+        enemyBrain.gPath = path;
 
-    void GetCellTransform()
-    {
-        pathLine.Clear();
-        if (path == null) return;
-        foreach (HexCell cell in path)
-        {
-            pathLine.Add(BattleManager.Instance.hexgrid.GetCellInCoord(cell.Coordinates).transform.position);
-        }
+        //if (!EnemyManager.Instance.ReserveCell(enemyBrain, path[pathProgress]))
+        //{
+        //    path = await pathFinding.FindPathAsync();
+        //}
     }
 }

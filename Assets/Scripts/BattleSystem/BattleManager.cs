@@ -15,7 +15,7 @@ public class BattleManager : Singleton<BattleManager>
 	public HexGrid hexgrid = new HexGrid();
 
 	[Header("Turn Related Ref")]
-	[SerializeField] private float initTurnDur = 2f;
+	[SerializeField] private float initTurnDur = 0.5f;
 	
 	public bool IsBattleStarted = false;
 	public GenericAction OnTurnStart = new GenericAction();

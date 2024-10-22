@@ -14,8 +14,12 @@ public class AIBrain : MonoBehaviour
     public HexCellComponent playerGrid;
     public HexCellComponent lastSeenPlayerGrid;
 
+    public List<HexCell> gPath;
+
+    public Color mColor;
     private void Start()
     {
+        mColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         playerDetector = GetComponentInChildren<PlayerDetector>();
         //agent = GetComponent<NavMeshAgent>();
         stateMachine = new StateMachine();
@@ -37,6 +41,7 @@ public class AIBrain : MonoBehaviour
     }
     public void Move(HexCell cellToMove)
     {
+        EnemyManager.Instance.ReleaseCell(this);
         var nextGridPosition = BattleManager.Instance.hexgrid.GetCellInCoord(cellToMove.Coordinates).transform.position;
         Vector3 directionToNextGrid = (nextGridPosition - transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToNextGrid);
@@ -55,6 +60,16 @@ public class AIBrain : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             RememberPlayer();
             stateMachine.OnTurnStart();
+        }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = mColor;
+        if (gPath == null) return;
+        foreach (var p in gPath)
+        {
+            var temp = BattleManager.Instance.hexgrid.GetCellInCoord(p.Coordinates);
+            Gizmos.DrawCube(temp.transform.position, Vector3.one);
         }
     }
 }
