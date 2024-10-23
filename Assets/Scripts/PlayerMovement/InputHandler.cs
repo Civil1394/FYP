@@ -17,7 +17,8 @@ public class InputHandler : MonoBehaviour
 	{
 		GetPointerEnterExist();
 		GetPointerDown();
-		DrawCardController();
+		//DrawCardController();
+		RedrawCardsController();
 	}
 	
 	private void PlayCardController()
@@ -50,6 +51,30 @@ public class InputHandler : MonoBehaviour
 			{
 				Debug.Log("No cards left in the deck");
 			}
+		}
+	}
+
+	private void RedrawCardsController()
+	{
+		AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			
+			if (!turnManager.CanExecuteAction(TurnActionType.DrawCard)) 
+				return;
+
+			CardsManager.Instance.RedrawCards();
+			
+			for (int i = 0; i < 3; i++)
+			{
+				Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase, "1",
+					abilityDatabase.GetRandomAbilityFromList("1").id);
+				CardsManager.Instance.AddCardToDeck(testCard);
+				var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
+			}
+			
+			turnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: redraw");
+				
 		}
 	}
 	private GameObject GetMousePointedGameObject()

@@ -11,6 +11,7 @@ public class HandCardContainer : MonoBehaviour
     {
         CardsManager.Instance.OnCardDrawn += GenerateNewProduct;
         CardsManager.Instance.OnCardPlayed += RemoveProduct;
+        CardsManager.Instance.OnCardDiscarded += RemoveProduct;
         foreach (Transform child in this.transform)
         {
             Destroy(child.gameObject);
@@ -42,4 +43,5 @@ public class HandCardContainer : MonoBehaviour
             Debug.LogWarning($"Tried to remove card UI for card {card.Id}, but it was not found in the container.");
         }
     }
+    
 }

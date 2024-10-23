@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
-  m_Name: Uzi
+  m_Name: SuitCard
   m_EditorClassIdentifier: 
-  id: 5
-  title: Uzi
-  initCost: 1
-  desc: aaaaaaaaaaaaaaa
+  id: 2
+  title: SuitCard
+  initCost: 0
+  desc: Present a common suit, help you fill the chain
   trigger: 0
   target: 0
-  effects:
-  - {fileID: 11400000, guid: 2ba49c753f10380418c27f69eba31e3e, type: 2}
+  effects: []
   status: []
   value: 0
   duration: 0

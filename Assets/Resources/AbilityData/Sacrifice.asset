@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
-  m_Name: Shotgun
+  m_Name: Sacrifice
   m_EditorClassIdentifier: 
-  id: 3
-  title: Shotgun
-  initCost: 3
-  desc: aaaaaa
+  id: 
+  title: Sacrifice
+  initCost: 0
+  desc: Sacrifice a second of sand in the hourglass permantly , exchange for double
+    damage in 3 turn
   trigger: 0
   target: 0
-  effects:
-  - {fileID: 11400000, guid: 2ba49c753f10380418c27f69eba31e3e, type: 2}
+  effects: []
   status: []
   value: 0
   duration: 0

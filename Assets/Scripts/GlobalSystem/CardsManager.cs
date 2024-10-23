@@ -19,7 +19,7 @@ public class CardsManager : Singleton<CardsManager>
 
     public Action<Card> OnCardDrawn;
     public Action<Card> OnCardPlayed;
-
+    public Action<Card> OnCardDiscarded;
     private TurnManager turnManager;
     private void Awake()
     {
@@ -87,8 +87,24 @@ public class CardsManager : Singleton<CardsManager>
             $"Played Card {cardToPlay.Name}");
         return (Hand, DiscardPile, cardToPlay);
         
-       
-        
     }
     
+    public (IReadOnlyList<Card>, IReadOnlyList<Card>) RedrawCards()
+    {
+       
+        var cardsToRedraw = new List<Card>(hand);
+
+        foreach (var cardToPlay in cardsToRedraw)
+        {
+            if (cardToPlay != null)
+            {
+                
+            }
+            hand.Remove(cardToPlay);
+            OnCardDiscarded?.Invoke(cardToPlay); 
+            discardPile.Add(cardToPlay);
+        }
+
+        return (Hand, DiscardPile);
+    }
 }

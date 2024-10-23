@@ -160,6 +160,16 @@ public class BattleManager : Singleton<BattleManager>
 				yield return null;
 			}
 
+			if (CardsManager.Instance.Hand.Count == 0)
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					Card testCard = CardFactory.Instance.CreateCardFromList(AbilityDatabase, "1",
+						AbilityDatabase.GetRandomAbilityFromList("1").id);
+					CardsManager.Instance.AddCardToDeck(testCard);
+					var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
+				}
+			}
 			turnManager.EndTurn();
 		}
 	}
