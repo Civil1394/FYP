@@ -1,4 +1,4 @@
 public interface IAttack
 {
-    public void Attack();
+    public void Attack(HexCellComponent target);
 }

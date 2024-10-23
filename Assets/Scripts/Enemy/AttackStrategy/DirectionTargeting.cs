@@ -4,16 +4,14 @@ public class DirectionTargeting : IAttack
 {
     private Transform enemy;
     private GameObject projectilePrefab;
-    private Transform target;
 
-    public DirectionTargeting(Transform enemy, GameObject projectilePrefab, Transform target)
+    public DirectionTargeting(Transform enemy, GameObject projectilePrefab)
     {
         this.enemy = enemy;
         this.projectilePrefab = projectilePrefab;
-        this.target = target;
     }
 
-    public void Attack()
+    public void Attack(HexCellComponent target)
     {
         GameObject projectile = GameObject.Instantiate(projectilePrefab, enemy.position, Quaternion.identity);
         // Add projectile movement logic towards target here

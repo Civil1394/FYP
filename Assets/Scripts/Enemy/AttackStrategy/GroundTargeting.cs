@@ -4,16 +4,14 @@ public class GroundTargeting : IAttack
 {
     private Transform enemy;
     private GameObject bombPrefab;
-    private Transform target;
 
-    public GroundTargeting(Transform enemy, GameObject bombPrefab, Transform target)
+    public GroundTargeting(Transform enemy, GameObject bombPrefab)
     {
         this.enemy = enemy;
         this.bombPrefab = bombPrefab;
-        this.target = target;
     }
 
-    public void Attack()
+    public void Attack(HexCellComponent target)
     {
         GameObject bomb = GameObject.Instantiate(bombPrefab, enemy.position, Quaternion.identity);
         // Add bomb throwing logic towards target here
