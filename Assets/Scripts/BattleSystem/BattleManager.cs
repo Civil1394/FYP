@@ -21,13 +21,25 @@ public class BattleManager : Singleton<BattleManager>
 	public GenericAction OnTurnStart = new GenericAction();
 	public Action<HexCellComponent> OnPlayerMove;
 
-	public TurnManager turnManager { get; private set; }
+	private TurnManager _turnManager;
+	public TurnManager turnManager
+	{
+		get => _turnManager;
+		private set => _turnManager = value;
+	}
+	public ChainManager chainManager { get; private set; }
 	[SerializeField] private bool actionExecuted = false;
 	protected override void Awake()
 	{
 		base.Awake();
-		turnManager = new TurnManager();
+		_turnManager = new TurnManager();
 	}
+
+	private void Start()
+	{
+		InitBattle();
+	}
+	#region Init
 
 	public void InitBattle()
 	{
@@ -59,17 +71,7 @@ public class BattleManager : Singleton<BattleManager>
 		IsBattleStarted = true;
 		StartCoroutine(_TurnBaseCoroutine());
 	}
-	private void HandleActionExecuted(TurnAction action)
-	{
-		Debug.Log($"Action executed: {action.ActionType} - {action.Description}");
-		actionExecuted = true;
-	}
-	private void Start()
-	{
-		InitBattle();
-	}
 	
-
 	private void InitPlayer()
 	{
 		HexCellComponent cell = hexgrid.GetCellInCoord(new Vector3Int(playerSpawnCoord.x, 0, playerSpawnCoord.y));
@@ -88,6 +90,16 @@ public class BattleManager : Singleton<BattleManager>
 			Debug.LogError("Not valid cell to spawn!");
 		}
 	}
+	#endregion
+	
+	private void HandleActionExecuted(TurnAction action)
+	{
+		Debug.Log($"Action executed: {action.ActionType} - {action.Description}");
+		actionExecuted = true;
+	}
+	
+	
+	
 	
 	private void onPlayerMove(HexCellComponent targetCell)
 	{
