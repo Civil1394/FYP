@@ -82,6 +82,7 @@ public class CardsManager : Singleton<CardsManager>
         OnCardPlayed.Invoke(cardToPlay);
         discardPile.Add(cardToPlay);
         
+        ChainManager.Instance.RecordSuit(cardToPlay.Suit);
         turnManager.ExecuteAction(TurnActionType.PlayCard,
             $"Played Card {cardToPlay.Name}");
         return (Hand, DiscardPile, cardToPlay);

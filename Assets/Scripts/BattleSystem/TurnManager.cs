@@ -28,7 +28,7 @@ public class TurnAction
     }
 }
 
-public class TurnManager
+public class TurnManager : SingletonBase<TurnManager>
 {
     private TurnAction currentTurnAction;
     public bool IsActionExecutedThisTurn => currentTurnAction?.IsExecuted ?? false;

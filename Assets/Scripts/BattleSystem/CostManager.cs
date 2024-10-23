@@ -15,7 +15,7 @@ public class CostManager : Singleton<CostManager>
 	private void Start()
 	{
 		availCost = 0;
-		StartCoroutine(_CostCalCoroutine());
+		//StartCoroutine(_CostCalCoroutine());
 	}
 	
 	private IEnumerator _CostCalCoroutine()

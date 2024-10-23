@@ -2,37 +2,40 @@ using UnityEngine;
 
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    private static T _instance;
-    private static readonly object _lock = new object();
-    private static bool _applicationIsQuitting = false;
+    private class MonoSingletonInternal : SingletonBase<MonoSingletonInternal>
+    {
+        private T _monoInstance;
+        public T MonoInstance
+        {
+            get => _monoInstance;
+            set => _monoInstance = value;
+        }
+    }
 
+    private static readonly object _lock = new object();
+    
     public static T Instance
     {
         get
         {
-            // if (_applicationIsQuitting)
-            // {
-            //     Debug.LogWarning($"[Singleton] Instance '{typeof(T)}' already destroyed on application quit. Won't create again - returning null.");
-            //     return null;
-            // }
-
             lock (_lock)
             {
-                if (_instance == null)
+                var internal_instance = MonoSingletonInternal.Instance;
+                if (internal_instance.MonoInstance == null)
                 {
-                    _instance = (T)FindObjectOfType(typeof(T));
+                    internal_instance.MonoInstance = (T)FindObjectOfType(typeof(T));
 
                     if (FindObjectsOfType(typeof(T)).Length > 1)
                     {
                         Debug.LogError($"[Singleton] Something went really wrong - there should never be more than 1 singleton! Reopening the scene might fix it.");
-                        return _instance;
+                        return internal_instance.MonoInstance;
                     }
 
-                    if (_instance == null)
+                    if (internal_instance.MonoInstance == null)
                     {
                         GameObject singleton = new GameObject();
-                        _instance = singleton.AddComponent<T>();
-                        singleton.name = $"(singleton) {typeof(T).ToString()}";
+                        internal_instance.MonoInstance = singleton.AddComponent<T>();
+                        singleton.name = $"(singleton) {typeof(T)}";
 
                         DontDestroyOnLoad(singleton);
 
@@ -40,34 +43,33 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log($"[Singleton] Using instance already created: {_instance.gameObject.name}");
+                        Debug.Log($"[Singleton] Using instance already created: {internal_instance.MonoInstance.gameObject.name}");
                     }
                 }
 
-                return _instance;
+                return internal_instance.MonoInstance;
             }
         }
     }
 
     protected virtual void Awake()
     {
-        if (_instance == null)
+        if (MonoSingletonInternal.Instance.MonoInstance == null)
         {
-            _instance = this as T;
+            MonoSingletonInternal.Instance.MonoInstance = this as T;
             DontDestroyOnLoad(gameObject);
         }
-        else if (_instance != this)
+        else if (MonoSingletonInternal.Instance.MonoInstance != this)
         {
             Destroy(gameObject);
         }
     }
-    
-    /// <summary>
-    /// not useful for now and if reload domain is turned off =>  static bool _applicationIsQuitting won't initialize as false
-    /// singleton instance won't be created
-    /// </summary>
-    private void OnApplicationQuit()
+
+    protected virtual void OnDestroy()
     {
-       Destroy(this);
+        if (MonoSingletonInternal.Instance.MonoInstance == this)
+        {
+            MonoSingletonInternal.Instance.MonoInstance = null;
+        }
     }
 }
