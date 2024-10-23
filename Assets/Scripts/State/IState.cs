@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public interface IState 
+public interface IState
 {
     void OnEnter();
     void OnExit();

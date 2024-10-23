@@ -1,6 +1,6 @@
-public interface ITransition 
+public interface ITransition
 {
- 	IState To { get; }
+    IState To { get; }
     IPredicate Condition { get; }
 }
 

@@ -5,7 +5,7 @@ public class StateMachine
     StateNode current;
     Dictionary<Type, StateNode> nodes = new();
     HashSet<Transition> anyTransitions = new();
-    
+
     public void Update()
     {
         var transition = GetTransition();
@@ -30,7 +30,7 @@ public class StateMachine
     }
     public void ChangeState(IState state)
     {
-        if(state == current.State) return;
+        if (state == current.State) return;
         var previousState = current.State;
         var nextState = state;
         previousState?.OnExit();
@@ -39,7 +39,7 @@ public class StateMachine
     }
     ITransition GetTransition()
     {
-        foreach(var transition in anyTransitions)
+        foreach (var transition in anyTransitions)
         {
             if (transition.Condition.Evaluate()) return transition;
         }

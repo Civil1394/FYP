@@ -49,7 +49,7 @@ public class GridEnemyWander : EnemyBaseState
     }
     bool HasReachedDestination()
     {
-        return pathProgress>=path.Count-1;
+        return pathProgress >= path.Count - 1;
     }
     private async void RunPathfindingAsync()
     {
@@ -80,7 +80,7 @@ public class GridEnemyWander : EnemyBaseState
         {
             randomPos = new Vector3Int((int)UnityEngine.Random.Range(-wanderRadius, wanderRadius), 0, (int)UnityEngine.Random.Range(-wanderRadius, wanderRadius));
             randomPos += enemyBrain.currentCoord;
-        }while (!BattleManager.Instance.hexgrid.HasCell(randomPos));
+        } while (!BattleManager.Instance.hexgrid.HasCell(randomPos));
         //Debug.Log(randomPos.ToString());
         return BattleManager.Instance.hexgrid.GetCellInCoord(randomPos);
     }

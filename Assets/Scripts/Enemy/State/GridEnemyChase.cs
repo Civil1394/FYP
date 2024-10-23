@@ -49,7 +49,7 @@ public class GridEnemyChase : EnemyBaseState
     }
     bool HasReachedDestination()
     {
-        return pathProgress >= path.Count-1;
+        return pathProgress >= path.Count - 1;
     }
     private async void RunPathfindingAsync()
     {

@@ -1,7 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using System.Diagnostics.Tracing;
-using Unity.VisualScripting;
 
 public class AISensor : MonoBehaviour
 {
@@ -33,7 +30,7 @@ public class AISensor : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             RaycastHit hit;
-            var dir = other.transform.position - (transform.position + Vector3.up*2);
+            var dir = other.transform.position - (transform.position + Vector3.up * 2);
             Physics.Raycast(transform.position + Vector3.up, dir, out hit, distance);
             Debug.DrawRay(transform.position + Vector3.up, dir, Color.green);
             if (!hit.collider)
@@ -55,10 +52,10 @@ public class AISensor : MonoBehaviour
     }
     Mesh CreateWedgeMesh()
     {
-        Mesh mesh  = new Mesh();
+        Mesh mesh = new Mesh();
         int numOfSegments = 8;
-        int numOfTriangle = (numOfSegments*4)+4;
-        int numOfVertices = numOfTriangle*3;
+        int numOfTriangle = (numOfSegments * 4) + 4;
+        int numOfVertices = numOfTriangle * 3;
         Vector3[] vertices = new Vector3[numOfVertices];
         int[] triangles = new int[numOfVertices];
         Vector3 bottomCenter = Vector3.zero;
@@ -87,11 +84,11 @@ public class AISensor : MonoBehaviour
         vertices[vertIndex++] = bottomRight;
         vertices[vertIndex++] = bottomCenter;
         float currentAngle = -angle;
-        float deltaAngle = (angle*2) /numOfSegments;
+        float deltaAngle = (angle * 2) / numOfSegments;
         for (int i = 0; i < numOfSegments; i++)
         {
             bottomLeft = Quaternion.Euler(0, currentAngle, 0) * Vector3.forward * distance;
-            bottomRight = Quaternion.Euler(0, currentAngle+deltaAngle, 0) * Vector3.forward * distance;
+            bottomRight = Quaternion.Euler(0, currentAngle + deltaAngle, 0) * Vector3.forward * distance;
             topLeft = bottomLeft + Vector3.up * height;
             topRight = bottomRight + Vector3.up * height;
             //forward
@@ -115,7 +112,7 @@ public class AISensor : MonoBehaviour
 
 
 
-        for(int i = 0; i < numOfVertices; i++)
+        for (int i = 0; i < numOfVertices; i++)
         {
             triangles[i] = i;
         }
@@ -133,7 +130,7 @@ public class AISensor : MonoBehaviour
         if (mesh)
         {
             Gizmos.color = redColor;
-            Gizmos.DrawMesh(mesh,transform.position, transform.rotation);
+            Gizmos.DrawMesh(mesh, transform.position, transform.rotation);
         }
     }
 }

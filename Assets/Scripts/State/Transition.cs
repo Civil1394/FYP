@@ -1,6 +1,3 @@
-using UnityEngine;
-using System.Collections;
-
 public class Transition : ITransition
 {
     public IState To { get; }

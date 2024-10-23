@@ -71,7 +71,7 @@ public class PathFinding
 
             foreach (HexCell nextCell in currentNode.HexCell.GetAllNeighbor())
             {
-                if (nextCell == null || isVisited.Contains(nextCell) || nextCell.CellType != CellType.Empty||EnemyManager.Instance.IsCellReserved(nextCell)) continue;
+                if (nextCell == null || isVisited.Contains(nextCell) || nextCell.CellType != CellType.Empty || EnemyManager.Instance.IsCellReserved(nextCell)) continue;
                 h = CalculateHValue(nextCell);
                 openList.Add(new Node(nextCell, currentNode.Cost + 1, h, currentNode));
             }

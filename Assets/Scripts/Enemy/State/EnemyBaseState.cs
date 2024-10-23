@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using UnityEngine.AI;
 
 public abstract class EnemyBaseState : IState
 {
@@ -30,7 +28,7 @@ public abstract class EnemyBaseState : IState
     {
 
     }
-    
+
     public virtual void TurnAction()
     {
 
