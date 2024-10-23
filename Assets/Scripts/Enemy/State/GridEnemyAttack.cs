@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class GridEnemyAttack : EnemyBaseState
 {
-    private bool isAttacking;
     public GridEnemyAttack(AIBrain enemyBrain, Animator animator) : base(enemyBrain, animator)
     {
     }
     public override void OnEnter()
     {
+        enemyBrain.PerformAttack();
         Debug.Log("Attacked");
     }
     public override void OnExit()
@@ -24,6 +24,6 @@ public class GridEnemyAttack : EnemyBaseState
     }
     public override void TurnAction()
     {
-        if (isAttacking) return;
+        if (enemyBrain.isAttacking) return;
     }
 }

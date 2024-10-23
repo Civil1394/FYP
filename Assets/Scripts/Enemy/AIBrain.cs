@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class AIBrain : MonoBehaviour
@@ -14,19 +15,23 @@ public class AIBrain : MonoBehaviour
     public List<HexCell> gPath;
     public Color mColor;
     private IAttack attackStrategy;
-
+    public int attackDur = 3;
+    public bool isAttacking = false;
     private void Start()
     {
         mColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         playerDetector = GetComponentInChildren<PlayerDetector>();
 
         stateMachine = new StateMachine();
-        BattleManager.Instance.OnTurnStart.AddListener(stateMachine.OnTurnStart);
+        BattleManager.Instance.OnTurnStart.AddListener(TurnAction);
 
         var wanderState = new GridEnemyWander(this, null, 10);
         var chaseState = new GridEnemyChase(this, null);
+        var attackState = new GridEnemyAttack(this, null);
         stateMachine.AddTransition(chaseState, wanderState, new FuncPredicate(() => !playerDetector.CanDetectPlayer(out playerGrid)));
         stateMachine.AddTransition(wanderState, chaseState, new FuncPredicate(() => playerDetector.CanDetectPlayer(out playerGrid)));
+        stateMachine.AddTransition(chaseState, attackState, new FuncPredicate(() => Vector3.Distance(transform.position, playerGrid.transform.position)<20&&attackDur<=0));
+        stateMachine.AddTransition(attackState, chaseState, new FuncPredicate(() => !isAttacking));
         stateMachine.SetState(wanderState);
 
         InitializeAttackStrategy();
@@ -36,7 +41,12 @@ public class AIBrain : MonoBehaviour
     {
         stateMachine.Update();
     }
-
+    private void TurnAction()
+    {
+        stateMachine.OnTurnStart();
+        RememberPlayer();
+        attackDur--;
+    }
     private void InitializeAttackStrategy()
     {
         switch (enemyConfig.AttackStrategy)
@@ -52,7 +62,11 @@ public class AIBrain : MonoBehaviour
                 break;
         }
     }
-
+    public void RememberPlayer()
+    {
+        if(playerGrid)
+            lastSeenPlayerGrid = playerGrid;
+    }
     public void Move(HexCell cellToMove)
     {
         EnemyManager.Instance.ReleaseCell(this);
@@ -67,7 +81,8 @@ public class AIBrain : MonoBehaviour
 
     public void PerformAttack()
     {
-        attackStrategy.Attack(attackTargetGrid);
+        attackDur = 3;
+        attackStrategy.Attack(playerGrid);
     }
 
     private void OnDrawGizmos()

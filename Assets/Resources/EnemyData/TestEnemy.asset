@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 028e20d9ac27cf740996d2ceaf1f03be, type: 3}
   m_Name: TestEnemy
   m_EditorClassIdentifier: 
-  angleOfRange: 0
-  distanceOfRange: 0
-  innerSphereRadius: 0
+  angleOfRange: 120
+  distanceOfRange: 30
+  innerSphereRadius: 10
+  attackType: 0
+  attackPrefab: {fileID: 393574178736082098, guid: 8e633903a7d16f9459d64cced88583d8,
+    type: 3}
+  dashSpeed: 0
