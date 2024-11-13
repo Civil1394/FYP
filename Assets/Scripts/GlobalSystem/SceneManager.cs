@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SceneManager : MonoBehaviour 
+namespace FYP
 {
+	public class SceneManager : MonoBehaviour 
+	{
 	
+	}
 }

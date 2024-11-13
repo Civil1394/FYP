@@ -15,6 +15,8 @@ public class EffectData : ScriptableObject
 	{
 		if (effectType == 0)
 		{
+			GameObject bullet =Instantiate(new GameObject("Bullet"));
+			bullet.AddComponent<Bullet>();
 			Debug.Log(desc);
 		}
 	}
@@ -22,5 +24,5 @@ public class EffectData : ScriptableObject
 
 public enum EffectType
 {
-	Attack = 0
+	Projectile = 0
 }

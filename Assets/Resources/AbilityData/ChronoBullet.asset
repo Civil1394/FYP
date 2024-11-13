@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 1
   title: Chrono Bullet
   initCost: 0
-  desc: "Deals damage = how much sand is left in the hourglass when fired. \nSame
-    as last suit-> instant damage\n"
-  trigger: 0
-  target: 0
+  desc: 'Shoot A Bullet
+
+'
+  trigger: 2
+  target: 1
   effects:
   - {fileID: 11400000, guid: 993922c4027137e44b8254f3f2f17c06, type: 2}
   status: []

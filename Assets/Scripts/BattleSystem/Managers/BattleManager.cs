@@ -7,7 +7,10 @@ using Unity.Mathematics;
 
 public class BattleManager : Singleton<BattleManager>
 {
-	[Header("Player-related ref")] public AbilityDatabase AbilityDatabase;
+	[Header("Player-related ref")] 
+	[SerializeField] private int playerHealth = 10;
+	private Player playerInstance;
+	public AbilityDatabase AbilityDatabase;
 	[SerializeField] private GameObject playerPrefab;
 	[SerializeField] private Vector2Int playerSpawnCoord;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
@@ -74,16 +77,20 @@ public class BattleManager : Singleton<BattleManager>
 	
 	private void InitPlayer()
 	{
+		//Spawn player at random empty cell
 		HexCellComponent cell = hexgrid.GetCellInCoord(new Vector3Int(playerSpawnCoord.x, 0, playerSpawnCoord.y));
 		if (cell.CellData.CellType == CellType.Empty)
 		{
 			GameObject newInstance = 
 				Instantiate(playerPrefab, new Vector3(cell.transform.position.x,playerPrefab.transform.position.y,cell.transform.position.z)
 					, quaternion.identity);
-			playerCamera.Follow = newInstance.transform;
-			//newInstance.currentCoord = cell.CellData.Coordinates;
 			cell.CellData.SetType(CellType.Player);
+			
 			inputHandler = newInstance.GetComponent<InputHandler>();
+			playerInstance = newInstance.GetComponent<Player>();
+			
+			playerCamera.Follow = newInstance.transform;
+			playerInstance.SetHealth(playerHealth);
 		}
 		else
 		{

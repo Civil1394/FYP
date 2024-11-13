@@ -54,10 +54,14 @@ public class AbilityData : ScriptableObject
 
 public enum AbilityTriggerTiming
 {
-	
+	OnTurnStart,
+	OnTurnEnd,
+	OnCardPlayed,
 }
 
 public enum AbilityTarget
 {
-	
+	Player,
+	Enemy,
+	Environment
 }
