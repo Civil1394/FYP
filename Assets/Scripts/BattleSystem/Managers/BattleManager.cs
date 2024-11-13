@@ -181,7 +181,14 @@ public class BattleManager : Singleton<BattleManager>
 		}
 	}
 
+	#region ObjectCoordAPI
 
+	public HexCellComponent GetPlayerCell()
+	{
+		return hexgrid.GetCellByType(CellType.Player);
+	}
+
+	#endregion
 }
 
 
