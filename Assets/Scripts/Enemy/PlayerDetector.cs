@@ -27,8 +27,7 @@ public class PlayerDetector : MonoBehaviour
             playerGrid = null;
             return false;
         }
-        playerGrid = BattleManager.Instance.hexgrid.GetCellInCoord(new Vector3Int(18, 0, 8));//should be player hex component here
-        //print(playerGrid.CellData.CellType.ToString());
+        playerGrid = BattleManager.Instance.GetPlayerCell();
         return true;
     }
     public bool CheckLineOfSight(Vector3 dirToPlayer)

@@ -15,7 +15,7 @@ public class AIBrain : MonoBehaviour
     public List<HexCell> gPath;
     public Color mColor;
     private IAttack attackStrategy;
-    public int attackDur = 3;
+    private int attackDur = 6;
     public bool isAttacking = false;
     private void Start()
     {
@@ -28,9 +28,16 @@ public class AIBrain : MonoBehaviour
         var wanderState = new GridEnemyWander(this, null, 10);
         var chaseState = new GridEnemyChase(this, null);
         var attackState = new GridEnemyAttack(this, null);
-        stateMachine.AddTransition(chaseState, wanderState, new FuncPredicate(() => !playerDetector.CanDetectPlayer(out playerGrid)));
+        stateMachine.AddTransition(chaseState, wanderState, new FuncPredicate(() =>
+        !playerDetector.CanDetectPlayer(out playerGrid)&&
+        chaseState.HasReachedDestination()));
         stateMachine.AddTransition(wanderState, chaseState, new FuncPredicate(() => playerDetector.CanDetectPlayer(out playerGrid)));
-        stateMachine.AddTransition(chaseState, attackState, new FuncPredicate(() => Vector3.Distance(transform.position, playerGrid.transform.position)<20&&attackDur<=0));
+
+        stateMachine.AddTransition(chaseState, attackState, new FuncPredicate(() => 
+        playerDetector.CanDetectPlayer(out playerGrid)&&
+        Vector3.Distance(transform.position, playerGrid.transform.position)<20&&
+        attackDur<=0));
+
         stateMachine.AddTransition(attackState, chaseState, new FuncPredicate(() => !isAttacking));
         stateMachine.SetState(wanderState);
 
@@ -46,6 +53,7 @@ public class AIBrain : MonoBehaviour
         stateMachine.OnTurnStart();
         RememberPlayer();
         attackDur--;
+        print(attackDur);
     }
     private void InitializeAttackStrategy()
     {
@@ -81,7 +89,7 @@ public class AIBrain : MonoBehaviour
 
     public void PerformAttack()
     {
-        attackDur = 3;
+        attackDur = 6;
         attackStrategy.Attack(playerGrid);
     }
 

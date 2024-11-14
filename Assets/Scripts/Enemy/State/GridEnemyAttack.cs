@@ -7,8 +7,8 @@ public class GridEnemyAttack : EnemyBaseState
     }
     public override void OnEnter()
     {
-        enemyBrain.PerformAttack();
-        Debug.Log("Attacked");
+        enemyBrain.isAttacking = true;
+        enemyBrain.transform.LookAt(enemyBrain.playerGrid.transform.position);
     }
     public override void OnExit()
     {
@@ -24,6 +24,7 @@ public class GridEnemyAttack : EnemyBaseState
     }
     public override void TurnAction()
     {
-        if (enemyBrain.isAttacking) return;
+        enemyBrain.PerformAttack();
+        if (enemyBrain.isAttacking) enemyBrain.isAttacking = false;
     }
 }

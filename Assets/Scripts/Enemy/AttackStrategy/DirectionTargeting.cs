@@ -14,7 +14,11 @@ public class DirectionTargeting : IAttack
     public void Attack(HexCellComponent target)
     {
         GameObject projectile = GameObject.Instantiate(projectilePrefab, enemy.position, Quaternion.identity);
-        projectile.GetComponent<DirectionProjectileBehaviour>().Init(target.transform.position);
+        Debug.Log(target.CellData.Coordinates);
+        //projectile.transform.DOMove(target.transform.position, 1);
+        Vector3 tempDir = target.transform.position-projectile.transform.position;
+        tempDir.Normalize();
+        projectile.GetComponent<DirectionProjectileBehaviour>().Init(tempDir);
 
         // Add projectile movement logic towards target here
     }

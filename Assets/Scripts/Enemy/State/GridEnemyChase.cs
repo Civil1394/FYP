@@ -47,7 +47,7 @@ public class GridEnemyChase : EnemyBaseState
             enemyBrain.Move(path[++pathProgress]);
         }
     }
-    bool HasReachedDestination()
+    public bool HasReachedDestination()
     {
         return pathProgress >= path.Count - 1;
     }

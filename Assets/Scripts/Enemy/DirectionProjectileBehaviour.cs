@@ -3,8 +3,10 @@ using DG.Tweening;
 
 public class DirectionProjectileBehaviour : MonoBehaviour 
 {
-    public void Init(Vector3 targetPos)
+    int distance = 20;
+    public void Init(Vector3 dir)
     {
-        transform.DOMove(targetPos, 2);
+        Debug.DrawLine(transform.position, dir * distance + transform.position, Color.red,1);
+        transform.DOMove(dir * distance+transform.position, 2);
     }
 }
