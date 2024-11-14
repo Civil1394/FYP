@@ -18,19 +18,11 @@ MonoBehaviour:
   desc: 'Shoot A Bullet
 
 '
-  trigger: 2
+  triggerTiming: 0
   target: 1
   effects:
-  - {fileID: 11400000, guid: 993922c4027137e44b8254f3f2f17c06, type: 2}
+  - {fileID: 11400000, guid: c036565e5a402fd45b17c88e93f393c5, type: 2}
   status: []
-  value: 0
-  duration: 0
   chain_abilities: []
-  mana_cost: 0
-  exhaust: 0
-  board_fx: {fileID: 0}
-  caster_fx: {fileID: 0}
-  target_fx: {fileID: 0}
   cast_audio: {fileID: 0}
-  target_audio: {fileID: 0}
   charge_target: 0

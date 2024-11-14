@@ -9,7 +9,7 @@ public class BattleManager : Singleton<BattleManager>
 {
 	[Header("Player-related ref")] 
 	[SerializeField] private int playerHealth = 10;
-	private Player playerInstance;
+	public Player playerInstance {  get; private set; }
 	public AbilityDatabase AbilityDatabase;
 	[SerializeField] private GameObject playerPrefab;
 	[SerializeField] private Vector2Int playerSpawnCoord;
@@ -29,13 +29,14 @@ public class BattleManager : Singleton<BattleManager>
 	{
 		get => _turnManager;
 		private set => _turnManager = value;
+		
 	}
 	public ChainManager chainManager { get; private set; }
 	[SerializeField] private bool actionExecuted = false;
 	protected override void Awake()
 	{
 		base.Awake();
-		_turnManager = new TurnManager();
+		if(_turnManager == null) _turnManager = new TurnManager();
 	}
 
 	private void Start()

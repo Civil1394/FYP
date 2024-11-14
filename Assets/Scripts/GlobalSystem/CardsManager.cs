@@ -20,7 +20,6 @@ public class CardsManager : Singleton<CardsManager>
     public Action<Card> OnCardDrawn;
     public Action<Card> OnCardPlayed;
     public Action<Card> OnCardDiscarded;
-    private TurnManager turnManager;
     private void Awake()
     {
         
@@ -29,7 +28,7 @@ public class CardsManager : Singleton<CardsManager>
 
     private void Start()
     {
-        if (turnManager == null) turnManager = BattleManager.Instance.turnManager;
+        
     }
 
     public void AddCardToDeck(Card newCard)
@@ -71,8 +70,9 @@ public class CardsManager : Singleton<CardsManager>
             return (Hand, DiscardPile, null);
         }
 
-        if (!turnManager.CanExecuteAction(TurnActionType.PlayCard))
+        if (!BattleManager.Instance.turnManager.CanExecuteAction(TurnActionType.PlayCard))
         {
+            if(BattleManager.Instance.turnManager == null)Debug.Log("Turn Manager is null");
             return (Hand, DiscardPile, null);
         }
             
@@ -83,7 +83,7 @@ public class CardsManager : Singleton<CardsManager>
         discardPile.Add(cardToPlay);
         
         ChainManager.Instance.RecordSuit(cardToPlay.Suit);
-        turnManager.ExecuteAction(TurnActionType.PlayCard,
+        BattleManager.Instance.turnManager.ExecuteAction(TurnActionType.PlayCard,
             $"Played Card {cardToPlay.Name}");
         return (Hand, DiscardPile, cardToPlay);
         

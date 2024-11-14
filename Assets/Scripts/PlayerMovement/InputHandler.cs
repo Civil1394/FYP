@@ -2,15 +2,14 @@ using System;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
+
 public class InputHandler : MonoBehaviour
 {
 	private GameObject lastPointedObject;
 	public GenericAction OnClick = new GenericAction();
-	private TurnManager turnManager;
 
 	private void Start()
 	{
-		if(turnManager==null)turnManager = BattleManager.Instance.turnManager;
 	}
 	
 	private void Update()
@@ -29,11 +28,10 @@ public class InputHandler : MonoBehaviour
 
 	private void DrawCardController()
 	{
-
 		AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			if (!turnManager.CanExecuteAction(TurnActionType.DrawCard))
+			if (!BattleManager.Instance.turnManager.CanExecuteAction(TurnActionType.DrawCard))
 				return;
 			if (CardsManager.Instance.Hand.Count < 3)
 			{
@@ -44,7 +42,7 @@ public class InputHandler : MonoBehaviour
 			var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
 			if (drawnCard != null)
 			{
-				turnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: {drawnCard.Name}");
+				BattleManager.Instance.turnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: {drawnCard.Name}");
 				Debug.Log($"Drew card: {drawnCard.Name}");
 			}
 			else
@@ -59,8 +57,7 @@ public class InputHandler : MonoBehaviour
 		AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			
-			if (!turnManager.CanExecuteAction(TurnActionType.DrawCard)) 
+			if (!BattleManager.Instance.turnManager.CanExecuteAction(TurnActionType.DrawCard)) 
 				return;
 
 			CardsManager.Instance.RedrawCards();
@@ -73,10 +70,10 @@ public class InputHandler : MonoBehaviour
 				var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
 			}
 			
-			turnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: redraw");
-				
+			BattleManager.Instance.turnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: redraw");
 		}
 	}
+	
 	private GameObject GetMousePointedGameObject()
 	{
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -96,6 +93,7 @@ public class InputHandler : MonoBehaviour
 		}
 		return null;
 	}
+	
 	void GetPointerEnterExist()
 	{
 		GameObject pointedObject = GetMousePointedGameObject();
@@ -115,7 +113,6 @@ public class InputHandler : MonoBehaviour
 				//Debug.Log("Started pointing at: " + pointedObject.name);
 				// Add logic for when mouse enters an object
 				//pointedObject.GetComponent<HexCellComponent>().ChangeCellColor(true);
-				
 			}
 
 			lastPointedObject = pointedObject;
