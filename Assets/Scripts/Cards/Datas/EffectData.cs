@@ -1,6 +1,7 @@
 using System; 
 using UnityEngine; 
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine.UIElements;
 
 [CreateAssetMenu(fileName = "EffectData", menuName = "Effect/EffectData")]
@@ -37,19 +38,20 @@ public class EffectData : ScriptableObject
         if (parameters is ProjectileParameters projectileParams)
         {
             // Get the player's forward direction
-            Vector3 playerForward = BattleManager.Instance.playerInstance.transform.forward.normalized;
+            HexDirection playerForward = BattleManager.Instance.playerInstance.FacingHexDirection;
         
             // Get spawn position
-            Vector3 spawnPosition = BattleManager.Instance.GetPlayerCell().transform.position;
+            HexCellComponent spawnCell = BattleManager.Instance.GetPlayerCell();
         
             // Create rotation that faces the player's direction but maintains -90 on Y
-            Quaternion spawnRotation = Quaternion.LookRotation(playerForward) * Quaternion.Euler(0, -90, 0);
+            //Quaternion spawnRotation = Quaternion.LookRotation(playerForward) * Quaternion.Euler(0, -90, 0);
         
-            GameObject bullet = Instantiate(Object_fx, spawnPosition, spawnRotation);
+            GameObject bullet = Instantiate(Object_fx, spawnCell.transform.position,quaternion.identity);
             var bulletComponent = bullet.AddComponent<Bullet>();
             bulletComponent.Initialize(
                 projectileParams.damage,
                 projectileParams.speed,
+                spawnCell.CellData.Coordinates,
                 playerForward, // Use player's forward direction instead of passed direction
                 projectileParams.lifeTime
             );

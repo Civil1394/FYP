@@ -66,6 +66,22 @@ public class HexGrid
         return cellsInRange.ToArray();
     }
 
+    public HexCellComponent GetCellByDirection(HexCellComponent pivotCell, HexDirection direction)
+    {
+        return cells.TryGetValue(pivotCell.CellData.GetNeighbor(direction).Coordinates, out HexCellComponent neighbor) ? neighbor : null;
+    }
+
+    public HexDirection CheckNeigborCellDirection(HexCellComponent pivotCell, HexCellComponent neigborCell)
+    {
+        for (int i = 0; i < pivotCell.CellData.Neighbors.Length; i++)
+        {
+            if (pivotCell.CellData.Neighbors[i] == neigborCell.CellData)
+            {
+                return (HexDirection)i;
+            }
+
+        }return HexDirection.NONE;
+    }
     public HexCellComponent[] GetCellsInRangeByType(HexCellComponent pivotCell, int range, CellType cellType)
     {
         return GetCellsInRange(pivotCell, range)
@@ -171,3 +187,4 @@ public class HexGrid
     }
     
 }
+

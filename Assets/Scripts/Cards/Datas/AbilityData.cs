@@ -35,6 +35,7 @@ public class AbilityData : ScriptableObject
 		foreach (var effect in effects)
 		{
 			effect.ApplyEffect(BattleManager.Instance.GetPlayerCell().CellData.Coordinates);
+			Debug.Log(BattleManager.Instance.GetPlayerCell().transform.position);
 		}
 	}
 	
