@@ -19,7 +19,7 @@ public abstract class ProjectileBehavior : MonoBehaviour
 
     public virtual void UpdateBehavior(Vector3Int standingPos)
     {
-        Debug.Log("Bullet Move!");
+        this.standingPos = standingPos;
     }
 }
 
@@ -32,18 +32,19 @@ public class BaseBehavior : ProjectileBehavior
         base.UpdateBehavior(standingPos);
         HexCellComponent standingCell = BattleManager.Instance.hexgrid.GetCellInCoord(standingPos);
         HexCellComponent nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
-        
-        if(nextCellToMove.CellData.CellType != CellType.Invalid || nextCellToMove != null)
-        {
-            
-            this.transform.DOMove(nextCellToMove.transform.position, 1f);
-            bullet.StandingPos = nextCellToMove.CellData.Coordinates;
-        }
-        else
+
+        if (!nextCellToMove)
         {
             bullet.SelfDestroy();
             return;
         }
-        
+        if(nextCellToMove.CellData.CellType == CellType.Invalid)
+        {
+            bullet.SelfDestroy();
+            return;
+            
+        }
+        this.transform.DOMove(nextCellToMove.transform.position, BattleManager.Instance.InitTurnDur);
+        bullet.StandingPos = nextCellToMove.CellData.Coordinates;
     }
 }

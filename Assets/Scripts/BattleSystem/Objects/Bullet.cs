@@ -1,5 +1,3 @@
-// Bullet.cs
-
 using System;
 using UnityEngine;
 using System.Collections.Generic;
@@ -9,7 +7,7 @@ public class Bullet : MonoBehaviour
     public int Damage { get; private set; }
     public float Speed { get; private set; }
     public Vector3Int StandingPos;
-    public HexDirection TargetDirection { get; set; } 
+    public HexDirection TargetDirection { get; set; }
     public float LifeTime { get; private set; }
     public float InitialLifeTime { get; private set; }
     public bool IsAlive { get; private set; }

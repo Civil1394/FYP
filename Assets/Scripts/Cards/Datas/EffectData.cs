@@ -55,7 +55,6 @@ public class EffectData : ScriptableObject
                 playerForward, // Use player's forward direction instead of passed direction
                 projectileParams.lifeTime
             );
-            bulletComponent.Launch();
         }
         else
         {

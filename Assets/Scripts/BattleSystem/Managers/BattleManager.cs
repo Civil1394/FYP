@@ -19,7 +19,11 @@ public class BattleManager : Singleton<BattleManager>
 
 	[Header("Turn Related Ref")]
 	[SerializeField] private float initTurnDur = 0.5f;
-	
+
+	public float InitTurnDur
+	{
+		get => initTurnDur;
+	}
 	public bool IsBattleStarted = false;
 	public GenericAction OnTurnStart = new GenericAction();
 	public Action<HexCellComponent> OnPlayerMove;

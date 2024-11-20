@@ -66,8 +66,16 @@ public class HexGrid
         return cellsInRange.ToArray();
     }
 
+    #region Direction Concered Helpers
+
     public HexCellComponent GetCellByDirection(HexCellComponent pivotCell, HexDirection direction)
     {
+        if (pivotCell.CellData.GetNeighbor(direction) == null)
+        {
+            Debug.Log("noshit");
+            return null;
+        }
+            
         return cells.TryGetValue(pivotCell.CellData.GetNeighbor(direction).Coordinates, out HexCellComponent neighbor) ? neighbor : null;
     }
 
@@ -82,6 +90,9 @@ public class HexGrid
 
         }return HexDirection.NONE;
     }
+
+    #endregion
+   
     public HexCellComponent[] GetCellsInRangeByType(HexCellComponent pivotCell, int range, CellType cellType)
     {
         return GetCellsInRange(pivotCell, range)
