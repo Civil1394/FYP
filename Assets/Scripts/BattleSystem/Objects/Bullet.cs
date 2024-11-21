@@ -43,7 +43,7 @@ public class Bullet : MonoBehaviour
        
     }
     //init behaviors
-    public void AddBehavior<T>() where T : ProjectileBehavior
+    private void AddBehavior<T>() where T : ProjectileBehavior
     {
         var newBehavior = gameObject.AddComponent<T>();
         newBehavior.Initialize(this, StandingPos, TargetDirection, Speed);
@@ -51,8 +51,8 @@ public class Bullet : MonoBehaviour
     }
 
 
-    //Activate the bahaviors for the projectile
-    public void Launch()
+    //Activate the behaviors for the projectile
+    private void Launch() 
     {
         if (!IsAlive) return;
 
@@ -66,7 +66,7 @@ public class Bullet : MonoBehaviour
 
     }
 
-    public void CheckLifeTime()
+    private void CheckLifeTime()
     {
         if (LifeTime <= 0)
         {

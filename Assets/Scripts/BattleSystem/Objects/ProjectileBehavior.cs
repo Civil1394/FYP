@@ -31,19 +31,26 @@ public class BaseBehavior : ProjectileBehavior
     {
         base.UpdateBehavior(standingPos);
         HexCellComponent standingCell = BattleManager.Instance.hexgrid.GetCellInCoord(standingPos);
-        HexCellComponent nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
+        HexCellComponent nextCellToMove = new HexCellComponent();
+        for (int i = 0; i < speed; i++)
+        {
+            nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
 
-        if (!nextCellToMove)
-        {
-            bullet.SelfDestroy();
-            return;
-        }
-        if(nextCellToMove.CellData.CellType == CellType.Invalid)
-        {
-            bullet.SelfDestroy();
-            return;
+            if (!nextCellToMove)
+            {
+                bullet.SelfDestroy();
+                return;
+            }
+            if(nextCellToMove.CellData.CellType == CellType.Invalid)
+            {
+                bullet.SelfDestroy();
+                return;
             
+            }
+            
+            standingCell = nextCellToMove;
         }
+        
         this.transform.DOMove(nextCellToMove.transform.position, BattleManager.Instance.InitTurnDur);
         bullet.StandingPos = nextCellToMove.CellData.Coordinates;
     }
