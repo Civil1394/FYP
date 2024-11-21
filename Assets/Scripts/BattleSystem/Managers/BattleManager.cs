@@ -9,31 +9,46 @@ public class BattleManager : Singleton<BattleManager>
 {
 	[Header("Player-related ref")] 
 	[SerializeField] private int playerHealth = 10;
-	public Player playerInstance {  get; private set; }
+	public Player PlayerInstance {  get; private set; }
 	public AbilityDatabase AbilityDatabase;
 	[SerializeField] private GameObject playerPrefab;
 	[SerializeField] private Vector2Int playerSpawnCoord;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
-	[SerializeField] private InputHandler inputHandler;
 	public HexGrid hexgrid = new HexGrid();
 
 	[Header("Turn Related Ref")]
 	[SerializeField] private float initTurnDur = 0.5f;
-
 	public float InitTurnDur
 	{
 		get => initTurnDur;
 	}
+	[Header("HandCard Related Ref")] 
+	[SerializeField] private int handCardsSize = 2;
+	
 	public bool IsBattleStarted = false;
 	public GenericAction OnTurnStart = new GenericAction();
 	public Action<HexCellComponent> OnPlayerMove;
-
-	private TurnManager _turnManager;
-	public TurnManager turnManager
+	
+	[Header("Scripts Related Ref")]
+	[SerializeField] TurnManager _turnManager;
+	public TurnManager TurnManager
 	{
 		get => _turnManager;
 		private set => _turnManager = value;
 		
+	}
+
+	[SerializeField] private InputHandler _inputHandler;
+	public InputHandler InputHandler
+	{
+		get => _inputHandler;
+		private set => _inputHandler = value;
+	}
+	[SerializeField] private CastingHandler _castingHandler;
+	public CastingHandler CastingHandler
+	{
+		get => _castingHandler;
+		private set => _castingHandler = value;
 	}
 	public ChainManager chainManager { get; private set; }
 	[SerializeField] private bool actionExecuted = false;
@@ -56,8 +71,8 @@ public class BattleManager : Singleton<BattleManager>
 			Debug.LogError("AbilityDatabase is not assigned to BattleManager!");
 			return;
 		}
-
-		for (int i = 0; i < 3; i++)
+		//Add cards to hand at start of combat
+		for (int i = 0; i < handCardsSize; i++)
 		{
 			Card testCard = CardFactory.Instance.CreateCardFromList(AbilityDatabase, "1",
 				AbilityDatabase.GetRandomAbilityFromList("1").id);
@@ -68,14 +83,16 @@ public class BattleManager : Singleton<BattleManager>
 		
 		//InitPlayer
 		InitPlayer();
-		inputHandler.OnClick.AddListener<HexCellComponent>(onPlayerMove);
+		//InitInteraction
+		//inputHandler = GetComponent<InputHandler>();
+		_inputHandler.OnMoveClick.AddListener<HexCellComponent>(onPlayerMove);
 		
 		//InitEnemies
 		EnemyManager.Instance.InitEnemies();
 		
 		//InitTurn
 		
-		turnManager.OnActionExecuted += HandleActionExecuted;
+		TurnManager.OnActionExecuted += HandleActionExecuted;
 		IsBattleStarted = true;
 		StartCoroutine(_TurnBaseCoroutine());
 	}
@@ -91,11 +108,11 @@ public class BattleManager : Singleton<BattleManager>
 					, quaternion.identity);
 			cell.CellData.SetType(CellType.Player);
 			
-			inputHandler = newInstance.GetComponent<InputHandler>();
-			playerInstance = newInstance.GetComponent<Player>();
+			//inputHandler = newInstance.GetComponent<InputHandler>();
+			PlayerInstance = newInstance.GetComponent<Player>();
 			
 			playerCamera.Follow = newInstance.transform;
-			playerInstance.SetHealth(playerHealth);
+			PlayerInstance.SetHealth(playerHealth);
 		}
 		else
 		{
@@ -115,7 +132,7 @@ public class BattleManager : Singleton<BattleManager>
 	
 	private void onPlayerMove(HexCellComponent targetCell)
 	{
-		if (!turnManager.CanExecuteAction(TurnActionType.Move))
+		if (!TurnManager.CanExecuteAction(TurnActionType.Move))
 			return;
 
 		HexCellComponent playerCell = hexgrid.GetCellByType(CellType.Player);
@@ -139,7 +156,7 @@ public class BattleManager : Singleton<BattleManager>
 				}
 			}
 
-			turnManager.ExecuteAction(TurnActionType.Move,
+			TurnManager.ExecuteAction(TurnActionType.Move,
 				$"Moved from {playerCell.CellData.Coordinates} to {targetCell.CellData.Coordinates}");
 		}
 	}
@@ -156,7 +173,7 @@ public class BattleManager : Singleton<BattleManager>
 		while (IsBattleStarted)
 		{
 			Debug.Log("New Turn Started");
-			turnManager.StartNewTurn();
+			TurnManager.StartNewTurn();
         
 			float remainingTime = initTurnDur;
 			actionExecuted = false;
@@ -171,10 +188,11 @@ public class BattleManager : Singleton<BattleManager>
 				remainingTime -= Time.deltaTime;
 				yield return null;
 			}
-
+			
+			//Add cards to hand at start of turn
 			if (CardsManager.Instance.Hand.Count == 0)
 			{
-				for (int i = 0; i < 3; i++)
+				for (int i = 0; i < handCardsSize; i++)
 				{
 					Card testCard = CardFactory.Instance.CreateCardFromList(AbilityDatabase, "1",
 						AbilityDatabase.GetRandomAbilityFromList("1").id);
@@ -182,7 +200,8 @@ public class BattleManager : Singleton<BattleManager>
 					var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
 				}
 			}
-			turnManager.EndTurn();
+			TurnManager.EndTurn();
+			yield return new WaitForSeconds(0.2f);
 		}
 	}
 

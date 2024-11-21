@@ -6,8 +6,9 @@ using UnityEngine.EventSystems;
 public class InputHandler : MonoBehaviour
 {
 	private GameObject lastPointedObject;
-	public GenericAction OnClick = new GenericAction();
-
+	public GenericAction OnMoveClick = new GenericAction();
+	public Action<HexCellComponent> OnCastClick;
+	public InputState inputState = InputState.Move;
 	private void Start()
 	{
 	}
@@ -18,12 +19,23 @@ public class InputHandler : MonoBehaviour
 		GetPointerDown();
 		//DrawCardController();
 		RedrawCardsController();
+		PlayCardController();
+		
 	}
 	
 	private void PlayCardController()
 	{
-	
+		if (Input.GetKeyDown(KeyCode.Q))
+		{
+			if (CardsManager.Instance.Hand[0] != null)
+				CardsManager.Instance.PlayCard(CardsManager.Instance.Hand[0]);
+		}
 		
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			if(CardsManager.Instance.Hand[1]!=null)
+				CardsManager.Instance.PlayCard(CardsManager.Instance.Hand[1]);
+		}
 	}
 
 	private void DrawCardController()
@@ -31,7 +43,7 @@ public class InputHandler : MonoBehaviour
 		AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			if (!BattleManager.Instance.turnManager.CanExecuteAction(TurnActionType.DrawCard))
+			if (!BattleManager.Instance.TurnManager.CanExecuteAction(TurnActionType.DrawCard))
 				return;
 			if (CardsManager.Instance.Hand.Count < 3)
 			{
@@ -42,7 +54,7 @@ public class InputHandler : MonoBehaviour
 			var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
 			if (drawnCard != null)
 			{
-				BattleManager.Instance.turnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: {drawnCard.Name}");
+				BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: {drawnCard.Name}");
 				Debug.Log($"Drew card: {drawnCard.Name}");
 			}
 			else
@@ -57,12 +69,12 @@ public class InputHandler : MonoBehaviour
 		AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			if (!BattleManager.Instance.turnManager.CanExecuteAction(TurnActionType.DrawCard)) 
+			if (!BattleManager.Instance.TurnManager.CanExecuteAction(TurnActionType.DrawCard)) 
 				return;
 
 			CardsManager.Instance.RedrawCards();
 			
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 2; i++)
 			{
 				Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase, "1",
 					abilityDatabase.GetRandomAbilityFromList("1").id);
@@ -70,7 +82,7 @@ public class InputHandler : MonoBehaviour
 				var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
 			}
 			
-			BattleManager.Instance.turnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: redraw");
+			BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: redraw");
 		}
 	}
 	
@@ -124,7 +136,25 @@ public class InputHandler : MonoBehaviour
 		GameObject pointedObject = GetMousePointedGameObject();
 		if (Input.GetKeyDown(KeyCode.Mouse0) && pointedObject)
 		{
-			OnClick.Invoke(pointedObject.GetComponent<HexCellComponent>());
+			if(inputState == InputState.Move)
+				OnMoveClick.Invoke(pointedObject.GetComponent<HexCellComponent>());
+			if (inputState == InputState.CastingAbility)
+			{
+				OnCastClick?.Invoke(pointedObject.GetComponent<HexCellComponent>());
+				inputState = InputState.Move;
+			}
+				
 		}
 	}
+	
+	public void SetInputState(InputState newState)
+	{
+		inputState = newState;
+	}
+	
+}
+public enum InputState
+{
+	Move,
+	CastingAbility
 }

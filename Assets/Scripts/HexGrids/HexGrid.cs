@@ -72,7 +72,6 @@ public class HexGrid
     {
         if (pivotCell.CellData.GetNeighbor(direction) == null)
         {
-            Debug.Log("noshit");
             return null;
         }
             

@@ -17,8 +17,9 @@ MonoBehaviour:
   initCost: 0
   desc: 'Shoot A Bullet
 
-'
-  triggerTiming: 0
+    fly across 4 blocks a turn'
+  castTiming: 0
+  castType: 1
   target: 1
   effects:
   - {fileID: 11400000, guid: c036565e5a402fd45b17c88e93f393c5, type: 2}

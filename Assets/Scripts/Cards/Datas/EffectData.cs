@@ -17,12 +17,12 @@ public class EffectData : ScriptableObject
     // This will show different parameter objects based on the effect type
     [SerializeField] private EffectParameters parameters;
 
-    public void ApplyEffect(Vector3Int direction)
+    public void ApplyEffect(HexCellComponent directionCell)
     {
         switch (effectType)
         {
             case EffectType.Projectile:
-                TriggerProjectile(direction);
+                TriggerProjectile(directionCell);
                 break;
             case EffectType.Explosion:
                 TriggerExplosion();
@@ -33,15 +33,16 @@ public class EffectData : ScriptableObject
         }
     }
     
-    private void TriggerProjectile(Vector3 direction)
+    private void TriggerProjectile(HexCellComponent directionCell)
     {
         if (parameters is ProjectileParameters projectileParams)
         {
-            // Get the player's forward direction
-            HexDirection playerForward = BattleManager.Instance.playerInstance.FacingHexDirection;
+            HexCellComponent spawnCell = BattleManager.Instance.GetPlayerCell();
+            // Get the direction
+            HexDirection direction = BattleManager.Instance.hexgrid.CheckNeigborCellDirection(spawnCell, directionCell);
         
             // Get spawn position
-            HexCellComponent spawnCell = BattleManager.Instance.GetPlayerCell();
+            
         
             // Create rotation that faces the player's direction but maintains -90 on Y
             //Quaternion spawnRotation = Quaternion.LookRotation(playerForward) * Quaternion.Euler(0, -90, 0);
@@ -52,7 +53,7 @@ public class EffectData : ScriptableObject
                 projectileParams.damage,
                 projectileParams.speed,
                 spawnCell.CellData.Coordinates,
-                playerForward, // Use player's forward direction instead of passed direction
+                direction,
                 projectileParams.lifeTime
             );
         }

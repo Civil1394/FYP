@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using DG.Tweening;
 
 public class Bullet : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class Bullet : MonoBehaviour
             targetRotation = Quaternion.LookRotation(faceDirection) * Quaternion.Euler(0, -90, 0);
             transform.rotation = targetRotation;
             AddBehavior<BaseBehavior>();
-            BattleManager.Instance.turnManager.OnTurnStart += Launch;
+            BattleManager.Instance.TurnManager.OnTurnStart += Launch;
         }
         else
         {
@@ -55,7 +56,6 @@ public class Bullet : MonoBehaviour
     private void Launch() 
     {
         if (!IsAlive) return;
-
         // Update all behaviors
         foreach (var behavior in behaviors)
         {
@@ -82,6 +82,6 @@ public class Bullet : MonoBehaviour
 
     private void OnDestroy()
     {
-        BattleManager.Instance.turnManager.OnTurnStart -= Launch;
+        BattleManager.Instance.TurnManager.OnTurnStart -= Launch;
     }
 }

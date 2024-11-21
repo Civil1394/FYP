@@ -29,8 +29,10 @@ public class Card : ICard
         Cost = abilityData.initCost;
     }
 
-    public void TriggerCard()
+    public void Cast()
     {
-        AbilityData.TriggerAbility();
+        BattleManager.Instance.CastingHandler.HandleCast(this.AbilityData);
+
     }
+    
 }

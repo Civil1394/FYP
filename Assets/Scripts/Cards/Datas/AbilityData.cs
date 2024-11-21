@@ -13,8 +13,8 @@ public class AbilityData : ScriptableObject
 	public string desc;
 	
 	[Header("Trigger")]
-	public AbilityTriggerTiming triggerTiming;             //WHEN does the ability trigger?
-
+	public AbilityCastTiming castTiming;             //WHEN does the ability trigger?
+	public AbilityCastType castType;             //How the ability is cast?
 	[Header("Target")]
 	public AbilityTarget target;               //WHO is targeted?
 
@@ -32,23 +32,40 @@ public class AbilityData : ScriptableObject
 
 	public void TriggerAbility()
 	{
-		foreach (var effect in effects)
-		{
-			effect.ApplyEffect(BattleManager.Instance.GetPlayerCell().CellData.Coordinates);
-			Debug.Log(BattleManager.Instance.GetPlayerCell().transform.position);
-		}
+	// 	switch(castType):
+	//
+	// 		case AbilityCastType.Direction_targeted:
+	// 			
+	// 			break;
+	//
+	//
+	// 	}
+	// }
+	// 	foreach (var effect in effects)
+	// 	{
+	// 		effect.ApplyEffect(BattleManager.Instance.GetPlayerCell().CellData.Coordinates);
+	// 		Debug.Log(BattleManager.Instance.GetPlayerCell().transform.position);
+	// 	}
 	}
 	
 
 }
 
-public enum AbilityTriggerTiming
+public enum AbilityCastTiming
 {
 	OnTurnStart,
 	OnTurnEnd,
 	OnCardPlayed,
 }
 
+public enum AbilityCastType
+{
+	Auto_targeted,
+	Direction_targeted,
+	Location_targeted,
+	Unit_targeted,
+	Self_cast,
+}
 public enum AbilityTarget
 {
 	Player,

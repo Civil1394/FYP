@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public enum TurnActionType
@@ -36,13 +37,11 @@ public class TurnManager : SingletonBase<TurnManager>
     public event Action OnTurnStart;
     public event Action OnTurnEnd;
     public event Action<TurnAction> OnActionExecuted;
-
     public void StartNewTurn()
     {
         currentTurnAction = null;
         OnTurnStart?.Invoke();
     }
-
     public bool CanExecuteAction(TurnActionType actionType)
     {
         return !IsActionExecutedThisTurn;
@@ -64,5 +63,6 @@ public class TurnManager : SingletonBase<TurnManager>
     public void EndTurn()
     {
         OnTurnEnd?.Invoke();
+        
     }
 }

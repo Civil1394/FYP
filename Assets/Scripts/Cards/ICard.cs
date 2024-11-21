@@ -10,6 +10,7 @@ public interface ICard
 
 	void SetSuit(Suit suit);
 	void SetAbilityData(AbilityData abilityData);
+	void Cast();
 
 }
 	

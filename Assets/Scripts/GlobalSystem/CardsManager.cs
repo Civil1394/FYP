@@ -70,21 +70,20 @@ public class CardsManager : Singleton<CardsManager>
             return (Hand, DiscardPile, null);
         }
 
-        if (!BattleManager.Instance.turnManager.CanExecuteAction(TurnActionType.PlayCard))
+        if (!BattleManager.Instance.TurnManager.CanExecuteAction(TurnActionType.PlayCard))
         {
-            if(BattleManager.Instance.turnManager == null)Debug.Log("Turn Manager is null");
+            if(BattleManager.Instance.TurnManager == null)Debug.Log("Turn Manager is null");
             return (Hand, DiscardPile, null);
         }
             
         
-        cardToPlay.TriggerCard();
+        cardToPlay.Cast();
         hand.Remove(cardToPlay);
         OnCardPlayed.Invoke(cardToPlay);
         discardPile.Add(cardToPlay);
         
         ChainManager.Instance.RecordSuit(cardToPlay.Suit);
-        BattleManager.Instance.turnManager.ExecuteAction(TurnActionType.PlayCard,
-            $"Played Card {cardToPlay.Name}");
+       //BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.PlayCard,$"Played Card {cardToPlay.Name}");
         return (Hand, DiscardPile, cardToPlay);
         
     }

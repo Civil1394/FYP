@@ -4,11 +4,12 @@ using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class HandCardUIProduct : MonoBehaviour,IPointerClickHandler
+public class HandCardUIProduct : MonoBehaviour
 {
 	[SerializeField] private TMP_Text cost;
 	[SerializeField] private TMP_Text title;
 	[SerializeField] private TMP_Text desc;
+	[SerializeField] private Image highlight;
 	[SerializeField] private Image suit;
 	[Header("Suit Ref")] 
 	[SerializeField] private Sprite time;
@@ -36,9 +37,5 @@ public class HandCardUIProduct : MonoBehaviour,IPointerClickHandler
 		}
 	}
 
-
-	public void OnPointerClick(PointerEventData eventData)
-	{
-		CardsManager.Instance.PlayCard(this.cardData);
-	}
+	
 }
