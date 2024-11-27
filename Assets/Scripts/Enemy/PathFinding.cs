@@ -31,28 +31,19 @@ public class NodeComparer : IComparer<Node>
 
 public class PathFinding
 {
-    private HexCellComponent start, end;
-    private HexGrid map;
-    private bool stopOneCellEarlier;
+    public PathFinding() { }
 
-    public PathFinding(HexCellComponent start, HexCellComponent end)
+    public async Task<List<HexCell>> FindPathAsync(HexCellComponent start, HexCellComponent end)
     {
-        this.start = start;
-        this.end = end;
-        this.map = BattleManager.Instance.hexgrid;
-        this.stopOneCellEarlier = end.CellData.CellType != CellType.Empty;
+        return await Task.Run(() => FindPath(start, end));
     }
 
-    public async Task<List<HexCell>> FindPathAsync()
+    public List<HexCell> FindPath(HexCellComponent start, HexCellComponent end)
     {
-        return await Task.Run(() => FindPath());
-    }
-
-    public List<HexCell> FindPath()
-    {
+        bool stopOneCellEarlier = end.CellData.CellType != CellType.Empty;
         SortedSet<Node> openList = new SortedSet<Node>(new NodeComparer());
         HashSet<HexCell> isVisited = new HashSet<HexCell>();
-        float h = CalculateHValue(start.CellData);
+        float h = CalculateHValue(start.CellData, end);
         openList.Add(new Node(start.CellData, 0, h));
         if (end.CellData.CellType != CellType.Empty)
         {
@@ -72,7 +63,7 @@ public class PathFinding
             foreach (HexCell nextCell in currentNode.HexCell.GetAllNeighbor())
             {
                 if (nextCell == null || isVisited.Contains(nextCell) || nextCell.CellType != CellType.Empty || EnemyManager.Instance.IsCellReserved(nextCell)) continue;
-                h = CalculateHValue(nextCell);
+                h = CalculateHValue(nextCell, end);
                 openList.Add(new Node(nextCell, currentNode.Cost + 1, h, currentNode));
             }
         }
@@ -92,7 +83,7 @@ public class PathFinding
         return path;
     }
 
-    public float CalculateHValue(HexCell current)
+    public float CalculateHValue(HexCell current, HexCellComponent end)
     {
         return Vector3.Distance(current.Coordinates, end.CellData.Coordinates);
     }

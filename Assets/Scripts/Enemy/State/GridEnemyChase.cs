@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class GridEnemyChase : EnemyBaseState
 {
+    PathFinding pathFinding;
     List<HexCell> path;
-    List<Vector3> pathLine;
     int pathProgress = 0;
     bool isPlayerMoved = false;
 
-    public GridEnemyChase(AIBrain enemyBrain, Animator animator) : base(enemyBrain, animator)
+    public GridEnemyChase(AIBrain enemyBrain, Animator animator, PathFinding pathFinding) : base(enemyBrain, animator)
     {
+        this.pathFinding = pathFinding;
     }
 
     public override void OnEnter()
     {
-        pathLine = new List<Vector3>();
         RunPathfindingAsync();
         Debug.Log("start chase");
     }
@@ -35,17 +35,12 @@ public class GridEnemyChase : EnemyBaseState
     {
         if (path == null) return;
         if (path.Count <= 0) return;
-        if (HasReachedDestination())
-        {
-            RunPathfindingAsync();
-            return;
-        }
+        if (HasReachedDestination()){ RunPathfindingAsync(); return; }
+        //prevent the enemy step into other enemy or player
         if (path[pathProgress + 1].CellType != CellType.Empty) { RunPathfindingAsync(); return; }
+        //prevent two enemy step into the same cell at the same time
         if (!EnemyManager.Instance.ReserveCell(enemyBrain, path[pathProgress + 1])) { RunPathfindingAsync(); return; }
-        else
-        {
-            enemyBrain.Move(path[++pathProgress]);
-        }
+        enemyBrain.Move(path[++pathProgress]);
     }
     public bool HasReachedDestination()
     {
@@ -54,25 +49,14 @@ public class GridEnemyChase : EnemyBaseState
     private async void RunPathfindingAsync()
     {
         pathProgress = 0;
-        if (path == null)
-        {
-            path = new List<HexCell>();
-        }
-        else
-        {
-            path.Clear();
-        }
+        if (path == null) { path = new List<HexCell>(); }
+        else { path.Clear(); }
         HexCellComponent start = BattleManager.Instance.hexgrid.GetCellInCoord(enemyBrain.currentCoord);
         HexCellComponent end = enemyBrain.playerGrid ? enemyBrain.playerGrid : enemyBrain.lastSeenPlayerGrid;
         if (!end) return;
 
-        PathFinding pathFinding = new PathFinding(start, end);
-        path = await pathFinding.FindPathAsync();
+        PathFinding pathFinding = new PathFinding();
+        path = await pathFinding.FindPathAsync(start, end);
         enemyBrain.gPath = path;
-
-        //if (!EnemyManager.Instance.ReserveCell(enemyBrain, path[pathProgress]))
-        //{
-        //    path = await pathFinding.FindPathAsync();
-        //}
     }
 }

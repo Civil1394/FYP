@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class GridEnemyWander : EnemyBaseState
 {
+    PathFinding pathFinding;
     readonly float wanderRadius;
     List<HexCell> path;
-    List<Vector3> pathLine;
     int pathProgress = 0;
 
-    public GridEnemyWander(AIBrain enemyBrain, Animator animator, float wanderRadius) : base(enemyBrain, animator)
+    public GridEnemyWander(AIBrain enemyBrain, Animator animator, float wanderRadius, PathFinding pathFinding) : base(enemyBrain, animator)
     {
+        this.pathFinding = pathFinding;
         this.wanderRadius = wanderRadius;
     }
     public override void OnEnter()
     {
-        pathLine = new List<Vector3>();
         Debug.Log("start wandering");
         RunPathfindingAsync();
     }
@@ -34,18 +34,12 @@ public class GridEnemyWander : EnemyBaseState
     {
         if (path == null) return;
         if (path.Count <= 0) return;
-        if (HasReachedDestination())
-        {
-            //Debug.Log("arrived");
-            RunPathfindingAsync();
-            return;
-        }
+        if (HasReachedDestination()) { RunPathfindingAsync(); return; }
+        //prevent the enemy step into other enemy or player
         if (path[pathProgress + 1].CellType != CellType.Empty) { RunPathfindingAsync(); return; }
+        //prevent two enemy step into the same cell at the same time
         if (!EnemyManager.Instance.ReserveCell(enemyBrain, path[pathProgress + 1])) { RunPathfindingAsync(); return; }
-        else
-        {
-            enemyBrain.Move(path[++pathProgress]);
-        }
+        enemyBrain.Move(path[++pathProgress]);
     }
     bool HasReachedDestination()
     {
@@ -54,24 +48,12 @@ public class GridEnemyWander : EnemyBaseState
     private async void RunPathfindingAsync()
     {
         pathProgress = 0;
-        if (path == null)
-        {
-            path = new List<HexCell>();
-        }
-        else
-        {
-            path.Clear();
-        }
+        if (path == null) { path = new List<HexCell>(); }
+        else { path.Clear(); }
         HexCellComponent start = BattleManager.Instance.hexgrid.GetCellInCoord(enemyBrain.currentCoord);
         HexCellComponent end = GetRandomTargetPos();
-        PathFinding pathFinding = new PathFinding(start, end);
-        path = await pathFinding.FindPathAsync();
+        path = await pathFinding.FindPathAsync(start, end);
         enemyBrain.gPath = path;
-        //if(!EnemyManager.Instance.ReserveCell(enemyBrain, path[pathProgress]))
-        //{
-        //    path = await pathFinding.FindPathAsync();
-        //}
-        // Use the path (e.g., move a character along it)
     }
     private HexCellComponent GetRandomTargetPos()
     {
