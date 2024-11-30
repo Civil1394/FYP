@@ -111,7 +111,7 @@ public class BattleManager : Singleton<BattleManager>
 			//inputHandler = newInstance.GetComponent<InputHandler>();
 			PlayerInstance = newInstance.GetComponent<Player>();
 			
-			playerCamera.Follow = newInstance.transform;
+			playerCamera.Follow = PlayerInstance.transform;
 			PlayerInstance.SetHealth(playerHealth);
 		}
 		else
