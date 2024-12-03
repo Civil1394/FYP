@@ -172,6 +172,7 @@ public class BattleManager : Singleton<BattleManager>
     
 		while (IsBattleStarted)
 		{
+			//TurnStart Action
 			Debug.Log("New Turn Started");
 			TurnManager.StartNewTurn();
         
@@ -200,6 +201,7 @@ public class BattleManager : Singleton<BattleManager>
 					var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
 				}
 			}
+			//TurnEnd Action
 			TurnManager.EndTurn();
 			yield return new WaitForSeconds(0.2f);
 		}

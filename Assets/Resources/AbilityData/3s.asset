@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
+  m_Name: 3s
+  m_EditorClassIdentifier: 
+  id: 3
+  title: Chrono Bullet
+  initCost: 0
+  desc: 3s
+  castTiming: 0
+  castType: 1
+  target: 1
+  effects:
+  - {fileID: 11400000, guid: ba2543390d691d246801ee11f05e6aa6, type: 2}
+  status: []
+  chain_abilities: []
+  cast_audio: {fileID: 0}
+  charge_target: 0
