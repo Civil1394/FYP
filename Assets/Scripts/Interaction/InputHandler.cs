@@ -2,67 +2,47 @@ using System;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
-
+using Cinemachine;
 public class InputHandler : MonoBehaviour
 {
 	private GameObject lastPointedObject;
 	public GenericAction OnMoveClick = new GenericAction();
-	public Action<HexCellComponent> OnCastClick;
+	public GenericAction OnCastClick = new GenericAction();
 	public InputState inputState = InputState.Move;
+	
+	[SerializeField] private CinemachineVirtualCamera playerCamera;
+	private CinemachineOrbitalTransposer orbitalTransposer;
 	private void Start()
 	{
+		orbitalTransposer = playerCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
 	}
 	
 	private void Update()
 	{
+		OnRightMosueButtonDrag();
+		
 		GetPointerEnterExist();
 		GetPointerDown();
-		//DrawCardController();
 		RedrawCardsController();
-		PlayCardController();
+		SelectCardController();
 		
 	}
 	
-	private void PlayCardController()
+	private void SelectCardController()
 	{
 		if (Input.GetKeyDown(KeyCode.Q))
 		{
-			if (CardsManager.Instance.Hand[0] != null)
-				CardsManager.Instance.PlayCard(CardsManager.Instance.Hand[0]);
+			CardsManager.Instance.SelectFirstCard();
+			SetInputState(InputState.CastingAbility);
+		}
+		else if (Input.GetKeyDown(KeyCode.E))
+		{
+			CardsManager.Instance.SelectSecondCard();
+			SetInputState(InputState.CastingAbility);
 		}
 		
-		if (Input.GetKeyDown(KeyCode.E))
-		{
-			if(CardsManager.Instance.Hand[1]!=null)
-				CardsManager.Instance.PlayCard(CardsManager.Instance.Hand[1]);
-		}
 	}
-
-	private void DrawCardController()
-	{
-		AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			if (!BattleManager.Instance.TurnManager.CanExecuteAction(TurnActionType.DrawCard))
-				return;
-			if (CardsManager.Instance.Hand.Count < 3)
-			{
-				Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase,"1", 
-					abilityDatabase.GetRandomAbilityFromList("1").id);
-				CardsManager.Instance.AddCardToDeck(testCard);
-			}
-			var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
-			if (drawnCard != null)
-			{
-				BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: {drawnCard.Name}");
-				Debug.Log($"Drew card: {drawnCard.Name}");
-			}
-			else
-			{
-				Debug.Log("No cards left in the deck");
-			}
-		}
-	}
+	
 
 	private void RedrawCardsController()
 	{
@@ -146,7 +126,21 @@ public class InputHandler : MonoBehaviour
 				
 		}
 	}
-	
+
+	void OnRightMosueButtonDrag()
+	{
+		//Controller of allowing the orbitalTransposer rotate head movement towards player object by dragging the mouse in x axis
+		if (Input.GetMouseButtonDown(1) && orbitalTransposer != null)  
+		{
+			orbitalTransposer.m_XAxis.m_InputAxisName = "Mouse X";
+			Debug.Log("Middle mouse button down");
+		}
+		else if (Input.GetMouseButtonUp(1) && orbitalTransposer != null)
+		{
+			orbitalTransposer.m_XAxis.m_InputAxisName = "";
+			orbitalTransposer.m_XAxis.m_InputAxisValue = 0;
+		}
+	}
 	public void SetInputState(InputState newState)
 	{
 		inputState = newState;

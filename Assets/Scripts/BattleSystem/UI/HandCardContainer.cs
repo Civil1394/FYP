@@ -12,6 +12,7 @@ public class HandCardContainer : MonoBehaviour
         CardsManager.Instance.OnCardDrawn += GenerateNewProduct;
         CardsManager.Instance.OnCardPlayed += RemoveProduct;
         CardsManager.Instance.OnCardDiscarded += RemoveProduct;
+        CardsManager.Instance.OnCardSelected += OnCardSelected;
         foreach (Transform child in this.transform)
         {
             Destroy(child.gameObject);
@@ -41,6 +42,21 @@ public class HandCardContainer : MonoBehaviour
         else
         {
             Debug.LogWarning($"Tried to remove card UI for card {card.Id}, but it was not found in the container.");
+        }
+    }
+
+    private void OnCardSelected(Card selectedCard)
+    {
+        // Deselect all cards first
+        foreach (var cardUI in cardIdToUIMap.Values)
+        {
+            cardUI.GetComponent<HandCardUIProduct>().OnDeselect();
+        }
+
+        // Select the target card if it exists
+        if (selectedCard != null && cardIdToUIMap.TryGetValue(selectedCard.Id, out GameObject selectedCardUI))
+        {
+            selectedCardUI.GetComponent<HandCardUIProduct>().OnSelect();
         }
     }
     

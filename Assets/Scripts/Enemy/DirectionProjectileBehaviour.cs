@@ -7,6 +7,7 @@ public class DirectionProjectileBehaviour : MonoBehaviour
     public void Init(Vector3 dir)
     {
         Debug.DrawLine(transform.position, dir * distance + transform.position, Color.red,1);
-        transform.DOMove(dir * distance+transform.position, 2);
+        transform.DOMove(dir * distance+transform.position, 2)
+            .OnComplete(()=>Destroy(gameObject));
     }
 }

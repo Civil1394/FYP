@@ -31,7 +31,7 @@ public class Card : ICard
 
     public void Cast()
     {
-        BattleManager.Instance.CastingHandler.HandleCast(this.AbilityData);
+        //BattleManager.Instance.CastingHandler.HandleCast(this.AbilityData);
 
     }
     

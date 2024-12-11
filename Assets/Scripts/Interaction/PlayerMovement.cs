@@ -14,13 +14,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private Vector3 movement;
     private Vector3 lastMovementDirection;
-    void Start()
-    {
 
-        BattleManager.Instance.OnPlayerMove += Move;
-    }
 
-    private void Move(HexCellComponent targetCell)
+    public void Move(HexCellComponent targetCell)
     {
 
         this.transform.DOMove(targetCell.CalPosForAction(), 0.5f);
@@ -40,8 +36,5 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawLine(transform.position + direction, transform.position + direction + left * 0.25f);
     }
 
-    private void OnDestroy()
-    {
-        BattleManager.Instance.OnPlayerMove -= Move;
-    }
+
 }

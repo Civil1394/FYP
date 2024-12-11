@@ -7,38 +7,48 @@ public class CastingHandler : MonoBehaviour
 	public event Action<HexCellComponent> OnLocationCast;
 	public event Action<AbilityData> OnDirectionalCast;
 	public event Action<AbilityData> OnUnitCast;
-	private AbilityData currentCastingAbility;
+	//private AbilityData currentCastingAbility; //storing the pending abilitydata to be cast
 
 	private void Start()
 	{
-		BattleManager.Instance.InputHandler.OnCastClick += HandleDirectionalCast;
+		//BattleManager.Instance.InputHandler.OnCastClick.AddListener<HexCellComponent>(HandleDirectionalCast);
 	}
 	
-	public void HandleCast(AbilityData ability)
+	//Check the casting cell is in range or other condition is fulfilled
+	public bool CastIsLegit(AbilityData ability, HexCellComponent clickedCell)
 	{
-		currentCastingAbility = ability;
-		BattleManager.Instance.InputHandler.SetInputState(InputState.CastingAbility);
-		
-		OnDirectionalCast?.Invoke(ability);
+		switch (ability.castType)
+		{
+			case AbilityCastType.Direction_targeted:
+				return BattleManager.Instance.hexgrid.CheckCellInRange(clickedCell,
+					BattleManager.Instance.GetPlayerCell(), 1);
+				break;
+		}
+
+		return false;
 	}
 	
-	private void HandleDirectionalCast(HexCellComponent ClickedCell)
+	public void ExecuteAbility(AbilityData ability, HexCellComponent targetCell = null)
 	{
-		if (currentCastingAbility == null) return;
+		switch (ability.castType)
+		{
+			case AbilityCastType.Direction_targeted:
+				HandleDirectionalCast(ability, targetCell);
+				break;
+		}
 		
-		ExecuteAbility(currentCastingAbility, ClickedCell);
-		
-		ResetCasting();
+
+		BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.PlayCard, $"castedability:{ability.name}");
 	}
-	
-	private void ExecuteAbility(AbilityData ability, HexCellComponent directionCell)
+	private void HandleDirectionalCast(AbilityData ability,HexCellComponent directionCell)
 	{
+
 		foreach (var effect in ability.effects)
 		{
 			effect.ApplyEffect(directionCell);
 		}
-
-		BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.PlayCard, $"castedability:{ability.name}");
+		
+		ResetCasting();
 	}
 	
 	public void CancelCasting()
@@ -48,7 +58,7 @@ public class CastingHandler : MonoBehaviour
 	
 	private void ResetCasting()
 	{
-		currentCastingAbility = null;
+		//currentCastingAbility = null;
 		BattleManager.Instance.InputHandler.SetInputState(InputState.Move);
 	}
 }

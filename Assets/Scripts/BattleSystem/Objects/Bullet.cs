@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using DG.Tweening;
 
-public class Bullet : MonoBehaviour
+public class BulletActor : TimedActor
 {
     public int Damage { get; private set; }
     public float Speed { get; private set; }
@@ -34,7 +34,7 @@ public class Bullet : MonoBehaviour
             targetRotation = Quaternion.LookRotation(faceDirection) * Quaternion.Euler(0, -90, 0);
             transform.rotation = targetRotation;
             AddBehavior<BaseBehavior>();
-            BattleManager.Instance.TurnManager.OnTurnStart += Launch;
+            OnTimerComplete += Launch;
         }
         else
         {

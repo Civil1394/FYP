@@ -12,7 +12,8 @@ public class AbilityData : ScriptableObject
 	[TextArea(5, 7)]
 	public string desc;
 	
-	[Header("Trigger")]
+	[Header("Cast")]
+	public int castRange;
 	public AbilityCastTiming castTiming;             //WHEN does the ability trigger?
 	public AbilityCastType castType;             //How the ability is cast?
 	[Header("Target")]
@@ -25,27 +26,13 @@ public class AbilityData : ScriptableObject
 	[Header("Chain/Choices")]
 	public AbilityData[] chain_abilities;    //Abilities that will be triggered after this one
 
-	[Header("FX")]//Future  Use
+	[Header("VFX")]//Future  Use
 	public AudioClip cast_audio;
 	public bool charge_target;
 
 
 	public void TriggerAbility()
 	{
-	// 	switch(castType):
-	//
-	// 		case AbilityCastType.Direction_targeted:
-	// 			
-	// 			break;
-	//
-	//
-	// 	}
-	// }
-	// 	foreach (var effect in effects)
-	// 	{
-	// 		effect.ApplyEffect(BattleManager.Instance.GetPlayerCell().CellData.Coordinates);
-	// 		Debug.Log(BattleManager.Instance.GetPlayerCell().transform.position);
-	// 	}
 	}
 	
 

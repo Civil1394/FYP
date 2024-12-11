@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Unity.Mathematics;
 
 public class HourGlass : MonoBehaviour 
 {
@@ -11,19 +12,15 @@ public class HourGlass : MonoBehaviour
     
     private void Start() 
     {
-        BattleManager.Instance.OnTurnStart.AddListener<float>(CountTime); 
+        //BattleManager.Instance.OnTurnStart.AddListener<float>(CountTime); 
     }
 
     private void OnDestroy()
     {
-        if (BattleManager.Instance != null)
-        {
-            BattleManager.Instance.OnTurnStart.RemoveListener<float>(CountTime); 
-        }
         currentSequence?.Kill();
     }
 
-    private void CountTime(float duration) 
+    public void CountTime(float duration) 
     {
         // Kill any existing sequence
         currentSequence?.Kill();
@@ -37,7 +34,7 @@ public class HourGlass : MonoBehaviour
 
         // Rotate hourglass 180 degrees
         currentSequence.Join(
-            hourGlass.DORotate(new Vector3(0, 0, 180f), 0.5f)
+            hourGlass.DORotate(new Vector3(this.transform.rotation.x,0,180), 0.5f)
             .SetEase(Ease.OutBack)
         );
 
@@ -75,7 +72,7 @@ public class HourGlass : MonoBehaviour
             })
         );
 
-        // Optional shake at the end
+        //Optional shake at the end
         currentSequence.AppendCallback(() => {
             hourGlass.DOShakeRotation(0.5f, 10f, 10, 90f)
                 .SetEase(Ease.OutQuad);

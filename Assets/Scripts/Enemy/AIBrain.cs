@@ -35,9 +35,7 @@ public class AIBrain : MonoBehaviour
         playerDetector = GetComponentInChildren<PlayerDetector>();
         pathFinding = new PathFinding();
         stateMachine = new StateMachine();
-
-        BattleManager.Instance.OnTurnStart.AddListener(TurnAction);
-
+        
         var wanderState = new GridEnemyWander(this, null, 10, pathFinding);
         var chaseState = new GridEnemyChase(this, null, pathFinding);
         var attackState = new GridEnemyAttack(this, null);
@@ -77,7 +75,7 @@ public class AIBrain : MonoBehaviour
     {
         stateMachine.Update();
     }
-    private void TurnAction()
+    public void TurnAction()
     {
         stateMachine.OnTurnStart();
         RememberPlayer();

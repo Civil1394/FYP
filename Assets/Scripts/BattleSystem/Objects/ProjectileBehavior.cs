@@ -6,14 +6,14 @@ using Vector3 = System.Numerics.Vector3;
 
 public abstract class ProjectileBehavior : MonoBehaviour
 {
-    protected Bullet bullet;
+    protected BulletActor BulletActor;
     protected Vector3Int standingPos;
     protected HexDirection direction;
     protected float speed;
     
-    public virtual void Initialize(Bullet bullet, Vector3Int standingPos,HexDirection direction, float speed)
+    public virtual void Initialize(BulletActor bulletActor, Vector3Int standingPos,HexDirection direction, float speed)
     {
-        this.bullet = bullet;
+        this.BulletActor = bulletActor;
         this.direction = direction;
         this.speed = speed;
     }
@@ -30,10 +30,9 @@ public class BaseBehavior : ProjectileBehavior
     private Tween currentMovement;  
     private  HexCellComponent nextCellToMove = new HexCellComponent();
     private bool pendingDestroy = false;
-    public override void Initialize(Bullet bullet, Vector3Int standingPos, HexDirection direction, float speed)
+    public override void Initialize(BulletActor bulletActor, Vector3Int standingPos, HexDirection direction, float speed)
     {
-        base.Initialize(bullet, standingPos, direction, speed);
-        BattleManager.Instance.TurnManager.OnTurnEnd += OnTurnEnd;
+        base.Initialize(bulletActor, standingPos, direction, speed);
     }
     public override void UpdateBehavior(Vector3Int standingPos)
     {
@@ -53,7 +52,7 @@ public class BaseBehavior : ProjectileBehavior
                     .SetEase(Ease.Linear)
                     .OnComplete(() =>
                     {
-                        bullet.SelfDestroy();
+                        BulletActor.SelfDestroy();
                     });
                 return;
             }
@@ -63,7 +62,7 @@ public class BaseBehavior : ProjectileBehavior
 
         currentMovement = this.transform.DOMove(nextCellToMove.transform.position, BattleManager.Instance.InitTurnDur).SetEase(Ease.Linear);
             
-        bullet.StandingPos = nextCellToMove.CellData.Coordinates;
+        BulletActor.StandingPos = nextCellToMove.CellData.Coordinates;
     }
 
     private void OnTurnEnd()
@@ -77,7 +76,7 @@ public class BaseBehavior : ProjectileBehavior
                     () =>
                     {
                         if(pendingDestroy)
-                            bullet.SelfDestroy();
+                            BulletActor.SelfDestroy();
                         return;
                     });
         }

@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 using System.Collections;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+using DG.Tweening;
 public class HandCardUIProduct : MonoBehaviour
 {
 	[SerializeField] private TMP_Text cost;
@@ -16,7 +17,10 @@ public class HandCardUIProduct : MonoBehaviour
 	[SerializeField] private Sprite eclipse;
 	[SerializeField] private Sprite spirit;
 
+	[SerializeField] private Vector3 preferedPosition;
+	[SerializeField] private bool isSelected = false;
 	private Card cardData;
+	
 	public void Init(Card _cardData)
 	{
 		this.cardData = _cardData;
@@ -35,7 +39,35 @@ public class HandCardUIProduct : MonoBehaviour
 				suit.sprite = spirit;
 				break;
 		}
+		StartCoroutine(StorePreferredPosition());
+	}
+	private IEnumerator StorePreferredPosition()
+	{
+		// Wait for end of frame to ensure layout group has updated
+		yield return new WaitForEndOfFrame();
+		// Store the position after layout group has positioned the element
+		preferedPosition = this.GetComponent<RectTransform>().position;
+	}
+	public void OnSelect()
+	{
+		this.DOKill();
+		if (!isSelected)
+		{
+			isSelected = true;
+			this.transform.DOMoveY(preferedPosition.y + 30f, 0.5f).SetEase(Ease.InOutQuint);
+			
+		}
 	}
 
+	public void OnDeselect()
+	{
+		this.DOKill();
+		if (this.isSelected)
+		{
+			this.transform.DOMoveY(preferedPosition.y, 0.5f).SetEase(Ease.InOutQuint);
+			isSelected = false;
+		}
+			
+	}
 	
 }

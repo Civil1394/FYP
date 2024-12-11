@@ -10,7 +10,9 @@ public class CardsManager : Singleton<CardsManager>
     private List<Card> deck = new List<Card>();
     private List<Card> hand = new List<Card>();
     private List<Card> discardPile = new List<Card>();
-    
+
+    private int selectedCardIndex = 0; // Track which card is currently selected
+    private int max_hand_size = 2;
     public IReadOnlyList<Card> Deck => deck.AsReadOnly();
     public IReadOnlyList<Card> Hand => hand.AsReadOnly();
     public IReadOnlyList<Card> DiscardPile => discardPile.AsReadOnly();
@@ -20,6 +22,7 @@ public class CardsManager : Singleton<CardsManager>
     public Action<Card> OnCardDrawn;
     public Action<Card> OnCardPlayed;
     public Action<Card> OnCardDiscarded;
+    public Action<Card> OnCardSelected; // New event for card selection
     private void Awake()
     {
         
@@ -28,7 +31,7 @@ public class CardsManager : Singleton<CardsManager>
 
     private void Start()
     {
-        
+        max_hand_size = BattleManager.Instance.handCardsSize;
     }
 
     public void AddCardToDeck(Card newCard)
@@ -70,11 +73,11 @@ public class CardsManager : Singleton<CardsManager>
             return (Hand, DiscardPile, null);
         }
 
-        if (!BattleManager.Instance.TurnManager.CanExecuteAction(TurnActionType.PlayCard))
-        {
-            if(BattleManager.Instance.TurnManager == null)Debug.Log("Turn Manager is null");
-            return (Hand, DiscardPile, null);
-        }
+        // if (!BattleManager.Instance.TurnManager.CanExecuteAction(TurnActionType.PlayCard))
+        // {
+        //     if(BattleManager.Instance.TurnManager == null)Debug.Log("Turn Manager is null");
+        //     return (Hand, DiscardPile, null);
+        // }
             
         
         cardToPlay.Cast();
@@ -87,7 +90,14 @@ public class CardsManager : Singleton<CardsManager>
         return (Hand, DiscardPile, cardToPlay);
         
     }
-    
+    public (IReadOnlyList<Card>, IReadOnlyList<Card>, Card) PlaySelectedCard()
+    {
+        Card selectedCard = GetSelectedCard();
+        if (selectedCard == null)
+            return (Hand, DiscardPile, null);
+
+        return PlayCard(selectedCard);
+    }
     public (IReadOnlyList<Card>, IReadOnlyList<Card>) RedrawCards()
     {
        
@@ -105,5 +115,26 @@ public class CardsManager : Singleton<CardsManager>
         }
 
         return (Hand, DiscardPile);
+    }
+    
+    // Method to select next card
+    public void SelectFirstCard()
+    {
+        selectedCardIndex = 0;
+        OnCardSelected?.Invoke(hand[selectedCardIndex]);
+    }
+
+    // Method to select previous card
+    public void SelectSecondCard()
+    {
+        selectedCardIndex = 1;
+        OnCardSelected?.Invoke(hand[selectedCardIndex]);
+    }
+    // Get currently selected card
+    public Card GetSelectedCard()
+    {
+        if (hand.Count <= selectedCardIndex)
+            return null;
+        return hand[selectedCardIndex];
     }
 }
