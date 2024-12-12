@@ -1379,7 +1379,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &109282529
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10659,8 +10659,8 @@ Camera:
   m_GameObject: {fileID: 1585269800}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -11185,7 +11185,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.82
+  m_Intensity: 0.7
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -11228,7 +11228,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 5072
+  m_ColorTemperature: 9554
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -11243,13 +11243,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1681404928}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.54764014, y: -0.25665355, z: 0.5679508, w: 0.5582572}
+  m_LocalRotation: {x: 0.2550499, y: -0.46920386, z: 0.7466106, w: 0.39669883}
   m_LocalPosition: {x: -4.3, y: 28.9, z: 8.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 64.553, y: 51.337, z: 124.756}
+  m_LocalEulerAnglesHint: {x: 64.553, y: 1.144, z: 124.756}
 --- !u!114 &1681404931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11485,9 +11485,9 @@ MonoBehaviour:
   enemyPrefab: {fileID: 2092199131291521800, guid: a80fd3e90f7ccab44bb229f4dd46a1d4,
     type: 3}
   spawnCoords:
-  - {x: 1, y: 9}
-  - {x: 10, y: 24}
-  - {x: 5, y: 29}
+  - {x: 25, y: 15}
+  - {x: 15, y: 8}
+  - {x: 6, y: 20}
   enemyGroup: {fileID: 651916844}
 --- !u!1 &1734984158
 GameObject:
@@ -12459,9 +12459,9 @@ MonoBehaviour:
   playerHealth: 10
   playerPrefab: {fileID: 4181602255125513476, guid: dff3b617fb3ffb94390f72185b793ff7,
     type: 3}
-  playerSpawnCoord: {x: 25, y: 15}
+  playerSpawnCoord: {x: 14, y: 13}
   playerCamera: {fileID: 1930980852}
-  playerHourGlass: {fileID: 56626183}
+  playerUIHourGlass: {fileID: 56626183}
   AbilityDatabase: {fileID: 11400000, guid: 20a19216682bd75438107f4ab748eb62, type: 2}
   initTurnDur: 2
   handCardsSize: 2

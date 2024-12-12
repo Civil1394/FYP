@@ -4,17 +4,17 @@ using System.Collections;
 public class EnemyActor : TimedActor , IDamagable
 {
 	public int Health { get; private set; }
-	[SerializeField] private HourGlass hourGlass;
+	[SerializeField] private GlobalCanvasHourGlass GlobalCanvasHourGlass;
 	private AIBrain aiBrain;
 	protected override void Start()
 	{
 		aiBrain = gameObject.GetComponent<AIBrain>();
-		if (hourGlass != null)
+		if (GlobalCanvasHourGlass != null)
 		{
-			OnTimerStart += hourGlass.CountTime;
+			OnTimerStart += GlobalCanvasHourGlass.CountTime;
 			OnTimerComplete += aiBrain.TurnAction;
 		}
-		actionCooldown = (int)Random.Range(1f, 3f);
+		actionCooldown = (int)Random.Range(1f, 5f);
 		base.Start();
 	}
 	protected override void Update()

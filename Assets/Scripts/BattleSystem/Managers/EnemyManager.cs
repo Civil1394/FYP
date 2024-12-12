@@ -37,6 +37,7 @@ public class EnemyManager : Singleton<EnemyManager>
 			else
 			{
 				Debug.LogError("Not valid cell to spawn!");
+				continue;
 			}
 		}
 		

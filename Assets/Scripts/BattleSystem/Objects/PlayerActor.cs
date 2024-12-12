@@ -8,19 +8,24 @@ public class PlayerActor : TimedActor , IDamagable
 	public HexDirection FacingHexDirection;
 	public bool CanExecuteAction { get; private set; }
     
-	[SerializeField] private HourGlass hourGlass;
+	[SerializeField] private UIHourGlass uiHourGlass;
 	private PlayerAction pendingAction;
 	private PlayerMovement playerMovement;
 	private CastingHandler castingHandler;
+	private PendingActionVisualizer pendingActionVisualizer;
+
+
+	#region Mono
 
 	protected override void Start()
 	{
-		hourGlass = BattleManager.Instance.playerHourGlass;
+		uiHourGlass = BattleManager.Instance.playerUIHourGlass;
 		playerMovement = GetComponent<PlayerMovement>();
 		castingHandler = GetComponent<CastingHandler>();
-		if (hourGlass != null)
+		pendingActionVisualizer = GetComponent<PendingActionVisualizer>();
+		if (uiHourGlass != null)
 		{
-			OnTimerStart += hourGlass.CountTime;
+			OnTimerStart += uiHourGlass.CountTime;
 			OnTimerComplete += ExecutePendingAction;
 			OnTimerComplete += DrawCardsIfEmptyHand;
 		}
@@ -38,6 +43,12 @@ public class PlayerActor : TimedActor , IDamagable
 	{
 		base.Update();
 	}
+
+	#endregion
+	
+	
+	
+	#region QueueAction
 	private void QueueMoveAction(HexCellComponent targetCell)
 	{
 		if (!IsValidMoveTarget(targetCell)) return;
@@ -48,7 +59,7 @@ public class PlayerActor : TimedActor , IDamagable
 		// Visual feedback that action is queued
 		ShowPendingActionPreview();
 	}
-	#region QueueAction
+	
 	private void QueueCastAction(HexCellComponent targetCell)
 	{
 		Card cardToBeCast = CardsManager.Instance.GetSelectedCard();
@@ -57,6 +68,11 @@ public class PlayerActor : TimedActor , IDamagable
 		pendingAction = new PlayerAction(PlayerActionType.Cast, targetCell,cardToBeCast);
 		ShowPendingActionPreview();
 	}
+	private void ShowPendingActionPreview()
+	{
+		pendingActionVisualizer.ShowPendingActionPointer(pendingAction.Type , pendingAction.TargetCell );
+	}
+	
 	private bool IsValidMoveTarget(HexCellComponent targetCell)
 	{
 		return targetCell.CellData.CellGuiType == CellGuiType.ValidMoveRange;
@@ -66,41 +82,9 @@ public class PlayerActor : TimedActor , IDamagable
 	{
 		return targetCell.CellData.CellGuiType == CellGuiType.ValidMoveRange;
 	}
-	private void ShowPendingActionPreview()
-	{
-		// Clear previous preview
-		ClearActionPreview();
-
-		if (pendingAction == null) return;
-
-		switch (pendingAction.Type)
-		{
-			case PlayerActionType.Move:
-				// Show movement preview (e.g., arrow or highlight)
-				ShowMovementPreview(pendingAction.TargetCell);
-				break;
-			case PlayerActionType.Cast:
-				// Show casting preview
-				ShowCastPreview(pendingAction.TargetCell, pendingAction.CardToCast);
-				break;
-		}
-	}
-	#region Action Visual Previews
-	private void ClearActionPreview()
-	{
-		// Clear all visual previews
-	}
-
-	private void ShowMovementPreview(HexCellComponent targetCell)
-	{
-		// Implement preview visualization (e.g., arrow from current position to target)
-	}
-
-	private void ShowCastPreview(HexCellComponent targetCell, Card card)
-	{
-		// Implement casting preview
-	}
 	#endregion
+	
+	#region ExecuteAction
 	private void ExecutePendingAction()
 	{
 		if (pendingAction == null)
@@ -119,7 +103,7 @@ public class PlayerActor : TimedActor , IDamagable
 				break;
 		}
 
-		ClearActionPreview();
+		pendingActionVisualizer.RemovePendingActionPointer();
 		pendingAction = null;
 		StartNewTimer();
 	}

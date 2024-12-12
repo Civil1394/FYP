@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using Unity.Mathematics;
 
-public class HourGlass : MonoBehaviour 
+public class UIHourGlass : MonoBehaviour 
 {
     [SerializeField] private RectTransform hourGlass;
     [SerializeField] private Image sand;

@@ -14,7 +14,7 @@ public class BattleManager : Singleton<BattleManager>
 	[SerializeField] private GameObject playerPrefab;
 	[SerializeField] private Vector2Int playerSpawnCoord;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
-	public HourGlass playerHourGlass;
+	public UIHourGlass playerUIHourGlass;
 	public PlayerActor PlayerActorInstance {  get; private set; }
 	public AbilityDatabase AbilityDatabase;
 	
