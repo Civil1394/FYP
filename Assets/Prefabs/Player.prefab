@@ -169,7 +169,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 029204ad316116346968edc13520e5ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pendingActionPointerPrefab: {fileID: 1066868749731974, guid: 37a3bd0020160ee40b36a0cea74c650f,
+  pendingMovePointerPrefab: {fileID: 1066868749731974, guid: 617a62bbeebc4f848973e98b587b3d07,
+    type: 3}
+  pendingAttackPointerPrefab: {fileID: 1066868749731974, guid: 37a3bd0020160ee40b36a0cea74c650f,
     type: 3}
   instantiatePosOffset: {x: 0, y: 1, z: 0}
 --- !u!1 &5843780045977609229

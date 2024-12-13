@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 198294249989181104}
   - component: {fileID: 199275852820614196}
   m_Layer: 0
-  m_Name: PendingActionPointer
+  m_Name: PendingMovePointer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

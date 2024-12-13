@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 using DG.Tweening;
-using Vector3 = System.Numerics.Vector3;
+
 
 public abstract class ProjectileBehavior : MonoBehaviour
 {
@@ -48,7 +48,7 @@ public class BaseBehavior : ProjectileBehavior
             {
                 nextCellToMove = standingCell;
                 pendingDestroy = true;
-                currentMovement = this.transform.DOMove(standingCell.transform.position, BattleManager.Instance.InitTurnDur)
+                currentMovement = this.transform.DOMove(standingCell.transform.position + new Vector3(0,2,0), 0.5f)
                     .SetEase(Ease.Linear)
                     .OnComplete(() =>
                     {
@@ -60,7 +60,7 @@ public class BaseBehavior : ProjectileBehavior
             standingCell = nextCellToMove;
         }
 
-        currentMovement = this.transform.DOMove(nextCellToMove.transform.position, BattleManager.Instance.InitTurnDur).SetEase(Ease.Linear);
+        currentMovement = this.transform.DOMove(nextCellToMove.transform.position + new Vector3(0,2,0), 0.5f).SetEase(Ease.Linear);
             
         BulletActor.StandingPos = nextCellToMove.CellData.Coordinates;
     }

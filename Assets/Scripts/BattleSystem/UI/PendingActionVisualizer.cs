@@ -1,9 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Serialization;
 
 public class PendingActionVisualizer : MonoBehaviour 
 {
-	[SerializeField] private GameObject pendingActionPointerPrefab;
+	[FormerlySerializedAs("pendingActionPointerPrefab")] [SerializeField] private GameObject pendingMovePointerPrefab;
+	[SerializeField] private GameObject pendingAttackPointerPrefab;
 	[SerializeField] private Vector3 instantiatePosOffset;
 	private GameObject activatedActionPointer;
 	
@@ -15,13 +17,13 @@ public class PendingActionVisualizer : MonoBehaviour
 		{
 			case PlayerActionType.Move:
 				activatedActionPointer = 
-					Instantiate(pendingActionPointerPrefab,
+					Instantiate(pendingMovePointerPrefab,
 						destination.transform.position + instantiatePosOffset ,
 									Quaternion.identity);
 				break;
 			case PlayerActionType.Cast:
 				activatedActionPointer = 
-					Instantiate(pendingActionPointerPrefab,
+					Instantiate(pendingAttackPointerPrefab,
 						destination.transform.position + instantiatePosOffset ,
 									Quaternion.identity);
 				break;
