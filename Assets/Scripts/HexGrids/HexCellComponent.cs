@@ -138,13 +138,14 @@ public class HexCell
     public Action OnCellTypeChanged;
 
     [System.NonSerialized] public HexCell[] Neighbors = new HexCell[6];
-
-    public HexCell(string ID, Vector3Int coordinates, CellType cellType)
+    [System.NonSerialized] public readonly HexCellComponent ParentComponent;
+    public HexCell(string ID, Vector3Int coordinates, CellType cellType, HexCellComponent parentComponent)
     {
         this.ID = ID;
         this.Coordinates = coordinates;
         this.CellType = cellType;
         this.CellGuiType = CellGuiType.Empty;
+        ParentComponent = parentComponent;
     }
 
     public void SetType(CellType newCellType)

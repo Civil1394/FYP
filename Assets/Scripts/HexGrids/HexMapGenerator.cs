@@ -51,14 +51,14 @@ public class HexMapGenerator : MonoBehaviour
                 // Check for collision and destroy if necessary
                 if (newCell.GetComponent<HexCellMeshGenerator>().CheckForCollisionAtCurrentPosition())
                 {
-                   // Debug.Log($"Hex at position {(r, c)} overlaps with another object. Destroying.");
-                    
-                    HexCell cellData =  new HexCell("HexCell ( " + r + " , " + c + " )", new Vector3Int(r,0,c),CellType.Invalid);
+                    // Debug.Log($"Hex at position {(r, c)} overlaps with another object. Destroying.");
+
+                    HexCell cellData = new HexCell("HexCell ( " + r + " , " + c + " )", new Vector3Int(r, 0, c), CellType.Invalid, newCell);
                     newCell.Initialize(cellData);
                 }
                 else
                 {
-                    HexCell cellData =  new HexCell("HexCell ( " + r + " , " + c + " )", new Vector3Int(r,0,c),CellType.Empty);
+                    HexCell cellData = new HexCell("HexCell ( " + r + " , " + c + " )", new Vector3Int(r, 0, c), CellType.Empty, newCell);
                     newCell.Initialize(cellData);
                 }
                 

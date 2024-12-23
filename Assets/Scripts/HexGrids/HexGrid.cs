@@ -11,7 +11,6 @@ public class HexGrid
     
     public int Width { get; private set; }
     public int Height { get; private set; }
-
     public HexGrid()
     {
     }
@@ -29,7 +28,36 @@ public class HexGrid
     {
         return cells.TryGetValue(coordinates, out HexCellComponent cell) ? cell : null;
     }
-    
+    public HexCellComponent GetNearestCellOfType(HexCellComponent pivotCell, CellType cellType)
+    {
+        HashSet<HexCellComponent> visitedList = new HashSet<HexCellComponent>();
+        Queue<(HexCellComponent, int)> queue = new Queue<(HexCellComponent, int)>();
+        List<HexCellComponent> cellsInRange = new List<HexCellComponent>();
+
+        queue.Enqueue((pivotCell, 0));
+        visitedList.Add(pivotCell);
+
+        while (queue.Count > 0)
+        {
+            var (currentCell, currentDistance) = queue.Dequeue();
+
+            cellsInRange.Add(currentCell);
+
+            foreach (var neighbor in currentCell.CellData.GetAllNeighbor())
+            {
+                if (currentCell.CellData.CellType == cellType)
+                {
+                    return currentCell;
+                }
+                if (neighbor != null && !visitedList.Contains(neighbor.ParentComponent))
+                {
+                    visitedList.Add(neighbor.ParentComponent);
+                    queue.Enqueue((GetCellInCoord(neighbor.Coordinates), currentDistance + 1));
+                }
+            }
+        }
+        return null;
+    }
     public HexCellComponent[] GetCellsInRange(HexCellComponent pivotCell, int range)
     {
         HashSet<Vector3Int> visitedCoordinates = new HashSet<Vector3Int>();
@@ -149,7 +177,18 @@ public class HexGrid
 
         return false; // Not all cells are within range
     }
-    
+    public HexCellComponent GetNearestAvailableCellByWorldPosition(Vector3 worldPos)
+    {
+        Ray r = new Ray(worldPos, Vector3.down);
+        RaycastHit h;
+        Physics.Raycast(r, out h, LayerMask.NameToLayer("Cell"));
+        HexCellComponent hcc;
+        if (h.collider.gameObject.TryGetComponent<HexCellComponent>(out hcc))
+        {
+            return GetNearestCellOfType(hcc, CellType.Empty);
+        }
+        return null;
+    }
     public bool CheckCellInRange(HexCellComponent pivotCell, HexCellComponent cellToCheck, int range)
     {
         return CheckCellsInRange(pivotCell, new[] { cellToCheck }, range);
