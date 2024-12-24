@@ -13,6 +13,7 @@ public class AIBrain : MonoBehaviour
 
     //Memory
     public Vector3Int currentCoord;
+    public HexCell currentCell;
     public HexCellComponent playerGrid;
     public HexCellComponent lastSeenPlayerGrid;
     public HexCellComponent attackTargetGrid;
@@ -105,13 +106,14 @@ public class AIBrain : MonoBehaviour
     public void Move(HexCell cellToMove)
     {
         EnemyManager.Instance.ReleaseCell(this);
-        var nextGridPosition = BattleManager.Instance.hexgrid.GetCellInCoord(cellToMove.Coordinates).transform.position;
+        var nextGridPosition = cellToMove.ParentComponent.transform.position;
         Vector3 directionToNextGrid = (nextGridPosition - transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToNextGrid);
-        transform.DOMove(BattleManager.Instance.hexgrid.GetCellInCoord(cellToMove.Coordinates).transform.position, 0.5f);
+        transform.DOMove(cellToMove.ParentComponent.transform.position, 0.5f);
         EnemyManager.Instance.OnMove(this, cellToMove.Coordinates);
         transform.DORotateQuaternion(targetRotation, 0.5f);
         currentCoord = cellToMove.Coordinates;
+        currentCell = cellToMove;
     }
 
     public void PerformAttack()

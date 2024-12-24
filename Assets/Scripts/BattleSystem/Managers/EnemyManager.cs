@@ -1,10 +1,8 @@
 using System;
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.VisualScripting;
-using static UnityEngine.EventSystems.EventTrigger;
+
 
 public class EnemyManager : Singleton<EnemyManager>
 {
@@ -31,6 +29,7 @@ public class EnemyManager : Singleton<EnemyManager>
 			{
 				AIBrain newInstance = Instantiate(enemyPrefab, cell.transform.position, quaternion.identity, enemyGroup);
 				newInstance.currentCoord = cell.CellData.Coordinates;
+				newInstance.currentCell = cell.CellData;
 				enemiesDict.Add(newInstance,newInstance.currentCoord);
 				cell.CellData.SetType(CellType.Enemy);
 			}
