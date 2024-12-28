@@ -50,7 +50,7 @@ public class GridEnemyWander : EnemyBaseState
         pathProgress = 0;
         if (path == null) { path = new List<HexCell>(); }
         else { path.Clear(); }
-        HexCellComponent start = BattleManager.Instance.hexgrid.GetCellInCoord(enemyBrain.currentCoord);
+        HexCellComponent start = enemyBrain.currentCell.ParentComponent;
         HexCellComponent end = GetRandomTargetPos();
         path = await pathFinding.FindPathAsync(start, end);
         enemyBrain.gPath = path;
@@ -60,8 +60,8 @@ public class GridEnemyWander : EnemyBaseState
         Vector3Int randomPos;
         do
         {
-            randomPos = new Vector3Int((int)UnityEngine.Random.Range(-wanderRadius, wanderRadius), 0, (int)UnityEngine.Random.Range(-wanderRadius, wanderRadius));
-            randomPos += enemyBrain.currentCoord;
+            randomPos = new Vector3Int((int)Random.Range(-wanderRadius, wanderRadius), 0, (int)UnityEngine.Random.Range(-wanderRadius, wanderRadius));
+            randomPos += enemyBrain.currentCell.Coordinates;
         } while (!BattleManager.Instance.hexgrid.HasCell(randomPos));
         //Debug.Log(randomPos.ToString());
         return BattleManager.Instance.hexgrid.GetCellInCoord(randomPos);

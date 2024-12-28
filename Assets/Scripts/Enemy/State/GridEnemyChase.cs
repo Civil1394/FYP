@@ -51,11 +51,10 @@ public class GridEnemyChase : EnemyBaseState
         pathProgress = 0;
         if (path == null) { path = new List<HexCell>(); }
         else { path.Clear(); }
-        HexCellComponent start = BattleManager.Instance.hexgrid.GetCellInCoord(enemyBrain.currentCoord);
+        HexCellComponent start = enemyBrain.currentCell.ParentComponent;
+            //BattleManager.Instance.hexgrid.GetCellInCoord(enemyBrain.currentCoord);
         HexCellComponent end = enemyBrain.playerGrid ? enemyBrain.playerGrid : enemyBrain.lastSeenPlayerGrid;
         if (!end) return;
-
-        PathFinding pathFinding = new PathFinding();
         path = await pathFinding.FindPathAsync(start, end);
         enemyBrain.gPath = path;
     }
