@@ -23,41 +23,37 @@ public class HexGrid
             SetupNeighbors(cell);
         }
     }
+    
+    public bool HasCell(Vector3Int coordinates)
+    {
+        return cells.ContainsKey(coordinates);
+    }
+
+    #region Coordiantes Utilities
 
     public HexCellComponent GetCellInCoord(Vector3Int coordinates)
     {
         return cells.TryGetValue(coordinates, out HexCellComponent cell) ? cell : null;
     }
-    public HexCellComponent GetNearestCellOfType(HexCellComponent pivotCell, CellType cellType)
+    
+    public HexCellComponent GetNearestAvailableCellByWorldPosition(Vector3 worldPos)
     {
-        HashSet<HexCellComponent> visitedList = new HashSet<HexCellComponent>();
-        Queue<(HexCellComponent, int)> queue = new Queue<(HexCellComponent, int)>();
-        List<HexCellComponent> cellsInRange = new List<HexCellComponent>();
-
-        queue.Enqueue((pivotCell, 0));
-        visitedList.Add(pivotCell);
-
-        while (queue.Count > 0)
+        Ray r = new Ray(worldPos, Vector3.down);
+        RaycastHit h;
+        Physics.Raycast(r, out h, LayerMask.NameToLayer("Cell"));
+        HexCellComponent hcc;
+        if (h.collider.gameObject.TryGetComponent<HexCellComponent>(out hcc))
         {
-            var (currentCell, currentDistance) = queue.Dequeue();
-
-            cellsInRange.Add(currentCell);
-
-            foreach (var neighbor in currentCell.CellData.GetAllNeighbor())
-            {
-                if (currentCell.CellData.CellType == cellType)
-                {
-                    return currentCell;
-                }
-                if (neighbor != null && !visitedList.Contains(neighbor.ParentComponent))
-                {
-                    visitedList.Add(neighbor.ParentComponent);
-                    queue.Enqueue((GetCellInCoord(neighbor.Coordinates), currentDistance + 1));
-                }
-            }
+            return GetNearestCellOfType(hcc, CellType.Empty);
         }
         return null;
     }
+
+    #endregion
+
+    #region Range Utilities
+
+    
     public HexCellComponent[] GetCellsInRange(HexCellComponent pivotCell, int range)
     {
         HashSet<Vector3Int> visitedCoordinates = new HashSet<Vector3Int>();
@@ -94,31 +90,7 @@ public class HexGrid
         return cellsInRange.ToArray();
     }
 
-    #region Direction Concered Helpers
-
-    public HexCellComponent GetCellByDirection(HexCellComponent pivotCell, HexDirection direction)
-    {
-        if (pivotCell.CellData.GetNeighbor(direction) == null)
-        {
-            return null;
-        }
-            
-        return cells.TryGetValue(pivotCell.CellData.GetNeighbor(direction).Coordinates, out HexCellComponent neighbor) ? neighbor : null;
-    }
-
-    public HexDirection CheckNeigborCellDirection(HexCellComponent pivotCell, HexCellComponent neigborCell)
-    {
-        for (int i = 0; i < pivotCell.CellData.Neighbors.Length; i++)
-        {
-            if (pivotCell.CellData.Neighbors[i] == neigborCell.CellData)
-            {
-                return (HexDirection)i;
-            }
-
-        }return HexDirection.NONE;
-    }
-
-    #endregion
+    
    
     public HexCellComponent[] GetCellsInRangeByType(HexCellComponent pivotCell, int range, CellType cellType)
     {
@@ -126,12 +98,11 @@ public class HexGrid
             .Where(cell => cell.CellData.CellType == cellType)
             .ToArray();
     }
-
-    public bool HasCell(Vector3Int coordinates)
+    
+    public bool CheckCellInRange(HexCellComponent pivotCell, HexCellComponent cellToCheck, int range)
     {
-        return cells.ContainsKey(coordinates);
+        return CheckCellsInRange(pivotCell, new[] { cellToCheck }, range);
     }
-
     public bool CheckCellsInRange(HexCellComponent pivotCell, HexCellComponent[] cellsToCheck, int range)
     {
         HashSet<Vector3Int> visitedCoordinates = new HashSet<Vector3Int>();
@@ -177,22 +148,35 @@ public class HexGrid
 
         return false; // Not all cells are within range
     }
-    public HexCellComponent GetNearestAvailableCellByWorldPosition(Vector3 worldPos)
+    #endregion
+    
+    #region Direction Utilities
+
+    public HexCellComponent GetCellByDirection(HexCellComponent pivotCell, HexDirection direction)
     {
-        Ray r = new Ray(worldPos, Vector3.down);
-        RaycastHit h;
-        Physics.Raycast(r, out h, LayerMask.NameToLayer("Cell"));
-        HexCellComponent hcc;
-        if (h.collider.gameObject.TryGetComponent<HexCellComponent>(out hcc))
+        if (pivotCell.CellData.GetNeighbor(direction) == null)
         {
-            return GetNearestCellOfType(hcc, CellType.Empty);
+            return null;
         }
-        return null;
+            
+        return cells.TryGetValue(pivotCell.CellData.GetNeighbor(direction).Coordinates, out HexCellComponent neighbor) ? neighbor : null;
     }
-    public bool CheckCellInRange(HexCellComponent pivotCell, HexCellComponent cellToCheck, int range)
+
+    public HexDirection CheckNeigborCellDirection(HexCellComponent pivotCell, HexCellComponent neigborCell)
     {
-        return CheckCellsInRange(pivotCell, new[] { cellToCheck }, range);
+        for (int i = 0; i < pivotCell.CellData.Neighbors.Length; i++)
+        {
+            if (pivotCell.CellData.Neighbors[i] == neigborCell.CellData)
+            {
+                return (HexDirection)i;
+            }
+
+        }return HexDirection.NONE;
     }
+
+    #endregion
+    
+    #region Type Utilities
     
     public HexCellComponent[] GetCellsByType(CellType cellType)
     {
@@ -205,6 +189,39 @@ public class HexGrid
         return cells.Values
             .FirstOrDefault(cell => cell.CellData.CellType == cellType);
     }
+    
+    public HexCellComponent GetNearestCellOfType(HexCellComponent pivotCell, CellType cellType)
+    {
+        HashSet<HexCellComponent> visitedList = new HashSet<HexCellComponent>();
+        Queue<(HexCellComponent, int)> queue = new Queue<(HexCellComponent, int)>();
+        List<HexCellComponent> cellsInRange = new List<HexCellComponent>();
+
+        queue.Enqueue((pivotCell, 0));
+        visitedList.Add(pivotCell);
+
+        while (queue.Count > 0)
+        {
+            var (currentCell, currentDistance) = queue.Dequeue();
+
+            cellsInRange.Add(currentCell);
+
+            foreach (var neighbor in currentCell.CellData.GetAllNeighbor())
+            {
+                if (currentCell.CellData.CellType == cellType)
+                {
+                    return currentCell;
+                }
+                if (neighbor != null && !visitedList.Contains(neighbor.ParentComponent))
+                {
+                    visitedList.Add(neighbor.ParentComponent);
+                    queue.Enqueue((GetCellInCoord(neighbor.Coordinates), currentDistance + 1));
+                }
+            }
+        }
+        return null;
+    }
+    
+    #endregion
    
     private void SetupNeighbors(HexCellComponent cell)
     {
