@@ -16,9 +16,16 @@ public class HexMapGenerator : MonoBehaviour
         Debug.Log(GetRightBottomCorner(this.GetComponent<MeshFilter>().mesh, this.transform));
         //CreateHexagonRow();
         AutoGenFullCoverHex();
+        setCellDistance();
     }
-
-    
+    void setCellDistance()
+    {
+        float tempD = Vector2.Distance(
+            BattleManager.Instance.hexgrid.GetCellInCoord(Vector3Int.zero).transform.position,
+            BattleManager.Instance.hexgrid.GetCellInCoord(Vector3Int.right).transform.position
+            );
+        BattleManager.Instance.hexgrid.CellDistance = tempD;
+    }
     void AutoGenFullCoverHex()
     {
         

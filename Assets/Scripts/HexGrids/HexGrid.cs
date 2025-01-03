@@ -1,14 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Mathematics;
-using UnityEngine.Serialization;
 
 public class HexGrid 
 {
 
     private Dictionary<Vector3Int, HexCellComponent> cells = new Dictionary<Vector3Int, HexCellComponent>();
-    
+    public float CellDistance;
     public int Width { get; private set; }
     public int Height { get; private set; }
     public HexGrid()
@@ -173,7 +171,15 @@ public class HexGrid
 
         }return HexDirection.NONE;
     }
-
+    public HexCellComponent GetAvailableCellByWorldDirection(HexCellComponent pivotCell, Vector3 worldDir, int cell = 1)
+    {
+        worldDir.Normalize();
+        HexCellComponent nearestCell = null;
+        nearestCell = GetNearestAvailableCellByWorldPosition(
+            pivotCell.transform.position + worldDir * (cell * CellDistance)
+            );
+        return nearestCell;
+    }
     #endregion
     
     #region Type Utilities
