@@ -16,9 +16,11 @@ public class EnemyData : ScriptableObject
     public float AngleOfRange => angleOfRange;
     public float DistanceOfRange => distanceOfRange;
     public float InnerSphereRadius => innerSphereRadius;
-    public AttackType AttackStrategy => attackType;
+    //public AttackType AttackStrategy => attackType;
     public GameObject AttackPrefab => attackPrefab;
     public float DashSpeed => dashSpeed;
+
+    public AbilityData AbilityData;
     public enum AttackType
     {
         DirectionTargetting,

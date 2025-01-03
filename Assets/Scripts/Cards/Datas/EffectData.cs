@@ -9,7 +9,7 @@ public class EffectData : ScriptableObject
 {
     [SerializeField] private EffectType effectType;
     [TextArea(5, 7)]
-    public string desc;
+    public string Desc;
 
     [Header("FX")]
     public GameObject Object_fx;
@@ -17,12 +17,12 @@ public class EffectData : ScriptableObject
     // This will show different parameter objects based on the effect type
     [SerializeField] private EffectParameters parameters;
 
-    public void ApplyEffect(HexCellComponent directionCell)
+    public void ApplyEffect(AbilityCasterType casterType ,HexCellComponent directionCell,HexCellComponent casterStandingCell = null)
     {
         switch (effectType)
         {
             case EffectType.Projectile:
-                TriggerProjectile(directionCell);
+                TriggerProjectile(casterType,casterStandingCell,directionCell);
                 break;
             case EffectType.Explosion:
                 TriggerExplosion();
@@ -33,7 +33,7 @@ public class EffectData : ScriptableObject
         }
     }
     
-    private void TriggerProjectile(HexCellComponent directionCell)
+    private void TriggerProjectile(AbilityCasterType casterType,HexCellComponent casterStandingCell,HexCellComponent directionCell)
     {
         if (parameters is ProjectileParameters projectileParams)
         {
@@ -41,35 +41,31 @@ public class EffectData : ScriptableObject
             // Get the direction
             HexDirection direction = BattleManager.Instance.hexgrid.CheckNeigborCellDirection(spawnCell, directionCell);
         
-            // Get spawn position
-            
-        
             // Create rotation that faces the player's direction but maintains -90 on Y
             //Quaternion spawnRotation = Quaternion.LookRotation(playerForward) * Quaternion.Euler(0, -90, 0);
         
             GameObject bullet = Instantiate(Object_fx, directionCell.transform.position + new Vector3(0,2,0),quaternion.identity);
             var bulletComponent = bullet.AddComponent<BulletActor>();
             bulletComponent.Initialize(
-                projectileParams.damage,
-                projectileParams.speed,
+                projectileParams.Damage,
+                projectileParams.FlowSpeed,
                 spawnCell.CellData.Coordinates,
                 direction,
-                projectileParams.lifeTime
+                projectileParams.LifeTime
             );
         }
         else
         {
             Debug.LogError("Projectile parameters not set!");
         }
-        Debug.Log(desc);
+        Debug.Log(Desc);
     }
-
     private void TriggerExplosion()
     {
         if (parameters is ExplosionParameters explosionParams)
         {
             // Implementation for explosion effect using explosionParams
-            Debug.Log($"Explosion effect triggered: {desc} with radius {explosionParams.radius}");
+            Debug.Log($"Explosion effect triggered: {Desc} with radius {explosionParams.radius}");
         }
         else
         {

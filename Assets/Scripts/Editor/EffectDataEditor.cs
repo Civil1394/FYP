@@ -12,7 +12,7 @@ public class EffectDataEditor : Editor
     void OnEnable()
     {
         effectType = serializedObject.FindProperty("effectType");
-        desc = serializedObject.FindProperty("desc");
+        desc = serializedObject.FindProperty("Desc");
         objectFx = serializedObject.FindProperty("Object_fx");
         parameters = serializedObject.FindProperty("parameters");
     }

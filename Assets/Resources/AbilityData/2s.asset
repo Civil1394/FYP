@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: 2s
   m_EditorClassIdentifier: 
   id: 2
-  title: Chrono Bullet
-  initCost: 0
-  desc: 2s
+  Title: Chrono Bullet
+  InitCost: 0
+  Desc: One 2s Bullet
+  castRange: 1
   castTiming: 0
-  castType: 1
-  target: 1
-  effects:
+  CastType: 1
+  target: 0
+  Effects:
   - {fileID: 11400000, guid: 8dc77baa6153596448b8e9bff0426f52, type: 2}
   status: []
   chain_abilities: []

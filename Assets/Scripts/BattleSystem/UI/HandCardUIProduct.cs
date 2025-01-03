@@ -24,9 +24,9 @@ public class HandCardUIProduct : MonoBehaviour
 	public void Init(Card _cardData)
 	{
 		this.cardData = _cardData;
-		//cost.text = abilityData.initCost.ToString();
-		title.text = cardData.AbilityData.title;
-		desc.text = cardData.AbilityData.desc;
+		//cost.text = abilityData.InitCost.ToString();
+		title.text = cardData.AbilityData.Title;
+		desc.text = cardData.AbilityData.Desc;
 		switch (cardData.Suit)
 		{
 			case Suit.Time:

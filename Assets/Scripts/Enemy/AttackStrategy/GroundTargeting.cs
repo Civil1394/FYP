@@ -10,10 +10,10 @@ public class GroundTargeting : IAttack
         this.enemy = enemy;
         this.bombPrefab = bombPrefab;
     }
+    
 
-    public void Attack(HexCellComponent target)
+    public void Attack(HexCellComponent target, HexCellComponent standingCell)
     {
         GameObject bomb = GameObject.Instantiate(bombPrefab, enemy.position, Quaternion.identity);
-        // Add bomb throwing logic towards target here
     }
 }

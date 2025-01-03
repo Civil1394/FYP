@@ -6,6 +6,8 @@ public class EnemyActor : TimedActor , IDamagable
 	public int Health { get; private set; }
 	[SerializeField] private GlobalCanvasHourGlass GlobalCanvasHourGlass;
 	private AIBrain aiBrain;
+	
+	public AbilityData abilityData;
 	protected override void Start()
 	{
 		aiBrain = gameObject.GetComponent<AIBrain>();

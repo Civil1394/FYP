@@ -4,8 +4,8 @@ using System.Collections;
 [CreateAssetMenu(fileName = "ProjectileParameters", menuName = "Effect/ProjectileParameters")]
 public class ProjectileParameters : EffectParameters
 {
-	public int damage;
-	public float speed;
-	public float lifeTime;
+	public int Damage;
+	public float FlowSpeed;
+	public float LifeTime;
 	// Direction will be determined at runtime
 }

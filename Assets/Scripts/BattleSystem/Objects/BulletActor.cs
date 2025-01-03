@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -18,6 +18,7 @@ public class BulletActor : TimedActor
     
     public void Initialize(int damage, float speed, Vector3Int standingPos , HexDirection direction, float lifeTime)
     {
+        actionCooldown = speed;
         Damage = damage;
         Speed = speed;
         LifeTime = lifeTime;

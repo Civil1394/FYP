@@ -17,7 +17,7 @@ public class CastingHandler : MonoBehaviour
 	//Check the casting cell is in range or other condition is fulfilled
 	public bool CastIsLegit(AbilityData ability, HexCellComponent clickedCell)
 	{
-		switch (ability.castType)
+		switch (ability.CastType)
 		{
 			case AbilityCastType.Direction_targeted:
 				return BattleManager.Instance.hexgrid.CheckCellInRange(clickedCell,
@@ -30,7 +30,7 @@ public class CastingHandler : MonoBehaviour
 	
 	public void ExecuteAbility(AbilityData ability, HexCellComponent targetCell = null)
 	{
-		switch (ability.castType)
+		switch (ability.CastType)
 		{
 			case AbilityCastType.Direction_targeted:
 				HandleDirectionalCast(ability, targetCell);
@@ -43,9 +43,9 @@ public class CastingHandler : MonoBehaviour
 	private void HandleDirectionalCast(AbilityData ability,HexCellComponent directionCell)
 	{
 
-		foreach (var effect in ability.effects)
+		foreach (var effect in ability.Effects)
 		{
-			effect.ApplyEffect(directionCell);
+			effect.ApplyEffect(AbilityCasterType.Player,directionCell);
 		}
 		
 		ResetCasting();

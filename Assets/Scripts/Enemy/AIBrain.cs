@@ -85,17 +85,17 @@ public class AIBrain : MonoBehaviour
     }
     private void InitializeAttackStrategy()
     {
-        switch (enemyConfig.AttackStrategy)
+        switch (enemyConfig.AbilityData.CastType)
         {
-            case EnemyData.AttackType.DirectionTargetting:
-                attackStrategy = new DirectionTargeting(transform, enemyConfig.AttackPrefab);
+            case AbilityCastType.Direction_targeted:
+                attackStrategy = new DirectionTargeting(transform, enemyConfig.AttackPrefab,enemyConfig.AbilityData);
                 break;
-            case EnemyData.AttackType.GroundTargetting:
-                attackStrategy = new GroundTargeting(transform, enemyConfig.AttackPrefab);
-                break;
-            case EnemyData.AttackType.Dash:
-                attackStrategy = new DashAttack(transform, enemyConfig.DashSpeed);
-                break;
+            // case EnemyData.AttackType.GroundTargetting:
+            //     attackStrategy = new GroundTargeting(transform, enemyConfig.AttackPrefab);
+            //     break;
+            // case EnemyData.AttackType.Dash:
+            //     attackStrategy = new DashAttack(transform, enemyConfig.DashSpeed);
+            //     break;
         }
     }
     public void RememberPlayer()
@@ -119,7 +119,7 @@ public class AIBrain : MonoBehaviour
     public void PerformAttack()
     {
         attackDur = 6;
-        attackStrategy.Attack(playerGrid);
+        attackStrategy.Attack(playerGrid ,currentCell.ParentComponent);
     }
 
     private void OnDrawGizmos()

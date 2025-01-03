@@ -25,8 +25,8 @@ public class Card : ICard
     public void SetAbilityData(AbilityData abilityData)
     {
         AbilityData = abilityData;
-        Name = abilityData.title;
-        Cost = abilityData.initCost;
+        Name = abilityData.Title;
+        Cost = abilityData.InitCost;
     }
 
     public void Cast()

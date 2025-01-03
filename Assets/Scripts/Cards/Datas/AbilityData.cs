@@ -7,20 +7,20 @@ public class AbilityData : ScriptableObject
 	public string id;
 
 	[Header("Text")]
-	public string title;
-	public int initCost;
+	public string Title;
+	public int InitCost;
 	[TextArea(5, 7)]
-	public string desc;
+	public string Desc;
 	
 	[Header("Cast")]
 	public int castRange;
 	public AbilityCastTiming castTiming;             //WHEN does the ability trigger?
-	public AbilityCastType castType;             //How the ability is cast?
+	public AbilityCastType CastType;             //How the ability is cast?
 	[Header("Target")]
 	public AbilityTarget target;               //WHO is targeted?
 
 	[Header("Effect")]
-	public EffectData[] effects;              //WHAT this does?
+	public EffectData[] Effects;              //WHAT this does?
 	public StatusData[] status;               //Status added by this ability (E.G CrowdControl //Duration passed to the effect (usually for status, 0=permanent)
 
 	[Header("Chain/Choices")]
@@ -55,7 +55,15 @@ public enum AbilityCastType
 }
 public enum AbilityTarget
 {
+	None,
 	Player,
 	Enemy,
 	Environment
+}
+
+public enum AbilityCasterType
+{
+	None,
+	Player,
+	Enemy
 }
