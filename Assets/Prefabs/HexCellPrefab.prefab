@@ -51,11 +51,14 @@ MonoBehaviour:
   CellData:
     ID: 
     Coordinates: {x: 0, y: 0, z: 0}
+    cellType: 0
+    cellGuiType: 0
   sharedCellMat: {fileID: 0}
   emptyColor: {r: 0, g: 0, b: 0, a: 0}
   invalidColor: {r: 1, g: 0, b: 0, a: 0.0627451}
   validMoveRangeColor: {r: 0.21933962, g: 0.8773585, b: 0.3533654, a: 0.48235294}
   validAttackRangeColor: {r: 0.8773585, g: 0.61025804, b: 0.23589355, a: 0.29411766}
+  objectStandingColor: {r: 0.087736584, g: 0.4433962, b: 0.010457456, a: 0.92156863}
 --- !u!114 &-5586953948419392428
 MonoBehaviour:
   m_ObjectHideFlags: 0

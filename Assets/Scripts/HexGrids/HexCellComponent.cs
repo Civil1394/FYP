@@ -10,6 +10,7 @@ public class HexCellComponent : MonoBehaviour
     [SerializeField] private Color invalidColor;
     [SerializeField] private Color validMoveRangeColor;
     [SerializeField] private Color validAttackRangeColor;
+    [SerializeField] private Color objectStandingColor;
 
     private Material customCellMat;
 
@@ -68,7 +69,7 @@ public class HexCellComponent : MonoBehaviour
                 customCellMat.color = emptyColor;
                 break;
             case CellType.Player:
-                customCellMat.color = validMoveRangeColor;
+                customCellMat.color = objectStandingColor;
                 break;
             case CellType.Invalid:
             case CellType.Enemy:
@@ -106,8 +107,8 @@ public class HexCell
 {
     public string ID;
     public Vector3Int Coordinates;
-    private CellType cellType;
-    private CellGuiType cellGuiType;
+    [SerializeField] private CellType cellType;
+    [SerializeField] private CellGuiType cellGuiType;
 
     public CellType CellType
     {

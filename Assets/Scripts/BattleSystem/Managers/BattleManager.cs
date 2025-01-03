@@ -107,10 +107,13 @@ public class BattleManager : Singleton<BattleManager>
 		//StartCoroutine(_TurnBaseCoroutine());
 		
 		//init player valid move range
-		HexCellComponent[] newNearbyCells = hexgrid.GetCellsInRange(hexgrid.GetCellByType(CellType.Player), 1);
-		for (int i = 0; i < newNearbyCells.Length; i++)
+		HexCellComponent[] newNearbyCells = BattleManager.Instance.hexgrid.GetCellsInRange(hexgrid.GetCellByType(CellType.Player), 1);
+		foreach (var cell in newNearbyCells)
 		{
-			newNearbyCells[i].CellData.SetGuiType(CellGuiType.ValidMoveRange);
+			if (cell.CellData.CellType == CellType.Empty)
+			{
+				cell.CellData.SetGuiType(CellGuiType.ValidMoveRange);
+			}
 		}
 	}
 	

@@ -1671,11 +1671,14 @@ MonoBehaviour:
   CellData:
     ID: 
     Coordinates: {x: 0, y: 0, z: 0}
+    cellType: 0
+    cellGuiType: 0
   sharedCellMat: {fileID: 0}
   emptyColor: {r: 0, g: 0, b: 0, a: 0}
   invalidColor: {r: 0, g: 0, b: 0, a: 0}
   validMoveRangeColor: {r: 0, g: 0, b: 0, a: 0}
   validAttackRangeColor: {r: 0, g: 0, b: 0, a: 0}
+  objectStandingColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!43 &138131828
 Mesh:
   m_ObjectHideFlags: 0
@@ -7744,11 +7747,14 @@ MonoBehaviour:
   CellData:
     ID: 
     Coordinates: {x: 0, y: 0, z: 0}
+    cellType: 0
+    cellGuiType: 0
   sharedCellMat: {fileID: 0}
   emptyColor: {r: 0, g: 0, b: 0, a: 0}
   invalidColor: {r: 0, g: 0, b: 0, a: 0}
   validMoveRangeColor: {r: 0, g: 0, b: 0, a: 0}
   validAttackRangeColor: {r: 0, g: 0, b: 0, a: 0}
+  objectStandingColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!65 &1182421219
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10338,11 +10344,14 @@ MonoBehaviour:
   CellData:
     ID: 
     Coordinates: {x: 0, y: 0, z: 0}
+    cellType: 0
+    cellGuiType: 0
   sharedCellMat: {fileID: 0}
   emptyColor: {r: 0, g: 0, b: 0, a: 0}
   invalidColor: {r: 0, g: 0, b: 0, a: 0}
   validMoveRangeColor: {r: 0, g: 0, b: 0, a: 0}
   validAttackRangeColor: {r: 0, g: 0, b: 0, a: 0}
+  objectStandingColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!65 &1534326244
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10660,7 +10669,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -11185,7 +11194,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.7
+  m_Intensity: 0.53
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -11228,7 +11237,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 9554
+  m_ColorTemperature: 7442
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
