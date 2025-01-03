@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25c1b50b19b946648a66bbb9c3801bb4, type: 3}
-  m_Name: 4s Bullet 3
+  m_Script: {fileID: 11500000, guid: 8169c93cc3781ec49a9acdba115b6756, type: 3}
+  m_Name: 4s_parameter
   m_EditorClassIdentifier: 
-  effectType: 0
-  desc: aa
-  Object_fx: {fileID: 121798, guid: 672a9f8d9b8441b47a4cc0a5c3d60b7c, type: 3}
-  parameters: {fileID: 11400000, guid: 9f305abd4daa27748aae22eabf7a921f, type: 2}
+  damage: 10
+  speed: 4
+  lifeTime: 10

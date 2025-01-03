@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectType: 0
   desc: aa
-  Object_fx: {fileID: 121798, guid: 672a9f8d9b8441b47a4cc0a5c3d60b7c, type: 3}
+  Object_fx: {fileID: 121798, guid: a1a393c51c7f41b4e8944f73a81f7e31, type: 3}
   parameters: {fileID: 11400000, guid: 20faf7ad1e09dd94b956a5f8a8514ddc, type: 2}
