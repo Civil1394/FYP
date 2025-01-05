@@ -21,12 +21,12 @@ public class GameManager : Singleton<GameManager>
 	{
 		if(IsDebugDrawPlayerDirCell)
 		{
-			foreach (var cell in BattleManager.Instance.hexgrid.playerSixDirCellsSet)
+			foreach (var cell in BattleManager.Instance.hexgrid.PlayerSixDirCellsSet)
 			{
-				if (cell != null)
+				if (cell.Key != null)
 				{
 					Gizmos.color = Color.green;
-					Gizmos.DrawSphere(cell.transform.position + Vector3.up * 0.5f, 0.5f); 
+					Gizmos.DrawSphere(cell.Key.transform.position + Vector3.up * 0.5f, 0.5f); 
 				}
 			}
 		}

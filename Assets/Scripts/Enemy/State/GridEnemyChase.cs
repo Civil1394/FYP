@@ -58,4 +58,13 @@ public class GridEnemyChase : EnemyBaseState
         path = await pathFinding.FindPathAsync(start, end);
         enemyBrain.gPath = path;
     }
+
+    private HexCellComponent FindNearestAttackCell()
+    {
+        foreach(var cell in BattleManager.Instance.hexgrid.PlayerSixDirCellsSet)
+        {
+            //if(cell.Value>enemyBrain.enemyConfig.)
+        }
+        return null;
+    }
 }

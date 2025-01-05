@@ -9,7 +9,7 @@ public class HexGrid
     public float CellDistance;
     public int Width { get; private set; }
     public int Height { get; private set; }
-    public HashSet<HexCellComponent> playerSixDirCellsSet = new HashSet<HexCellComponent>();
+    public Dictionary<HexCellComponent,int> PlayerSixDirCellsSet = new Dictionary<HexCellComponent, int>();
     public HexGrid()
     {
     }
@@ -233,12 +233,12 @@ public class HexGrid
     //EnemyAttackStrategy logic use
     public void UpdatePlayerSixDirCellsSet()
     {
-        playerSixDirCellsSet.Clear();
+        PlayerSixDirCellsSet.Clear();
         HexCellComponent playerCell = GetCellByType(CellType.Player);
         for (HexDirection direction = HexDirection.NE; direction <= HexDirection.NW; direction++)
         {
             HexCellComponent temp = playerCell;
-
+            int tempDis = 1;
             while (temp != null)
             {
                 var c = GetCellByDirection(temp, direction);
@@ -246,7 +246,7 @@ public class HexGrid
                 if (c == null || c.CellData.CellType == CellType.Invalid)
                     break;
                 
-                playerSixDirCellsSet.Add(c);
+                PlayerSixDirCellsSet.Add(c, tempDis++);
                 temp = c;
             }
         }
@@ -279,6 +279,4 @@ public class HexGrid
         }
        
     }
-    
 }
-
