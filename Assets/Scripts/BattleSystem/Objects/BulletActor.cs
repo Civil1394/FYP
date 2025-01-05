@@ -13,11 +13,14 @@ public class BulletActor : TimedActor
     public float InitialLifeTime { get; private set; }
     public bool IsAlive { get; private set; }
 
+    public Vector3 height_Offset { get; private set; }
+    
     private List<ProjectileBehavior> behaviors = new List<ProjectileBehavior>();
     private Quaternion targetRotation;
     
-    public void Initialize(int damage, float speed, Vector3Int standingPos , HexDirection direction, float lifeTime)
+    public void Initialize(int damage, float speed, Vector3Int standingPos , HexDirection direction, float lifeTime,Vector3 height_offset)
     {
+        this.gameObject.tag = "Projectile";
         actionCooldown = speed;
         Damage = damage;
         Speed = speed;
@@ -26,6 +29,8 @@ public class BulletActor : TimedActor
         IsAlive = true;
         TargetDirection = direction;
         StandingPos = standingPos;
+        height_Offset = height_offset;
+        
         HexCellComponent standingCell = BattleManager.Instance.hexgrid.GetCellInCoord(StandingPos);
         HexCellComponent nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
         if (nextCellToMove != null)
@@ -44,11 +49,12 @@ public class BulletActor : TimedActor
         
        
     }
+    
     //init behaviors
     private void AddBehavior<T>() where T : ProjectileBehavior
     {
         var newBehavior = gameObject.AddComponent<T>();
-        newBehavior.Initialize(this, StandingPos, TargetDirection, Speed);
+        newBehavior.Initialize(this, StandingPos, TargetDirection, Speed,height_Offset);
         behaviors.Add(newBehavior);
     }
 
@@ -83,6 +89,5 @@ public class BulletActor : TimedActor
 
     private void OnDestroy()
     {
-        BattleManager.Instance.TurnManager.OnTurnStart -= Launch;
     }
 }

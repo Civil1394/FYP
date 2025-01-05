@@ -10,12 +10,13 @@ public abstract class ProjectileBehavior : MonoBehaviour
     protected Vector3Int standingPos;
     protected HexDirection direction;
     protected float speed;
-    
-    public virtual void Initialize(BulletActor bulletActor, Vector3Int standingPos,HexDirection direction, float speed)
+    protected Vector3 height_offset;
+    public virtual void Initialize(BulletActor bulletActor, Vector3Int standingPos,HexDirection direction, float speed, Vector3 height_offset)
     {
         this.BulletActor = bulletActor;
         this.direction = direction;
         this.speed = speed;
+        this.height_offset = height_offset;
     }
 
     public virtual void UpdateBehavior(Vector3Int standingPos)
@@ -29,26 +30,26 @@ public class BaseBehavior : ProjectileBehavior
     
     private Tween currentMovement;  
     private  HexCellComponent nextCellToMove = new HexCellComponent();
-    private bool pendingDestroy = false;
-    public override void Initialize(BulletActor bulletActor, Vector3Int standingPos, HexDirection direction, float speed)
+    public override void Initialize(BulletActor bulletActor, Vector3Int standingPos, HexDirection direction, float speed, Vector3 height_offset)
     {
-        base.Initialize(bulletActor, standingPos, direction, speed);
+        base.Initialize(bulletActor, standingPos, direction, speed,height_offset);
     }
     public override void UpdateBehavior(Vector3Int standingPos)
     {
         base.UpdateBehavior(standingPos);
         
+        //TODO: Rework bullet straight behavior
         HexCellComponent standingCell = BattleManager.Instance.hexgrid.GetCellInCoord(standingPos);
         
         for (int i = 0; i < speed; i++)
         {
             nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
             
+            //Check if reach obstacle or void then 
             if (!nextCellToMove || nextCellToMove.CellData.CellType == CellType.Invalid)
             {
                 nextCellToMove = standingCell;
-                pendingDestroy = true;
-                currentMovement = this.transform.DOMove(standingCell.transform.position + new Vector3(0,2,0), 0.5f)
+                currentMovement = this.transform.DOMove(standingCell.transform.position + height_offset, 0.5f)
                     .SetEase(Ease.Linear)
                     .OnComplete(() =>
                     {
@@ -60,31 +61,12 @@ public class BaseBehavior : ProjectileBehavior
             standingCell = nextCellToMove;
         }
 
-        currentMovement = this.transform.DOMove(nextCellToMove.transform.position + new Vector3(0,2,0), 0.5f).SetEase(Ease.Linear);
+        currentMovement = this.transform.DOMove(nextCellToMove.transform.position + height_offset, 0.5f).SetEase(Ease.Linear);
             
         BulletActor.StandingPos = nextCellToMove.CellData.Coordinates;
     }
 
-    private void OnTurnEnd()
-    {
-        //speedup the movement if the movement tween is still playing
-        if (currentMovement != null && currentMovement.IsPlaying())
-        {
-            currentMovement.Kill();
-            currentMovement = this.transform.DOMove(nextCellToMove.transform.position, 0.2f).SetEase(Ease.Linear)
-                .OnComplete(
-                    () =>
-                    {
-                        if(pendingDestroy)
-                            BulletActor.SelfDestroy();
-                        return;
-                    });
-        }
-       
-    }
-
     private void OnDestroy()
     {
-        BattleManager.Instance.TurnManager.OnTurnEnd -= OnTurnEnd;
     }
 }

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: 2s_parameter
   m_EditorClassIdentifier: 
   Damage: 10
-  FlowSpeed: 2
-  LifeTime: 8
+  FlowSpeed: 0.5
+  LifeTime: 20

@@ -3,10 +3,10 @@ using System.Collections;
 
 public interface IDamagable 
 {
-    public int Health { get; } 
-    public void SetHealth(int health);
-    public void TakeDamage(int damage);
-    public void Heal(int heal);
+    public float Health { get; } 
+    public void SetHealth(float health);
+    public void TakeDamage(float damage);
+    public void Heal(float heal);
 }
 
 

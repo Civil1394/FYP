@@ -9,6 +9,7 @@ public class HexGrid
     public float CellDistance;
     public int Width { get; private set; }
     public int Height { get; private set; }
+    public HashSet<HexCellComponent> playerSixDirCellsSet = new HashSet<HexCellComponent>();
     public HexGrid()
     {
     }
@@ -228,7 +229,28 @@ public class HexGrid
     }
     
     #endregion
-   
+
+    //EnemyAttackStrategy logic use
+    public void UpdatePlayerSixDirCellsSet()
+    {
+        playerSixDirCellsSet.Clear();
+        HexCellComponent playerCell = GetCellByType(CellType.Player);
+        for (HexDirection direction = HexDirection.NE; direction <= HexDirection.NW; direction++)
+        {
+            HexCellComponent temp = playerCell;
+
+            while (temp != null)
+            {
+                var c = GetCellByDirection(temp, direction);
+
+                if (c == null || c.CellData.CellType == CellType.Invalid)
+                    break;
+                
+                playerSixDirCellsSet.Add(c);
+                temp = c;
+            }
+        }
+    }
     private void SetupNeighbors(HexCellComponent cell)
     {
         //W direction

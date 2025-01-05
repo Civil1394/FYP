@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
   m_Name: LiftGammaGain
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   lift:
     m_OverrideState: 0
     m_Value: {x: 0.95252526, y: 0.9523224, z: 1, w: -0.028530668}
@@ -21,7 +21,7 @@ MonoBehaviour:
     m_Value: {x: 0.92043966, y: 0.94432503, z: 1, w: 0}
   gain:
     m_OverrideState: 1
-    m_Value: {x: 0.8334696, y: 1, z: 0.95419246, w: -0.14265338}
+    m_Value: {x: 1, y: 0.94957286, z: 0.9062929, w: 0.025662955}
 --- !u!114 &-4212601470220028348
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -56,7 +56,7 @@ MonoBehaviour:
     m_Value: 0
   contrast:
     m_OverrideState: 1
-    m_Value: 7
+    m_Value: 13.8
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -129,8 +129,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   shadows:
-    m_OverrideState: 0
-    m_Value: {x: 0.9749105, y: 1, z: 0.9811832, w: 0.11412267}
+    m_OverrideState: 1
+    m_Value: {x: 0.9749105, y: 1, z: 0.9811832, w: -0.06505025}
   midtones:
     m_OverrideState: 1
     m_Value: {x: 0.8260747, y: 0.9483483, z: 1, w: 0.14265333}

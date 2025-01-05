@@ -4,7 +4,7 @@ using System.Collections;
 
 public class PlayerActor : TimedActor , IDamagable
 {
-	public int Health { get; private set; }
+	public float Health { get; private set; }
 	public HexDirection FacingHexDirection;
 	public bool CanExecuteAction { get; private set; }
     
@@ -162,11 +162,11 @@ public class PlayerActor : TimedActor , IDamagable
 
 	#region IDamagable implementation
 
-	public void SetHealth(int health)
+	public void SetHealth(float health)
 	{
 		Health = health;
 	}
-	public void TakeDamage(int damage)
+	public void TakeDamage(float damage)
 	{
 		Health -= damage;
 		if (Health <= 0)
@@ -175,7 +175,7 @@ public class PlayerActor : TimedActor , IDamagable
 		}
 	}
 
-	public void Heal(int heal)
+	public void Heal(float heal)
 	{
 		Health += heal;
 	}

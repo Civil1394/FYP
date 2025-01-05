@@ -32,8 +32,6 @@ public class BattleManager : Singleton<BattleManager>
 	public int handCardsSize = 2;
 	
 	public bool IsBattleStarted = false;
-	public GenericAction OnTurnStart = new GenericAction();
-	
 	#region Manager References
 	[Header("Managers Related Ref")]
 	//TurnManager
@@ -94,9 +92,6 @@ public class BattleManager : Singleton<BattleManager>
 		//InitPlayer
 		InitPlayer();
 		
-		//InitInteraction
-		//inputHandler = GetComponent<InputHandler>();
-		
 		//InitEnemies
 		EnemyManager.Instance.InitEnemies();
 		
@@ -115,6 +110,7 @@ public class BattleManager : Singleton<BattleManager>
 				cell.CellData.SetGuiType(CellGuiType.ValidMoveRange);
 			}
 		}
+		
 	}
 	
 	private void InitPlayer()
@@ -139,6 +135,7 @@ public class BattleManager : Singleton<BattleManager>
 		{
 			Debug.LogError("Not valid cell to spawn!");
 		}
+		hexgrid.UpdatePlayerSixDirCellsSet();
 	}
 	#endregion
 	
@@ -169,6 +166,8 @@ public class BattleManager : Singleton<BattleManager>
 				cell.CellData.SetGuiType(CellGuiType.ValidMoveRange);
 			}
 		}
+		//Update Valid cells set of six direction from player
+		hexgrid.UpdatePlayerSixDirCellsSet();
 		
 		TurnManager.ExecuteAction(TurnActionType.Move,
 			$"Moved from {oldCell.CellData.Coordinates} to {newCell.CellData.Coordinates}");
@@ -179,46 +178,7 @@ public class BattleManager : Singleton<BattleManager>
 		Debug.Log($"Action executed: {action.ActionType} - {action.Description}");
 		actionExecuted = true;
 	}
-	private IEnumerator _TurnBaseCoroutine()
-	{
-		
-    
-		while (IsBattleStarted)
-		{
-			// //TurnStart Action
-			// Debug.Log("New Turn Started");
-			// TurnManager.StartNewTurn();
-   //      
-			// float remainingTime = initTurnDur;
-			// actionExecuted = false;
-			//
-			// // Invoke both versions of OnTurnStart
-			// OnTurnStart?.Invoke(initTurnDur);
-			// OnTurnStart?.Invoke();
-			//
-			// // Use Time.deltaTime for more precise timing
-			// while (!actionExecuted && remainingTime > 0)
-			// {
-			// 	remainingTime -= Time.deltaTime;
-			// 	yield return null;
-			// }
-			//
-			//Add cards to hand at start of turn
-			if (CardsManager.Instance.Hand.Count == 0)
-			{
-				for (int i = 0; i < handCardsSize; i++)
-				{
-					Card testCard = CardFactory.Instance.CreateCardFromList(AbilityDatabase, "1",
-						AbilityDatabase.GetRandomAbilityFromList("1").id);
-					CardsManager.Instance.AddCardToDeck(testCard);
-					var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
-				}
-			}
-			//TurnEnd Action
-			TurnManager.EndTurn();
-			yield return new WaitForSeconds(0.2f);
-		}
-	}
+
 
 	#region ObjectCoordAPI
 

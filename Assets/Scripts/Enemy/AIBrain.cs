@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AIBrain : MonoBehaviour
 {
-    [SerializeField] EnemyData enemyConfig;
+    public EnemyData enemyConfig;
 
     //Functional component
     [SerializeField] PlayerDetector playerDetector;

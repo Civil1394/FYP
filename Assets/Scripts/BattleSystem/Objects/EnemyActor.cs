@@ -1,16 +1,22 @@
+using System;
 using UnityEngine;
 using System.Collections;
+using Random = UnityEngine.Random;
 
 public class EnemyActor : TimedActor , IDamagable
 {
-	public int Health { get; private set; }
+	public float Health { get; private set; }
+	public AbilityData abilityData;
+	
+	[SerializeField] CapsuleCollider objectCollider;
 	[SerializeField] private GlobalCanvasHourGlass GlobalCanvasHourGlass;
 	private AIBrain aiBrain;
 	
-	public AbilityData abilityData;
+	
 	protected override void Start()
 	{
 		aiBrain = gameObject.GetComponent<AIBrain>();
+		SetHealth(aiBrain.enemyConfig.Health);
 		if (GlobalCanvasHourGlass != null)
 		{
 			OnTimerStart += GlobalCanvasHourGlass.CountTime;
@@ -23,23 +29,35 @@ public class EnemyActor : TimedActor , IDamagable
 	{
 		base.Update();
 	}
-	
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.CompareTag("Projectile"))
+		{
+			Debug.Log("gethit");
+			TakeDamage(other.GetComponent<BulletActor>().Damage);
+			Destroy(other.gameObject);
+		}
+	}
+
 	#region IDamagable implementation
 
-	public void SetHealth(int health)
+	public void SetHealth(float health)
 	{
 		Health = health;
 	}
-	public void TakeDamage(int damage)
+	public void TakeDamage(float damage)
 	{
 		Health -= damage;
 		if (Health <= 0)
 		{
 			Debug.Log("Player is dead");
+			Destroy(this.gameObject);
 		}
+		
 	}
 
-	public void Heal(int heal)
+	public void Heal(float heal)
 	{
 		Health += heal;
 	}
