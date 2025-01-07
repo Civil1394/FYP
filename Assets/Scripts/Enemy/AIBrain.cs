@@ -119,7 +119,16 @@ public class AIBrain : MonoBehaviour
     public void PerformAttack()
     {
         attackDur = 6;
-        attackStrategy.Attack(playerGrid ,currentCell.ParentComponent);
+        print("attacked");
+        print(BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(
+                playerGrid, currentCell.ParentComponent
+                )
+            );
+        //attackStrategy.Attack(
+        //    BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(
+        //        playerGrid, currentCell.ParentComponent
+        //        )
+        //    );
     }
 
     private void OnDrawGizmos()

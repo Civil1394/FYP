@@ -181,10 +181,23 @@ public class HexGrid
             );
         return nearestCell;
     }
+    public HexDirection GetHexDirectionBy2Cell(HexCellComponent pivotCell, HexCellComponent endCell)
+    {
+        Vector3 originDir = (endCell.transform.position - pivotCell.transform.position).normalized;
+        for (int i = 0; i < pivotCell.CellData.Neighbors.Length; i++)
+        {
+            Vector3 tempDir = (pivotCell.CellData.Neighbors[i].ParentComponent.transform.position - pivotCell.transform.position).normalized;
+            if (tempDir == originDir)
+            {
+                return (HexDirection)i;
+            }
+        }
+        return HexDirection.NONE;
+    }
     #endregion
-    
+
     #region Type Utilities
-    
+
     public HexCellComponent[] GetCellsByType(CellType cellType)
     {
         return cells.Values
