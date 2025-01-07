@@ -53,18 +53,34 @@ public class GridEnemyChase : EnemyBaseState
         else { path.Clear(); }
         HexCellComponent start = enemyBrain.currentCell.ParentComponent;
             //BattleManager.Instance.hexgrid.GetCellInCoord(enemyBrain.currentCoord);
-        HexCellComponent end = enemyBrain.playerGrid ? enemyBrain.playerGrid : enemyBrain.lastSeenPlayerGrid;
-        if (!end) return;
+        HexCellComponent end = FindNearestAttackCell();
+        if (!end)
+        {
+            Debug.Log("the end point is null");
+            return;
+        }
+
         path = await pathFinding.FindPathAsync(start, end);
         enemyBrain.gPath = path;
     }
 
     private HexCellComponent FindNearestAttackCell()
     {
+        float minDist = float.MaxValue;
+        HexCellComponent minCell = null;
         foreach(var cell in BattleManager.Instance.hexgrid.PlayerSixDirCellsSet)
         {
-            //if(cell.Value>enemyBrain.enemyConfig.)
+            if (cell.Value > enemyBrain.enemyConfig.AttackRangeInCell)
+            {
+                continue;
+            }
+            float tempDist = Vector3.Distance(enemyBrain.transform.position, cell.Key.transform.position);
+            if(tempDist < minDist)
+            {
+                minDist = tempDist;
+                minCell = cell.Key;
+            }
         }
-        return null;
+        return minCell;
     }
 }

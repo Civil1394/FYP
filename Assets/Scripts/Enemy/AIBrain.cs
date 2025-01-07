@@ -25,7 +25,7 @@ public class AIBrain : MonoBehaviour
     //Stat
     private IAttack attackStrategy;
     private int attackDur = 6;
-
+    
     //Control flag
     public bool isAttacking = false;
 
@@ -56,7 +56,7 @@ public class AIBrain : MonoBehaviour
             chaseState, attackState, new FuncPredicate(
                 () =>
                 playerDetector.CanDetectPlayer(out playerGrid) &&
-                Vector3.Distance(transform.position, playerGrid.transform.position) < 20 &&
+                IsPlayerInAttackRange(enemyConfig.AttackRangeInCell) &&
                 attackDur <= 0
                 )
             );
@@ -131,5 +131,19 @@ public class AIBrain : MonoBehaviour
             var temp = BattleManager.Instance.hexgrid.GetCellInCoord(p.Coordinates);
             Gizmos.DrawCube(temp.transform.position, Vector3.one);
         }
+    }
+
+    public bool IsPlayerInAttackRange(int range)
+    {
+        if (!BattleManager.Instance.hexgrid.PlayerSixDirCellsSet.ContainsKey(currentCell.ParentComponent))
+        {
+            return false;
+        }
+        int temp_r = BattleManager.Instance.hexgrid.PlayerSixDirCellsSet[currentCell.ParentComponent];
+        if (temp_r < range)
+        {
+            return true;
+        }
+        return false;
     }
 }

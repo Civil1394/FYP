@@ -1,7 +1,4 @@
-using System;
 using UnityEngine;
-using System.Collections;
-using UnityEngine.Events;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -30,7 +27,6 @@ public class GameManager : Singleton<GameManager>
 				}
 			}
 		}
-		
 	}
 
 	public void DebugDrawPlayerDirCell()

@@ -13,6 +13,7 @@ public class EnemyData : ScriptableObject
     [SerializeField] private AttackType attackType;
     [SerializeField] private GameObject attackPrefab;
     [SerializeField] private float dashSpeed;
+    [SerializeField] private int attackRangeInCell;
     
     public float Health => health;
     public float AngleOfRange => angleOfRange;
@@ -21,7 +22,7 @@ public class EnemyData : ScriptableObject
     //public AttackType AttackStrategy => attackType;
     public GameObject AttackPrefab => attackPrefab;
     public float DashSpeed => dashSpeed;
-
+    public int AttackRangeInCell => attackRangeInCell;
     public AbilityData AbilityData;
     public enum AttackType
     {
