@@ -7,9 +7,9 @@ public class AIBrain : MonoBehaviour
     public EnemyData enemyConfig;
 
     //Functional component
-    [SerializeField] PlayerDetector playerDetector;
-    StateMachine stateMachine;
-    PathFinding pathFinding;
+    [SerializeField] protected PlayerDetector playerDetector;
+    protected StateMachine stateMachine;
+    protected PathFinding pathFinding;
 
     //Memory
     public Vector3Int currentCoord;
@@ -23,13 +23,13 @@ public class AIBrain : MonoBehaviour
     public Color mColor;
 
     //Stat
-    private IAttack attackStrategy;
-    private int attackDur = 6;
+    protected IAttack attackStrategy;
+    protected int attackDur = 6;
     
     //Control flag
     public bool isAttacking = false;
 
-    private void Start()
+    protected void Start()
     {
         mColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 
@@ -42,16 +42,15 @@ public class AIBrain : MonoBehaviour
         var attackState = new GridEnemyAttack(this, null);
         #region Set up state transition
         stateMachine.AddTransition(
+            wanderState, chaseState, new FuncPredicate(
+                () => playerDetector.CanDetectPlayer(out playerGrid)
+            )
+        );
+        stateMachine.AddTransition(
             chaseState, wanderState, new FuncPredicate(
                 () => !playerDetector.CanDetectPlayer(out playerGrid) && chaseState.HasReachedDestination()
                 )
             );
-        stateMachine.AddTransition(
-            wanderState, chaseState, new FuncPredicate(
-                () => playerDetector.CanDetectPlayer(out playerGrid)
-                )
-            );
-
         stateMachine.AddTransition(
             chaseState, attackState, new FuncPredicate(
                 () =>
@@ -72,18 +71,18 @@ public class AIBrain : MonoBehaviour
         InitializeAttackStrategy();
     }
 
-    private void Update()
+    protected void Update()
     {
         stateMachine.Update();
+        RememberPlayer();
     }
     public void TurnAction()
     {
         stateMachine.OnTurnStart();
-        RememberPlayer();
         attackDur--;
-        //print(attackDur);
+        print(attackDur);
     }
-    private void InitializeAttackStrategy()
+    protected void InitializeAttackStrategy()
     {
         switch (enemyConfig.AbilityData.CastType)
         {
@@ -130,7 +129,7 @@ public class AIBrain : MonoBehaviour
 
     }
 
-    private void OnDrawGizmos()
+    protected void OnDrawGizmos()
     {
         Gizmos.color = mColor;
         if (gPath == null) return;
@@ -145,13 +144,16 @@ public class AIBrain : MonoBehaviour
     {
         if (!BattleManager.Instance.hexgrid.PlayerSixDirCellsSet.ContainsKey(currentCell.ParentComponent))
         {
+            //print("cell dose not exist in 6dir dict");
             return false;
         }
-        int temp_r = BattleManager.Instance.hexgrid.PlayerSixDirCellsSet[currentCell.ParentComponent];
-        if (temp_r < range)
+        int tempR = BattleManager.Instance.hexgrid.PlayerSixDirCellsSet[currentCell.ParentComponent];
+        if (tempR <= range)
         {
+            //print("the distance is "+tempR);
             return true;
         }
+        //print("probably out of range");
         return false;
     }
 }

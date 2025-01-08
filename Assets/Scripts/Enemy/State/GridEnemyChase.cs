@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class GridEnemyChase : EnemyBaseState
@@ -40,7 +41,7 @@ public class GridEnemyChase : EnemyBaseState
         if (path[pathProgress + 1].CellType != CellType.Empty) { RunPathfindingAsync(); return; }
         //prevent two enemy step into the same cell at the same time
         if (!EnemyManager.Instance.ReserveCell(enemyBrain, path[pathProgress + 1])) { RunPathfindingAsync(); return; }
-        enemyBrain.Move(path[++pathProgress]);
+        ChaseMove(path[++pathProgress]);
     }
     public bool HasReachedDestination()
     {
@@ -82,5 +83,19 @@ public class GridEnemyChase : EnemyBaseState
             }
         }
         return minCell;
+    }
+    public void ChaseMove(HexCell cellToMove)
+    {
+        EnemyManager.Instance.ReleaseCell(enemyBrain);
+        var lookPos = enemyBrain.playerGrid
+            ? enemyBrain.playerGrid.transform.position
+            : enemyBrain.lastSeenPlayerGrid.transform.position;
+        Vector3 directionToNextGrid = (lookPos - enemyBrain.transform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(directionToNextGrid);
+        enemyBrain.transform.DOMove(cellToMove.ParentComponent.transform.position, 0.5f);
+        EnemyManager.Instance.OnMove(enemyBrain, cellToMove.Coordinates);
+        enemyBrain.transform.DORotateQuaternion(targetRotation, 0.5f);
+        enemyBrain.currentCoord = cellToMove.Coordinates;
+        enemyBrain.currentCell = cellToMove;
     }
 }
