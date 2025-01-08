@@ -63,7 +63,7 @@ public class TimedActor : MonoBehaviour
     protected virtual void ExecuteAction()
     {
         // Override this in derived classes
-        Debug.Log("Executing action");
+        //Debug.Log("Executing action");
         StartNewTimer(); // Restart timer after action
     }
 }

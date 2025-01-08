@@ -17,12 +17,12 @@ public class EffectData : ScriptableObject
     // This will show different parameter objects based on the effect type
     [SerializeField] private EffectParameters parameters;
 
-    public void ApplyEffect(AbilityCasterType casterType ,HexCellComponent directionCell,HexCellComponent casterStandingCell = null)
+    public void ApplyEffect(HexDirection castDirection,HexCellComponent casterStandingCell)
     {
         switch (effectType)
         {
             case EffectType.Projectile:
-                TriggerProjectile(casterType,casterStandingCell,directionCell);
+                TriggerProjectile(castDirection,casterStandingCell);
                 break;
             case EffectType.Explosion:
                 TriggerExplosion();
@@ -33,25 +33,24 @@ public class EffectData : ScriptableObject
         }
     }
     
-    private void TriggerProjectile(AbilityCasterType casterType,HexCellComponent casterStandingCell,HexCellComponent directionCell)
+    private void TriggerProjectile(HexDirection castingDirection, HexCellComponent casterStandingCell)
     {
         if (parameters is ProjectileParameters projectileParams)
         {
-            HexCellComponent spawnCell = BattleManager.Instance.GetPlayerCell();
-            // Get the direction
-            HexDirection direction = BattleManager.Instance.hexgrid.CheckNeigborCellDirection(spawnCell, directionCell);
-        
+            HexCellComponent spawnCell =
+                BattleManager.Instance.hexgrid.GetCellByDirection(casterStandingCell, castingDirection);
+            
             // Create rotation that faces the player's direction but maintains -90 on Y
             //Quaternion spawnRotation = Quaternion.LookRotation(playerForward) * Quaternion.Euler(0, -90, 0);
             Vector3 height_offset = new Vector3(0, 3, 0);
-            GameObject bullet = Instantiate(Object_fx, directionCell.transform.position + height_offset,quaternion.identity);
+            GameObject bullet = Instantiate(Object_fx, spawnCell.transform.position + height_offset,quaternion.identity);
             var bulletComponent = bullet.AddComponent<BulletActor>();
             
             bulletComponent.Initialize(
                 projectileParams.Damage,
                 projectileParams.FlowSpeed,
-                directionCell.CellData.Coordinates,
-                direction,
+                spawnCell.CellData.Coordinates,
+                castingDirection,
                 projectileParams.LifeTime,
                 height_offset
             );
@@ -62,6 +61,8 @@ public class EffectData : ScriptableObject
         }
         //Debug.Log(Desc);
     }
+    
+
     private void TriggerExplosion()
     {
         if (parameters is ExplosionParameters explosionParams)

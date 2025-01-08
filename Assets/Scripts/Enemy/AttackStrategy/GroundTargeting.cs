@@ -12,7 +12,7 @@ public class GroundTargeting : IAttack
     }
     
 
-    public void Attack(HexCellComponent target, HexCellComponent standingCell)
+    public void Attack(HexDirection castDirection, HexCellComponent standingCell)
     {
         GameObject bomb = GameObject.Instantiate(bombPrefab, enemy.position, Quaternion.identity);
     }

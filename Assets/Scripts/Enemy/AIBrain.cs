@@ -120,15 +120,14 @@ public class AIBrain : MonoBehaviour
     {
         attackDur = 6;
         print("attacked");
-        print(BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(
+        //Need to use Opposite to reverse the direction from player toward enemy
+        //then it can be casting direction
+        HexDirection castDirection = HexDirectionExtensions.Opposite(
+            BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(
                 playerGrid, currentCell.ParentComponent
-                )
-            );
-        //attackStrategy.Attack(
-        //    BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(
-        //        playerGrid, currentCell.ParentComponent
-        //        )
-        //    );
+            ));
+        attackStrategy.Attack(castDirection, currentCell.ParentComponent);
+
     }
 
     private void OnDrawGizmos()

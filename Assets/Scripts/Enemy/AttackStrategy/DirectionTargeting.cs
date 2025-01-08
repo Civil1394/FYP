@@ -12,18 +12,11 @@ public class DirectionTargeting : IAttack
         this.abilityData = abilityData;
     }
 
-    public void Attack(HexCellComponent directionCell, HexCellComponent standingCell)
+    public void Attack(HexDirection castDirection, HexCellComponent standingCell)
     {
-        GameObject projectile = GameObject.Instantiate(projectilePrefab, enemy.position, Quaternion.identity);
-        //Debug.Log(directionCell   .CellData.Coordinates);
-        Vector3 tempDir = directionCell.transform.position-projectile.transform.position;
-        tempDir.Normalize();
-        projectile.GetComponent<DirectionProjectileBehaviour>().Init(tempDir);
-        
-        //TODO: need Implement facing toward player first
-        // foreach (var effect in abilityData.Effects)
-        // {
-        //     effect.ApplyEffect(AbilityCasterType.Enemy,directionCell,standingCell);
-        // }
+        foreach (var effect in abilityData.Effects)
+        {
+            effect.ApplyEffect(castDirection,standingCell);
+        }
     }
 }

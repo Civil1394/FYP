@@ -42,10 +42,13 @@ public class CastingHandler : MonoBehaviour
 	}
 	private void HandleDirectionalCast(AbilityData ability,HexCellComponent directionCell)
 	{
-
+		HexCellComponent playerStandingCell = BattleManager.Instance.GetPlayerCell();
+		HexDirection castDirection =
+			BattleManager.Instance.hexgrid.CheckNeigborCellDirection(playerStandingCell, directionCell);
+		
 		foreach (var effect in ability.Effects)
 		{
-			effect.ApplyEffect(AbilityCasterType.Player,directionCell);
+			effect.ApplyEffect(castDirection,playerStandingCell);
 		}
 		
 		ResetCasting();
