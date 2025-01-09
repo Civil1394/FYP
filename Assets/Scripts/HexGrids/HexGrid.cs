@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.FullSerializer;
 
 public class HexGrid 
 {
@@ -41,6 +42,7 @@ public class HexGrid
         RaycastHit h;
         Physics.Raycast(r, out h, LayerMask.NameToLayer("Cell"));
         HexCellComponent hcc;
+        Debug.Log(h.point);
         if (h.collider.gameObject.TryGetComponent<HexCellComponent>(out hcc))
         {
             return GetNearestCellOfType(hcc, CellType.Empty);
@@ -175,10 +177,9 @@ public class HexGrid
     public HexCellComponent GetAvailableCellByWorldDirection(HexCellComponent pivotCell, Vector3 worldDir, int cell = 1)
     {
         worldDir.Normalize();
-        HexCellComponent nearestCell = null;
-        nearestCell = GetNearestAvailableCellByWorldPosition(
-            pivotCell.transform.position + worldDir * (cell * CellDistance)
-            );
+        HexCellComponent nearestCell = GetNearestAvailableCellByWorldPosition(
+            pivotCell.transform.position + worldDir * (cell * CellDistance) + Vector3.up
+        );
         return nearestCell;
     }
     public HexDirection GetHexDirectionBy2Cell(HexCellComponent pivotCell, HexCellComponent endCell)

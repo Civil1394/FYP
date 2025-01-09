@@ -40,7 +40,9 @@ public class AIBrain : MonoBehaviour
         var wanderState = new GridEnemyWander(this, null, 10, pathFinding);
         var chaseState = new GridEnemyChase(this, null, pathFinding);
         var attackState = new GridEnemyAttack(this, null);
+        var retreatState = new GridEnemyRetreat(this, null,pathFinding);
         #region Set up state transition
+
         stateMachine.AddTransition(
             wanderState, chaseState, new FuncPredicate(
                 () => playerDetector.CanDetectPlayer(out playerGrid)
@@ -49,22 +51,27 @@ public class AIBrain : MonoBehaviour
         stateMachine.AddTransition(
             chaseState, wanderState, new FuncPredicate(
                 () => !playerDetector.CanDetectPlayer(out playerGrid) && chaseState.HasReachedDestination()
-                )
-            );
+            )
+        );
         stateMachine.AddTransition(
             chaseState, attackState, new FuncPredicate(
                 () =>
-                playerDetector.CanDetectPlayer(out playerGrid) &&
-                IsPlayerInAttackRange(enemyConfig.AttackRangeInCell) &&
-                attackDur <= 0
-                )
-            );
+                    playerDetector.CanDetectPlayer(out playerGrid) &&
+                    IsPlayerInAttackRange(enemyConfig.AttackRangeInCell) &&
+                    attackDur <= 0
+            )
+        );
 
         stateMachine.AddTransition(
-            attackState, chaseState, new FuncPredicate(
+            attackState, retreatState, new FuncPredicate(
                 () => !isAttacking
-                )
-            );
+            )
+        );
+        stateMachine.AddTransition(
+            retreatState, chaseState, new FuncPredicate(
+                () => attackDur <= 0
+            )
+        );
 #endregion
         stateMachine.SetState(wanderState);
 
