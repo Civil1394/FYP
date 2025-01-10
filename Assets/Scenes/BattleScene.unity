@@ -12740,7 +12740,7 @@ MonoBehaviour:
   playerCamera: {fileID: 1930980852}
   playerUIHourGlass: {fileID: 56626183}
   AbilityDatabase: {fileID: 11400000, guid: 20a19216682bd75438107f4ab748eb62, type: 2}
-  initTurnDur: 2
+  initTurnDur: 1
   handCardsSize: 2
   IsBattleStarted: 0
   _inputHandler: {fileID: 1921585517}

@@ -133,7 +133,6 @@ public class InputHandler : MonoBehaviour
 		if (Input.GetMouseButtonDown(1) && orbitalTransposer != null)  
 		{
 			orbitalTransposer.m_XAxis.m_InputAxisName = "Mouse X";
-			Debug.Log("Middle mouse button down");
 		}
 		else if (Input.GetMouseButtonUp(1) && orbitalTransposer != null)
 		{

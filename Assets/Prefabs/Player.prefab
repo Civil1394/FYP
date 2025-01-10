@@ -110,9 +110,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 5.24
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1.37, z: 0}
 --- !u!114 &7195953136481156248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +129,10 @@ MonoBehaviour:
   startTimerOnAwake: 1
   FacingHexDirection: 0
   uiHourGlass: {fileID: 0}
+  effectType: 10
+  projectileParam: {fileID: 0}
+  explosiveParam: {fileID: 0}
+  dashParam: {fileID: 0}
 --- !u!114 &4084432295781431589
 MonoBehaviour:
   m_ObjectHideFlags: 0

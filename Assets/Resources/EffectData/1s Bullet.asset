@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: 1s Bullet
   m_EditorClassIdentifier: 
   effectType: 0
-  desc: aa
+  Desc: 
+  projectileParam:
+    Damage: 10
+    FlowSpeed: 0.5
+    LifeTime: 10
+  explosiveParam:
+    radius: 0
+    damage: 0
+    force: 0
   Object_fx: {fileID: 121798, guid: a1a393c51c7f41b4e8944f73a81f7e31, type: 3}
-  parameters: {fileID: 11400000, guid: b389178adbaecd24a9ed81644df0251b, type: 2}

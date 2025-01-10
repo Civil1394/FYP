@@ -13,7 +13,7 @@ public class PlayerActor : TimedActor , IDamagable
 	private PlayerMovement playerMovement;
 	private CastingHandler castingHandler;
 	private PendingActionVisualizer pendingActionVisualizer;
-
+	
 
 	#region Mono
 
@@ -159,7 +159,15 @@ public class PlayerActor : TimedActor , IDamagable
 			BattleManager.Instance.hexgrid.CheckNeigborCellDirection(BattleManager.Instance.GetPlayerCell(),
 				targetCell);
 	}
-
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.CompareTag("Projectile"))
+		{
+			Debug.Log("gethit");
+			TakeDamage(other.GetComponent<BulletActor>().Damage);
+			Destroy(other.gameObject);
+		}
+	}
 	#region IDamagable implementation
 
 	public void SetHealth(float health)

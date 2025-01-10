@@ -2,21 +2,28 @@ using System;
 using UnityEngine; 
 using System.Collections;
 using Unity.Mathematics;
-using UnityEngine.UIElements;
+
 
 [CreateAssetMenu(fileName = "EffectData", menuName = "Effect/EffectData")]
 public class EffectData : ScriptableObject
 {
-    [SerializeField] private EffectType effectType;
+    public EffectType effectType;
     [TextArea(5, 7)]
     public string Desc;
 
+    [ConditionalField("effectType", EffectType.Projectile)]
+    [SerializeField] ProjectileParameter projectileParam;
+
+    [ConditionalField("effectType", EffectType.Explosive)]
+    [SerializeField] ExplosiveParameter explosiveParam;
+    
+    [ConditionalField("effectType", EffectType.Dash)]
+    [SerializeField] DashParameter dashParam;
+    
     [Header("FX")]
-    public GameObject Object_fx;
-
-    // This will show different parameter objects based on the effect type
-    [SerializeField] private EffectParameters parameters;
-
+    [ConditionalField("effectType", EffectType.Projectile,EffectType.Explosive,EffectType.Dash)]
+    [SerializeField] GameObject Object_fx;
+    
     public void ApplyEffect(HexDirection castDirection,HexCellComponent casterStandingCell)
     {
         switch (effectType)
@@ -24,8 +31,11 @@ public class EffectData : ScriptableObject
             case EffectType.Projectile:
                 TriggerProjectile(castDirection,casterStandingCell);
                 break;
-            case EffectType.Explosion:
+            case EffectType.Explosive:
                 TriggerExplosion();
+                break;
+            case EffectType.Dash:
+                TriggerDash();
                 break;
             default:
                 Debug.LogWarning("Effect type not implemented.");
@@ -35,7 +45,7 @@ public class EffectData : ScriptableObject
     
     private void TriggerProjectile(HexDirection castingDirection, HexCellComponent casterStandingCell)
     {
-        if (parameters is ProjectileParameters projectileParams)
+        if (projectileParam != null)
         {
             HexCellComponent spawnCell =
                 BattleManager.Instance.hexgrid.GetCellByDirection(casterStandingCell, castingDirection);
@@ -47,17 +57,17 @@ public class EffectData : ScriptableObject
             var bulletComponent = bullet.AddComponent<BulletActor>();
             
             bulletComponent.Initialize(
-                projectileParams.Damage,
-                projectileParams.FlowSpeed,
+                projectileParam.Damage,
+                projectileParam.FlowSpeed,
                 spawnCell.CellData.Coordinates,
                 castingDirection,
-                projectileParams.LifeTime,
+                projectileParam.LifeTime,
                 height_offset
             );
         }
         else
         {
-            Debug.LogError("Projectile parameters not set!");
+            Debug.LogError("Projectile parameter not set!");
         }
         //Debug.Log(Desc);
     }
@@ -65,20 +75,35 @@ public class EffectData : ScriptableObject
 
     private void TriggerExplosion()
     {
-        if (parameters is ExplosionParameters explosionParams)
+        if (explosiveParam != null)
         {
             // Implementation for explosion effect using explosionParams
-            Debug.Log($"Explosion effect triggered: {Desc} with radius {explosionParams.radius}");
+            Debug.Log($"Explosive effect triggered: {Desc} with radius {explosiveParam.radius}");
         }
         else
         {
-            Debug.LogError("Explosion parameters not set!");
+            Debug.LogError("Explosive parameter not set!");
+        }
+    }
+
+    private void TriggerDash()
+    {
+        if (dashParam != null)
+        {
+            Debug.Log("Dash effect triggered");
+        }
+        else
+        {
+            Debug.LogError("Dash parameter not set!");
         }
     }
 }
 public enum EffectType 
 { 
     Projectile = 0, 
-    Explosion = 1 
+    
+    Explosive = 10,
+    
+    Dash = 20
     // Add more effect types as needed 
 }
