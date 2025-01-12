@@ -11,12 +11,15 @@ public abstract class ProjectileBehavior : MonoBehaviour
     protected HexDirection direction;
     protected float speed;
     protected Vector3 height_offset;
-    public virtual void Initialize(BulletActor bulletActor, Vector3Int standingPos,HexDirection direction, float speed, Vector3 height_offset)
+    protected float lifeTime;
+    public virtual void Initialize(BulletActor bulletActor, Vector3Int standingPos, HexDirection direction, float speed,
+        Vector3 height_offset, float lifeTime)
     {
         this.BulletActor = bulletActor;
         this.direction = direction;
         this.speed = speed;
         this.height_offset = height_offset;
+        this.lifeTime = lifeTime;
     }
 
     public virtual void UpdateBehavior(Vector3Int standingPos)
@@ -30,10 +33,6 @@ public class BaseBehavior : ProjectileBehavior
     
     private Tween currentMovement;  
     private  HexCellComponent nextCellToMove = new HexCellComponent();
-    public override void Initialize(BulletActor bulletActor, Vector3Int standingPos, HexDirection direction, float speed, Vector3 height_offset)
-    {
-        base.Initialize(bulletActor, standingPos, direction, speed,height_offset);
-    }
     public override void UpdateBehavior(Vector3Int standingPos)
     {
         base.UpdateBehavior(standingPos);
@@ -41,7 +40,7 @@ public class BaseBehavior : ProjectileBehavior
         //TODO: Rework bullet straight behavior
         HexCellComponent standingCell = BattleManager.Instance.hexgrid.GetCellInCoord(standingPos);
         
-        for (int i = 0; i < speed; i++)
+        for (int i = 0; i < lifeTime; i++)
         {
             nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
             
@@ -49,7 +48,7 @@ public class BaseBehavior : ProjectileBehavior
             if (!nextCellToMove || nextCellToMove.CellData.CellType == CellType.Invalid)
             {
                 nextCellToMove = standingCell;
-                currentMovement = this.transform.DOMove(standingCell.transform.position + height_offset, 0.5f)
+                currentMovement = this.transform.DOMove(standingCell.transform.position + height_offset, speed)
                     .SetEase(Ease.Linear)
                     .OnComplete(() =>
                     {
@@ -61,7 +60,7 @@ public class BaseBehavior : ProjectileBehavior
             standingCell = nextCellToMove;
         }
 
-        currentMovement = this.transform.DOMove(nextCellToMove.transform.position + height_offset, 0.5f).SetEase(Ease.Linear);
+        currentMovement = this.transform.DOMove(nextCellToMove.transform.position + height_offset, speed).SetEase(Ease.Linear);
             
         BulletActor.StandingPos = nextCellToMove.CellData.Coordinates;
     }

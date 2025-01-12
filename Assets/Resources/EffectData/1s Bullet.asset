@@ -16,8 +16,8 @@ MonoBehaviour:
   Desc: 
   projectileParam:
     Damage: 10
-    FlowSpeed: 0.5
-    LifeTime: 10
+    FlowSpeed: 1
+    LifeTime: 5
   explosiveParam:
     radius: 0
     damage: 0

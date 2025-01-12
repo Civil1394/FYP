@@ -40,6 +40,9 @@ public class BulletActor : TimedActor
             targetRotation = Quaternion.LookRotation(faceDirection) * Quaternion.Euler(0, -90, 0);
             transform.rotation = targetRotation;
             AddBehavior<BaseBehavior>();
+            
+            //Launch once when init 
+            Launch();
             OnTimerComplete += Launch;
         }
         else
@@ -54,7 +57,7 @@ public class BulletActor : TimedActor
     private void AddBehavior<T>() where T : ProjectileBehavior
     {
         var newBehavior = gameObject.AddComponent<T>();
-        newBehavior.Initialize(this, StandingPos, TargetDirection, Speed,height_Offset);
+        newBehavior.Initialize(this, StandingPos, TargetDirection, Speed,height_Offset, LifeTime);
         behaviors.Add(newBehavior);
     }
 
@@ -70,7 +73,6 @@ public class BulletActor : TimedActor
         }
         LifeTime -= 1;
         CheckLifeTime();
-
     }
 
     private void CheckLifeTime()

@@ -66,4 +66,14 @@ public class TimedActor : MonoBehaviour
         //Debug.Log("Executing action");
         StartNewTimer(); // Restart timer after action
     }
+
+    protected virtual void SpeedUpTimer()
+    {
+        
+    }
+
+    protected virtual void SlowDownTimer()
+    {
+        
+    }
 }
