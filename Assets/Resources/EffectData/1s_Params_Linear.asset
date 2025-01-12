@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25c1b50b19b946648a66bbb9c3801bb4, type: 3}
-  m_Name: 1s Bullet
+  m_Name: 1s_Params_Linear
   m_EditorClassIdentifier: 
   effectType: 0
   Desc: 
   projectileParam:
     Damage: 10
     FlowSpeed: 1
-    LifeTime: 5
+    LifeTime: 15
   explosiveParam:
     radius: 0
     damage: 0

@@ -7,7 +7,7 @@ using DG.Tweening;
 public abstract class ProjectileBehavior : MonoBehaviour
 {
     protected BulletActor BulletActor;
-    protected Vector3Int standingPos;
+    protected HexCellComponent standingCell;
     protected HexDirection direction;
     protected float speed;
     protected Vector3 height_offset;
@@ -16,53 +16,38 @@ public abstract class ProjectileBehavior : MonoBehaviour
         Vector3 height_offset, float lifeTime)
     {
         this.BulletActor = bulletActor;
+        this.standingCell = BattleManager.Instance.hexgrid.GetCellInCoord(standingPos);
         this.direction = direction;
         this.speed = speed;
         this.height_offset = height_offset;
         this.lifeTime = lifeTime;
     }
 
-    public virtual void UpdateBehavior(Vector3Int standingPos)
-    {
-        this.standingPos = standingPos;
-    }
+    public abstract float UpdateBehavior();
+
 }
 
-public class BaseBehavior : ProjectileBehavior
+public class LinearBehavior : ProjectileBehavior
 {
-    
-    private Tween currentMovement;  
     private  HexCellComponent nextCellToMove = new HexCellComponent();
-    public override void UpdateBehavior(Vector3Int standingPos)
+    public override float UpdateBehavior()
     {
-        base.UpdateBehavior(standingPos);
         
-        //TODO: Rework bullet straight behavior
-        HexCellComponent standingCell = BattleManager.Instance.hexgrid.GetCellInCoord(standingPos);
+        nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
         
-        for (int i = 0; i < lifeTime; i++)
+        //Check if reach obstacle or void then 
+        if (!nextCellToMove || nextCellToMove.CellData.CellType == CellType.Invalid)
         {
-            nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
-            
-            //Check if reach obstacle or void then 
-            if (!nextCellToMove || nextCellToMove.CellData.CellType == CellType.Invalid)
-            {
-                nextCellToMove = standingCell;
-                currentMovement = this.transform.DOMove(standingCell.transform.position + height_offset, speed)
-                    .SetEase(Ease.Linear)
-                    .OnComplete(() =>
-                    {
-                        BulletActor.SelfDestroy();
-                    });
-                return;
-            }
-            
-            standingCell = nextCellToMove;
+            return lifeTime;
         }
-
-        currentMovement = this.transform.DOMove(nextCellToMove.transform.position + height_offset, speed).SetEase(Ease.Linear);
-            
-        BulletActor.StandingPos = nextCellToMove.CellData.Coordinates;
+        
+       Tween currentMovement = this.transform.DOMove(nextCellToMove.transform.position + height_offset, speed)
+            .SetEase(Ease.Linear)
+            .OnComplete(()=>
+            {
+                standingCell = nextCellToMove;
+            });
+        return 1;
     }
 
     private void OnDestroy()

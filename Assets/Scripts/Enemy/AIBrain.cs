@@ -87,7 +87,7 @@ public class AIBrain : MonoBehaviour
     {
         stateMachine.OnTurnStart();
         attackDur--;
-        print(attackDur);
+        //print(attackDur);
     }
     protected void InitializeAttackStrategy()
     {

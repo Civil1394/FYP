@@ -12,12 +12,10 @@ public class BulletActor : TimedActor
     public float LifeTime { get; private set; }
     public float InitialLifeTime { get; private set; }
     public bool IsAlive { get; private set; }
-
     public Vector3 height_Offset { get; private set; }
     
-    private List<ProjectileBehavior> behaviors = new List<ProjectileBehavior>();
     private Quaternion targetRotation;
-    
+    private ProjectileBehavior behavior;
     public void Initialize(int damage, float speed, Vector3Int standingPos , HexDirection direction, float lifeTime,Vector3 height_offset)
     {
         this.gameObject.tag = "Projectile";
@@ -39,7 +37,7 @@ public class BulletActor : TimedActor
             // Set initial rotation
             targetRotation = Quaternion.LookRotation(faceDirection) * Quaternion.Euler(0, -90, 0);
             transform.rotation = targetRotation;
-            AddBehavior<BaseBehavior>();
+            AddBehavior<LinearBehavior>();
             
             //Launch once when init 
             Launch();
@@ -56,9 +54,8 @@ public class BulletActor : TimedActor
     //init behaviors
     private void AddBehavior<T>() where T : ProjectileBehavior
     {
-        var newBehavior = gameObject.AddComponent<T>();
-        newBehavior.Initialize(this, StandingPos, TargetDirection, Speed,height_Offset, LifeTime);
-        behaviors.Add(newBehavior);
+        behavior = gameObject.AddComponent<T>();
+        behavior.Initialize(this, StandingPos, TargetDirection, Speed,height_Offset, LifeTime);
     }
 
 
@@ -66,17 +63,14 @@ public class BulletActor : TimedActor
     private void Launch() 
     {
         if (!IsAlive) return;
-        // Update all behaviors
-        foreach (var behavior in behaviors)
-        {
-            behavior.UpdateBehavior(StandingPos);
-        }
-        LifeTime -= 1;
+        LifeTime -= behavior.UpdateBehavior();
+        
         CheckLifeTime();
     }
 
     private void CheckLifeTime()
     {
+        Debug.Log(LifeTime);
         if (LifeTime <= 0)
         {
             IsAlive = false;
