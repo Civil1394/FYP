@@ -11,7 +11,8 @@ public class CardsManager : Singleton<CardsManager>
     private List<Card> hand = new List<Card>();
     private List<Card> discardPile = new List<Card>();
 
-    private int selectedCardIndex = 0; // Track which card is currently selected
+    private int selectedCardIndex; // Track which card is currently selected
+    private int displayedCardIndex;// Track which card is currently displayed
     private int max_hand_size = 2;
     public IReadOnlyList<Card> Deck => deck.AsReadOnly();
     public IReadOnlyList<Card> Hand => hand.AsReadOnly();
@@ -19,10 +20,11 @@ public class CardsManager : Singleton<CardsManager>
 
     private System.Random random  = new System.Random();
 
-    public Action<Card> OnCardDrawn;
-    public Action<Card> OnCardPlayed;
-    public Action<Card> OnCardDiscarded;
-    public Action<Card> OnCardSelected; // New event for card selection
+    public event Action<Card> OnCardDrawn;
+    public event Action<Card> OnCardPlayed;
+    public event Action<Card> OnCardDiscarded;
+    public event Action<Card> OnCardSelected; 
+    public event Action<Card> OnCardUnSelected;
     private void Awake()
     {
         
@@ -32,6 +34,7 @@ public class CardsManager : Singleton<CardsManager>
     private void Start()
     {
         max_hand_size = BattleManager.Instance.handCardsSize;
+        displayedCardIndex = 99;
     }
 
     public void AddCardToDeck(Card newCard)
@@ -117,24 +120,34 @@ public class CardsManager : Singleton<CardsManager>
         return (Hand, DiscardPile);
     }
     
-    // Method to select next card
-    public void SelectFirstCard()
+    // hard Code Warning
+    public bool SelectCard(int cardIndex)
     {
-        selectedCardIndex = 0;
-        OnCardSelected?.Invoke(hand[selectedCardIndex]);
+        if (displayedCardIndex == cardIndex)
+        {
+            OnCardUnSelected?.Invoke(hand[cardIndex]);
+            displayedCardIndex = 99;
+            return false;
+        }
+        
+        
+        OnCardSelected?.Invoke(hand[cardIndex]);
+        selectedCardIndex = cardIndex;
+        displayedCardIndex = selectedCardIndex;
+        return true;
     }
-
-    // Method to select previous card
-    public void SelectSecondCard()
-    {
-        selectedCardIndex = 1;
-        OnCardSelected?.Invoke(hand[selectedCardIndex]);
-    }
+    
     // Get currently selected card
     public Card GetSelectedCard()
     {
         if (hand.Count <= selectedCardIndex)
             return null;
         return hand[selectedCardIndex];
+    }
+
+    public void ResetSelectedCard()
+    {
+        selectedCardIndex = 99;
+        displayedCardIndex = 99;
     }
 }

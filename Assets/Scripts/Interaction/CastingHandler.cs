@@ -21,7 +21,7 @@ public class CastingHandler : MonoBehaviour
 		{
 			case AbilityCastType.Direction_targeted:
 				return BattleManager.Instance.hexgrid.CheckCellInRange(clickedCell,
-					BattleManager.Instance.GetPlayerCell(), 1);
+					BattleManager.Instance.GetPlayerCell(), 1) && clickedCell.CellData.CellType == CellType.Empty ;
 				break;
 		}
 

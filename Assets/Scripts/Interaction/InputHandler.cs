@@ -32,13 +32,17 @@ public class InputHandler : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.Q))
 		{
-			CardsManager.Instance.SelectFirstCard();
-			SetInputState(InputState.CastingAbility);
+			if(CardsManager.Instance.SelectCard(0))
+				SetInputState(InputState.CastingAbility);
+			else
+				SetInputState(InputState.Move);
 		}
 		else if (Input.GetKeyDown(KeyCode.E))
 		{
-			CardsManager.Instance.SelectSecondCard();
-			SetInputState(InputState.CastingAbility);
+			if(CardsManager.Instance.SelectCard(1))
+				SetInputState(InputState.CastingAbility);
+			else
+				SetInputState(InputState.Move);
 		}
 		
 	}
@@ -121,7 +125,6 @@ public class InputHandler : MonoBehaviour
 			if (inputState == InputState.CastingAbility)
 			{
 				OnCastClick?.Invoke(pointedObject.GetComponent<HexCellComponent>());
-				inputState = InputState.Move;
 			}
 				
 		}

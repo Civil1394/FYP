@@ -36,6 +36,7 @@ public class EnemyActor : TimedActor , IDamagable
 		{
 			Debug.Log("gethit");
 			TakeDamage(other.GetComponent<BulletActor>().Damage);
+			aiBrain.currentCell.SetType(CellType.Empty);
 			Destroy(other.gameObject);
 		}
 	}

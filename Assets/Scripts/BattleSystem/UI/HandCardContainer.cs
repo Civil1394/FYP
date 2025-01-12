@@ -13,6 +13,7 @@ public class HandCardContainer : MonoBehaviour
         CardsManager.Instance.OnCardPlayed += RemoveProduct;
         CardsManager.Instance.OnCardDiscarded += RemoveProduct;
         CardsManager.Instance.OnCardSelected += OnCardSelected;
+        CardsManager.Instance.OnCardUnSelected += OnCardDiscarded;
         foreach (Transform child in this.transform)
         {
             Destroy(child.gameObject);
@@ -59,5 +60,12 @@ public class HandCardContainer : MonoBehaviour
             selectedCardUI.GetComponent<HandCardUIProduct>().OnSelect();
         }
     }
-    
+
+    private void OnCardDiscarded(Card discardedCard)
+    {
+        if (discardedCard != null && cardIdToUIMap.TryGetValue(discardedCard.Id, out GameObject discardedCardUI))
+        {
+            discardedCardUI.GetComponent<HandCardUIProduct>().OnDeselect();
+        }
+    }
 }

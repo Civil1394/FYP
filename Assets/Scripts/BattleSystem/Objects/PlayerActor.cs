@@ -63,7 +63,7 @@ public class PlayerActor : TimedActor , IDamagable
 	private void QueueCastAction(HexCellComponent targetCell)
 	{
 		Card cardToBeCast = CardsManager.Instance.GetSelectedCard();
-		if(!castingHandler.CastIsLegit(cardToBeCast.AbilityData,targetCell)) return;
+		if(castingHandler.CastIsLegit(cardToBeCast.AbilityData,targetCell) == false) return;
 		// Replace current pending action
 		pendingAction = new PlayerAction(PlayerActionType.Cast, targetCell,cardToBeCast);
 		ShowPendingActionPreview();
@@ -127,6 +127,7 @@ public class PlayerActor : TimedActor , IDamagable
 	{
 		CardsManager.Instance.PlaySelectedCard();
 		castingHandler.ExecuteAbility(pendingAction.CardToCast.AbilityData,pendingAction.TargetCell);
+		CardsManager.Instance.ResetSelectedCard();
 	}
 	#endregion
 	private void DrawCardsIfEmptyHand()
