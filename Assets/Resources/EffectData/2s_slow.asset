@@ -10,16 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25c1b50b19b946648a66bbb9c3801bb4, type: 3}
-  m_Name: 0.5s_Params_Linear
+  m_Name: 2s_slow
   m_EditorClassIdentifier: 
   effectType: 0
   Desc: 
   projectileParam:
-    Damage: 10
-    FlowSpeed: 0.5
+    Damage: 2
+    FlowSpeed: 2
     LifeTime: 15
+    TimeManipulationType: 1
   explosiveParam:
     radius: 0
     damage: 0
     force: 0
+    timeManipulationType: 0
   Object_fx: {fileID: 121798, guid: a1a393c51c7f41b4e8944f73a81f7e31, type: 3}

@@ -165,7 +165,9 @@ public class PlayerActor : TimedActor , IDamagable
 		if (other.CompareTag("Projectile"))
 		{
 			Debug.Log("gethit");
-			TakeDamage(other.GetComponent<BulletActor>().Damage);
+			//TakeDamage(other.GetComponent<BulletActor>().Damage);
+			var bullet = other.GetComponent<BulletActor>();
+			TimeManipulate(bullet.timeManipulationType,bullet.Speed);
 			Destroy(other.gameObject);
 		}
 	}

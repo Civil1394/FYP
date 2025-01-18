@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class BulletActor : TimedActor
 {
-    public int Damage { get; private set; }
+    public float Damage { get; private set; }
     public float Speed { get; private set; }
     public Vector3Int StandingPos;
     public HexDirection TargetDirection { get; set; }
@@ -13,10 +13,11 @@ public class BulletActor : TimedActor
     public float InitialLifeTime { get; private set; }
     public bool IsAlive { get; private set; }
     public Vector3 height_Offset { get; private set; }
+    public TimeManipulationType timeManipulationType { get; private set; }
     
     private Quaternion targetRotation;
     private ProjectileBehavior behavior;
-    public void Initialize(int damage, float speed, Vector3Int standingPos , HexDirection direction, float lifeTime,Vector3 height_offset)
+    public void Initialize(float damage, float speed, Vector3Int standingPos , HexDirection direction, float lifeTime,Vector3 height_offset,TimeManipulationType type)
     {
         this.gameObject.tag = "Projectile";
         actionCooldown = speed;
@@ -28,6 +29,7 @@ public class BulletActor : TimedActor
         TargetDirection = direction;
         StandingPos = standingPos;
         height_Offset = height_offset;
+        timeManipulationType = type;
         
         HexCellComponent standingCell = BattleManager.Instance.hexgrid.GetCellInCoord(StandingPos);
         HexCellComponent nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);

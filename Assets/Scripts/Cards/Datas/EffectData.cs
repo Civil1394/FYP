@@ -62,7 +62,8 @@ public class EffectData : ScriptableObject
                 spawnCell.CellData.Coordinates,
                 castingDirection,
                 projectileParam.LifeTime,
-                height_offset
+                height_offset,
+                projectileParam.TimeManipulationType
             );
         }
         else

@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
-  m_Name: 1sLinearProjectile
+  m_Name: 2sSlow
   m_EditorClassIdentifier: 
   id: 2
-  Title: Chrono Bullet
+  Title: Slow Bullet
   InitCost: 0
-  Desc: One 1s Bullet
+  Desc: '2s slow
+
+'
   castRange: 1
   castTiming: 0
   CastType: 1

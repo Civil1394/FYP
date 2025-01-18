@@ -67,13 +67,19 @@ public class TimedActor : MonoBehaviour
         StartNewTimer(); // Restart timer after action
     }
 
-    protected virtual void SpeedUpTimer()
+    protected virtual void TimeManipulate(TimeManipulationType type,float flowTime)
     {
-        
+        switch (type)   
+        {
+               case TimeManipulationType.Boost:
+                   actionCooldown -= flowTime;
+                   break;
+               case TimeManipulationType.Slow:
+                   actionCooldown += flowTime;
+                   break;
+               case TimeManipulationType.None:
+                   break;
+        }
     }
-
-    protected virtual void SlowDownTimer()
-    {
-        
-    }
+    
 }

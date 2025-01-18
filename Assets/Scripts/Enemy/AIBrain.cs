@@ -24,7 +24,7 @@ public class AIBrain : MonoBehaviour
 
     //Stat
     protected IAttack attackStrategy;
-    protected int attackDur = 6;
+    protected int attackDur = 2;
     
     //Control flag
     public bool isAttacking = false;

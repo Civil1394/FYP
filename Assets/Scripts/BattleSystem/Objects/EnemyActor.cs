@@ -35,7 +35,9 @@ public class EnemyActor : TimedActor , IDamagable
 		if (other.CompareTag("Projectile"))
 		{
 			Debug.Log("gethit");
-			TakeDamage(other.GetComponent<BulletActor>().Damage);
+			//TakeDamage(other.GetComponent<BulletActor>().Damage);
+			var bullet = other.GetComponent<BulletActor>();
+			TimeManipulate(bullet.timeManipulationType,bullet.Speed);
 			aiBrain.currentCell.SetType(CellType.Empty);
 			Destroy(other.gameObject);
 		}
