@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 028e20d9ac27cf740996d2ceaf1f03be, type: 3}
   m_Name: SniperEnemy
   m_EditorClassIdentifier: 
-  health: 0
-  enemyType: 0
-  angleOfRange: 0
-  distanceOfRange: 0
-  innerSphereRadius: 0
+  health: 10
+  enemyStateType: 0
+  angleOfRange: 240
+  distanceOfRange: 30
+  innerSphereRadius: 20
   attackType: 0
-  attackPrefab: {fileID: 0}
+  attackPrefab: {fileID: 393574178736082098, guid: 8e633903a7d16f9459d64cced88583d8,
+    type: 3}
   dashSpeed: 0
-  attackRangeInCell: 0
-  AbilityData: {fileID: 0}
+  attackRangeInCell: 8
+  AbilityData: {fileID: 11400000, guid: ea07f79cf6def19479a68b2a52044cc5, type: 2}
