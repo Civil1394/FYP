@@ -50,6 +50,10 @@ public class HexGrid
         return null;
     }
 
+    public float GetGridDistance(HexCellComponent cell1, HexCellComponent cell2)
+    {
+        return Vector3.Distance(cell1.CellData.Coordinates, cell2.CellData.Coordinates);
+    }
     #endregion
 
     #region Range Utilities

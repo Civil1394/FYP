@@ -29,6 +29,11 @@ public class AIBrain : MonoBehaviour
     //Control flag
     public bool isAttacking = false;
 
+    //State
+    private GridEnemyWander wanderState;
+    private GridEnemyChase chaseState;
+    private GridEnemyAttack attackState;
+    private GridEnemyRetreat retreatState;
     protected void Start()
     {
         mColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
@@ -36,11 +41,30 @@ public class AIBrain : MonoBehaviour
         playerDetector = GetComponentInChildren<PlayerDetector>();
         pathFinding = new PathFinding();
         stateMachine = new StateMachine();
-        
-        var wanderState = new GridEnemyWander(this, null, 10, pathFinding);
-        var chaseState = new GridEnemyChase(this, null, pathFinding);
-        var attackState = new GridEnemyAttack(this, null);
-        var retreatState = new GridEnemyRetreat(this, null,pathFinding);
+        StateInitialization();
+        stateMachine.SetState(wanderState);
+
+        InitializeAttackStrategy();
+    }
+
+    void StateInitialization()
+    {
+        switch (enemyConfig.EnemyStateType)
+        {
+            case EnemyData.EnemyType.Berserk:
+                BerserkState();
+                break;
+            case EnemyData.EnemyType.Sniper:
+                SniperState();
+                break;
+        }
+    }
+
+    void BerserkState()
+    {
+        wanderState = new GridEnemyWander(this, null, 10, pathFinding);
+        chaseState = new GridEnemyChase(this, null, pathFinding);
+        attackState = new GridEnemyAttack(this, null);
         #region Set up state transition
 
         stateMachine.AddTransition(
@@ -63,21 +87,63 @@ public class AIBrain : MonoBehaviour
         );
 
         stateMachine.AddTransition(
-            attackState, retreatState, new FuncPredicate(
+            attackState, chaseState, new FuncPredicate(
                 () => !isAttacking
+            )
+        );
+        #endregion
+    }
+    void SniperState()
+    {
+        wanderState = new GridEnemyWander(this, null, 10, pathFinding);
+        chaseState = new GridEnemyChase(this, null, pathFinding);
+        attackState = new GridEnemyAttack(this, null);
+        retreatState = new GridEnemyRetreat(this, null, pathFinding);
+        #region Set up state transition
+
+        stateMachine.AddTransition(
+            wanderState, chaseState, new FuncPredicate(
+                () => playerDetector.CanDetectPlayer(out playerGrid)
+            )
+        );
+        stateMachine.AddTransition(
+            chaseState, wanderState, new FuncPredicate(
+                () => !playerDetector.CanDetectPlayer(out playerGrid) && chaseState.HasReachedDestination()
+            )
+        );
+        stateMachine.AddTransition(
+            chaseState, attackState, new FuncPredicate(
+                () =>
+                    playerDetector.CanDetectPlayer(out playerGrid) &&
+                    IsPlayerInAttackRange(enemyConfig.AttackRangeInCell) &&
+                    attackDur <= 0
+            )
+        );
+
+        stateMachine.AddTransition(
+            attackState, chaseState, new FuncPredicate(
+                () => !isAttacking
+            )
+        );
+        stateMachine.AddAnyTransition(retreatState, new FuncPredicate(
+                () =>
+                    playerGrid != null &&
+                    BattleManager.Instance.hexgrid.GetGridDistance(currentCell.ParentComponent, playerGrid) < 4
             )
         );
         stateMachine.AddTransition(
             retreatState, chaseState, new FuncPredicate(
-                () => attackDur <= 0
+                () => playerDetector.CanDetectPlayer(out playerGrid)
             )
         );
-#endregion
-        stateMachine.SetState(wanderState);
+        stateMachine.AddTransition(
+            retreatState, wanderState, new FuncPredicate(
+                () => playerDetector.CanDetectPlayer(out playerGrid)
+            )
+        );
 
-        InitializeAttackStrategy();
+        #endregion
     }
-
     protected void Update()
     {
         stateMachine.Update();

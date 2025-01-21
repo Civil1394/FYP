@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     [Header("Stats")] [SerializeField] private float health;
+    [Header("Enemy State Type")] [SerializeField] private EnemyType enemyStateType;
     [Header("Player Detection Parameters")]
     [SerializeField] private float angleOfRange;
     [SerializeField] private float distanceOfRange;
@@ -30,4 +31,12 @@ public class EnemyData : ScriptableObject
         GroundTargetting,
         Dash
     }
+
+    public enum EnemyType
+    {
+        Berserk,
+        Sniper
+    }
+
+    public EnemyType EnemyStateType => enemyStateType;
 }

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 028e20d9ac27cf740996d2ceaf1f03be, type: 3}
+  m_Name: BerserkEnemy
+  m_EditorClassIdentifier: 
+  health: 20
+  angleOfRange: 90
+  distanceOfRange: 15
+  innerSphereRadius: 5
+  attackType: 0
+  attackPrefab: {fileID: 393574178736082098, guid: 8e633903a7d16f9459d64cced88583d8,
+    type: 3}
+  dashSpeed: 0
+  attackRangeInCell: 1
+  AbilityData: {fileID: 11400000, guid: 2c05845ac2289af4cbb14bf8ca8f6851, type: 2}

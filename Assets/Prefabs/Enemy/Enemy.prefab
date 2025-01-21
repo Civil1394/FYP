@@ -393,7 +393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a8005f2ed1c09041baf9101e40467ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyConfig: {fileID: 11400000, guid: 23a1b46342f69e447b6d3b51a4249bf1, type: 2}
+  enemyConfig: {fileID: 11400000, guid: f8af5a25b0974bd458e396b65e25a529, type: 2}
   playerDetector: {fileID: 0}
   currentCoord: {x: 0, y: 0, z: 0}
   currentCell:
