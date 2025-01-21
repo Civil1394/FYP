@@ -129,8 +129,7 @@ public class BattleManager : Singleton<BattleManager>
 			
 			playerCamera.Follow = PlayerActorInstance.transform;
 			playerCamera.LookAt = PlayerActorInstance.transform;
-			PlayerActorInstance.SetHealth(playerHealth);
-			PlayerActorInstance.actionCooldown = initTurnDur;
+			PlayerActorInstance.ActionCooldown = initTurnDur;
 		}
 		else
 		{

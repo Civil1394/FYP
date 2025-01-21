@@ -53,7 +53,7 @@ public class EffectData : ScriptableObject
             // Create rotation that faces the player's direction but maintains -90 on Y
             //Quaternion spawnRotation = Quaternion.LookRotation(playerForward) * Quaternion.Euler(0, -90, 0);
             Vector3 height_offset = new Vector3(0, 3, 0);
-            GameObject bullet = Instantiate(Object_fx, spawnCell.transform.position + height_offset,quaternion.identity);
+            GameObject bullet = Instantiate(Object_fx, spawnCell.transform.position + height_offset,Quaternion.LookRotation(spawnCell.transform.position));
             var bulletComponent = bullet.AddComponent<BulletActor>();
             
             bulletComponent.Initialize(

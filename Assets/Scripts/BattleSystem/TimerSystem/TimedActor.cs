@@ -1,30 +1,45 @@
 using UnityEngine;
 using System;
-
+using UnityEditor.UI;
+using TMPro;
 public class TimedActor : MonoBehaviour
 {
-    public float actionCooldown = 2f;
+    public float MinThreshold = 0f;
+    public float MaxThreshold = 5f;
+    public float ActionCooldown = 2f;
     [SerializeField] private bool startTimerOnAwake = true;
     
     private float currentCooldown;
     private bool isTimerActive = false;
-    
+
+    [SerializeField] private TMP_Text actionCoolDownText;
+    #region Events
+
     public event Action<float> OnTimerStart;
     public event Action OnTimerComplete;
     public event Action<float> OnTimerTick; // Provides normalized time (0 to 1)
+    public event Action OnOverDrive;
+    public event Action OnCollapse;
+    #endregion
     
     protected virtual void Start()
     {
         if (startTimerOnAwake)
         {
-            StartNewTimer();
+            CheckTimerStatus();
         }
     }
 
     // This method updates the timer each frame if it is active.
     protected virtual void Update()
     {
+        if(actionCoolDownText != null) actionCoolDownText.text = currentCooldown.ToString("F2") + " / " + ActionCooldown.ToString("F1");
+        
         if (!isTimerActive) return;
+        
+        if(ActionCooldown < MinThreshold) OverDrive();
+        if(ActionCooldown > MaxThreshold) Collapse();
+        
         
         currentCooldown -= Time.deltaTime;
         OnTimerTick?.Invoke(GetNormalizedTime());
@@ -38,9 +53,9 @@ public class TimedActor : MonoBehaviour
     }
 
 
-    public void StartNewTimer()
+    public void CheckTimerStatus()
     {
-        currentCooldown = actionCooldown;
+        currentCooldown = ActionCooldown;
         OnTimerStart?.Invoke(currentCooldown);
         isTimerActive = true;
     }
@@ -57,14 +72,12 @@ public class TimedActor : MonoBehaviour
 
     public float GetNormalizedTime()
     {
-        return 1 - (currentCooldown / actionCooldown);
+        return 1 - (currentCooldown / ActionCooldown);
     }
 
     protected virtual void ExecuteAction()
     {
-        // Override this in derived classes
-        //Debug.Log("Executing action");
-        StartNewTimer(); // Restart timer after action
+        CheckTimerStatus(); 
     }
 
     protected virtual void TimeManipulate(TimeManipulationType type,float flowTime)
@@ -72,14 +85,24 @@ public class TimedActor : MonoBehaviour
         switch (type)   
         {
                case TimeManipulationType.Boost:
-                   actionCooldown -= flowTime;
+                   ActionCooldown -= flowTime;
                    break;
                case TimeManipulationType.Slow:
-                   actionCooldown += flowTime;
+                   ActionCooldown += flowTime;
                    break;
                case TimeManipulationType.None:
                    break;
         }
     }
-    
+
+    protected virtual void OverDrive()
+    {
+        Debug.Log("Overdrive");
+        
+    }
+
+    protected virtual void Collapse()
+    {
+        Debug.Log("Collapse");
+    }
 }

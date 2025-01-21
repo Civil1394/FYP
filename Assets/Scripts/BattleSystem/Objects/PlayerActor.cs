@@ -89,7 +89,7 @@ public class PlayerActor : TimedActor , IDamagable
 	{
 		if (pendingAction == null)
 		{
-			StartNewTimer(); // Start new timer if no action is pending
+			CheckTimerStatus(); // Start new timer if no action is pending
 			return;
 		}
 
@@ -105,7 +105,7 @@ public class PlayerActor : TimedActor , IDamagable
 
 		pendingActionVisualizer.RemovePendingActionPointer();
 		pendingAction = null;
-		StartNewTimer();
+		CheckTimerStatus();
 	}
 	
 	private void ExecuteMoveAction()
@@ -171,26 +171,17 @@ public class PlayerActor : TimedActor , IDamagable
 			Destroy(other.gameObject);
 		}
 	}
-	#region IDamagable implementation
-
-	public void SetHealth(float health)
+	
+	protected override void OverDrive()
 	{
-		Health = health;
+		base.OverDrive();
+		Destroy(this.gameObject);
 	}
-	public void TakeDamage(float damage)
+	
+	protected override void Collapse()
 	{
-		Health -= damage;
-		if (Health <= 0)
-		{
-			Debug.Log("Player is dead");
-		}
+		base.Collapse();
+		Destroy(this.gameObject);
 	}
-
-	public void Heal(float heal)
-	{
-		Health += heal;
-	}
-
-	#endregion
 	
 }

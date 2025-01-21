@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using UnityEditor.UI;
 using Random = UnityEngine.Random;
 
 public class EnemyActor : TimedActor , IDamagable
@@ -16,13 +17,12 @@ public class EnemyActor : TimedActor , IDamagable
 	protected override void Start()
 	{
 		aiBrain = gameObject.GetComponent<AIBrain>();
-		SetHealth(aiBrain.enemyConfig.Health);
 		if (GlobalCanvasHourGlass != null)
 		{
 			OnTimerStart += GlobalCanvasHourGlass.CountTime;
 			OnTimerComplete += aiBrain.TurnAction;
 		}
-		actionCooldown = (int)Random.Range(1f, 5f);
+		ActionCooldown = (int)Random.Range(1f, 5f);
 		base.Start();
 	}
 	protected override void Update()
@@ -38,32 +38,22 @@ public class EnemyActor : TimedActor , IDamagable
 			//TakeDamage(other.GetComponent<BulletActor>().Damage);
 			var bullet = other.GetComponent<BulletActor>();
 			TimeManipulate(bullet.timeManipulationType,bullet.Speed);
-			aiBrain.currentCell.SetType(CellType.Empty);
 			Destroy(other.gameObject);
 		}
 	}
 
-	#region IDamagable implementation
-
-	public void SetHealth(float health)
+	protected override void OverDrive()
 	{
-		Health = health;
+		base.OverDrive();
+		aiBrain.currentCell.SetType(CellType.Empty);
+		Destroy(this.gameObject);
 	}
-	public void TakeDamage(float damage)
+	
+	protected override void Collapse()
 	{
-		Health -= damage;
-		if (Health <= 0)
-		{
-			Debug.Log("Player is dead");
-			Destroy(this.gameObject);
-		}
-		
+		base.Collapse();
+		aiBrain.currentCell.SetType(CellType.Empty);
+		Destroy(this.gameObject);
 	}
 
-	public void Heal(float heal)
-	{
-		Health += heal;
-	}
-
-	#endregion
 }

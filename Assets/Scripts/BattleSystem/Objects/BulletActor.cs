@@ -20,7 +20,7 @@ public class BulletActor : TimedActor
     public void Initialize(float damage, float speed, Vector3Int standingPos , HexDirection direction, float lifeTime,Vector3 height_offset,TimeManipulationType type)
     {
         this.gameObject.tag = "Projectile";
-        actionCooldown = speed;
+        ActionCooldown = speed;
         Damage = damage;
         Speed = speed;
         LifeTime = lifeTime;
