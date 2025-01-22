@@ -5,18 +5,26 @@ public class PlayerDetector : MonoBehaviour
     [SerializeField] float angleOfRange = 60f;
     [SerializeField] float distanceOfRange = 10f;
     [SerializeField] float innerSphereRadius = 3f;
-    bool canSeePlayer = false;
+    private bool canSeePlayer = false;
     private HexCellComponent localPlayerGrid;
+    private AIBrain enemyBrain;
     Transform player;
-    Color transparentYellow = new Color(0, 1, 1, 0.25f);
+
     private void Start()
     {
         player = GameObject.FindObjectOfType<PlayerMovement>().transform;
     }
 
+    public void Init(AIBrain aiBrain, float angle, float distance, float innerRadius)
+    {
+        angleOfRange = angle;
+        distanceOfRange = distance;
+        innerSphereRadius = innerRadius;
+        enemyBrain = aiBrain;
+    }
     void Update()
     {
-        canSeePlayer = DetectPlayer();
+        DetectPlayer();
     }
 
     public bool CanDetectPlayer(out HexCellComponent playerGrid)
@@ -24,39 +32,43 @@ public class PlayerDetector : MonoBehaviour
         playerGrid = localPlayerGrid;
         return canSeePlayer;
     }
-    public bool DetectPlayer()
+    public void DetectPlayer()
     {
+        var playerGrid = BattleManager.Instance.GetPlayerCell().CellData;
+
         var dirToPlayer = player.position - transform.position;
         var angleToPlayer = Vector3.Angle(dirToPlayer, transform.forward);
-
-        if ((angleToPlayer > angleOfRange / 2 || dirToPlayer.magnitude > distanceOfRange) && dirToPlayer.magnitude > innerSphereRadius)
+        float gridDisToPlayer = Vector3.Distance(enemyBrain.currentCell.Coordinates, playerGrid.Coordinates);
+        if ((angleToPlayer > angleOfRange / 2 || gridDisToPlayer > distanceOfRange) && gridDisToPlayer > innerSphereRadius)
         {
             localPlayerGrid = null;
-            return false;
+            canSeePlayer = false;
+            return;
         }
 
         if (!CheckLineOfSight(dirToPlayer))
         {
             localPlayerGrid = null;
-            return false;
+            canSeePlayer = false;
+            return;
         }
         localPlayerGrid = BattleManager.Instance.GetPlayerCell();
-        return true;
+        canSeePlayer = true;
     }
     public bool CheckLineOfSight(Vector3 dirToPlayer)
     {
         RaycastHit hit;
         Ray ray = new Ray(transform.position, dirToPlayer);
         Debug.DrawRay(transform.position, dirToPlayer);
-        Physics.Raycast(ray, out hit, distanceOfRange);
-        return hit.collider.CompareTag("Player");
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(transform.position, Quaternion.AngleAxis(-angleOfRange / 2, Vector3.up) * transform.forward * distanceOfRange);
-        Gizmos.DrawRay(transform.position, Quaternion.AngleAxis(angleOfRange / 2, Vector3.up) * transform.forward * distanceOfRange);
-        Gizmos.color = transparentYellow;
-        Gizmos.DrawSphere(transform.position, innerSphereRadius);
+    
+        // Check if the raycast hits anything
+        if (Physics.Raycast(ray, out hit))
+        {
+            // Only check the tag if we actually hit something
+            return hit.collider.CompareTag("Player");
+        }
+    
+        // Return false if the ray didn't hit anything
+        return false;
     }
 }

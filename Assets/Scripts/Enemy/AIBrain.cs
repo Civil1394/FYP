@@ -38,7 +38,8 @@ public class AIBrain : MonoBehaviour
     {
         mColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 
-        playerDetector = GetComponentInChildren<PlayerDetector>();
+        playerDetector = GetComponent<PlayerDetector>();
+        playerDetector.Init(this, enemyConfig.AngleOfRange, enemyConfig.DistanceOfRange, enemyConfig.InnerSphereRadius);
         pathFinding = new PathFinding();
         stateMachine = new StateMachine();
         StateInitialization();
@@ -128,19 +129,21 @@ public class AIBrain : MonoBehaviour
         stateMachine.AddAnyTransition(retreatState, new FuncPredicate(
                 () =>
                     playerGrid != null &&
-                    BattleManager.Instance.hexgrid.GetGridDistance(currentCell.ParentComponent, playerGrid) < 4
+                    BattleManager.Instance.hexgrid.GetGridDistance(currentCell.ParentComponent, playerGrid) < 5
             )
         );
         stateMachine.AddTransition(
             retreatState, chaseState, new FuncPredicate(
-                () => playerDetector.CanDetectPlayer(out playerGrid)
+                () =>
+                    playerDetector.CanDetectPlayer(out playerGrid) &&
+                    BattleManager.Instance.hexgrid.GetGridDistance(currentCell.ParentComponent, playerGrid) >= 5
             )
         );
-        stateMachine.AddTransition(
-            retreatState, wanderState, new FuncPredicate(
-                () => playerDetector.CanDetectPlayer(out playerGrid)
-            )
-        );
+        // stateMachine.AddTransition(
+        //     retreatState, wanderState, new FuncPredicate(
+        //         () => !playerDetector.CanDetectPlayer(out playerGrid)
+        //     )
+        // );
 
         #endregion
     }
