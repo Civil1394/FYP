@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: BerserkEnemy
   m_EditorClassIdentifier: 
   health: 20
+  enemyStateType: 0
   angleOfRange: 90
-  distanceOfRange: 15
-  innerSphereRadius: 5
+  distanceOfRange: 5
+  innerSphereRadius: 3
   attackType: 0
   attackPrefab: {fileID: 393574178736082098, guid: 8e633903a7d16f9459d64cced88583d8,
     type: 3}
