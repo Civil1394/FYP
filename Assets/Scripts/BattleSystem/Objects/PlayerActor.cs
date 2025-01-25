@@ -116,7 +116,7 @@ public class PlayerActor : TimedActor , IDamagable
 		playerMovement.Move(pendingAction.TargetCell);
         
 		// Update cell states
-		HexCellComponent playerCell = BattleManager.Instance.GetPlayerCell();
+		HexCellComponent playerCell = BattleManager.Instance.PlayerCell;
 		BattleManager.Instance.OnPlayerMove(playerCell, pendingAction.TargetCell);
         
 		CalNewFacingDirection(pendingAction.TargetCell);
@@ -157,7 +157,7 @@ public class PlayerActor : TimedActor , IDamagable
 	public void CalNewFacingDirection(HexCellComponent targetCell)
 	{
 		FacingHexDirection =
-			BattleManager.Instance.hexgrid.CheckNeigborCellDirection(BattleManager.Instance.GetPlayerCell(),
+			BattleManager.Instance.hexgrid.CheckNeigborCellDirection(BattleManager.Instance.PlayerCell,
 				targetCell);
 	}
 	private void OnTriggerEnter(Collider other)

@@ -18,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(HexCellComponent targetCell)
     {
-
         this.transform.DOMove(targetCell.CalPosForAction(), 0.5f);
         this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
 

@@ -87,9 +87,8 @@ public class GridEnemyChase : EnemyBaseState
     public void ChaseMove(HexCell cellToMove)
     {
         EnemyManager.Instance.ReleaseCell(enemyBrain);
-        var lookPos = enemyBrain.playerGrid
-            ? enemyBrain.playerGrid.transform.position
-            : enemyBrain.lastSeenPlayerGrid.transform.position;
+        var lookPos = enemyBrain.playerGrid.transform.position;
+        
         Vector3 directionToNextGrid = (lookPos - enemyBrain.transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToNextGrid);
         enemyBrain.transform.DOMove(cellToMove.ParentComponent.transform.position, 0.5f);

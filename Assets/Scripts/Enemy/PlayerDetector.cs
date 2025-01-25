@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerDetector : MonoBehaviour
@@ -6,7 +7,6 @@ public class PlayerDetector : MonoBehaviour
     [SerializeField] float distanceOfRange = 10f;
     [SerializeField] float innerSphereRadius = 3f;
     private bool canSeePlayer = false;
-    private HexCellComponent localPlayerGrid;
     private AIBrain enemyBrain;
     Transform player;
 
@@ -22,38 +22,34 @@ public class PlayerDetector : MonoBehaviour
         innerSphereRadius = innerRadius;
         enemyBrain = aiBrain;
     }
-    void Update()
+
+    private void Update()
     {
-        DetectPlayer();
+        if (DetectPlayer())
+        {
+            enemyBrain.playerGrid = BattleManager.Instance.PlayerCell;
+        }
     }
 
-    public bool CanDetectPlayer(out HexCellComponent playerGrid)
+    public bool DetectPlayer()
     {
-        playerGrid = localPlayerGrid;
-        return canSeePlayer;
-    }
-    public void DetectPlayer()
-    {
-        var playerGrid = BattleManager.Instance.GetPlayerCell().CellData;
+        var playerGrid = BattleManager.Instance.PlayerCell.CellData;
 
         var dirToPlayer = player.position - transform.position;
         var angleToPlayer = Vector3.Angle(dirToPlayer, transform.forward);
         float gridDisToPlayer = Vector3.Distance(enemyBrain.currentCell.Coordinates, playerGrid.Coordinates);
         if ((angleToPlayer > angleOfRange / 2 || gridDisToPlayer > distanceOfRange) && gridDisToPlayer > innerSphereRadius)
         {
-            localPlayerGrid = null;
             canSeePlayer = false;
-            return;
+            return false;
         }
 
         if (!CheckLineOfSight(dirToPlayer))
         {
-            localPlayerGrid = null;
             canSeePlayer = false;
-            return;
+            return false;
         }
-        localPlayerGrid = BattleManager.Instance.GetPlayerCell();
-        canSeePlayer = true;
+        return false;
     }
     public bool CheckLineOfSight(Vector3 dirToPlayer)
     {

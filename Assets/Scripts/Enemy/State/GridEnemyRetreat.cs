@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class GridEnemyRetreat : EnemyBaseState
 {
@@ -8,9 +7,11 @@ public class GridEnemyRetreat : EnemyBaseState
     List<HexCell> path;
     int pathProgress = 0;
     bool isPlayerMoved = false;
-    public GridEnemyRetreat(AIBrain enemyBrain, Animator animator, PathFinding pathFinding) : base(enemyBrain, animator)
+    int retreatDistance = 0;
+    public GridEnemyRetreat(AIBrain enemyBrain, Animator animator, PathFinding pathFinding, int retreatDistance) : base(enemyBrain, animator)
     {
         this.pathFinding = pathFinding;
+        this.retreatDistance = retreatDistance;
     }
     public override void OnEnter()
     {
@@ -51,13 +52,13 @@ public class GridEnemyRetreat : EnemyBaseState
         if (path == null) { path = new List<HexCell>(); }
         else { path.Clear(); }
         HexCellComponent start = enemyBrain.currentCell.ParentComponent;
-        
-        Vector3 playerCell = enemyBrain.playerGrid?enemyBrain.playerGrid.transform.position: enemyBrain.lastSeenPlayerGrid.transform.position;
+
+        Vector3 playerCell = enemyBrain.playerGrid.transform.position;
         Vector3 escapeDir = enemyBrain.transform.position - playerCell;
 
         HexCellComponent end =
-            BattleManager.Instance.hexgrid.GetAvailableCellByWorldDirection(enemyBrain.currentCell.ParentComponent,
-                escapeDir, 4);
+            BattleManager.Instance.hexgrid.GetAvailableCellByWorldDirection(enemyBrain.playerGrid,
+                escapeDir, retreatDistance);
         if (!end)
         {
             Debug.Log("the end point is null");

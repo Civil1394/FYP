@@ -17,8 +17,7 @@ public class BattleManager : Singleton<BattleManager>
 	public UIHourGlass playerUIHourGlass;
 	public PlayerActor PlayerActorInstance {  get; private set; }
 	public AbilityDatabase AbilityDatabase;
-	
-	
+	public HexCellComponent PlayerCell;
 	[Header("HexGrid Related Ref")]
 	public HexGrid hexgrid = new HexGrid();
 
@@ -123,7 +122,7 @@ public class BattleManager : Singleton<BattleManager>
 				Instantiate(playerPrefab, new Vector3(cell.transform.position.x,playerPrefab.transform.position.y,cell.transform.position.z)
 					, quaternion.identity);
 			cell.CellData.SetType(CellType.Player);
-			
+			PlayerCell = cell;
 			//inputHandler = newInstance.GetComponent<InputHandler>();
 			PlayerActorInstance = newInstance.GetComponent<PlayerActor>();
 			
@@ -139,10 +138,6 @@ public class BattleManager : Singleton<BattleManager>
 	}
 	#endregion
 	
-	
-	
-	
-	
 	//Update Cell states after player Move
 	public void OnPlayerMove(HexCellComponent oldCell, HexCellComponent newCell)
 	{
@@ -156,7 +151,7 @@ public class BattleManager : Singleton<BattleManager>
 		// Update cell types
 		oldCell.CellData.SetType(CellType.Empty);
 		newCell.CellData.SetType(CellType.Player);
-
+		PlayerCell = newCell;
 		// Set new valid move ranges
 		HexCellComponent[] newNearbyCells = BattleManager.Instance.hexgrid.GetCellsInRange(newCell, 1);
 		foreach (var cell in newNearbyCells)
@@ -178,16 +173,6 @@ public class BattleManager : Singleton<BattleManager>
 		Debug.Log($"Action executed: {action.ActionType} - {action.Description}");
 		actionExecuted = true;
 	}
-
-
-	#region ObjectCoordAPI
-
-	public HexCellComponent GetPlayerCell()
-	{
-		return hexgrid.GetCellByType(CellType.Player);
-	}
-
-	#endregion
 }
 
 

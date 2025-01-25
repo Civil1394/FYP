@@ -21,7 +21,7 @@ public class CastingHandler : MonoBehaviour
 		{
 			case AbilityCastType.Direction_targeted:
 				return BattleManager.Instance.hexgrid.CheckCellInRange(clickedCell,
-					BattleManager.Instance.GetPlayerCell(), 1) && clickedCell.CellData.CellType == CellType.Empty ;
+					BattleManager.Instance.PlayerCell, 1) && clickedCell.CellData.CellType == CellType.Empty ;
 				break;
 		}
 
@@ -42,7 +42,7 @@ public class CastingHandler : MonoBehaviour
 	}
 	private void HandleDirectionalCast(AbilityData ability,HexCellComponent directionCell)
 	{
-		HexCellComponent playerStandingCell = BattleManager.Instance.GetPlayerCell();
+		HexCellComponent playerStandingCell = BattleManager.Instance.PlayerCell;
 		HexDirection castDirection =
 			BattleManager.Instance.hexgrid.CheckNeigborCellDirection(playerStandingCell, directionCell);
 		
