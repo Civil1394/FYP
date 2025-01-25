@@ -14,7 +14,7 @@ public class AIBrain : MonoBehaviour
     //Memory
     public Vector3Int currentCoord;
     public HexCell currentCell;
-    public HexCellComponent playerGrid;
+    public HexCellComponent playerGrid = null;
     public HexCellComponent attackTargetGrid;
 
     //Gizmo

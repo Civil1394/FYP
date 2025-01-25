@@ -6,7 +6,6 @@ public class PlayerDetector : MonoBehaviour
     [SerializeField] float angleOfRange = 60f;
     [SerializeField] float distanceOfRange = 10f;
     [SerializeField] float innerSphereRadius = 3f;
-    private bool canSeePlayer = false;
     private AIBrain enemyBrain;
     Transform player;
 
@@ -40,16 +39,14 @@ public class PlayerDetector : MonoBehaviour
         float gridDisToPlayer = Vector3.Distance(enemyBrain.currentCell.Coordinates, playerGrid.Coordinates);
         if ((angleToPlayer > angleOfRange / 2 || gridDisToPlayer > distanceOfRange) && gridDisToPlayer > innerSphereRadius)
         {
-            canSeePlayer = false;
             return false;
         }
 
         if (!CheckLineOfSight(dirToPlayer))
         {
-            canSeePlayer = false;
             return false;
         }
-        return false;
+        return true;
     }
     public bool CheckLineOfSight(Vector3 dirToPlayer)
     {
