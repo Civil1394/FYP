@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: AssassinEnemy
   m_EditorClassIdentifier: 
   health: 0
-  enemyStateType: 0
+  enemyStateType: 3
   angleOfRange: 0
   distanceOfRange: 0
-  innerSphereRadius: 0
+  innerSphereRadius: 7
   attackPrefab: {fileID: 0}
-  dashSpeed: 0
   attackRangeInCell: 0
   AbilityData: {fileID: 0}

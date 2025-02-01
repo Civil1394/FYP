@@ -12,13 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 028e20d9ac27cf740996d2ceaf1f03be, type: 3}
   m_Name: BoomerEnemy
   m_EditorClassIdentifier: 
-  health: 0
-  enemyStateType: 0
-  angleOfRange: 0
-  distanceOfRange: 0
-  innerSphereRadius: 0
-  attackType: 0
+  health: 10
+  enemyStateType: 2
+  angleOfRange: 180
+  distanceOfRange: 7
+  innerSphereRadius: 5
   attackPrefab: {fileID: 0}
-  dashSpeed: 0
-  attackRangeInCell: 0
+  attackRangeInCell: 4
   AbilityData: {fileID: 0}
