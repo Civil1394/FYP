@@ -121,11 +121,11 @@ public class BattleManager : Singleton<BattleManager>
 			GameObject newInstance = 
 				Instantiate(playerPrefab, new Vector3(cell.transform.position.x,playerPrefab.transform.position.y,cell.transform.position.z)
 					, quaternion.identity);
-			cell.CellData.ClearCell();
+			
 			PlayerCell = cell;
 			//inputHandler = newInstance.GetComponent<InputHandler>();
 			PlayerActorInstance = newInstance.GetComponent<PlayerActor>();
-			
+			cell.CellData.SetCell(PlayerActorInstance.gameObject,CellType.Player);
 			playerCamera.Follow = PlayerActorInstance.transform;
 			playerCamera.LookAt = PlayerActorInstance.transform;
 			PlayerActorInstance.ActionCooldown = initTurnDur;
@@ -150,7 +150,7 @@ public class BattleManager : Singleton<BattleManager>
 
 		// Update cell types
 		oldCell.CellData.ClearCell();
-		newCell.CellData.ClearCell();
+		newCell.CellData.SetCell(PlayerActorInstance.gameObject,CellType.Player);
 		PlayerCell = newCell;
 		// Set new valid move ranges
 		HexCellComponent[] newNearbyCells = BattleManager.Instance.hexgrid.GetCellsInRange(newCell, 1);
