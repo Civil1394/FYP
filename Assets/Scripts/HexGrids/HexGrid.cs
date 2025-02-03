@@ -40,11 +40,10 @@ public class HexGrid
     {
         Ray r = new Ray(worldPos, Vector3.down);
         RaycastHit h;
-        Physics.Raycast(r, out h, LayerMask.NameToLayer("Cell"));
         HexCellComponent hcc;
-        Debug.Log(h.point);
-        if (h.collider.gameObject.TryGetComponent<HexCellComponent>(out hcc))
+        if (Physics.Raycast(r, out h, LayerMask.NameToLayer("Cell")))
         {
+            hcc = h.transform.gameObject.GetComponent<HexCellComponent>();
             return GetNearestCellOfType(hcc, CellType.Empty);
         }
         return null;

@@ -1,7 +1,5 @@
-using System; 
 using UnityEngine; 
-using System.Collections;
-using Unity.Mathematics;
+using System.Collections.Generic;
 
 
 [CreateAssetMenu(fileName = "EffectData", menuName = "Effect/EffectData")]
@@ -24,7 +22,7 @@ public class EffectData : ScriptableObject
     [ConditionalField("effectType", EffectType.Projectile,EffectType.Explosive,EffectType.Dash)]
     [SerializeField] GameObject Object_fx;
     
-    public void ApplyEffect(HexDirection castDirection,HexCellComponent casterStandingCell)
+    public void ApplyEffectDirection(Transform parent, HexDirection castDirection,HexCellComponent casterStandingCell)
     {
         switch (effectType)
         {
@@ -41,6 +39,20 @@ public class EffectData : ScriptableObject
                 Debug.LogWarning("Effect type not implemented.");
                 break;
         }
+    }
+
+    public void ApplyEffectByTarget(TimedActor actor)
+    {
+        //do something to the target actor
+    }
+
+    public void ApplyEffectByCell(HexCell cell)
+    {
+        //do something to a cell
+    }
+    public void ApplyEffectByListOfCell(List<HexCell> cells)
+    {
+        //do something to the location
     }
     
     private void TriggerProjectile(HexDirection castingDirection, HexCellComponent casterStandingCell)
@@ -91,6 +103,7 @@ public class EffectData : ScriptableObject
     {
         if (dashParam != null)
         {
+            
             Debug.Log("Dash effect triggered");
         }
         else

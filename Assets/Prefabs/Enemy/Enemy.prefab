@@ -407,6 +407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyConfig: {fileID: 11400000, guid: f8af5a25b0974bd458e396b65e25a529, type: 2}
   playerDetector: {fileID: 0}
+  enemyActor: {fileID: -6313553018507609414}
   currentCoord: {x: 0, y: 0, z: 0}
   currentCell:
     ID: 
@@ -414,7 +415,6 @@ MonoBehaviour:
     cellType: 0
     cellGuiType: 0
   playerGrid: {fileID: 0}
-  lastSeenPlayerGrid: {fileID: 0}
   attackTargetGrid: {fileID: 0}
   gPath: []
   mColor: {r: 0, g: 0, b: 0, a: 0}

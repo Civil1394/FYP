@@ -16,7 +16,7 @@ public class DirectionTargeting : IAttack
     {
         foreach (var effect in abilityData.Effects)
         {
-            effect.ApplyEffect(castDirection,standingCell);
+            effect.ApplyEffectDirection(enemy, castDirection, standingCell);
         }
     }
 }

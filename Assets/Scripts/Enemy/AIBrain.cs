@@ -7,9 +7,10 @@ public class AIBrain : MonoBehaviour
     public EnemyData enemyConfig;
 
     //Functional component
-    [SerializeField] protected PlayerDetector playerDetector;
-    protected StateMachine stateMachine;
-    protected PathFinding pathFinding;
+    [SerializeField] private PlayerDetector playerDetector;
+    public EnemyActor enemyActor;
+    private StateMachine stateMachine;
+    private PathFinding pathFinding;
 
     //Memory
     public Vector3Int currentCoord;
@@ -22,8 +23,8 @@ public class AIBrain : MonoBehaviour
     public Color mColor;
 
     //Stat
-    protected IAttack attackStrategy;
-    protected int attackDur = 2;
+    private IAttack attackStrategy;
+    private int attackDur = 2;
     
     //Control flag
     public bool isAttacking = false;
@@ -33,7 +34,7 @@ public class AIBrain : MonoBehaviour
     private GridEnemyChase chaseState;
     private GridEnemyAttack attackState;
     private GridEnemyRetreat retreatState;
-    protected void Start()
+    private void Start()
     {
         mColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 
@@ -201,7 +202,7 @@ public class AIBrain : MonoBehaviour
         );
         #endregion
     }
-    protected void Update()
+    private void Update()
     {
         stateMachine.Update();
     }
@@ -211,7 +212,7 @@ public class AIBrain : MonoBehaviour
         attackDur--;
         //print(attackDur);
     }
-    protected void InitializeAttackStrategy()
+    private void InitializeAttackStrategy()
     {
         switch (enemyConfig.AbilityData.CastType)
         {
@@ -232,9 +233,9 @@ public class AIBrain : MonoBehaviour
         var nextGridPosition = cellToMove.ParentComponent.transform.position;
         Vector3 directionToNextGrid = (nextGridPosition - transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToNextGrid);
-        transform.DOMove(cellToMove.ParentComponent.transform.position, 0.5f);
+        transform.DOMove(cellToMove.ParentComponent.transform.position, enemyActor.ActionCooldown);
         EnemyManager.Instance.OnMove(this, cellToMove.Coordinates);
-        transform.DORotateQuaternion(targetRotation, 0.5f);
+        transform.DORotateQuaternion(targetRotation, enemyActor.ActionCooldown);
         currentCoord = cellToMove.Coordinates;
         currentCell = cellToMove;
     }
@@ -252,7 +253,7 @@ public class AIBrain : MonoBehaviour
         attackStrategy.Attack(castDirection, currentCell.ParentComponent);
     }
 
-    protected void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = mColor;
         if (gPath == null) return;

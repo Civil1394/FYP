@@ -12,6 +12,9 @@ public class AbilityData : ScriptableObject
 	[TextArea(5, 7)]
 	public string Desc;
 	
+	[Header("Attributes value")]
+	public float Cooldown;
+	//damage, healing point...
 	[Header("Cast")]
 	public int castRange;
 	public AbilityCastTiming castTiming;             //WHEN does the ability trigger?

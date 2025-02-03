@@ -62,14 +62,15 @@ public class EnemyManager : Singleton<EnemyManager>
     public void EnemyCatcher(AIBrain enemy,Vector3Int targetCoord)
 	{
 		HexCellComponent oldCell = BattleManager.Instance.hexgrid.GetCellInCoord(enemy.currentCoord);
-		oldCell.CellData.SetType(CellType.Empty);
+		oldCell.CellData.ClearCell();
 		HexCellComponent targetCell = BattleManager.Instance.hexgrid.GetCellInCoord(targetCoord);
 
 		if(enemiesDict.ContainsKey(enemy))
 		{
 			enemiesDict[enemy] = targetCoord;
 		}
-		targetCell.CellData.SetType(CellType.Enemy);
+
+		targetCell.CellData.SetCell(enemy.gameObject, CellType.Enemy);
 	}
     private void OnDrawGizmos()
     {

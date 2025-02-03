@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using System.Collections;
 
 public class CastingHandler : MonoBehaviour
 {
@@ -48,7 +47,7 @@ public class CastingHandler : MonoBehaviour
 		
 		foreach (var effect in ability.Effects)
 		{
-			effect.ApplyEffect(castDirection,playerStandingCell);
+			effect.ApplyEffectDirection(BattleManager.Instance.PlayerActorInstance.transform, castDirection, playerStandingCell);
 		}
 		
 		ResetCasting();

@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using System.Collections;
 using DG.Tweening;
 
 
@@ -32,7 +30,6 @@ public class LinearBehavior : ProjectileBehavior
     private  HexCellComponent nextCellToMove = new HexCellComponent();
     public override float UpdateBehavior()
     {
-        
         nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
         
         //Check if reach obstacle or void then 

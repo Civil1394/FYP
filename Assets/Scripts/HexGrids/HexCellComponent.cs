@@ -140,6 +140,7 @@ public class HexCell
 
     [System.NonSerialized] public HexCell[] Neighbors = new HexCell[6];
     [System.NonSerialized] public readonly HexCellComponent ParentComponent;
+    [System.NonSerialized] public GameObject StandingGameObject;
     public HexCell(string ID, Vector3Int coordinates, CellType cellType, HexCellComponent parentComponent)
     {
         this.ID = ID;
@@ -149,6 +150,18 @@ public class HexCell
         ParentComponent = parentComponent;
     }
 
+    public void ClearCell()
+    {
+        CellType = CellType.Empty;
+        StandingGameObject = null;
+    }
+
+    public void SetCell(GameObject standingGO, CellType newCellType)
+    {
+        StandingGameObject = standingGO;
+        CellType = newCellType;
+    }
+    [Obsolete("SetType is deprecated, please use SetCell or ClearCell instead.", true)]
     public void SetType(CellType newCellType)
     {
         CellType = newCellType;
