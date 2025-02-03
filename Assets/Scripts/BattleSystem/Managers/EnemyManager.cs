@@ -31,7 +31,7 @@ public class EnemyManager : Singleton<EnemyManager>
 				newInstance.currentCoord = cell.CellData.Coordinates;
 				newInstance.currentCell = cell.CellData;
 				enemiesDict.Add(newInstance,newInstance.currentCoord);
-				cell.CellData.SetType(CellType.Enemy);
+				cell.CellData.ClearCell();
 			}
 			else
 			{

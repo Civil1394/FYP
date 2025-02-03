@@ -45,14 +45,14 @@ public class EnemyActor : TimedActor , IDamagable
 	protected override void OverDrive()
 	{
 		base.OverDrive();
-		aiBrain.currentCell.SetType(CellType.Empty);
+		aiBrain.currentCell.ClearCell();
 		Destroy(this.gameObject);
 	}
 	
 	protected override void Collapse()
 	{
 		base.Collapse();
-		aiBrain.currentCell.SetType(CellType.Empty);
+		aiBrain.currentCell.ClearCell();
 		Destroy(this.gameObject);
 	}
 
