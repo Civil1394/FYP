@@ -6,7 +6,6 @@ public class Card : ICard
     public string Id { get; private set; }
     public string Name { get; private set; }
     public string Desc { get; private set; }
-    public int Cost {get; private set; }
     public Suit Suit { get; private set; }
     public AbilityData AbilityData { get; private set; }
 
@@ -26,7 +25,6 @@ public class Card : ICard
     {
         AbilityData = abilityData;
         Name = abilityData.Title;
-        Cost = abilityData.InitCost;
     }
 
     public void Cast()
