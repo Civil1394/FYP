@@ -13,12 +13,23 @@ public class PlayerActor : TimedActor , IDamagable
 	private PlayerMovement playerMovement;
 	private CastingHandler castingHandler;
 	private PendingActionVisualizer pendingActionVisualizer;
-	
+	public IHexPatternHelper attackPattern;
 
 	#region Mono
 
 	protected override void Start()
 	{
+		attackPattern = new CustomOffsetPattern(
+			new Vector3Int(0, 0, -3),
+			new Vector3Int(1, 0, -3),
+			new Vector3Int(0, 0, -4),
+			new Vector3Int(-2, 0, 1),
+			new Vector3Int(-2, 0, 2),
+			new Vector3Int(-3, 0, 2),
+			new Vector3Int(3, 0, 1),
+			new Vector3Int(2, 0, 2),
+			new Vector3Int(3, 0, 2)
+		);
 		uiHourGlass = BattleManager.Instance.playerUIHourGlass;
 		playerMovement = GetComponent<PlayerMovement>();
 		castingHandler = GetComponent<CastingHandler>();
@@ -117,8 +128,15 @@ public class PlayerActor : TimedActor , IDamagable
         
 		// Update cell states
 		HexCellComponent playerCell = BattleManager.Instance.PlayerCell;
+		foreach (var c in attackPattern.GetPattern(playerCell.CellData))
+		{
+			c.SetGuiType(CellGuiType.Empty);
+		}
 		BattleManager.Instance.OnPlayerMove(playerCell, pendingAction.TargetCell);
-        
+		foreach (var c in attackPattern.GetPattern(pendingAction.TargetCell.CellData))
+		{
+			c.SetGuiType(CellGuiType.ValidAttackRange);
+		}
 		CalNewFacingDirection(pendingAction.TargetCell);
 
 	}

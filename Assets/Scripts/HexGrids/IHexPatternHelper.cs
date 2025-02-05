@@ -5,32 +5,25 @@ using System.Linq;
 
 public interface IHexPatternHelper 
 {
-    IEnumerable<HexCell> GetPossibleMoves
-    (
-        HexCell startCell,
-        Func<Vector3Int, HexCell> getCellByCoordinate,
-        Func<HexCell, bool> isValidCell
-    );
+    IEnumerable<HexCell> GetPattern(HexCell startCell);
 }
 public class LinePattern : IHexPatternHelper
 {
-    private int numOfDir;
     private int range;
     private HexDirection[] dir;
-    public LinePattern(int numOfDir, int range, params HexDirection[] dir)
+    public LinePattern(int range, params HexDirection[] dir)
     {
-        this.numOfDir = numOfDir;
         this.range = range;
         this.dir = dir;
     }
-    public IEnumerable<HexCell> GetPossibleMoves(HexCell startCell, Func<Vector3Int, HexCell> getCellByCoordinate, Func<HexCell, bool> isValidCell)
+    public IEnumerable<HexCell> GetPattern(HexCell startCell)
     {
         foreach (var d in dir)
         {
-            for (var i = 0; i < numOfDir; i++)
+            for (var i = 0; i < range; i++)
             {
                 HexCell targetCell = startCell.GetNeighbor(d);
-                if (targetCell != null && isValidCell(targetCell))
+                if (targetCell != null)
                     yield return targetCell;
             }
         }
@@ -47,8 +40,8 @@ public class VertexDirectionPattern: IHexPatternHelper
         this.range = range;
         this.dir = dir;
     }
-    public IEnumerable<HexCell> GetPossibleMoves(HexCell startCell, Func<Vector3Int, HexCell> getCellByCoordinate, Func<HexCell, bool> isValidCell)
-    {
+    public IEnumerable<HexCell> GetPattern(HexCell startCell)
+    { 
         //loop through switch on vertex direction, implement some helper function for difference in odd and even row
         throw new NotImplementedException();
     }
@@ -60,14 +53,47 @@ public class CustomOffsetPattern: IHexPatternHelper
     {
         this.offsets = offsets.ToList();
     }
-    public IEnumerable<HexCell> GetPossibleMoves(HexCell startCell, Func<Vector3Int, HexCell> getCellByCoordinate, Func<HexCell, bool> isValidCell)
+    public IEnumerable<HexCell> GetPattern(HexCell startCell)
     {
+        //Vector3Int axialPos = OffsetToAxial(startCell.Coordinates);
+        
         foreach (var o in offsets)
         {
-            Vector3Int targetCoord = startCell.Coordinates + o;
-            HexCell targetCell = getCellByCoordinate(targetCoord);
-            if (targetCell != null && isValidCell(targetCell))
+            Vector3Int convertedOffset = ConvertOffset(o,startCell.Coordinates);
+            Vector3Int targetCoord = startCell.Coordinates + convertedOffset;
+            // Vector3Int targetAxial = axialPos + o;
+            // Vector3Int targetOffset = AxialToOffset(targetAxial);
+            
+            HexCell targetCell = BattleManager.Instance.hexgrid.GetCellInCoord(targetCoord).CellData;
+            if (targetCell != null)
                 yield return targetCell;
         }
+    }
+    private Vector3Int OffsetToAxial(Vector3Int offset)
+    {
+        int q = offset.x - (offset.z - (offset.z & 1)) / 2;
+        return new Vector3Int(q, 0, offset.z);
+    }
+
+    private Vector3Int AxialToOffset(Vector3Int axial)
+    {
+        int x = axial.x + (axial.z - (axial.z & 1)) / 2;
+        return new Vector3Int(x, 0, axial.z);
+    }
+    public static Vector3Int ConvertOffset(Vector3Int originalOffset, Vector3Int currentPosition)
+    {
+        if (originalOffset.z % 2 == 0)
+        {
+            return originalOffset;
+        }
+        if (currentPosition.z % 2 != 0)
+        {
+            return originalOffset;
+        }
+        return new Vector3Int(
+            originalOffset.x - 1,
+            0,
+            originalOffset.z
+        );
     }
 }

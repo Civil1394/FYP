@@ -12712,7 +12712,7 @@ MonoBehaviour:
   playerHealth: 10
   playerPrefab: {fileID: 4181602255125513476, guid: dff3b617fb3ffb94390f72185b793ff7,
     type: 3}
-  playerSpawnCoord: {x: 14, y: 13}
+  playerSpawnCoord: {x: 13, y: 13}
   playerCamera: {fileID: 1930980852}
   playerUIHourGlass: {fileID: 56626183}
   AbilityDatabase: {fileID: 11400000, guid: 20a19216682bd75438107f4ab748eb62, type: 2}

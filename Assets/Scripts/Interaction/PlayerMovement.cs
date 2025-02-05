@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
@@ -15,13 +12,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 movement;
     private Vector3 lastMovementDirection;
 
-
     public void Move(HexCellComponent targetCell)
     {
         this.transform.DOMove(targetCell.CalPosForAction(), 0.5f);
         this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
-
-       
     }
     void OnDrawGizmos()
     {

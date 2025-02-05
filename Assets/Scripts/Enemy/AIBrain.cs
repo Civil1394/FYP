@@ -11,6 +11,7 @@ public class AIBrain : MonoBehaviour
     public EnemyActor enemyActor;
     private StateMachine stateMachine;
     private PathFinding pathFinding;
+    private IHexPatternHelper attackPattern;
 
     //Memory
     public Vector3Int currentCoord;
