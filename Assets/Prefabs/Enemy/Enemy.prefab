@@ -368,6 +368,7 @@ GameObject:
   - component: {fileID: -6313553018507609414}
   - component: {fileID: 5997077565646246563}
   - component: {fileID: 2361249848862247845}
+  - component: {fileID: -522640078686227546}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -436,7 +437,6 @@ MonoBehaviour:
   ActionCooldown: 2
   startTimerOnAwake: 1
   actionCoolDownText: {fileID: 488613096571010833}
-  abilityData: {fileID: 11400000, guid: a383026f4335da6408fc15607aea6d16, type: 2}
   objectCollider: {fileID: 0}
   GlobalCanvasHourGlass: {fileID: 5979856810094154544}
 --- !u!136 &5997077565646246563
@@ -477,6 +477,18 @@ MonoBehaviour:
   angleOfRange: 60
   distanceOfRange: 10
   innerSphereRadius: 3
+--- !u!114 &-522640078686227546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8687973385347451744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 549416a3605b4c6386de4cb20d0540a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3239987304741101349
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEditor.UI;
 using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(EnemyHourGlassControllerBaseImpl))]
 public class EnemyActor : TimedActor 
 {
 	[SerializeField] CapsuleCollider objectCollider;

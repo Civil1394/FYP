@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
-
+[RequireComponent(typeof(PlayerHourGlassControllerBaseImpl))]
 public class PlayerActor : TimedActor
 {
 	public float Health { get; private set; }
