@@ -5,7 +5,19 @@ using System.Collections;
 public class AbilityData : ScriptableObject
 {
 	public string id;
+	
+	[Header("Type")]
+	public AbilityType abilityType;              //WHAT this does?
+	[ConditionalField("abilityType", AbilityType.Projectile)]
+	[SerializeField] ProjectileParameter projectileParam;
 
+	[ConditionalField("abilityType", AbilityType.Explosive)]
+	[SerializeField] ExplosiveParameter explosiveParam;
+    
+	[ConditionalField("abilityType", AbilityType.Dash)]
+	[SerializeField] DashParameter dashParam;
+	
+	
 	[Header("Text")]
 	public string Title;
 
@@ -18,13 +30,81 @@ public class AbilityData : ScriptableObject
 	[Header("Target")]
 	public AbilityTarget target;               //WHO is targeted?
 
-	[Header("Effect")]
-	public EffectData[] Effects;              //WHAT this does?
 	
-	[Header("VFX")]//Future  Use
-	public AudioClip cast_audio;
-	public bool charge_target;
 	
+	
+    
+	[Header("FX")]
+	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.Explosive,AbilityType.Dash)]
+	[SerializeField] GameObject Object_fx;
+	
+	
+	public void TriggerAbility(Transform parent, HexDirection castDirection, HexCellComponent casterStandingCell)
+	{
+		switch (abilityType)
+		{
+			case AbilityType.Projectile:
+				TriggerProjectile(castDirection, casterStandingCell);
+				break;
+			case AbilityType.Explosive:
+				TriggerExplosion();
+				break;
+			case AbilityType.Dash:
+				TriggerDash();
+				break;
+			default:
+				Debug.LogWarning("Effect type not implemented.");
+				break;
+		}
+	}
+	private void TriggerProjectile(HexDirection castingDirection, HexCellComponent casterStandingCell)
+	{
+		if (projectileParam != null)
+		{
+			HexCellComponent spawnCell = BattleManager.Instance.hexgrid.GetCellByDirection(casterStandingCell, castingDirection);
+			Vector3 height_offset = new Vector3(0, 3, 0);
+			GameObject bullet = Instantiate(Object_fx, spawnCell.transform.position + height_offset, Quaternion.LookRotation(spawnCell.transform.position));
+			var bulletComponent = bullet.AddComponent<BulletActor>();
+            
+			bulletComponent.Initialize(
+				projectileParam.Damage,
+				projectileParam.FlowSpeed,
+				spawnCell.CellData.Coordinates,
+				castingDirection,
+				projectileParam.LifeTime,
+				height_offset,
+				projectileParam.TimeManipulationType
+			);
+		}
+		else
+		{
+			Debug.LogError("Projectile parameter not set!");
+		}
+	}
+
+	private void TriggerExplosion()
+	{
+		if (explosiveParam != null)
+		{
+			Debug.Log($"Explosive effect triggered: {Desc} with radius {explosiveParam.radius}");
+		}
+		else
+		{
+			Debug.LogError("Explosive parameter not set!");
+		}
+	}
+
+	private void TriggerDash()
+	{
+		if (dashParam != null)
+		{
+			Debug.Log("Dash effect triggered");
+		}
+		else
+		{
+			Debug.LogError("Dash parameter not set!");
+		}
+	}
 }
 
 public enum AbilityCastType
@@ -43,4 +123,9 @@ public enum AbilityTarget
 	Environment
 }
 
-
+public enum AbilityType
+{
+	Projectile = 0,
+	Explosive = 10,
+	Dash = 20
+}

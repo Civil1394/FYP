@@ -432,11 +432,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MinThreshold: 0
-  MaxThreshold: 5
+  MaxThreshold: 10
   ActionCooldown: 2
   startTimerOnAwake: 1
   actionCoolDownText: {fileID: 488613096571010833}
-  abilityData: {fileID: 0}
+  abilityData: {fileID: 11400000, guid: a383026f4335da6408fc15607aea6d16, type: 2}
   objectCollider: {fileID: 0}
   GlobalCanvasHourGlass: {fileID: 5979856810094154544}
 --- !u!136 &5997077565646246563

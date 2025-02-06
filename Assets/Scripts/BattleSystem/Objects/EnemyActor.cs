@@ -4,11 +4,8 @@ using System.Collections;
 using UnityEditor.UI;
 using Random = UnityEngine.Random;
 
-public class EnemyActor : TimedActor , IDamagable
+public class EnemyActor : TimedActor 
 {
-	public float Health { get; private set; }
-	public AbilityData abilityData;
-	
 	[SerializeField] CapsuleCollider objectCollider;
 	[SerializeField] private GlobalCanvasHourGlass GlobalCanvasHourGlass;
 	private AIBrain aiBrain;

@@ -39,16 +39,13 @@ public class CastingHandler : MonoBehaviour
 
 		BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.PlayCard, $"castedability:{ability.name}");
 	}
-	private void HandleDirectionalCast(AbilityData ability,HexCellComponent directionCell)
+	private void HandleDirectionalCast(AbilityData abilityData,HexCellComponent directionCell)
 	{
 		HexCellComponent playerStandingCell = BattleManager.Instance.PlayerCell;
 		HexDirection castDirection =
 			BattleManager.Instance.hexgrid.CheckNeigborCellDirection(playerStandingCell, directionCell);
 		
-		foreach (var effect in ability.Effects)
-		{
-			effect.ApplyEffectDirection(BattleManager.Instance.PlayerActorInstance.transform, castDirection, playerStandingCell);
-		}
+		abilityData.TriggerAbility(BattleManager.Instance.PlayerActorInstance.transform, castDirection, playerStandingCell);
 		
 		ResetCasting();
 	}

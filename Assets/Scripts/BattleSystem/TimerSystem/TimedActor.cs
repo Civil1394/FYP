@@ -37,8 +37,8 @@ public class TimedActor : MonoBehaviour
         
         if (!isTimerActive) return;
         
-        if(ActionCooldown < MinThreshold) OverDrive();
-        if(ActionCooldown > MaxThreshold) Collapse();
+        if(ActionCooldown <= MinThreshold) OverDrive();
+        if(ActionCooldown >= MaxThreshold) Collapse();
         
         
         currentCooldown -= Time.deltaTime;

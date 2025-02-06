@@ -9,19 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25c1b50b19b946648a66bbb9c3801bb4, type: 3}
-  m_Name: 0.5s_Boost
+  m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
+  m_Name: Flowingilluminate
   m_EditorClassIdentifier: 
-  effectType: 0
-  Desc: 
+  id: 2
+  abilityType: 0
   projectileParam:
-    Damage: 0.5
-    FlowSpeed: 0.5
-    LifeTime: 15
-    TimeManipulationType: 0
+    Damage: 5
+    FlowSpeed: 2
+    LifeTime: 10
+    TimeManipulationType: 1
   explosiveParam:
     radius: 0
     damage: 0
     force: 0
     timeManipulationType: 0
-  Object_fx: {fileID: 193226, guid: cd01c6abe812d494684515011e1321b9, type: 3}
+  Title: Flowingilluminate
+  Desc: Flowingilluminate
+  CastType: 1
+  target: 0
+  Object_fx: {fileID: 121798, guid: a1a393c51c7f41b4e8944f73a81f7e31, type: 3}

@@ -72,7 +72,7 @@ public class BulletActor : TimedActor
 
     private void CheckLifeTime()
     {
-        Debug.Log(LifeTime);
+        //Debug.Log(LifeTime);
         if (LifeTime <= 0)
         {
             IsAlive = false;

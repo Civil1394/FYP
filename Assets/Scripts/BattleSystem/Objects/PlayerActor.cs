@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public class PlayerActor : TimedActor , IDamagable
+public class PlayerActor : TimedActor
 {
 	public float Health { get; private set; }
 	public HexDirection FacingHexDirection;

@@ -14,9 +14,6 @@ public class DirectionTargeting : IAttack
 
     public void Attack(HexDirection castDirection, HexCellComponent standingCell)
     {
-        foreach (var effect in abilityData.Effects)
-        {
-            effect.ApplyEffectDirection(enemy, castDirection, standingCell);
-        }
+        abilityData.TriggerAbility(enemy, castDirection, standingCell);
     }
 }
