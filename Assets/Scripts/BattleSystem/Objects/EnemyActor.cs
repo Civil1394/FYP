@@ -4,22 +4,21 @@ using System.Collections;
 using UnityEditor.UI;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(EnemyHourGlassControllerBaseImpl))]
 public class EnemyActor : TimedActor 
 {
 	[SerializeField] CapsuleCollider objectCollider;
-	[SerializeField] private GlobalCanvasHourGlass GlobalCanvasHourGlass;
+	[SerializeField] private GlobalCanvasHourGlassView globalCanvasHourGlassView;
 	private AIBrain aiBrain;
 	
 	
 	protected override void Start()
 	{
 		aiBrain = gameObject.GetComponent<AIBrain>();
-		if (GlobalCanvasHourGlass != null)
+		if (globalCanvasHourGlassView != null)
 		{
-			OnTimerStart += GlobalCanvasHourGlass.CountTime;
+			OnTimerStart += globalCanvasHourGlassView.CountTime;
 			OnTimerComplete += aiBrain.TurnAction;
-		}
+		}else Debug.LogWarning("No globalCanvasHourGlassView found");
 		ActionCooldown = (int)Random.Range(1f, 5f);
 		base.Start();
 	}

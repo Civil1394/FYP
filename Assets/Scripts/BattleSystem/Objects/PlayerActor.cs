@@ -1,19 +1,20 @@
 using System;
 using UnityEngine;
 using System.Collections;
-[RequireComponent(typeof(PlayerHourGlassControllerBaseImpl))]
+[RequireComponent(typeof(PlayerHourGlassController))]
 public class PlayerActor : TimedActor
 {
 	public float Health { get; private set; }
 	public HexDirection FacingHexDirection;
 	public bool CanExecuteAction { get; private set; }
-    
-	[SerializeField] private UIHourGlass uiHourGlass;
+	public IHexPatternHelper attackPattern;
+	private UIHourGlassView uiHourGlassView;
 	private PlayerAction pendingAction;
 	private PlayerMovement playerMovement;
 	private CastingHandler castingHandler;
 	private PendingActionVisualizer pendingActionVisualizer;
-	public IHexPatternHelper attackPattern;
+	private PlayerHourGlassController hourGlassController;
+	
 
 	#region Mono
 
@@ -30,13 +31,17 @@ public class PlayerActor : TimedActor
 			new Vector3Int(2, 0, 2),
 			new Vector3Int(3, 0, 2)
 		);
-		uiHourGlass = BattleManager.Instance.playerUIHourGlass;
+		if(uiHourGlassView == null)uiHourGlassView = BattleManager.Instance.playerUIHourGlassView;
+		else Debug.LogError("UIHourGlassView is null");
+		
 		playerMovement = GetComponent<PlayerMovement>();
 		castingHandler = GetComponent<CastingHandler>();
 		pendingActionVisualizer = GetComponent<PendingActionVisualizer>();
-		if (uiHourGlass != null)
+		hourGlassController = GetComponent<PlayerHourGlassController>();
+		
+		if (uiHourGlassView != null)
 		{
-			OnTimerStart += uiHourGlass.CountTime;
+			OnTimerStart += uiHourGlassView.CountTime;
 			OnTimerComplete += ExecutePendingAction;
 			OnTimerComplete += DrawCardsIfEmptyHand;
 		}
@@ -127,6 +132,13 @@ public class PlayerActor : TimedActor
 		playerMovement.Move(pendingAction.TargetCell);
         
 		// Update cell states
+		UpdateCellsStates();
+		CalNewFacingDirection(pendingAction.TargetCell);
+
+	}
+
+	private void UpdateCellsStates()
+	{
 		HexCellComponent playerCell = BattleManager.Instance.PlayerCell;
 		foreach (var c in attackPattern.GetPattern(playerCell.CellData))
 		{
@@ -137,8 +149,6 @@ public class PlayerActor : TimedActor
 		{
 			c.SetGuiType(CellGuiType.ValidAttackRange);
 		}
-		CalNewFacingDirection(pendingAction.TargetCell);
-
 	}
 
 	private void ExecuteCastAction()

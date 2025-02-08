@@ -29,14 +29,11 @@ public class TimedActor : MonoBehaviour
             CheckTimerStatus();
         }
     }
-
-    // This method updates the timer each frame if it is active.
+    
     protected virtual void Update()
     {
-        if(actionCoolDownText != null) actionCoolDownText.text = currentCooldown.ToString("F2") + " / " + ActionCooldown.ToString("F1");
-        
         if (!isTimerActive) return;
-        
+        if(actionCoolDownText != null) actionCoolDownText.text = currentCooldown.ToString("F2") + " / " + ActionCooldown.ToString("F1");
         if(ActionCooldown <= MinThreshold) OverDrive();
         if(ActionCooldown >= MaxThreshold) Collapse();
         
@@ -48,7 +45,7 @@ public class TimedActor : MonoBehaviour
         {
             isTimerActive = false;
             OnTimerComplete?.Invoke();
-            ExecuteAction();
+            CheckTimerStatus();
         }
     }
 
@@ -74,11 +71,7 @@ public class TimedActor : MonoBehaviour
     {
         return 1 - (currentCooldown / ActionCooldown);
     }
-
-    protected virtual void ExecuteAction()
-    {
-        CheckTimerStatus(); 
-    }
+    
 
     protected virtual void TimeManipulate(TimeManipulationType type,float flowTime)
     {

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using Unity.Mathematics;
 
-public class UIHourGlass : HourGlassViewBase
+public class UIHourGlassView : HourGlassViewBase
 {
     protected override Tween RotateHourGlass()
     {
