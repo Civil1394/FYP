@@ -1,8 +1,9 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 using UnityEditor.UI;
 using TMPro;
-public class TimedActor : MonoBehaviour
+public abstract class TimedActor : MonoBehaviour
 {
     public float MinThreshold = 0f;
     public float MaxThreshold = 5f;
@@ -36,11 +37,10 @@ public class TimedActor : MonoBehaviour
         if(actionCoolDownText != null) actionCoolDownText.text = currentCooldown.ToString("F2") + " / " + ActionCooldown.ToString("F1");
         if(ActionCooldown <= MinThreshold) OverDrive();
         if(ActionCooldown >= MaxThreshold) Collapse();
-        
+
         
         currentCooldown -= Time.deltaTime;
         OnTimerTick?.Invoke(GetNormalizedTime());
-        
         if (currentCooldown <= 0)
         {
             isTimerActive = false;
@@ -49,7 +49,7 @@ public class TimedActor : MonoBehaviour
         }
     }
 
-
+    protected virtual void OnThresholdsTriggered(){ }
     public void CheckTimerStatus()
     {
         currentCooldown = ActionCooldown;
@@ -67,9 +67,10 @@ public class TimedActor : MonoBehaviour
         isTimerActive = true;
     }
 
-    public float GetNormalizedTime()
+    protected float GetNormalizedTime()
     {
-        return 1 - (currentCooldown / ActionCooldown);
+        float v = (currentCooldown / ActionCooldown);
+        return v;
     }
     
 

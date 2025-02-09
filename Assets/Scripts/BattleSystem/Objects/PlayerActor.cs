@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
 [RequireComponent(typeof(PlayerHourGlassController))]
 public class PlayerActor : TimedActor
 {
@@ -8,13 +10,17 @@ public class PlayerActor : TimedActor
 	public HexDirection FacingHexDirection;
 	public bool CanExecuteAction { get; private set; }
 	public IHexPatternHelper attackPattern;
+	
+	[Header("Hourglass trigger config")]
+	[SerializeField] private List<float> thresholdList = new List<float>();
+	
 	private UIHourGlassView uiHourGlassView;
 	private PlayerAction pendingAction;
 	private PlayerMovement playerMovement;
 	private CastingHandler castingHandler;
 	private PendingActionVisualizer pendingActionVisualizer;
 	private PlayerHourGlassController hourGlassController;
-	
+	private AbilityDatabase abilityDatabase;
 
 	#region Mono
 
@@ -31,20 +37,22 @@ public class PlayerActor : TimedActor
 			new Vector3Int(2, 0, 2),
 			new Vector3Int(3, 0, 2)
 		);
+		
 		if(uiHourGlassView == null)uiHourGlassView = BattleManager.Instance.playerUIHourGlassView;
 		else Debug.LogError("UIHourGlassView is null");
-		
-		playerMovement = GetComponent<PlayerMovement>();
-		castingHandler = GetComponent<CastingHandler>();
-		pendingActionVisualizer = GetComponent<PendingActionVisualizer>();
-		hourGlassController = GetComponent<PlayerHourGlassController>();
-		
 		if (uiHourGlassView != null)
 		{
 			OnTimerStart += uiHourGlassView.CountTime;
 			OnTimerComplete += ExecutePendingAction;
 			OnTimerComplete += DrawCardsIfEmptyHand;
 		}
+		
+		playerMovement = GetComponent<PlayerMovement>();
+		castingHandler = GetComponent<CastingHandler>();
+		pendingActionVisualizer = GetComponent<PendingActionVisualizer>();
+		hourGlassController = GetComponent<PlayerHourGlassController>();
+		
+		
 		base.Start();
 		
 		BattleManager.Instance.InputHandler.OnMoveClick.AddListener<HexCellComponent>(QueueMoveAction);
@@ -53,6 +61,25 @@ public class PlayerActor : TimedActor
 		//CardsManager.Instance.OnCardSelected += 
 		BattleManager.Instance.InputHandler.OnCastClick.AddListener<HexCellComponent>(QueueCastAction);
 		
+		abilityDatabase = BattleManager.Instance.AbilityDatabase;
+		HashSet<float> pendingThresholds = new HashSet<float>(thresholdList);
+		hourGlassController.Initialize(pendingThresholds, abilityDatabase.GetAbilityList("1"));
+		OnTimerTick += hourGlassController.ThresholdCheck;
+		OnTimerComplete += hourGlassController.ClearTriggeredThresholdFlags;
+
+	}
+
+	private void OnDestroy()
+	{
+		if (uiHourGlassView != null)
+		{
+			OnTimerStart -= uiHourGlassView.CountTime;
+			OnTimerComplete -= ExecutePendingAction;
+			OnTimerComplete -= DrawCardsIfEmptyHand;
+		}
+		
+		OnTimerTick -= hourGlassController.ThresholdCheck;
+		OnTimerComplete -= hourGlassController.ClearTriggeredThresholdFlags;
 	}
 
 	protected override void Update()
@@ -61,9 +88,11 @@ public class PlayerActor : TimedActor
 	}
 
 	#endregion
-	
-	
-	
+
+	protected  void OnThresholdsTriggered(float deltaTime)
+	{
+	}
+
 	#region QueueAction
 	private void QueueMoveAction(HexCellComponent targetCell)
 	{
@@ -133,7 +162,7 @@ public class PlayerActor : TimedActor
         
 		// Update cell states
 		UpdateCellsStates();
-		CalNewFacingDirection(pendingAction.TargetCell);
+		//CalNewFacingDirection(pendingAction.TargetCell);
 
 	}
 
@@ -160,7 +189,7 @@ public class PlayerActor : TimedActor
 	#endregion
 	private void DrawCardsIfEmptyHand()
 	{
-		AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
+		
 		if (CardsManager.Instance.Hand.Count == 0)
 		{
 			for (int i = 0; i < BattleManager.Instance.handCardsSize; i++)

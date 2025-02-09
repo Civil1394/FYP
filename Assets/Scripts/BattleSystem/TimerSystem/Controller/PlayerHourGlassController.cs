@@ -1,17 +1,55 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHourGlassController : MonoBehaviour
 {
-    protected  List<AbilityData> passiveEffects { get; } = new List<AbilityData>();
-    protected  List<int> triggerThreshold { get; private set; }
-
-    public void Initialize(List<int> triggerThreshold)
+    protected  List<AbilityData> passiveAbilityDatas { get;private set; }
+    protected  HashSet<float> pendingThresholds { get; private set; }
+    private CastingHandler castingHandler;
+    private HexGrid hexGrid;
+    
+    private HashSet<float> triggeredThresholdFlags = new HashSet<float>();
+    private void Start()
     {
-        this.triggerThreshold = triggerThreshold;
+        castingHandler = GetComponent<CastingHandler>();
+        hexGrid = BattleManager.Instance.hexgrid;
+        
     }
-    private void OnThresholdReached(int value)
+
+    public void Initialize(HashSet<float> triggerThreshold, List<AbilityData> passiveAbilityDatas)
     {
-        //passiveEffects[value].TriggerAbility(BattleManager.Instance.PlayerActorInstance.gameObject.transform,);
+        this.pendingThresholds = triggerThreshold;
+        this.passiveAbilityDatas = passiveAbilityDatas;
+    }
+
+    public void ThresholdCheck(float remainingTimePercent)
+    {
+        foreach (float threshold in pendingThresholds)
+        {
+            if (!triggeredThresholdFlags.Contains(threshold) && remainingTimePercent <= threshold)
+            {
+                triggeredThresholdFlags.Add(threshold);
+                OnThresholdReached(triggeredThresholdFlags.Count -1);
+                Debug.Log($"Threshold {threshold * 100}% reached!");
+            }
+            
+        }
+    }
+
+    public void ClearTriggeredThresholdFlags()
+    {
+        triggeredThresholdFlags.Clear();
+    }
+    public void OnThresholdReached(int value)
+    {
+        HexCellComponent playerCell = BattleManager.Instance.PlayerCell;
+        HexDirection facingDirection = BattleManager.Instance.PlayerActorInstance.FacingHexDirection;
+        HexCellComponent targetCell = hexGrid.GetCellByDirection(playerCell, facingDirection);
+        if(castingHandler.CastIsLegit(passiveAbilityDatas[value],targetCell) == false) return;
+        
+        passiveAbilityDatas[value].TriggerAbility(BattleManager.Instance.PlayerActorInstance.transform,
+                                                    facingDirection,
+                                                    playerCell);
     }
 }
