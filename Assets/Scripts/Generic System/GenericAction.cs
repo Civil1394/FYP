@@ -115,5 +115,11 @@ public class GenericAction
             handler.Execute();
         }
     }
+
+    public void RemoveAllListener()
+    {
+        handlers.Clear();
+        voidHandlers.Clear();
+    }
 }
 

@@ -94,7 +94,7 @@ public class PlayerActor : TimedActor
 	}
 
 	#region QueueAction
-	private void QueueMoveAction(HexCellComponent targetCell)
+	public void QueueMoveAction(HexCellComponent targetCell)
 	{
 		if (!IsValidMoveTarget(targetCell)) return;
 		
@@ -105,7 +105,7 @@ public class PlayerActor : TimedActor
 		ShowPendingActionPreview();
 	}
 	
-	private void QueueCastAction(HexCellComponent targetCell)
+	public void QueueCastAction(HexCellComponent targetCell)
 	{
 		Card cardToBeCast = CardsManager.Instance.GetSelectedCard();
 		if(castingHandler.CastIsLegit(cardToBeCast.AbilityData,targetCell) == false) return;
