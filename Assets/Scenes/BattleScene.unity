@@ -12759,15 +12759,15 @@ MonoBehaviour:
   playerPrefab: {fileID: 4181602255125513476, guid: dff3b617fb3ffb94390f72185b793ff7,
     type: 3}
   playerSpawnCoord:
-  - {x: 9, y: 14}
   - {x: 8, y: 14}
+  - {x: 9, y: 14}
   - {x: 10, y: 14}
   - {x: 11, y: 14}
   playerCamera: {fileID: 1930980852}
   playerUIHourGlassView: {fileID: 56626183}
   AbilityDatabase: {fileID: 11400000, guid: 20a19216682bd75438107f4ab748eb62, type: 2}
   PlayerCell: {fileID: 0}
-  initTurnDur: 1
+  initTurnDur: 3
   handCardsSize: 2
   IsBattleStarted: 0
   _inputHandler: {fileID: 1921585517}
