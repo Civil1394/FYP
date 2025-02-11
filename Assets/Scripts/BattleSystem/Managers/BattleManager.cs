@@ -12,10 +12,10 @@ public class BattleManager : Singleton<BattleManager>
 	
 	[Header("Player-related ref")] 
 	[SerializeField] private GameObject playerPrefab;
-	[SerializeField] private Vector2Int playerSpawnCoord;
+	[SerializeField] private List<Vector2Int> playerSpawnCoord;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	public UIHourGlassView playerUIHourGlassView;
-	public PlayerActor PlayerActorInstance {  get; private set; }
+	public List<PlayerActor> PlayerActorInstance {  get; private set; } = new List<PlayerActor>();
 	public AbilityDatabase AbilityDatabase;
 	public HexCellComponent PlayerCell;
 	[Header("HexGrid Related Ref")]
@@ -43,12 +43,17 @@ public class BattleManager : Singleton<BattleManager>
 	}
 	//InputHandler
 	[SerializeField] private InputHandler _inputHandler;
+	[SerializeField] private MultipleCharacterControlSystem _multipleCharacterControlSystem;
 	public InputHandler InputHandler
 	{
 		get => _inputHandler;
 		private set => _inputHandler = value;
 	}
-	
+	public MultipleCharacterControlSystem MultipleCharacterControlSystem
+	{
+		get => _multipleCharacterControlSystem;
+		private set => _multipleCharacterControlSystem = value;
+	}
 	//CastingHandler
 	// [SerializeField] private CastingHandler _castingHandler;
 	// public CastingHandler CastingHandler
@@ -89,7 +94,10 @@ public class BattleManager : Singleton<BattleManager>
 		
 		
 		//InitPlayer
-		InitPlayer();
+		foreach (Vector2Int p in playerSpawnCoord)
+		{
+			InitPlayer(p);
+		}
 		
 		//InitEnemies
 		EnemyManager.Instance.InitEnemies();
@@ -112,10 +120,10 @@ public class BattleManager : Singleton<BattleManager>
 		
 	}
 	
-	private void InitPlayer()
+	private void InitPlayer(Vector2Int playerPos)
 	{
 		//Spawn player at random empty cell
-		HexCellComponent cell = hexgrid.GetCellInCoord(new Vector3Int(playerSpawnCoord.x, 0, playerSpawnCoord.y));
+		HexCellComponent cell = hexgrid.GetCellInCoord(new Vector3Int(playerPos.x, 0, playerPos.y));
 		if (cell.CellData.CellType == CellType.Empty)
 		{
 			GameObject newInstance = 
@@ -124,11 +132,13 @@ public class BattleManager : Singleton<BattleManager>
 			
 			PlayerCell = cell;
 			//inputHandler = newInstance.GetComponent<InputHandler>();
-			PlayerActorInstance = newInstance.GetComponent<PlayerActor>();
-			cell.CellData.SetCell(PlayerActorInstance.gameObject,CellType.Player);
-			playerCamera.Follow = PlayerActorInstance.transform;
-			playerCamera.LookAt = PlayerActorInstance.transform;
-			PlayerActorInstance.ActionCooldown = initTurnDur;
+			PlayerActor tempPlayerActor = newInstance.GetComponent<PlayerActor>();
+			cell.CellData.SetCell(tempPlayerActor.gameObject,CellType.Player);
+			playerCamera.Follow = tempPlayerActor.transform;
+			playerCamera.LookAt = tempPlayerActor.transform;
+			tempPlayerActor.ActionCooldown = initTurnDur;
+			PlayerActorInstance.Add(tempPlayerActor);
+			MultipleCharacterControlSystem.charactersActorList.Add(tempPlayerActor);
 		}
 		else
 		{
@@ -139,7 +149,7 @@ public class BattleManager : Singleton<BattleManager>
 	#endregion
 	
 	//Update Cell states after player Move
-	public void OnPlayerMove(HexCellComponent oldCell, HexCellComponent newCell)
+	public void OnPlayerMove(PlayerActor playerActor, HexCellComponent oldCell, HexCellComponent newCell)
 	{
 		// Clear old valid move ranges
 		HexCellComponent[] oldNearbyCells = BattleManager.Instance.hexgrid.GetCellsInRange(oldCell, 1);
@@ -150,7 +160,7 @@ public class BattleManager : Singleton<BattleManager>
 
 		// Update cell types
 		oldCell.CellData.ClearCell();
-		newCell.CellData.SetCell(PlayerActorInstance.gameObject,CellType.Player);
+		newCell.CellData.SetCell(playerActor.gameObject,CellType.Player);
 		PlayerCell = newCell;
 		// Set new valid move ranges
 		HexCellComponent[] newNearbyCells = BattleManager.Instance.hexgrid.GetCellsInRange(newCell, 1);

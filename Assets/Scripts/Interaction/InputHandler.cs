@@ -25,7 +25,7 @@ public class InputHandler : MonoBehaviour
 		GetPointerDown();
 		RedrawCardsController();
 		SelectCardController();
-		
+		SelectPlayer();
 	}
 	
 	private void SelectCardController()
@@ -46,8 +46,33 @@ public class InputHandler : MonoBehaviour
 		}
 		
 	}
-	
 
+	private void SelectPlayer()
+	{
+		if (Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(0);
+			return;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(1);
+			return;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(2);
+			return;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha4))
+		{
+			BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(3);
+			return;
+		}
+	}
 	private void RedrawCardsController()
 	{
 		AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;

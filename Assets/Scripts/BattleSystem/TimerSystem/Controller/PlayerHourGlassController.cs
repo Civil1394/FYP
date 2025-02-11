@@ -10,8 +10,10 @@ public class PlayerHourGlassController : MonoBehaviour
     private HexGrid hexGrid;
     
     private HashSet<float> triggeredThresholdFlags = new HashSet<float>();
+    private PlayerActor playerActor;
     private void Start()
     {
+        playerActor = GetComponent<PlayerActor>();
         castingHandler = GetComponent<CastingHandler>();
         hexGrid = BattleManager.Instance.hexgrid;
         
@@ -44,11 +46,11 @@ public class PlayerHourGlassController : MonoBehaviour
     public void OnThresholdReached(int value)
     {
         HexCellComponent playerCell = BattleManager.Instance.PlayerCell;
-        HexDirection facingDirection = BattleManager.Instance.PlayerActorInstance.FacingHexDirection;
+        HexDirection facingDirection = playerActor.FacingHexDirection;
         HexCellComponent targetCell = hexGrid.GetCellByDirection(playerCell, facingDirection);
         if(castingHandler.CastIsLegit(passiveAbilityDatas[value],targetCell) == false) return;
         
-        passiveAbilityDatas[value].TriggerAbility(BattleManager.Instance.PlayerActorInstance.transform,
+        passiveAbilityDatas[value].TriggerAbility(playerActor.transform,
                                                     facingDirection,
                                                     playerCell);
     }

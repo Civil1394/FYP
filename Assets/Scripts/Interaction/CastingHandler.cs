@@ -6,11 +6,13 @@ public class CastingHandler : MonoBehaviour
 	public event Action<HexCellComponent> OnLocationCast;
 	public event Action<AbilityData> OnDirectionalCast;
 	public event Action<AbilityData> OnUnitCast;
+	private PlayerActor playerActor;
 	//private AbilityData currentCastingAbility; //storing the pending abilitydata to be cast
 
 	private void Start()
 	{
 		//BattleManager.Instance.InputHandler.OnCastClick.AddListener<HexCellComponent>(HandleDirectionalCast);
+		playerActor = GetComponent<PlayerActor>();
 	}
 	
 	//Check the casting cell is in range or other condition is fulfilled
@@ -45,7 +47,7 @@ public class CastingHandler : MonoBehaviour
 		HexDirection castDirection =
 			BattleManager.Instance.hexgrid.CheckNeigborCellDirection(playerCell, directionCell);
 		
-		abilityData.TriggerAbility(BattleManager.Instance.PlayerActorInstance.transform, castDirection, playerCell);
+		abilityData.TriggerAbility(playerActor.transform, castDirection, playerCell);
 		
 		ResetCasting();
 	}

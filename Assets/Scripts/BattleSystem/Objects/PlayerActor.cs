@@ -173,7 +173,7 @@ public class PlayerActor : TimedActor
 		{
 			c.SetGuiType(CellGuiType.Empty);
 		}
-		BattleManager.Instance.OnPlayerMove(playerCell, pendingAction.TargetCell);
+		BattleManager.Instance.OnPlayerMove(this, playerCell, pendingAction.TargetCell);
 		foreach (var c in attackPattern.GetPattern(pendingAction.TargetCell.CellData))
 		{
 			c.SetGuiType(CellGuiType.ValidAttackRange);

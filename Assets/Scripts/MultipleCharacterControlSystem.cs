@@ -3,7 +3,7 @@ using UnityEngine;
 //ez as fk
 public class MultipleCharacterControlSystem : MonoBehaviour 
 {
-	public List<PlayerActor> charactersActorList;//could make it sorted base on time left to achieve auto switch
+	public List<PlayerActor> charactersActorList = new List<PlayerActor>();//could make it sorted base on time left to achieve auto switch
 	private InputHandler inputHandler;
 
 	private void Start()
