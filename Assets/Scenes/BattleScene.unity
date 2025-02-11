@@ -12771,7 +12771,7 @@ MonoBehaviour:
   handCardsSize: 2
   IsBattleStarted: 0
   _inputHandler: {fileID: 1921585517}
-  _multipleCharacterControlSystem: {fileID: 0}
+  _multipleCharacterControlSystem: {fileID: 340252433}
   actionExecuted: 0
 --- !u!114 &1921585517
 MonoBehaviour:
