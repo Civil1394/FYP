@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHourGlassController : MonoBehaviour
+public class PlayerAutoTriggerController : MonoBehaviour
 {
+    public bool IsAutoTrigger = false;
     protected  List<AbilityData> passiveAbilityDatas { get;private set; }
     protected  HashSet<float> pendingThresholds { get; private set; }
     private CastingHandler castingHandler;
@@ -27,6 +28,8 @@ public class PlayerHourGlassController : MonoBehaviour
 
     public void ThresholdCheck(float remainingTimePercent)
     {
+        if (!IsAutoTrigger) return;
+        
         foreach (float threshold in pendingThresholds)
         {
             if (!triggeredThresholdFlags.Contains(threshold) && remainingTimePercent <= threshold)
@@ -43,6 +46,7 @@ public class PlayerHourGlassController : MonoBehaviour
     {
         triggeredThresholdFlags.Clear();
     }
+    
     public void OnThresholdReached(int value)
     {
         HexCellComponent playerCell = BattleManager.Instance.PlayerCell;

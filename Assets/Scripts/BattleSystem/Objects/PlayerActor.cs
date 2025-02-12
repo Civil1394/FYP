@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(PlayerHourGlassController))]
+[RequireComponent(typeof(PlayerAutoTriggerController))]
 public class PlayerActor : TimedActor
 {
 	public float Health { get; private set; }
@@ -19,7 +19,7 @@ public class PlayerActor : TimedActor
 	private PlayerMovement playerMovement;
 	private CastingHandler castingHandler;
 	private PendingActionVisualizer pendingActionVisualizer;
-	private PlayerHourGlassController hourGlassController;
+	private PlayerAutoTriggerController autoTriggerController;
 	private AbilityDatabase abilityDatabase;
 
 	#region Mono
@@ -50,7 +50,7 @@ public class PlayerActor : TimedActor
 		playerMovement = GetComponent<PlayerMovement>();
 		castingHandler = GetComponent<CastingHandler>();
 		pendingActionVisualizer = GetComponent<PendingActionVisualizer>();
-		hourGlassController = GetComponent<PlayerHourGlassController>();
+		autoTriggerController = GetComponent<PlayerAutoTriggerController>();
 		
 		
 		base.Start();
@@ -63,9 +63,9 @@ public class PlayerActor : TimedActor
 		
 		abilityDatabase = BattleManager.Instance.AbilityDatabase;
 		HashSet<float> pendingThresholds = new HashSet<float>(thresholdList);
-		hourGlassController.Initialize(pendingThresholds, abilityDatabase.GetAbilityList("1"));
-		OnTimerTick += hourGlassController.ThresholdCheck;
-		OnTimerComplete += hourGlassController.ClearTriggeredThresholdFlags;
+		autoTriggerController.Initialize(pendingThresholds, abilityDatabase.GetAbilityList("1"));
+		OnTimerTick += autoTriggerController.ThresholdCheck;
+		OnTimerComplete += autoTriggerController.ClearTriggeredThresholdFlags;
 
 	}
 
@@ -78,8 +78,8 @@ public class PlayerActor : TimedActor
 			OnTimerComplete -= DrawCardsIfEmptyHand;
 		}
 		
-		OnTimerTick -= hourGlassController.ThresholdCheck;
-		OnTimerComplete -= hourGlassController.ClearTriggeredThresholdFlags;
+		OnTimerTick -= autoTriggerController.ThresholdCheck;
+		OnTimerComplete -= autoTriggerController.ClearTriggeredThresholdFlags;
 	}
 
 	protected override void Update()

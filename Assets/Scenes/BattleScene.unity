@@ -12760,9 +12760,6 @@ MonoBehaviour:
     type: 3}
   playerSpawnCoord:
   - {x: 8, y: 14}
-  - {x: 9, y: 14}
-  - {x: 10, y: 14}
-  - {x: 11, y: 14}
   playerCamera: {fileID: 1930980852}
   playerUIHourGlassView: {fileID: 56626183}
   AbilityDatabase: {fileID: 11400000, guid: 20a19216682bd75438107f4ab748eb62, type: 2}
