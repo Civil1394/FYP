@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,11 @@ public static class Helpers
     public static Vector3 ToIso(this Vector3 input) => _isoMatrix.MultiplyPoint3x4(input);
     
     
+    public static string GetUniqueID(object obj)
+    {
+        Type type = obj.GetType();
+        return $"{type.Name}_{Guid.NewGuid().ToString("N")}";
+    }
 }
 
 

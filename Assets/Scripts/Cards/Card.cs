@@ -11,13 +11,9 @@ public class Card : ICard
 
     public Card()
     {
-        GenerateUniqueId();
+        Id = Helpers.GetUniqueID(this);
     }
-
-    private void GenerateUniqueId()
-    {
-        Id = $"CARD_{Guid.NewGuid().ToString("N")}";
-    }
+    
 
     public void SetSuit(Suit suit) => Suit = suit;
     

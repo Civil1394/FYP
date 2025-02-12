@@ -1,10 +1,4 @@
 
-public enum TimeManipulationType
-{
-	Boost,
-	Slow,
-	None
-}
 public abstract class EffectParameter 
 {
 }

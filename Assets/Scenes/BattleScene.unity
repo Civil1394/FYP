@@ -11227,6 +11227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb33ad5c763e21248ab1920f34cf1e8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hourglasses: []
 --- !u!4 &1625559844
 Transform:
   m_ObjectHideFlags: 0
