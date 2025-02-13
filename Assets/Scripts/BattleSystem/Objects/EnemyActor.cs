@@ -34,7 +34,7 @@ public class EnemyActor : TimedActor
 			Debug.Log("gethit");
 			//TakeDamage(other.GetComponent<BulletActor>().Damage);
 			var bullet = other.GetComponent<BulletActor>();
-			TimeManipulate(bullet.timeManipulationType,bullet.Speed);
+			TimeManipulate(bullet.TimeType,bullet.Speed);
 			Destroy(other.gameObject);
 		}
 	}

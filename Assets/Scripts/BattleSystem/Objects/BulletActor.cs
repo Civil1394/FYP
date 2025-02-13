@@ -13,11 +13,11 @@ public class BulletActor : TimedActor
     public float InitialLifeTime { get; private set; }
     public bool IsAlive { get; private set; }
     public Vector3 height_Offset { get; private set; }
-    public TimeManipulationType timeManipulationType { get; private set; }
+    public TimeType TimeType { get; private set; }
     
     private Quaternion targetRotation;
     private ProjectileBehavior behavior;
-    public void Initialize(float damage, float speed, Vector3Int standingPos , HexDirection direction, float lifeTime,Vector3 height_offset,TimeManipulationType type)
+    public void Initialize(float damage, float speed, Vector3Int standingPos , HexDirection direction, float lifeTime,Vector3 height_offset,TimeType type)
     {
         this.gameObject.tag = "Projectile";
         ActionCooldown = speed;
@@ -29,7 +29,7 @@ public class BulletActor : TimedActor
         TargetDirection = direction;
         StandingPos = standingPos;
         height_Offset = height_offset;
-        timeManipulationType = type;
+        TimeType = type;
         
         HexCellComponent standingCell = BattleManager.Instance.hexgrid.GetCellInCoord(StandingPos);
         HexCellComponent nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);

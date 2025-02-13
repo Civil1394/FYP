@@ -74,17 +74,17 @@ public abstract class TimedActor : MonoBehaviour
     }
     
 
-    protected virtual void TimeManipulate(TimeManipulationType type,float flowTime)
+    protected virtual void TimeManipulate(TimeType type,float flowTime)
     {
         switch (type)   
         {
-               case TimeManipulationType.Boost:
+               case TimeType.Boost:
                    ActionCooldown -= flowTime;
                    break;
-               case TimeManipulationType.Slow:
+               case TimeType.Slow:
                    ActionCooldown += flowTime;
                    break;
-               case TimeManipulationType.None:
+               case TimeType.None:
                    break;
         }
     }

@@ -13,7 +13,7 @@ public class GameManager : Singleton<GameManager>
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			hourglasses.Add(new Hourglass(Random.Range(1,10),TimeManipulationType.Boost));
+			hourglasses.Add(new Hourglass(Random.Range(1,10),TimeType.Boost));
 		}
 	}
 	

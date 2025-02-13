@@ -8,11 +8,11 @@ using Unity.Mathematics;
 public class BattleManager : Singleton<BattleManager>
 {
 	[Header("Player Stats")]
-	[SerializeField] private int playerHealth = 10;
+	[SerializeField] private int validMoveRange = 2;
 	
 	[Header("Player-related ref")] 
 	[SerializeField] private GameObject playerPrefab;
-	[SerializeField] private List<Vector2Int> playerSpawnCoord;
+	[SerializeField] private List<Vector2Int> playerSpawnCoord = new List<Vector2Int>();
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	public UIHourGlassView playerUIHourGlassView;
 	public List<PlayerActor> PlayerActorInstance {  get; private set; } = new List<PlayerActor>();
@@ -20,17 +20,21 @@ public class BattleManager : Singleton<BattleManager>
 	public HexCellComponent PlayerCell;
 	[Header("HexGrid Related Ref")]
 	public HexGrid hexgrid = new HexGrid();
+	
+	
 
-	[Header("Turn Related Ref")]
-	[SerializeField] private float initTurnDur = 0.5f;
-	public float InitTurnDur
+	[Header("Hourglass Related Ref")]
+	[SerializeField] private float initSandAmount = 0.5f;
+	public float InitSandAmount
 	{
-		get => initTurnDur;
+		get => initSandAmount;
 	}
+	
 	[Header("HandCard Related Ref")] 
 	public int handCardsSize = 2;
 	
 	public bool IsBattleStarted = false;
+	
 	#region Manager References
 	[Header("Managers Related Ref")]
 	//TurnManager
@@ -54,13 +58,7 @@ public class BattleManager : Singleton<BattleManager>
 		get => _multipleCharacterControlSystem;
 		private set => _multipleCharacterControlSystem = value;
 	}
-	//CastingHandler
-	// [SerializeField] private CastingHandler _castingHandler;
-	// public CastingHandler CastingHandler
-	// {
-	// 	get => _castingHandler;
-	// 	private set => _castingHandler = value;
-	// }
+
 	//ChainManager
 	public ChainManager chainManager { get; private set; }
 	[SerializeField] private bool actionExecuted = false;
@@ -109,16 +107,9 @@ public class BattleManager : Singleton<BattleManager>
 		//StartCoroutine(_TurnBaseCoroutine());
 		
 		//init player valid move range
-		HexCellComponent[] newNearbyCells = hexgrid.GetCellsInRange(hexgrid.GetCellByType(CellType.Player), 1);
-		foreach (var cell in newNearbyCells)
-		{
-			if (cell.CellData.CellType == CellType.Empty)
-			{
-				cell.CellData.SetGuiType(CellGuiType.ValidMoveRange);
-			}
-		}
-		
+		UpdateValidMoveRange();
 	}
+
 	
 	private void InitPlayer(Vector2Int playerPos)
 	{
@@ -136,7 +127,7 @@ public class BattleManager : Singleton<BattleManager>
 			cell.CellData.SetCell(tempPlayerActor.gameObject,CellType.Player);
 			playerCamera.Follow = tempPlayerActor.transform;
 			playerCamera.LookAt = tempPlayerActor.transform;
-			tempPlayerActor.ActionCooldown = initTurnDur;
+			tempPlayerActor.ActionCooldown = initSandAmount;
 			PlayerActorInstance.Add(tempPlayerActor);
 			MultipleCharacterControlSystem.charactersActorList.Add(tempPlayerActor);
 		}
@@ -149,35 +140,48 @@ public class BattleManager : Singleton<BattleManager>
 	#endregion
 	
 	//Update Cell states after player Move
-	public void OnPlayerMove(PlayerActor playerActor, HexCellComponent oldCell, HexCellComponent newCell)
+	public void OnPlayerMove(PlayerActor playerActor, HexCellComponent previousStandingCell, HexCellComponent newStandingCell)
 	{
 		// Clear old valid move ranges
-		HexCellComponent[] oldNearbyCells = BattleManager.Instance.hexgrid.GetCellsInRange(oldCell, 1);
-		foreach (var cell in oldNearbyCells)
-		{
-			cell.CellData.SetGuiType(CellGuiType.Empty);
-		}
+		ClearValidMoveCells(previousStandingCell);
 
 		// Update cell types
-		oldCell.CellData.ClearCell();
-		newCell.CellData.SetCell(playerActor.gameObject,CellType.Player);
-		PlayerCell = newCell;
+		previousStandingCell.CellData.ClearCell();
+		newStandingCell.CellData.SetCell(playerActor.gameObject,CellType.Player);
+		PlayerCell = newStandingCell;
+		
 		// Set new valid move ranges
-		HexCellComponent[] newNearbyCells = BattleManager.Instance.hexgrid.GetCellsInRange(newCell, 1);
-		foreach (var cell in newNearbyCells)
-		{
-			if (cell.CellData.CellType == CellType.Empty)
-			{
-				cell.CellData.SetGuiType(CellGuiType.ValidMoveRange);
-			}
-		}
+		UpdateValidMoveRange();
+		
 		//Update Valid cells set of six direction from player
 		hexgrid.UpdatePlayerSixDirCellsSet();
 		
 		TurnManager.ExecuteAction(TurnActionType.Move,
-			$"Moved from {oldCell.CellData.Coordinates} to {newCell.CellData.Coordinates}");
+			$"Moved from {previousStandingCell.CellData.Coordinates} to {newStandingCell.CellData.Coordinates}");
 
 	}
+
+	private void ClearValidMoveCells(HexCellComponent oldStandingCell)
+	{
+		HexCellComponent[] oldNearbyCells = BattleManager.Instance.hexgrid.GetCellsInRange(oldStandingCell, validMoveRange);
+		foreach (var cell in oldNearbyCells)
+		{
+			cell.CellData.SetGuiType(CellGuiType.Empty);
+		}
+	}
+	
+	private void UpdateValidMoveRange()
+	{
+		HexCellComponent[] newNearbyCells = hexgrid.GetCellsInRange(hexgrid.GetCellByType(CellType.Player), validMoveRange);
+		foreach (var cell in newNearbyCells)
+		{
+			if (cell.CellData.CellType == CellType.Empty)
+			{
+				cell.CellData.SetGuiType(CellGuiType.ValidMoveCell);
+			}
+		}
+	}
+	
 	private void HandleActionExecuted(TurnAction action)
 	{
 		Debug.Log($"Action executed: {action.ActionType} - {action.Description}");

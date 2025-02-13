@@ -47,10 +47,10 @@ public class HexCellComponent : MonoBehaviour
 
         switch (CellData.CellGuiType)
         {
-            case CellGuiType.ValidMoveRange:
+            case CellGuiType.ValidMoveCell:
                 customCellMat.color = validMoveRangeColor;
                 break;
-            case CellGuiType.ValidAttackRange:
+            case CellGuiType.ValidAttackCell:
                 customCellMat.color = validAttackRangeColor;
                 break;
             case CellGuiType.Empty:

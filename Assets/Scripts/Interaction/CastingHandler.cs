@@ -34,20 +34,20 @@ public class CastingHandler : MonoBehaviour
 		switch (ability.CastType)
 		{
 			case AbilityCastType.Direction_targeted:
-				HandleDirectionalCast(ability, targetCell);
+				HandleDirectionalCast(ability, targetCell,HourglassInventory.Instance.hourglassesList[0].TimeType);
 				break;
 		}
 		
 
 		BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.PlayCard, $"castedability:{ability.name}");
 	}
-	private void HandleDirectionalCast(AbilityData abilityData,HexCellComponent directionCell)
+	private void HandleDirectionalCast(AbilityData abilityData,HexCellComponent directionCell,TimeType timeType)
 	{
 		HexCellComponent playerCell = BattleManager.Instance.PlayerCell;
 		HexDirection castDirection =
 			BattleManager.Instance.hexgrid.CheckNeigborCellDirection(playerCell, directionCell);
 		
-		abilityData.TriggerAbility(playerActor.transform, castDirection, playerCell);
+		abilityData.TriggerAbility(playerActor.transform, castDirection, playerCell,timeType);
 		
 		ResetCasting();
 	}

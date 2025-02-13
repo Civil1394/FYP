@@ -88,10 +88,7 @@ public class PlayerActor : TimedActor
 	}
 
 	#endregion
-
-	protected  void OnThresholdsTriggered(float deltaTime)
-	{
-	}
+	
 
 	#region QueueAction
 	public void QueueMoveAction(HexCellComponent targetCell)
@@ -120,12 +117,12 @@ public class PlayerActor : TimedActor
 	
 	private bool IsValidMoveTarget(HexCellComponent targetCell)
 	{
-		return targetCell.CellData.CellGuiType == CellGuiType.ValidMoveRange;
+		return targetCell.CellData.CellGuiType == CellGuiType.ValidMoveCell;
 	}
 	//TODO: Implement better condition checker
 	private bool IsValidCastTarget(HexCellComponent targetCell)
 	{
-		return targetCell.CellData.CellGuiType == CellGuiType.ValidMoveRange;
+		return targetCell.CellData.CellGuiType == CellGuiType.ValidMoveCell;
 	}
 	#endregion
 	
@@ -176,7 +173,7 @@ public class PlayerActor : TimedActor
 		BattleManager.Instance.OnPlayerMove(this, playerCell, pendingAction.TargetCell);
 		foreach (var c in attackPattern.GetPattern(pendingAction.TargetCell.CellData))
 		{
-			c.SetGuiType(CellGuiType.ValidAttackRange);
+			c.SetGuiType(CellGuiType.ValidAttackCell);
 		}
 	}
 
@@ -224,7 +221,7 @@ public class PlayerActor : TimedActor
 			Debug.Log("gethit");
 			//TakeDamage(other.GetComponent<BulletActor>().Damage);
 			var bullet = other.GetComponent<BulletActor>();
-			TimeManipulate(bullet.timeManipulationType,bullet.Speed);
+			TimeManipulate(bullet.TimeType,bullet.Speed);
 			Destroy(other.gameObject);
 		}
 	}

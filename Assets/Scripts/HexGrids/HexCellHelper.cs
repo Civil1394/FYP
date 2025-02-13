@@ -37,6 +37,6 @@ public enum CellType
 public enum CellGuiType
 {
     Empty = 0,
-    ValidMoveRange = 1,
-    ValidAttackRange = 2
+    ValidMoveCell = 1,
+    ValidAttackCell = 2
 }

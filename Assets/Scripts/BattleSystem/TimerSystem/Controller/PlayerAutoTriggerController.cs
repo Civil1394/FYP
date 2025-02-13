@@ -56,6 +56,6 @@ public class PlayerAutoTriggerController : MonoBehaviour
         
         passiveAbilityDatas[value].TriggerAbility(playerActor.transform,
                                                     facingDirection,
-                                                    playerCell);
+                                                    playerCell,HourglassInventory.Instance.hourglassesList[0].TimeType);
     }
 }

@@ -3,19 +3,19 @@ using System.Collections;
 [System.Serializable]
 public class Hourglass
 {
-	public int sand;
-	public TimeManipulationType manipulationType;
+	public int Sand;
+	public TimeType TimeType;
 	public string Id; // unique identifier 
 	
-	public Hourglass(int sand , TimeManipulationType timeManipulationType)
+	public Hourglass(int sand , TimeType timeTimeType)
 	{
-		this.sand = sand;
-		this.manipulationType = timeManipulationType;
+		this.Sand = sand;
+		this.TimeType = timeTimeType;
 		Id = Helpers.GetUniqueID(this);
 	}
 }
 
-public enum TimeManipulationType
+public enum TimeType
 {
 	Boost,
 	Slow,

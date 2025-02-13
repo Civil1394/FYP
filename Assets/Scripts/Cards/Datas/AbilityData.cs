@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using JetBrains.Annotations;
 
 [CreateAssetMenu(fileName = "Ability", menuName ="Ability/AbilityData")]
 public class AbilityData : ScriptableObject
@@ -39,12 +40,12 @@ public class AbilityData : ScriptableObject
 	[SerializeField] GameObject Object_fx;
 	
 	
-	public void TriggerAbility(Transform parent, HexDirection castDirection, HexCellComponent casterStandingCell)
+	public void TriggerAbility(Transform parent, HexDirection castDirection, HexCellComponent casterStandingCell,[CanBeNull]TimeType timeType)
 	{
 		switch (abilityType)
 		{
 			case AbilityType.Projectile:
-				TriggerProjectile(castDirection, casterStandingCell);
+				TriggerProjectile(castDirection, casterStandingCell,timeType);
 				break;
 			case AbilityType.Explosive:
 				TriggerExplosion();
@@ -57,7 +58,7 @@ public class AbilityData : ScriptableObject
 				break;
 		}
 	}
-	private void TriggerProjectile(HexDirection castingDirection, HexCellComponent casterStandingCell)
+	private void TriggerProjectile(HexDirection castingDirection, HexCellComponent casterStandingCell,TimeType timeType)
 	{
 		if (projectileParam != null)
 		{
@@ -73,7 +74,7 @@ public class AbilityData : ScriptableObject
 				castingDirection,
 				projectileParam.LifeTime,
 				height_offset,
-				projectileParam.TimeManipulationType
+				timeType
 			);
 		}
 		else
