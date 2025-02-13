@@ -7,12 +7,43 @@ public class HexCellMeshGenerator : MonoBehaviour
     public bool flatTopped = false;
     [SerializeField] private float collideOffset = 1.5f;
 
+    [SerializeField] private float outlineWidth = 0.05f;
+    [SerializeField] private Color outlineColor = Color.black;
     private void Awake()
     {
-        GetComponent<MeshFilter>().mesh = GenerateHexMesh();
-        //OnDrawGizmosSelected();
+        Mesh mesh = GenerateHexMesh();
+        GetComponent<MeshFilter>().mesh = mesh;
+        AddOutline(mesh.vertices); // Add outline after generating the mesh
     }
+    
+    private void AddOutline(Vector3[] vertices)
+    {
+        LineRenderer lr = GetComponent<LineRenderer>();
+        if (lr == null)
+        {
+            lr = gameObject.AddComponent<LineRenderer>();
+        }
 
+        // Extract outer vertices (indices 1-6)
+        Vector3[] outerVertices = new Vector3[6];
+        for (int i = 0; i < 6; i++)
+        {
+            outerVertices[i] = vertices[i + 1];
+        }
+
+        // Configure LineRenderer
+        lr.useWorldSpace = false; // Use local space
+        lr.loop = true; // Close the loop
+        lr.positionCount = 6;
+        lr.SetPositions(outerVertices);
+
+        // Set appearance
+        lr.material = new Material(Shader.Find("Unlit/Color"));
+        lr.material.color = outlineColor;
+        lr.startWidth = outlineWidth;
+        lr.endWidth = outlineWidth;
+    }
+    
     private Mesh GenerateHexMesh()
     {
         Mesh mesh = new Mesh();
