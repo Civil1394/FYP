@@ -32,7 +32,9 @@ public class BattleManager : Singleton<BattleManager>
 	
 	[Header("HandCard Related Ref")] 
 	public int handCardsSize = 2;
-	
+
+	[Header("Enemy Related Ref")] 
+	public EnemyDatabase EnemyDatabase;
 	public bool IsBattleStarted = false;
 	
 	#region Manager References
@@ -90,7 +92,8 @@ public class BattleManager : Singleton<BattleManager>
 			CardsManager.Instance.DrawCard();
 		}
 		
-		
+		//InitHourglasses
+		InitHourglasses();
 		//InitPlayer
 		foreach (Vector2Int p in playerSpawnCoord)
 		{
@@ -102,14 +105,16 @@ public class BattleManager : Singleton<BattleManager>
 		
 		//InitTurn
 		
-		TurnManager.OnActionExecuted += HandleActionExecuted;
 		IsBattleStarted = true;
-		//StartCoroutine(_TurnBaseCoroutine());
 		
 		//init player valid move range
 		UpdateValidMoveRange();
 	}
 
+	private void InitHourglasses()
+	{
+		HourglassInventory.Instance.hourglassesList = HourglassFactory.Instance.CreateHourglasses(5, true,null,null);
+	}
 	
 	private void InitPlayer(Vector2Int playerPos)
 	{
@@ -122,14 +127,15 @@ public class BattleManager : Singleton<BattleManager>
 					, quaternion.identity);
 			
 			PlayerCell = cell;
-			//inputHandler = newInstance.GetComponent<InputHandler>();
-			PlayerActor tempPlayerActor = newInstance.GetComponent<PlayerActor>();
-			cell.CellData.SetCell(tempPlayerActor.gameObject,CellType.Player);
-			playerCamera.Follow = tempPlayerActor.transform;
-			playerCamera.LookAt = tempPlayerActor.transform;
-			tempPlayerActor.ActionCooldown = initSandAmount;
-			PlayerActorInstance.Add(tempPlayerActor);
-			MultipleCharacterControlSystem.charactersActorList.Add(tempPlayerActor);
+			
+			PlayerActor playerActor = newInstance.GetComponent<PlayerActor>();
+			playerActor.Init(HourglassFactory.Instance.CreateSingleHourglass(2,TimeType.Boost));
+			cell.CellData.SetCell(playerActor.gameObject,CellType.Player);
+			playerCamera.Follow = playerActor.transform;
+			playerCamera.LookAt = playerActor.transform;
+			
+			PlayerActorInstance.Add(playerActor);
+			MultipleCharacterControlSystem.charactersActorList.Add(playerActor);
 		}
 		else
 		{

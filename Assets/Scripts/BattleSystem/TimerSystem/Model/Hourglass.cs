@@ -7,6 +7,8 @@ public class Hourglass
 	public TimeType TimeType;
 	public string Id; // unique identifier 
 	
+	public float MinThreshold = 0f;
+	public float MaxThreshold = 3f;
 	public Hourglass(int sand , TimeType timeTimeType)
 	{
 		this.Sand = sand;
@@ -17,7 +19,7 @@ public class Hourglass
 
 public enum TimeType
 {
-	Boost,
-	Slow,
+	Boost = 0,
+	Slow = 1,
 	None
 }

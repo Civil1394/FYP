@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnemyData", menuName = "ScriptableObjects/EnemySO", order = 1)]
 public class EnemyData : ScriptableObject
 {
+    public string id;
     [Header("Stats")] [SerializeField] private float health;
     [Header("Enemy State Type")] [SerializeField] private EnemyType enemyStateType;
     [Header("Player Detection Parameters")]

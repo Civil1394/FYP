@@ -5,6 +5,7 @@ using UnityEditor.UI;
 using TMPro;
 public abstract class TimedActor : MonoBehaviour
 {
+    public Hourglass hourglass;
     public float MinThreshold = 0f;
     public float MaxThreshold = 5f;
     public float ActionCooldown = 2f;
@@ -22,7 +23,14 @@ public abstract class TimedActor : MonoBehaviour
     public event Action OnOverDrive;
     public event Action OnCollapse;
     #endregion
-    
+
+   public virtual void Init(Hourglass hourglass)
+    {
+        this.hourglass = hourglass;
+        MinThreshold = hourglass.MinThreshold;
+        MaxThreshold = hourglass.MaxThreshold;
+        ActionCooldown = this.hourglass.Sand;
+    }
     protected virtual void Start()
     {
         if (startTimerOnAwake)

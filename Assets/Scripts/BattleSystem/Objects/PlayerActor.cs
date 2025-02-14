@@ -56,9 +56,6 @@ public class PlayerActor : TimedActor
 		base.Start();
 		
 		BattleManager.Instance.InputHandler.OnMoveClick.AddListener<HexCellComponent>(QueueMoveAction);
-		
-		//waitfor cast visual preview
-		//CardsManager.Instance.OnCardSelected += 
 		BattleManager.Instance.InputHandler.OnCastClick.AddListener<HexCellComponent>(QueueCastAction);
 		
 		abilityDatabase = BattleManager.Instance.AbilityDatabase;
