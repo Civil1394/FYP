@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public class EnemyWorldCanvas : MonoBehaviour 
+public class BillBoardWorldCanvas : MonoBehaviour 
 {
 	private void Update()
 	{

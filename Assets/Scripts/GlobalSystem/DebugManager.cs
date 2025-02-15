@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using TMPro;
 
-
-public class GameManager : Singleton<GameManager>
+public class DebugManager : Singleton<DebugManager>
 {
 	
 	public List<Hourglass> hourglasses = new List<Hourglass>();
-
+	public List<TextMeshProUGUI> CellsCoordGUI = new List<TextMeshProUGUI>();
+	private bool IsDebugDrawPlayerDirCell = false;
+	
 	private void Start()
 	{
 		for (int i = 0; i < 10; i++)
@@ -17,7 +19,7 @@ public class GameManager : Singleton<GameManager>
 		}
 	}
 	
-	private bool IsDebugDrawPlayerDirCell = false;
+	
 	public void Quit()
 	{
 		// For testing in the Unity editor
@@ -49,6 +51,14 @@ public class GameManager : Singleton<GameManager>
 		
 		IsDebugDrawPlayerDirCell = !IsDebugDrawPlayerDirCell;
 		
+	}
+
+	public void DebugCellsCoordGUI()
+	{
+		foreach (var coord in CellsCoordGUI)
+		{
+			coord.gameObject.SetActive(!coord.IsActive());
+		}
 	}
 }
 

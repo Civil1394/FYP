@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-
+using TMPro;
 public class HexCellComponent : MonoBehaviour
 {
     public HexCell CellData;
@@ -12,6 +12,9 @@ public class HexCellComponent : MonoBehaviour
     [SerializeField] private Color validAttackRangeColor;
     [SerializeField] private Color objectStandingColor;
 
+    
+    [Header("Debug")]
+    public TextMeshProUGUI DebugCoord;
     private Material customCellMat;
 
     public void Initialize(HexCell hexCell)
@@ -22,6 +25,8 @@ public class HexCellComponent : MonoBehaviour
         meshRenderer.material = customCellMat;
         UpdateMaterialColor();
         CellData.OnCellTypeChanged += UpdateMaterialColor;
+        DebugCoord.text = CellData.Coordinates.ToString();
+        DebugManager.Instance.CellsCoordGUI.Add(DebugCoord);
     }
 
     private void OnDestroy()
