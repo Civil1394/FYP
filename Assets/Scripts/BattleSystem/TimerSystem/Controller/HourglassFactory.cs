@@ -24,8 +24,8 @@ public class HourglassFactory : Singleton<HourglassFactory>
 			TimeType actualTimeType = isRandom 
 				? (TimeType)Random.Range(0, timeTypeCount) 
 				: timeType.Value;
-			int actualMaxThreshold = isRandom ? Random.Range(actualSand, actualSand + 10) : MaxThreshold.Value;
-			hourglasses.Add(CreateSingleHourglass(actualSand + 1, actualTimeType ,actualMaxThreshold));
+			int actualMaxThreshold = isRandom ? Random.Range(actualSand + 1, actualSand + 10) : MaxThreshold.Value;
+			hourglasses.Add(CreateSingleHourglass(actualSand, actualTimeType ,actualMaxThreshold));
 		}
 		return hourglasses;
 	}
