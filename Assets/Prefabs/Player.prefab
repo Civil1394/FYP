@@ -188,11 +188,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5356b95ecb00eff4082f42b7ceecf50f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hourglass:
+    Sand: 0
+    TimeType: 0
+    Id: 
+    MinThreshold: 0
+    MaxThreshold: 0
+    IsOccupied: 0
   MinThreshold: 0
   MaxThreshold: 5
   ActionCooldown: 2
   startTimerOnAwake: 1
-  actionCoolDownText: {fileID: 6218446944541944780}
+  actorHourglassData: {fileID: 6218446944541944780}
   FacingHexDirection: 0
   thresholdList:
   - 0.75
@@ -255,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c5eacfad207443687c8497e91495d54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsAutoTrigger: 0
 --- !u!33 &3398669468518079899
 MeshFilter:
   m_ObjectHideFlags: 0

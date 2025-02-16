@@ -14,7 +14,7 @@ public abstract class TimedActor : MonoBehaviour
     private float currentCooldown;
     private bool isTimerActive = false;
 
-    [SerializeField] private TMP_Text actionCoolDownText;
+    [SerializeField] private TMP_Text actorHourglassData;
     #region Events
 
     public event Action<float> OnTimerStart;
@@ -43,7 +43,8 @@ public abstract class TimedActor : MonoBehaviour
     protected virtual void Update()
     {
         if (!isTimerActive) return;
-        if(actionCoolDownText != null) actionCoolDownText.text = currentCooldown.ToString("F2") + 
+        if(actorHourglassData != null) actorHourglassData.text = Helpers.GetShortFormTimeType(hourglass.TimeType) +
+                                                                 " / " +currentCooldown.ToString("F2") + 
                                                                  " / " + ActionCooldown.ToString("F1") +
                                                                  " / " + MaxThreshold.ToString("F1");
         if(ActionCooldown <= MinThreshold) OverDrive();
@@ -59,7 +60,7 @@ public abstract class TimedActor : MonoBehaviour
             CheckTimerStatus();
         }
     }
-
+    
     protected virtual void OnThresholdsTriggered(){ }
     public void CheckTimerStatus()
     {

@@ -25,5 +25,5 @@ public enum TimeType
 {
 	Boost = 0,
 	Slow = 1,
-	None
+	None = 2
 }

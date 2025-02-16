@@ -15,6 +15,20 @@ public static class Helpers
         Type type = obj.GetType();
         return $"{type.Name}_{Guid.NewGuid().ToString("N")}";
     }
+
+    public static string GetShortFormTimeType(TimeType timeType)
+    {
+        switch (timeType)
+        {
+            case TimeType.Boost:
+                return "B";
+            case TimeType.Slow:
+                return "S";
+            case TimeType.None:
+                return "N";
+        }
+           return "Error";
+    }
 }
 
 

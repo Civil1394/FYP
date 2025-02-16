@@ -218,7 +218,7 @@ public class AIBrain : MonoBehaviour
         switch (enemyConfig.AbilityData.CastType)
         {
             case AbilityCastType.Direction_targeted:
-                attackStrategy = new DirectionTargeting(transform, enemyConfig.AttackPrefab,enemyConfig.AbilityData);
+                attackStrategy = new DirectionTargeting(transform, enemyConfig.AttackPrefab,enemyConfig.AbilityData,enemyActor.hourglass);
                 break;
             // case EnemyData.AttackType.GroundTargetting:
             //     attackStrategy = new GroundTargeting(transform, enemyConfig.AttackPrefab);

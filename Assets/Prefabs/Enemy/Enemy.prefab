@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 7082235507320915153}
   - component: {fileID: 488613096571010833}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: ActorHourglassData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -442,7 +442,7 @@ MonoBehaviour:
   MaxThreshold: 10
   ActionCooldown: 2
   startTimerOnAwake: 1
-  actionCoolDownText: {fileID: 488613096571010833}
+  actorHourglassData: {fileID: 488613096571010833}
   objectCollider: {fileID: 0}
   globalCanvasHourGlassView: {fileID: 5979856810094154544}
 --- !u!136 &5997077565646246563

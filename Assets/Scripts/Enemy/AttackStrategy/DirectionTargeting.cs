@@ -5,15 +5,17 @@ public class DirectionTargeting : IAttack
     private Transform enemy;
     private GameObject projectilePrefab;
     private AbilityData abilityData;
-    public DirectionTargeting(Transform enemy, GameObject projectilePrefab, AbilityData abilityData)
+    private Hourglass hourglass;
+    public DirectionTargeting(Transform enemy, GameObject projectilePrefab, AbilityData abilityData,Hourglass hourglass)
     {
         this.enemy = enemy;
         this.projectilePrefab = projectilePrefab;
         this.abilityData = abilityData;
+        this.hourglass = hourglass;
     }
 
     public void Attack(HexDirection castDirection, HexCellComponent standingCell)
     {
-        abilityData.TriggerAbility(enemy, castDirection, standingCell,HourglassInventory.Instance.hourglassesList[0].TimeType);
+        abilityData.TriggerAbility(enemy, castDirection, standingCell,hourglass.TimeType);
     }
 }

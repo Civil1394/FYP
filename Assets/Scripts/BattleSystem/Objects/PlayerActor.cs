@@ -219,6 +219,7 @@ public class PlayerActor : TimedActor
 			//TakeDamage(other.GetComponent<BulletActor>().Damage);
 			var bullet = other.GetComponent<BulletActor>();
 			TimeManipulate(bullet.TimeType,bullet.Speed);
+			Debug.Log(bullet.TimeType);
 			Destroy(other.gameObject);
 		}
 	}

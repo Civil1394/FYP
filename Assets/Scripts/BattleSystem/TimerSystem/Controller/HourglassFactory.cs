@@ -20,9 +20,9 @@ public class HourglassFactory : Singleton<HourglassFactory>
 
 		for (int i = 0; i < num; i++)
 		{
-			int actualSand = isRandom ? Random.Range(1, 10) : sand.Value;
+			int actualSand = isRandom ? Random.Range(1, 5) : sand.Value;
 			TimeType actualTimeType = isRandom 
-				? (TimeType)Random.Range(0, timeTypeCount) 
+				? (TimeType)Random.Range(0, timeTypeCount-1) 
 				: timeType.Value;
 			int actualMaxThreshold = isRandom ? Random.Range(actualSand + 1, actualSand + 10) : MaxThreshold.Value;
 			hourglasses.Add(CreateSingleHourglass(actualSand, actualTimeType ,actualMaxThreshold));

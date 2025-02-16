@@ -2610,7 +2610,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 203619644}
-  - component: {fileID: 203619646}
   - component: {fileID: 203619645}
   m_Layer: 0
   m_Name: HourglassDataRelated
@@ -2647,19 +2646,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hourglassesList: []
---- !u!114 &203619646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203619643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c5dbcdb1802fca41ba1dd7307544a84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HourglassPrefab: {fileID: 0}
 --- !u!1 &222584255
 GameObject:
   m_ObjectHideFlags: 0
@@ -11344,6 +11330,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1600112501}
   - component: {fileID: 1600112500}
+  - component: {fileID: 1600112502}
   m_Layer: 0
   m_Name: Factories
   m_TagString: Untagged
@@ -11378,6 +11365,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1600112502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600112499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c5dbcdb1802fca41ba1dd7307544a84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HourglassPrefab: {fileID: 0}
 --- !u!1 &1601080099
 GameObject:
   m_ObjectHideFlags: 0
