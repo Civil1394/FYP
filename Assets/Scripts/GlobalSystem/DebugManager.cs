@@ -15,7 +15,7 @@ public class DebugManager : Singleton<DebugManager>
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			hourglasses.Add(new Hourglass(Random.Range(1,10),TimeType.Boost));
+			//hourglasses.Add(new Hourglass(Random.Range(1,10),TimeType.Boost));
 		}
 	}
 	
@@ -57,7 +57,7 @@ public class DebugManager : Singleton<DebugManager>
 	{
 		foreach (var coord in CellsCoordGUI)
 		{
-			coord.gameObject.SetActive(!coord.IsActive());
+			coord.gameObject.transform.parent.gameObject.SetActive(!coord.gameObject.transform.parent.gameObject.activeSelf);
 		}
 	}
 }
