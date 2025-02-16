@@ -431,6 +431,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a232ab388c1ef146aee753deed2d148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hourglass:
+    Sand: 0
+    TimeType: 0
+    Id: 
+    MinThreshold: 0
+    MaxThreshold: 0
+    IsOccupied: 0
   MinThreshold: 0
   MaxThreshold: 10
   ActionCooldown: 2
@@ -694,6 +701,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GlobalCanvasHourGlass
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706077934737873850, guid: 332c13a7f60b80643bd003a13cdbba9a,
+        type: 3}
+      propertyPath: m_Name
+      value: HourglassDisplayer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

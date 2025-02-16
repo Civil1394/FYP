@@ -92,18 +92,17 @@ public class BattleManager : Singleton<BattleManager>
 			CardsManager.Instance.DrawCard();
 		}
 		
-		//InitHourglasses
+		//1.InitHourglasses
 		InitHourglasses();
-		//InitPlayer
+		
+		//2.InitPlayer
 		foreach (Vector2Int p in playerSpawnCoord)
 		{
 			InitPlayer(p);
 		}
 		
-		//InitEnemies
+		//3.InitEnemies
 		EnemyManager.Instance.InitEnemies();
-		
-		//InitTurn
 		
 		IsBattleStarted = true;
 		
@@ -113,7 +112,7 @@ public class BattleManager : Singleton<BattleManager>
 
 	private void InitHourglasses()
 	{
-		HourglassInventory.Instance.hourglassesList = HourglassFactory.Instance.CreateHourglasses(5, true,null,null);
+		HourglassInventory.Instance.hourglassesList = HourglassFactory.Instance.CreateHourglasses(5, true,null,null,null);
 	}
 	
 	private void InitPlayer(Vector2Int playerPos)
@@ -129,7 +128,8 @@ public class BattleManager : Singleton<BattleManager>
 			PlayerCell = cell;
 			
 			PlayerActor playerActor = newInstance.GetComponent<PlayerActor>();
-			playerActor.Init(HourglassFactory.Instance.CreateSingleHourglass(2,TimeType.Boost));
+			//playerActor.Init(HourglassFactory.Instance.CreateSingleHourglass(2,TimeType.Boost));
+			playerActor.Init(HourglassInventory.Instance.GetRandomHourglassFromInventory());
 			cell.CellData.SetCell(playerActor.gameObject,CellType.Player);
 			playerCamera.Follow = playerActor.transform;
 			playerCamera.LookAt = playerActor.transform;

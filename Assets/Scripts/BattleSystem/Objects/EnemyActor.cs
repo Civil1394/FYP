@@ -19,7 +19,7 @@ public class EnemyActor : TimedActor
 			OnTimerStart += globalCanvasHourGlassView.CountTime;
 			OnTimerComplete += aiBrain.TurnAction;
 		}else Debug.LogWarning("No globalCanvasHourGlassView found");
-		ActionCooldown = (int)Random.Range(1f, 5f);
+		//ActionCooldown = (int)Random.Range(1f, 5f);
 		base.Start();
 	}
 	protected override void Update()

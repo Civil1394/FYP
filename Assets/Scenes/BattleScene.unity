@@ -2613,7 +2613,7 @@ GameObject:
   - component: {fileID: 203619646}
   - component: {fileID: 203619645}
   m_Layer: 0
-  m_Name: HourglassManager
+  m_Name: HourglassDataRelated
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2627,12 +2627,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203619643}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 787135577}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &203619645
 MonoBehaviour:
@@ -5859,7 +5859,6 @@ Transform:
   - {fileID: 1122198532}
   - {fileID: 1625559844}
   - {fileID: 340252432}
-  - {fileID: 203619644}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &791391074 stripped
@@ -14493,6 +14492,7 @@ SceneRoots:
   - {fileID: 109282531}
   - {fileID: 1426760043}
   - {fileID: 787135577}
+  - {fileID: 203619644}
   - {fileID: 1600112501}
   - {fileID: 222584259}
   - {fileID: 1238483640}

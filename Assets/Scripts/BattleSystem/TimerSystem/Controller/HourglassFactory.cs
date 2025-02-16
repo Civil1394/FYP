@@ -9,7 +9,7 @@ public class HourglassFactory : Singleton<HourglassFactory>
 {
 	public GameObject HourglassPrefab;
 
-	public List<Hourglass> CreateHourglasses(int num, bool isRandom, int? sand, TimeType? timeType)
+	public List<Hourglass> CreateHourglasses(int num, bool isRandom, int? sand, TimeType? timeType, int?MaxThreshold)
 	{
 		// If not random, ensure we have valid parameters.
 		if (!isRandom && (!sand.HasValue || !timeType.HasValue))
@@ -24,15 +24,15 @@ public class HourglassFactory : Singleton<HourglassFactory>
 			TimeType actualTimeType = isRandom 
 				? (TimeType)Random.Range(0, timeTypeCount) 
 				: timeType.Value;
-
-			hourglasses.Add(CreateSingleHourglass(actualSand, actualTimeType));
+			int actualMaxThreshold = isRandom ? Random.Range(actualSand, actualSand + 10) : MaxThreshold.Value;
+			hourglasses.Add(CreateSingleHourglass(actualSand + 1, actualTimeType ,actualMaxThreshold));
 		}
 		return hourglasses;
 	}
 	
-	public Hourglass CreateSingleHourglass(int sand , TimeType timeType)
+	public Hourglass CreateSingleHourglass(int sand , TimeType timeType,int MaxThreshold)
 	{
-		Hourglass hourglass = new Hourglass(sand, timeType);
+		Hourglass hourglass = new Hourglass(sand, timeType, MaxThreshold,false);
 		return hourglass;
 	}
 }

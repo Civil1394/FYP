@@ -30,6 +30,7 @@ public abstract class TimedActor : MonoBehaviour
         MinThreshold = hourglass.MinThreshold;
         MaxThreshold = hourglass.MaxThreshold;
         ActionCooldown = this.hourglass.Sand;
+        hourglass.IsOccupied = true;
     }
     protected virtual void Start()
     {
@@ -42,7 +43,9 @@ public abstract class TimedActor : MonoBehaviour
     protected virtual void Update()
     {
         if (!isTimerActive) return;
-        if(actionCoolDownText != null) actionCoolDownText.text = currentCooldown.ToString("F2") + " / " + ActionCooldown.ToString("F1");
+        if(actionCoolDownText != null) actionCoolDownText.text = currentCooldown.ToString("F2") + 
+                                                                 " / " + ActionCooldown.ToString("F1") +
+                                                                 " / " + MaxThreshold.ToString("F1");
         if(ActionCooldown <= MinThreshold) OverDrive();
         if(ActionCooldown >= MaxThreshold) Collapse();
 

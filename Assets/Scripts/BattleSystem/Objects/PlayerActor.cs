@@ -163,15 +163,15 @@ public class PlayerActor : TimedActor
 	private void UpdateCellsStates()
 	{
 		HexCellComponent playerCell = BattleManager.Instance.PlayerCell;
-		foreach (var c in attackPattern.GetPattern(playerCell.CellData))
-		{
-			c.SetGuiType(CellGuiType.Empty);
-		}
+		// foreach (var c in attackPattern.GetPattern(playerCell.CellData))
+		// {
+		// 	c.SetGuiType(CellGuiType.Empty);
+		// }
 		BattleManager.Instance.OnPlayerMove(this, playerCell, pendingAction.TargetCell);
-		foreach (var c in attackPattern.GetPattern(pendingAction.TargetCell.CellData))
-		{
-			c.SetGuiType(CellGuiType.ValidAttackCell);
-		}
+		// foreach (var c in attackPattern.GetPattern(pendingAction.TargetCell.CellData))
+		// {
+		// 	c.SetGuiType(CellGuiType.ValidAttackCell);
+		// }
 	}
 
 	private void ExecuteCastAction()
