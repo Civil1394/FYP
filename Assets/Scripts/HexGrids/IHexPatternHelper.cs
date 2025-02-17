@@ -64,7 +64,7 @@ public class CustomOffsetPattern: IHexPatternHelper
             // Vector3Int targetAxial = axialPos + o;
             // Vector3Int targetOffset = AxialToOffset(targetAxial);
             
-            HexCell targetCell = BattleManager.Instance.hexgrid.GetCellInCoord(targetCoord).CellData;
+            HexCell targetCell = BattleManager.Instance.hexgrid.GetCellInCoord(targetCoord)?.CellData;
             if (targetCell != null)
                 yield return targetCell;
         }
