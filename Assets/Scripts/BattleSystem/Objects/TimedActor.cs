@@ -61,7 +61,6 @@ public abstract class TimedActor : MonoBehaviour
         }
     }
     
-    protected virtual void OnThresholdsTriggered(){ }
     public void CheckTimerStatus()
     {
         currentCooldown = ActionCooldown;
