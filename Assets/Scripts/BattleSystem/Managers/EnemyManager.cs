@@ -28,7 +28,7 @@ public class EnemyManager : Singleton<EnemyManager>
 			if (cell.CellData.CellType == CellType.Empty)
 			{
 				AIBrain newInstance = Instantiate(enemyPrefab, cell.transform.position, quaternion.identity, enemyGroup);
-				newInstance.gameObject.GetComponent<EnemyActor>().Init(HourglassInventory.Instance.GetRandomHourglassFromInventory());
+				newInstance.gameObject.GetComponent<EnemyActor>().Init(HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory());
 				newInstance.currentCoord = cell.CellData.Coordinates;
 				newInstance.currentCell = cell.CellData;
 				enemiesDict.Add(newInstance,newInstance.currentCoord);

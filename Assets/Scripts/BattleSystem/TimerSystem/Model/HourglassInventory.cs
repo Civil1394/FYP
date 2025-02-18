@@ -7,7 +7,7 @@ public class HourglassInventory:Singleton<HourglassInventory>
 {
 	public List<Hourglass> hourglassesList = new List<Hourglass>();
 
-	public Hourglass GetRandomHourglassFromInventory()
+	public Hourglass GetRandomUnoccupiedHourglassFromInventory()
 	{
 		var unoccupiedHourglasses = hourglassesList.Where(h => !h.IsOccupied).ToList();
 		return unoccupiedHourglasses[Random.Range(0, unoccupiedHourglasses.Count)];

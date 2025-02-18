@@ -1,5 +1,6 @@
 using System.Collections;
 
+
 public abstract class SingletonBase<T> where T : class, new()
 {
 	private static readonly object _lock = new object();

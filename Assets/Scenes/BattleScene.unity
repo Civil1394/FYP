@@ -571,18 +571,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 9176371042832946080}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &56626183 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3743733228105792412, guid: 870b4d73804af0045847c1fa9b47def3,
-    type: 3}
-  m_PrefabInstance: {fileID: 9176371042832946080}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19e58bfbed52f044974e65f8673cc8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &57520346
 GameObject:
   m_ObjectHideFlags: 0
@@ -1070,7 +1058,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2, y: -336.6}
+  m_AnchoredPosition: {x: -2, y: -376}
   m_SizeDelta: {x: 80, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &69835583
@@ -2742,6 +2730,7 @@ RectTransform:
   m_Children:
   - {fileID: 56626179}
   - {fileID: 179319372}
+  - {fileID: 1214044625}
   - {fileID: 174916267}
   - {fileID: 375081426}
   - {fileID: 1425434101}
@@ -8422,6 +8411,85 @@ Transform:
   m_Children: []
   m_Father: {fileID: 813759000}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1214044624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1214044625}
+  - component: {fileID: 1214044627}
+  - component: {fileID: 1214044626}
+  m_Layer: 5
+  m_Name: HourglassesUIContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1214044625
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214044624}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 222584259}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 108.2097}
+  m_SizeDelta: {x: 0, y: 216.4194}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1214044626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214044624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f8ffe87ad5b6641a539ab60cb87f9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hourglassUIPrefab: {fileID: 235166746843000061, guid: 870b4d73804af0045847c1fa9b47def3,
+    type: 3}
+  SlotsAmount: 5
+  HourglassSlots: []
+--- !u!114 &1214044627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214044624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1238483639
 GameObject:
   m_ObjectHideFlags: 0
@@ -13180,7 +13248,7 @@ MonoBehaviour:
   playerSpawnCoord:
   - {x: 8, y: 14}
   playerCamera: {fileID: 1930980852}
-  playerUIHourGlassView: {fileID: 56626183}
+  playerHourglassUIAnimator: {fileID: 0}
   AbilityDatabase: {fileID: 11400000, guid: 20a19216682bd75438107f4ab748eb62, type: 2}
   PlayerCell: {fileID: 0}
   initSandAmount: 1
@@ -14453,12 +14521,12 @@ PrefabInstance:
     - target: {fileID: 4559638368190771883, guid: 870b4d73804af0045847c1fa9b47def3,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4559638368190771883, guid: 870b4d73804af0045847c1fa9b47def3,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -388.8
+      value: -321.99997
       objectReference: {fileID: 0}
     - target: {fileID: 4559638368190771883, guid: 870b4d73804af0045847c1fa9b47def3,
         type: 3}

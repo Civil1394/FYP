@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public abstract class HourGlassViewBase : MonoBehaviour 
+public abstract class HourglassAnimatorBase : MonoBehaviour 
 {
 	protected Sequence currentSequence;
 	[SerializeField] protected RectTransform hourGlass;

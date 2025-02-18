@@ -1,6 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
-public class GlobalCanvasHourGlassView : HourGlassViewBase
+public class HourglassGlobalCanvasAnimator : HourglassAnimatorBase
 {
     private Vector3 initialHourGlassRotation;
     private Vector3 initialSandPosition;

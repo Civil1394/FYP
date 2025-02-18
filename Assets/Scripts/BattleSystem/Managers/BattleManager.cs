@@ -14,7 +14,7 @@ public class BattleManager : Singleton<BattleManager>
 	[SerializeField] private GameObject playerPrefab;
 	[SerializeField] private List<Vector2Int> playerSpawnCoord = new List<Vector2Int>();
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
-	public UIHourGlassView playerUIHourGlassView;
+	public HourglassUIAnimator playerHourglassUIAnimator;
 	public List<PlayerActor> PlayerActorInstance {  get; private set; } = new List<PlayerActor>();
 	public AbilityDatabase AbilityDatabase;
 	public HexCellComponent PlayerCell;
@@ -108,11 +108,23 @@ public class BattleManager : Singleton<BattleManager>
 		
 		//init player valid move range
 		UpdateValidMoveRange();
+
+		
 	}
 
 	private void InitHourglasses()
 	{
-		HourglassInventory.Instance.hourglassesList = HourglassFactory.Instance.CreateHourglasses(5, true,null,null,null);
+		HourglassInventory.Instance.hourglassesList = HourglassFactory.Instance.CreateHourglasses(20, true,null,null,null);
+		
+		int slotsAmount = HourglassesUIContainer.Instance.SlotsAmount;
+		Hourglass[] hourglassesArray = new Hourglass[slotsAmount];
+		for (int i = 0; i < slotsAmount; i++)
+		{
+			hourglassesArray[i] =  HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
+			
+		}
+
+		HourglassesUIContainer.Instance.InitHourglassProducts(hourglassesArray);
 	}
 	
 	private void InitPlayer(Vector2Int playerPos)
@@ -129,7 +141,7 @@ public class BattleManager : Singleton<BattleManager>
 			
 			PlayerActor playerActor = newInstance.GetComponent<PlayerActor>();
 			//playerActor.Init(HourglassFactory.Instance.CreateSingleHourglass(2,TimeType.Boost));
-			playerActor.Init(HourglassInventory.Instance.GetRandomHourglassFromInventory());
+			playerActor.Init(HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory());
 			cell.CellData.SetCell(playerActor.gameObject,CellType.Player);
 			playerCamera.Follow = playerActor.transform;
 			playerCamera.LookAt = playerActor.transform;

@@ -14,7 +14,7 @@ public class PlayerActor : TimedActor
 	[Header("Hourglass trigger config")]
 	[SerializeField] private List<float> thresholdList = new List<float>();
 	
-	private UIHourGlassView uiHourGlassView;
+	private HourglassUIAnimator hourglassUIAnimator;
 	private PlayerAction pendingAction;
 	private PlayerMovement playerMovement;
 	private CastingHandler castingHandler;
@@ -26,13 +26,13 @@ public class PlayerActor : TimedActor
 
 	protected override void Start()
 	{
-		attackPattern = PresetPatterns.AoePattern(2);
+		//attackPattern = PresetPatterns.AoePattern(2);
 		
-		if(uiHourGlassView == null)uiHourGlassView = BattleManager.Instance.playerUIHourGlassView;
-		else Debug.LogError("UIHourGlassView is null");
-		if (uiHourGlassView != null)
+		if(hourglassUIAnimator == null)hourglassUIAnimator = BattleManager.Instance.playerHourglassUIAnimator;
+		else Debug.LogError("HourglassUIAnimator is null");
+		if (hourglassUIAnimator != null)
 		{
-			OnTimerStart += uiHourGlassView.CountTime;
+			OnTimerStart += hourglassUIAnimator.CountTime;
 			OnTimerComplete += ExecutePendingAction;
 			OnTimerComplete += DrawCardsIfEmptyHand;
 		}
@@ -58,9 +58,9 @@ public class PlayerActor : TimedActor
 
 	private void OnDestroy()
 	{
-		if (uiHourGlassView != null)
+		if (hourglassUIAnimator != null)
 		{
-			OnTimerStart -= uiHourGlassView.CountTime;
+			OnTimerStart -= hourglassUIAnimator.CountTime;
 			OnTimerComplete -= ExecutePendingAction;
 			OnTimerComplete -= DrawCardsIfEmptyHand;
 		}
@@ -153,15 +153,15 @@ public class PlayerActor : TimedActor
 	private void UpdateCellsStates()
 	{
 		HexCellComponent playerCell = BattleManager.Instance.PlayerCell;
-		foreach (var c in attackPattern.GetPattern(playerCell.CellData))
-		{
-			c.SetGuiType(CellGuiType.Empty);
-		}
+		// foreach (var c in attackPattern.GetPattern(playerCell.CellData))
+		// {
+		// 	c.SetGuiType(CellGuiType.Empty);
+		// }
 		BattleManager.Instance.OnPlayerMove(this, playerCell, pendingAction.TargetCell);
-		foreach (var c in attackPattern.GetPattern(pendingAction.TargetCell.CellData))
-		{
-			c.SetGuiType(CellGuiType.ValidAttackCell);
-		}
+		// foreach (var c in attackPattern.GetPattern(pendingAction.TargetCell.CellData))
+		// {
+		// 	c.SetGuiType(CellGuiType.ValidAttackCell);
+		// }
 	}
 
 	private void ExecuteCastAction()
