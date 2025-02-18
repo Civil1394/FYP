@@ -69,17 +69,7 @@ public class CustomOffsetPattern: IHexPatternHelper
                 yield return targetCell;
         }
     }
-    private Vector3Int OffsetToAxial(Vector3Int offset)
-    {
-        int q = offset.x - (offset.z - (offset.z & 1)) / 2;
-        return new Vector3Int(q, 0, offset.z);
-    }
 
-    private Vector3Int AxialToOffset(Vector3Int axial)
-    {
-        int x = axial.x + (axial.z - (axial.z & 1)) / 2;
-        return new Vector3Int(x, 0, axial.z);
-    }
     public static Vector3Int ConvertOffset(Vector3Int originalOffset, Vector3Int currentPosition)
     {
         if (originalOffset.z % 2 == 0)
