@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
+  m_Name: TestAoe
+  m_EditorClassIdentifier: 
+  id: 
+  abilityType: 0
+  projectileParam:
+    Damage: 0
+    FlowSpeed: 0
+    LifeTime: 0
+  aoeParam:
+    radius: 0
+    damage: 0
+    force: 0
+  Title: 
+  Desc: 
+  CastType: 0
+  target: 0
+  Object_fx: {fileID: 0}

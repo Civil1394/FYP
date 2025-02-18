@@ -26,17 +26,7 @@ public class PlayerActor : TimedActor
 
 	protected override void Start()
 	{
-		attackPattern = new CustomOffsetPattern(
-			new Vector3Int(0, 0, -3),
-			new Vector3Int(1, 0, -3),
-			new Vector3Int(0, 0, -4),
-			new Vector3Int(-2, 0, 1),
-			new Vector3Int(-2, 0, 2),
-			new Vector3Int(-3, 0, 2),
-			new Vector3Int(3, 0, 1),
-			new Vector3Int(2, 0, 2),
-			new Vector3Int(3, 0, 2)
-		);
+		attackPattern = PresetPatterns.AoePattern(2);
 		
 		if(uiHourGlassView == null)uiHourGlassView = BattleManager.Instance.playerUIHourGlassView;
 		else Debug.LogError("UIHourGlassView is null");

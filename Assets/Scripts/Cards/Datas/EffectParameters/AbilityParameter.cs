@@ -1,4 +1,6 @@
 
+using UnityEngine.Serialization;
+
 public abstract class AbilityParameter 
 {
 }
@@ -9,11 +11,11 @@ public class DashParameter : AbilityParameter
 }
 
 [System.Serializable]
-public class ExplosiveParameter : AbilityParameter
+public class AoeParameter : AbilityParameter
 {
-	public float radius;
-	public float damage;
-	public float force;
+	[FormerlySerializedAs("PatternType")] public PresetPatternType patternType;
+	public int Radius;
+	public float Damage;
 }
 
 [System.Serializable]

@@ -87,3 +87,68 @@ public class CustomOffsetPattern: IHexPatternHelper
         );
     }
 }
+
+
+public static class PresetPatterns
+{
+    public static CustomOffsetPattern GetPresetPatternByType(PresetPatternType patternType , int radius)
+    {
+        switch (patternType)
+        {
+            case PresetPatternType.WaiPattern:
+                return WaiPattern();
+            break;
+            case PresetPatternType.AoePattern:
+                return AoePattern(radius);
+        }
+
+        return null;
+    }
+     public static CustomOffsetPattern WaiPattern()
+    {
+        return new CustomOffsetPattern(
+            new Vector3Int(0, 0, -3),
+            new Vector3Int(1, 0, -3),
+            new Vector3Int(0, 0, -4),
+            new Vector3Int(-2, 0, 1),
+            new Vector3Int(-2, 0, 2),
+            new Vector3Int(-3, 0, 2),
+            new Vector3Int(3, 0, 1),
+            new Vector3Int(2, 0, 2),
+            new Vector3Int(3, 0, 2)
+        );
+    }
+
+
+    public static CustomOffsetPattern AoePattern(int radius)
+    {
+        // Calculate the total number of cells in the pattern
+        int totalCells = radius * 6;
+        Vector3Int[] cells = new Vector3Int[totalCells];
+
+        int index = 0;
+
+        // Generate cells based on the 6 directions in a hexagonal grid
+        for (int r = 1; r <= radius; r++)
+        {
+            cells[index++] = new Vector3Int(r, 0, 0);    // +X direction
+            cells[index++] = new Vector3Int(-r, 0, 0);   // -X direction
+            cells[index++] = new Vector3Int(-r, 0, r);    // +Z direction
+            cells[index++] = new Vector3Int(-r, 0, -r);   // -Z direction
+            cells[index++] = new Vector3Int(r, 0, r);   // +X, -Z diagonal
+            cells[index++] = new Vector3Int(r, 0, -r);   // -X, +Z diagonal
+        }
+        
+        return new CustomOffsetPattern(cells);
+    }
+
+
+}
+
+
+public enum PresetPatternType
+{
+    WaiPattern = 0,
+    AoePattern = 1
+        
+}

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using JetBrains.Annotations;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "Ability", menuName ="Ability/AbilityData")]
 public class AbilityData : ScriptableObject
@@ -12,8 +13,9 @@ public class AbilityData : ScriptableObject
 	[ConditionalField("abilityType", AbilityType.Projectile)]
 	[SerializeField] ProjectileParameter projectileParam;
 
+	[FormerlySerializedAs("explosiveParam")]
 	[ConditionalField("abilityType", AbilityType.Explosive)]
-	[SerializeField] ExplosiveParameter explosiveParam;
+	[SerializeField] AoeParameter aoeParam;
     
 	[ConditionalField("abilityType", AbilityType.Dash)]
 	[SerializeField] DashParameter dashParam;
@@ -48,7 +50,7 @@ public class AbilityData : ScriptableObject
 				TriggerProjectile(castDirection, casterStandingCell,timeType);
 				break;
 			case AbilityType.Explosive:
-				TriggerExplosion();
+				TriggerAoe();
 				break;
 			case AbilityType.Dash:
 				TriggerDash();
@@ -83,11 +85,11 @@ public class AbilityData : ScriptableObject
 		}
 	}
 
-	private void TriggerExplosion()
+	private void TriggerAoe()
 	{
-		if (explosiveParam != null)
+		if (aoeParam != null)
 		{
-			Debug.Log($"Explosive effect triggered: {Desc} with radius {explosiveParam.radius}");
+			Debug.Log($"Explosive effect triggered: {Desc} with radius {aoeParam.Radius}");
 		}
 		else
 		{

@@ -34,7 +34,7 @@ public abstract class TimedActor : MonoBehaviour
     }
     protected virtual void Start()
     {
-        if (startTimerOnAwake)
+        if (startTimerOnAwake && hourglass!=null)
         {
             CheckTimerStatus();
         }
