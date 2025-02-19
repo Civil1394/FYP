@@ -31,7 +31,7 @@ public class LinePattern : IHexPatternHelper
         }
     }
 }
-public class HexgonPattern : IHexPatternHelper
+public class HexagonPattern : IHexPatternHelper
 {
     public IEnumerable<HexCell> GetPattern(HexCell startCell)
     {
