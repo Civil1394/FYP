@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Linq;
+using System.Resources;
+using Microsoft.Unity.VisualStudio.Editor;
 
 public interface IHexPatternHelper 
 {
@@ -25,6 +27,71 @@ public class LinePattern : IHexPatternHelper
                 HexCell targetCell = startCell.GetNeighbor(d);
                 if (targetCell != null)
                     yield return targetCell;
+            }
+        }
+    }
+}
+public class HexgonPattern : IHexPatternHelper
+{
+    public IEnumerable<HexCell> GetPattern(HexCell startCell)
+    {
+        throw new NotImplementedException();
+    }
+}
+public class TrianglePattern : IHexPatternHelper
+{
+    private int iteration;
+    private bool isUpward;
+    public TrianglePattern(int iteration, bool isUpward = true)
+    {
+        this.iteration = iteration;
+        this.isUpward = isUpward;
+    }
+    public IEnumerable<HexCell> GetPattern(HexCell startCell)
+    {
+        HashSet<HexCell> visitedCells = new HashSet<HexCell>();
+        for (HexDirection direction = HexDirection.NE; direction <= HexDirection.NW; direction++)
+        {
+            HexCell tempAxisCell = startCell;
+            for (int currentI = 0; currentI < iteration; currentI++)
+            {
+                tempAxisCell = tempAxisCell.GetNeighbor(direction);
+                HexCell sideCell = tempAxisCell;
+                for (int cnt = currentI + 1; cnt < 0; cnt--)
+                {
+                    switch (direction)
+                    {
+                        case HexDirection.NE:
+                            sideCell = sideCell.GetNeighbor(HexDirection.NW);
+                            break;
+                        case HexDirection.E:
+                            sideCell = sideCell.GetNeighbor(HexDirection.SE);
+                            break;
+                        case HexDirection.SE:
+                            sideCell = sideCell.GetNeighbor(HexDirection.E);
+                            break;
+                        case HexDirection.SW:
+                            sideCell = sideCell.GetNeighbor(HexDirection.W);
+                            break;
+                        case HexDirection.W:
+                            sideCell = sideCell.GetNeighbor(HexDirection.SW);
+                            break;
+                        case HexDirection.NW:
+                            sideCell = sideCell.GetNeighbor(HexDirection.NE);
+                            break;
+                    }
+
+                    if (!visitedCells.Contains(sideCell))
+                    {
+                        visitedCells.Add(sideCell);
+                        yield return sideCell;
+                    }
+                }
+                if (!visitedCells.Contains(tempAxisCell))
+                {
+                    visitedCells.Add(tempAxisCell);
+                    yield return tempAxisCell;
+                }
             }
         }
     }
