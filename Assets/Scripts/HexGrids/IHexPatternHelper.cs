@@ -2,12 +2,26 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Linq;
-using System.Resources;
-using Microsoft.Unity.VisualStudio.Editor;
 
 public interface IHexPatternHelper 
 {
     IEnumerable<HexCell> GetPattern(HexCell startCell);
+    public static Vector3Int ConvertOffset(Vector3Int originalOffset, Vector3Int currentPosition)
+    {
+        if (originalOffset.z % 2 == 0)
+        {
+            return originalOffset;
+        }
+        if (currentPosition.z % 2 != 0)
+        {
+            return originalOffset;
+        }
+        return new Vector3Int(
+            originalOffset.x - 1,
+            0,
+            originalOffset.z
+        );
+    }
 }
 public class LinePattern : IHexPatternHelper
 {
@@ -33,69 +47,66 @@ public class LinePattern : IHexPatternHelper
 }
 public class HexagonPattern : IHexPatternHelper
 {
+    private int range;
+    public HexagonPattern(int range)
+    {
+        this.range = range;
+    }
     public IEnumerable<HexCell> GetPattern(HexCell startCell)
     {
-        throw new NotImplementedException();
+        HashSet<HexCell> visited = new HashSet<HexCell>();
+        foreach (var n in startCell.GetAllNeighbor())
+        {
+            if (!visited.Add(n)) yield return n;
+            foreach (var nn in n.GetAllNeighbor())
+            {
+                if (!visited.Add(nn)) yield return nn;
+            }
+        }
     }
 }
+
 public class TrianglePattern : IHexPatternHelper
 {
     private int iteration;
     private bool isUpward;
+
     public TrianglePattern(int iteration, bool isUpward = true)
     {
         this.iteration = iteration;
         this.isUpward = isUpward;
     }
+
     public IEnumerable<HexCell> GetPattern(HexCell startCell)
     {
-        HashSet<HexCell> visitedCells = new HashSet<HexCell>();
-        for (HexDirection direction = HexDirection.NE; direction <= HexDirection.NW; direction++)
+        var visited = new HashSet<HexCell>();
+        for (var direction = HexDirection.NE; direction <= HexDirection.NW; direction++)
         {
-            HexCell tempAxisCell = startCell;
-            for (int currentI = 0; currentI < iteration; currentI++)
+            var tempAxisCell = startCell;
+            for (var currentI = 0; currentI < iteration; currentI++)
             {
                 tempAxisCell = tempAxisCell.GetNeighbor(direction);
-                HexCell sideCell = tempAxisCell;
-                for (int cnt = currentI + 1; cnt < 0; cnt--)
+                if(!visited.Add(tempAxisCell)) yield return tempAxisCell;
+                var sideCell = tempAxisCell;
+                for (var cnt = currentI + 1; cnt < 0; cnt--)
                 {
-                    switch (direction)
+                    sideCell = direction switch
                     {
-                        case HexDirection.NE:
-                            sideCell = sideCell.GetNeighbor(HexDirection.NW);
-                            break;
-                        case HexDirection.E:
-                            sideCell = sideCell.GetNeighbor(HexDirection.SE);
-                            break;
-                        case HexDirection.SE:
-                            sideCell = sideCell.GetNeighbor(HexDirection.E);
-                            break;
-                        case HexDirection.SW:
-                            sideCell = sideCell.GetNeighbor(HexDirection.W);
-                            break;
-                        case HexDirection.W:
-                            sideCell = sideCell.GetNeighbor(HexDirection.SW);
-                            break;
-                        case HexDirection.NW:
-                            sideCell = sideCell.GetNeighbor(HexDirection.NE);
-                            break;
-                    }
-
-                    if (!visitedCells.Contains(sideCell))
-                    {
-                        visitedCells.Add(sideCell);
-                        yield return sideCell;
-                    }
-                }
-                if (!visitedCells.Contains(tempAxisCell))
-                {
-                    visitedCells.Add(tempAxisCell);
-                    yield return tempAxisCell;
+                        HexDirection.NE => sideCell.GetNeighbor(HexDirection.NW),
+                        HexDirection.E => sideCell.GetNeighbor(HexDirection.SE),
+                        HexDirection.SE => sideCell.GetNeighbor(HexDirection.E),
+                        HexDirection.SW => sideCell.GetNeighbor(HexDirection.W),
+                        HexDirection.W => sideCell.GetNeighbor(HexDirection.SW),
+                        HexDirection.NW => sideCell.GetNeighbor(HexDirection.NE),
+                        _ => sideCell
+                    };
+                    if(!visited.Add(sideCell)) yield return sideCell;
                 }
             }
         }
     }
 }
+
 public class VertexDirectionPattern: IHexPatternHelper
 {
     private int numOfDir;
@@ -126,32 +137,12 @@ public class CustomOffsetPattern: IHexPatternHelper
         
         foreach (var o in offsets)
         {
-            Vector3Int convertedOffset = ConvertOffset(o,startCell.Coordinates);
-            Vector3Int targetCoord = startCell.Coordinates + convertedOffset;
-            // Vector3Int targetAxial = axialPos + o;
-            // Vector3Int targetOffset = AxialToOffset(targetAxial);
-            
-            HexCell targetCell = BattleManager.Instance.hexgrid.GetCellInCoord(targetCoord)?.CellData;
+            var convertedOffset = IHexPatternHelper.ConvertOffset(o,startCell.Coordinates);
+            var targetCoord = startCell.Coordinates + convertedOffset;
+            var targetCell = BattleManager.Instance.hexgrid.GetCellInCoord(targetCoord)?.CellData;
             if (targetCell != null)
                 yield return targetCell;
         }
-    }
-
-    public static Vector3Int ConvertOffset(Vector3Int originalOffset, Vector3Int currentPosition)
-    {
-        if (originalOffset.z % 2 == 0)
-        {
-            return originalOffset;
-        }
-        if (currentPosition.z % 2 != 0)
-        {
-            return originalOffset;
-        }
-        return new Vector3Int(
-            originalOffset.x - 1,
-            0,
-            originalOffset.z
-        );
     }
 }
 
@@ -217,5 +208,4 @@ public enum PresetPatternType
 {
     WaiPattern = 0,
     AoePattern = 1
-        
 }
