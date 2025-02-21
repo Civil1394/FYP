@@ -38,7 +38,8 @@ public class HexCellMeshGenerator : MonoBehaviour
         lr.SetPositions(outerVertices);
 
         // Set appearance
-        lr.material = new Material(Shader.Find("Unlit/Color"));
+        lr.material = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        lr.material.SetFloat("_Surface", 1);
         lr.material.color = outlineColor;
         lr.startWidth = outlineWidth;
         lr.endWidth = outlineWidth;
