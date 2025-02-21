@@ -3,7 +3,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(PlayerAutoTriggerController))]
 public class PlayerActor : TimedActor
 {
 	public float Health { get; private set; }
@@ -12,25 +11,31 @@ public class PlayerActor : TimedActor
 	public IHexPatternHelper attackPattern;
 	
 	[Header("Hourglass trigger config")]
-	[SerializeField] private List<float> thresholdList = new List<float>();
 	
 	private HourglassUIAnimator hourglassUIAnimator;
 	private PlayerAction pendingAction;
 	private PlayerMovement playerMovement;
-	private CastingHandler castingHandler;
+	private ActionLogicHandler actionLogicHandler;
 	private PendingActionVisualizer pendingActionVisualizer;
-	private PlayerAutoTriggerController autoTriggerController;
+	private PlayerActionHudController actionHudController;
 	private AbilityDatabase abilityDatabase;
 
+	#region events
+	public Action<HexCellComponent> OnPlayerFacingDirectionLegalChanged;
+	public event Action OnPlayerMoved;
+
+	#endregion
 	#region Mono
 
 	protected override void Start()
 	{
 		//attackPattern = PresetPatterns.AoePattern(2);
 		playerMovement = GetComponent<PlayerMovement>();
-		castingHandler = GetComponent<CastingHandler>();
+		OnPlayerFacingDirectionLegalChanged += playerMovement.ChangeFacingDirection;
+		OnPlayerFacingDirectionLegalChanged += QueueMoveAction;
+		actionLogicHandler = GetComponent<ActionLogicHandler>();
 		pendingActionVisualizer = GetComponent<PendingActionVisualizer>();
-		autoTriggerController = GetComponent<PlayerAutoTriggerController>();
+		actionHudController = GetComponent<PlayerActionHudController>();
 		
 		base.Start();
 		//if(hourglassUIAnimator == null)hourglassUIAnimator = BattleManager.Instance.playerHourglassUIAnimator;
@@ -42,19 +47,12 @@ public class PlayerActor : TimedActor
 			OnTimerComplete += DrawCardsIfEmptyHand;
 		}
 		
-		
-		
-		
-		
-		
-		BattleManager.Instance.InputHandler.OnMoveClick.AddListener<HexCellComponent>(QueueMoveAction);
-		BattleManager.Instance.InputHandler.OnCastClick.AddListener<HexCellComponent>(QueueCastAction);
+		//abandoned
+		//BattleManager.Instance.InputHandler.OnMoveClick.AddListener<HexCellComponent>(QueueMoveAction);
+		//BattleManager.Instance.InputHandler.OnCastClick.AddListener<HexCellComponent>(QueueCastAction);
 		
 		abilityDatabase = BattleManager.Instance.AbilityDatabase;
-		HashSet<float> pendingThresholds = new HashSet<float>(thresholdList);
-		autoTriggerController.Initialize(pendingThresholds, abilityDatabase.GetAbilityList("1"));
-		OnTimerTick += autoTriggerController.ThresholdCheck;
-		OnTimerComplete += autoTriggerController.ClearTriggeredThresholdFlags;
+		PlayerActionHudController.Instance.Initialize(abilityDatabase.GetAbilityList("1"),this,actionLogicHandler);
 
 	}
 
@@ -67,13 +65,6 @@ public class PlayerActor : TimedActor
 			OnTimerComplete -= DrawCardsIfEmptyHand;
 		}
 		
-		OnTimerTick -= autoTriggerController.ThresholdCheck;
-		OnTimerComplete -= autoTriggerController.ClearTriggeredThresholdFlags;
-	}
-
-	protected override void Update()
-	{
-		base.Update();
 	}
 
 	#endregion
@@ -94,7 +85,7 @@ public class PlayerActor : TimedActor
 	public void QueueCastAction(HexCellComponent targetCell)
 	{
 		Card cardToBeCast = CardsManager.Instance.GetSelectedCard();
-		if(castingHandler.CastIsLegit(cardToBeCast.AbilityData,targetCell) == false) return;
+		if(actionLogicHandler.CastIsLegit(cardToBeCast.AbilityData,targetCell) == false) return;
 		// Replace current pending action
 		pendingAction = new PlayerAction(PlayerActionType.Cast, targetCell,cardToBeCast);
 		ShowPendingActionPreview();
@@ -148,6 +139,7 @@ public class PlayerActor : TimedActor
         
 		// Update cell states
 		UpdateCellsStates();
+		OnPlayerMoved?.Invoke();
 		//CalNewFacingDirection(pendingAction.TargetCell);
 
 	}
@@ -169,7 +161,7 @@ public class PlayerActor : TimedActor
 	private void ExecuteCastAction()
 	{
 		CardsManager.Instance.PlaySelectedCard();
-		castingHandler.ExecuteAbility(pendingAction.CardToCast.AbilityData,pendingAction.TargetCell);
+		actionLogicHandler.ExecuteAbility(pendingAction.CardToCast.AbilityData,pendingAction.TargetCell);
 		CardsManager.Instance.ResetSelectedCard();
 	}
 	#endregion
@@ -196,12 +188,6 @@ public class PlayerActor : TimedActor
 			}
 			
 		}
-	}
-	public void CalNewFacingDirection(HexCellComponent targetCell)
-	{
-		FacingHexDirection =
-			BattleManager.Instance.hexgrid.CheckNeigborCellDirection(BattleManager.Instance.PlayerCell,
-				targetCell);
 	}
 	private void OnTriggerEnter(Collider other)
 	{

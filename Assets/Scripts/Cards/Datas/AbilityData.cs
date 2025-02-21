@@ -9,7 +9,7 @@ public class AbilityData : ScriptableObject
 	public string id;
 	
 	[Header("Type")]
-	public AbilityType abilityType;              //WHAT this does?
+	public AbilityType abilityType;              
 	[ConditionalField("abilityType", AbilityType.Projectile)]
 	[SerializeField] ProjectileParameter projectileParam;
 
@@ -19,8 +19,8 @@ public class AbilityData : ScriptableObject
     
 	[ConditionalField("abilityType", AbilityType.Dash)]
 	[SerializeField] DashParameter dashParam;
-	
-	
+
+	public int PrerequisiteSteps;
 	[Header("Text")]
 	public string Title;
 

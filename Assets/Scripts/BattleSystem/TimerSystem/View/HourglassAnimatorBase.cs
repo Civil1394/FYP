@@ -8,10 +8,10 @@ public abstract class HourglassAnimatorBase : MonoBehaviour
 	protected Sequence currentSequence;
 	[SerializeField] protected RectTransform hourGlass;
 	[SerializeField] protected Image sand;
-
+	private float alpha;
 	protected virtual void Awake()
 	{
-		
+		alpha = sand.color.a;
 	}
 	protected virtual void OnDestroy()
 	{

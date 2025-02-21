@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.44705883}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.03529412}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -98,6 +98,11 @@ MonoBehaviour:
     MinThreshold: 0
     MaxThreshold: 0
     IsOccupied: 0
+  MinThreshold: 0
+  MaxThreshold: 5
+  ActionCooldown: 2
+  startTimerOnAwake: 1
+  actorHourglassData: {fileID: 0}
 --- !u!114 &3743733228105792412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.43137255}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.078431375}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

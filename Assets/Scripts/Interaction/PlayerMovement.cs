@@ -12,6 +12,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 movement;
     private Vector3 lastMovementDirection;
 
+    public void ChangeFacingDirection(HexCellComponent targetCell)
+    {
+        this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
+    }
     public void Move(HexCellComponent targetCell)
     {
         this.transform.DOMove(targetCell.CalPosForAction(), 0.5f);

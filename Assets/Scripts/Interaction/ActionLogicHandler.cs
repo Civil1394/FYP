@@ -1,20 +1,36 @@
 using System;
 using UnityEngine;
 
-public class CastingHandler : MonoBehaviour
+public class ActionLogicHandler : MonoBehaviour
 {
 	public event Action<HexCellComponent> OnLocationCast;
 	public event Action<AbilityData> OnDirectionalCast;
 	public event Action<AbilityData> OnUnitCast;
 	private PlayerActor playerActor;
+	private HexGrid hexGrid;
 	//private AbilityData currentCastingAbility; //storing the pending abilitydata to be cast
 
 	private void Start()
 	{
 		//BattleManager.Instance.InputHandler.OnCastClick.AddListener<HexCellComponent>(HandleDirectionalCast);
 		playerActor = GetComponent<PlayerActor>();
+		hexGrid = BattleManager.Instance.hexgrid;
 	}
-	
+
+	public HexCellComponent FacingIsLegit(HexDirection direction)
+	{
+		var c = BattleManager.Instance.PlayerCell.CellData.GetNeighbor(direction);
+		if (c == null)
+		{
+			return null;
+		}
+
+		return c.ParentComponent;
+	}
+	public static bool MoveIsLegit()
+	{
+		return false;
+	}
 	//Check the casting cell is in range or other condition is fulfilled
 	public bool CastIsLegit(AbilityData ability, HexCellComponent clickedCell)
 	{
