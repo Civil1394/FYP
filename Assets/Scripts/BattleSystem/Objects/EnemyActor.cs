@@ -7,19 +7,21 @@ using Random = UnityEngine.Random;
 public class EnemyActor : TimedActor 
 {
 	[SerializeField] CapsuleCollider objectCollider;
-	[SerializeField] private HourglassGlobalCanvasAnimator hourglassGlobalCanvasAnimator;
+	[SerializeField] private HourglassUIProduct hourglassUIProduct;
 	private AIBrain aiBrain;
-	
-	
+
+
+	public override void Init(Hourglass hourglass)
+	{
+		base.Init(hourglass);
+		hourglassUIProduct.Init(hourglass);
+	}
+
 	protected override void Start()
 	{
 		aiBrain = gameObject.GetComponent<AIBrain>();
-		if (hourglassGlobalCanvasAnimator != null)
-		{
-			OnTimerStart += hourglassGlobalCanvasAnimator.CountTime;
-			OnTimerComplete += aiBrain.TurnAction;
-		}else Debug.LogWarning("No hourglassGlobalCanvasAnimator found");
-		//ActionCooldown = (int)Random.Range(1f, 5f);
+		OnTimerComplete += aiBrain.TurnAction;
+
 		base.Start();
 	}
 	protected override void Update()

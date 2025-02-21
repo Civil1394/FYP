@@ -27,23 +27,25 @@ public class PlayerActor : TimedActor
 	protected override void Start()
 	{
 		//attackPattern = PresetPatterns.AoePattern(2);
-		
-		if(hourglassUIAnimator == null)hourglassUIAnimator = BattleManager.Instance.playerHourglassUIAnimator;
-		else Debug.LogError("HourglassUIAnimator is null");
-		if (hourglassUIAnimator != null)
-		{
-			OnTimerStart += hourglassUIAnimator.CountTime;
-			OnTimerComplete += ExecutePendingAction;
-			OnTimerComplete += DrawCardsIfEmptyHand;
-		}
-		
 		playerMovement = GetComponent<PlayerMovement>();
 		castingHandler = GetComponent<CastingHandler>();
 		pendingActionVisualizer = GetComponent<PendingActionVisualizer>();
 		autoTriggerController = GetComponent<PlayerAutoTriggerController>();
 		
-		
 		base.Start();
+		//if(hourglassUIAnimator == null)hourglassUIAnimator = BattleManager.Instance.playerHourglassUIAnimator;
+		//else Debug.LogError("HourglassUIAnimator is null");
+		if (hourglass != null)
+		{
+			//OnTimerStart += hourglassUIAnimator.CountTime;
+			OnTimerComplete += ExecutePendingAction;
+			OnTimerComplete += DrawCardsIfEmptyHand;
+		}
+		
+		
+		
+		
+		
 		
 		BattleManager.Instance.InputHandler.OnMoveClick.AddListener<HexCellComponent>(QueueMoveAction);
 		BattleManager.Instance.InputHandler.OnCastClick.AddListener<HexCellComponent>(QueueCastAction);
@@ -58,9 +60,9 @@ public class PlayerActor : TimedActor
 
 	private void OnDestroy()
 	{
-		if (hourglassUIAnimator != null)
+		if (hourglass != null)
 		{
-			OnTimerStart -= hourglassUIAnimator.CountTime;
+			//OnTimerStart -= hourglassUIAnimator.CountTime;
 			OnTimerComplete -= ExecutePendingAction;
 			OnTimerComplete -= DrawCardsIfEmptyHand;
 		}

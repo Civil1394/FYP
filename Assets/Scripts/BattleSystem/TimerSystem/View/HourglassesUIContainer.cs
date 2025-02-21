@@ -34,7 +34,21 @@ public class HourglassesUIContainer : Singleton<HourglassesUIContainer>
 				slot.Init(hourglasses[index]);
 				index++;
 			}
-				
 		}
 	}
+
+	public void InitHourglassProducts(Hourglass hourglass)
+	{
+		foreach (var slot in HourglassSlots)
+		{
+			if (!slot.hourglass.IsOccupied)
+			{
+				slot.Init(hourglass);
+				break; 
+			}
+		}
+	}
+
+	
+	
 }
