@@ -27,6 +27,8 @@ public class AbilityData : ScriptableObject
 	[TextArea(5, 7)]
 	public string Desc;
 	
+	[Header("Icon")]
+	public Sprite Icon;
 	[Header("Cast")]
 	public AbilityCastType CastType; //How the ability is cast?
 	

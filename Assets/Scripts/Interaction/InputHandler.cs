@@ -15,12 +15,13 @@ public class InputHandler : MonoBehaviour
 	private void Start()
 	{
 		orbitalTransposer = playerCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
+		orbitalTransposer.m_XAxis.Value = -45;
 	}
 	
 	private void Update()
 	{
 		OnRightMosueButtonDrag();
-		
+		ResetOrbitalCameraAngle();
 		GetPointerEnterExist();
 		GetPointerDown();
 		RedrawCardsController();
@@ -155,6 +156,13 @@ public class InputHandler : MonoBehaviour
 		}
 	}
 
+	void ResetOrbitalCameraAngle()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			orbitalTransposer.m_XAxis.Value = -45;
+		}
+	}
 	void OnRightMosueButtonDrag()
 	{
 		//Controller of allowing the orbitalTransposer rotate head movement towards player object by dragging the mouse in x axis
