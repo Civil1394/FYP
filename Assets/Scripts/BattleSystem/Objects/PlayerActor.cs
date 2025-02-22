@@ -6,7 +6,12 @@ using System.Collections.Generic;
 public class PlayerActor : TimedActor
 {
 	public float Health { get; private set; }
+	
+	[Header("Facing Direction")]
+	public HexCellComponent standingCell;
 	public HexDirection FacingHexDirection;
+	private HexCellComponent facingCell;
+	
 	public bool CanExecuteAction { get; private set; }
 	public IHexPatternHelper attackPattern;
 	
@@ -17,42 +22,54 @@ public class PlayerActor : TimedActor
 	private PlayerMovement playerMovement;
 	private ActionLogicHandler actionLogicHandler;
 	private PendingActionVisualizer pendingActionVisualizer;
-	private PlayerActionHudController actionHudController;
 	private AbilityDatabase abilityDatabase;
 
 	#region events
-	public Action<HexCellComponent> OnPlayerFacingDirectionLegalChanged;
 	public event Action OnPlayerMoved;
 
 	#endregion
 	#region Mono
 
-	protected override void Start()
+	protected void Awake()
 	{
-		//attackPattern = PresetPatterns.AoePattern(2);
 		playerMovement = GetComponent<PlayerMovement>();
-		OnPlayerFacingDirectionLegalChanged += playerMovement.ChangeFacingDirection;
-		OnPlayerFacingDirectionLegalChanged += QueueMoveAction;
 		actionLogicHandler = GetComponent<ActionLogicHandler>();
 		pendingActionVisualizer = GetComponent<PendingActionVisualizer>();
-		actionHudController = GetComponent<PlayerActionHudController>();
+	}
+
+	public void Init(Hourglass hourglass,HexCellComponent initStandingCell)
+	{
+		base.Init(hourglass);
+		this.standingCell = initStandingCell;
 		
-		base.Start();
-		//if(hourglassUIAnimator == null)hourglassUIAnimator = BattleManager.Instance.playerHourglassUIAnimator;
-		//else Debug.LogError("HourglassUIAnimator is null");
+		abilityDatabase = BattleManager.Instance.AbilityDatabase;
+		PlayerActionHudController.Instance.Initialize(abilityDatabase.GetAbilityList("1"),this,actionLogicHandler);
+
+		if (TryChangeFacingDirection(FacingHexDirection))
+		{ 
+			playerMovement.ChangeFacingDirection(facingCell);
+		}
+		
 		if (hourglass != null)
 		{
-			//OnTimerStart += hourglassUIAnimator.CountTime;
+			OnTimerStart += _ => QueueMoveAction();    
 			OnTimerComplete += ExecutePendingAction;
 			OnTimerComplete += DrawCardsIfEmptyHand;
 		}
+	}
+
+	protected override void Start()
+	{
+		//attackPattern = PresetPatterns.AoePattern(2);
+		
+		base.Start();
+		
 		
 		//abandoned
 		//BattleManager.Instance.InputHandler.OnMoveClick.AddListener<HexCellComponent>(QueueMoveAction);
 		//BattleManager.Instance.InputHandler.OnCastClick.AddListener<HexCellComponent>(QueueCastAction);
 		
-		abilityDatabase = BattleManager.Instance.AbilityDatabase;
-		PlayerActionHudController.Instance.Initialize(abilityDatabase.GetAbilityList("1"),this,actionLogicHandler);
+		
 
 	}
 
@@ -60,7 +77,6 @@ public class PlayerActor : TimedActor
 	{
 		if (hourglass != null)
 		{
-			//OnTimerStart -= hourglassUIAnimator.CountTime;
 			OnTimerComplete -= ExecutePendingAction;
 			OnTimerComplete -= DrawCardsIfEmptyHand;
 		}
@@ -71,12 +87,11 @@ public class PlayerActor : TimedActor
 	
 
 	#region QueueAction
-	public void QueueMoveAction(HexCellComponent targetCell)
+	public void QueueMoveAction()
 	{
-		if (!IsValidMoveTarget(targetCell)) return;
-		
+		if (!actionLogicHandler.FacingIsLegit(FacingHexDirection)) return;
 		// Replace current pending action
-		pendingAction = new PlayerAction(PlayerActionType.Move, targetCell);
+		pendingAction = new PlayerAction(PlayerActionType.Move, facingCell);
         
 		// Visual feedback that action is queued
 		ShowPendingActionPreview();
@@ -95,15 +110,6 @@ public class PlayerActor : TimedActor
 		pendingActionVisualizer.ShowPendingActionPointer(pendingAction.Type , pendingAction.TargetCell );
 	}
 	
-	private bool IsValidMoveTarget(HexCellComponent targetCell)
-	{
-		return targetCell.CellData.CellGuiType == CellGuiType.ValidMoveCell;
-	}
-	//TODO: Implement better condition checker
-	private bool IsValidCastTarget(HexCellComponent targetCell)
-	{
-		return targetCell.CellData.CellGuiType == CellGuiType.ValidMoveCell;
-	}
 	#endregion
 	
 	#region ExecuteAction
@@ -140,18 +146,19 @@ public class PlayerActor : TimedActor
 		// Update cell states
 		UpdateCellsStates();
 		OnPlayerMoved?.Invoke();
-		//CalNewFacingDirection(pendingAction.TargetCell);
+		
 
 	}
 
 	private void UpdateCellsStates()
 	{
-		HexCellComponent playerCell = BattleManager.Instance.PlayerCell;
 		// foreach (var c in attackPattern.GetPattern(playerCell.CellData))
 		// {
 		// 	c.SetGuiType(CellGuiType.Empty);
 		// }
-		BattleManager.Instance.OnPlayerMove(this, playerCell, pendingAction.TargetCell);
+		BattleManager.Instance.OnPlayerMove(this, standingCell, pendingAction.TargetCell);
+		standingCell = pendingAction.TargetCell;
+		TryChangeFacingDirection(FacingHexDirection);
 		// foreach (var c in attackPattern.GetPattern(pendingAction.TargetCell.CellData))
 		// {
 		// 	c.SetGuiType(CellGuiType.ValidAttackCell);
@@ -165,6 +172,18 @@ public class PlayerActor : TimedActor
 		CardsManager.Instance.ResetSelectedCard();
 	}
 	#endregion
+
+	public bool TryChangeFacingDirection(HexDirection tryDirection)
+	{
+		var cc = actionLogicHandler.FacingIsLegit((HexDirection)tryDirection);
+		if (cc == null) return false;
+		
+		playerMovement.ChangeFacingDirection(cc);
+		FacingHexDirection = tryDirection;
+		facingCell = cc;
+		QueueMoveAction();
+		return true;
+	}
 	private void DrawCardsIfEmptyHand()
 	{
 		

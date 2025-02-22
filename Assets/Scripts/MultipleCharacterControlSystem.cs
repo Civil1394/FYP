@@ -22,7 +22,7 @@ public class MultipleCharacterControlSystem : MonoBehaviour
 		inputHandler.OnMoveClick.RemoveAllListener();
 		inputHandler.OnCastClick.RemoveAllListener();
 		
-		inputHandler.OnMoveClick.AddListener<HexCellComponent>(charactersActorList[characterIndex].QueueMoveAction);
-		inputHandler.OnCastClick.AddListener<HexCellComponent>(charactersActorList[characterIndex].QueueCastAction);
+		//inputHandler.OnMoveClick.AddListener<HexCellComponent>(charactersActorList[characterIndex].QueueMoveAction);
+		//inputHandler.OnCastClick.AddListener<HexCellComponent>(charactersActorList[characterIndex].QueueCastAction);
 	}
 }

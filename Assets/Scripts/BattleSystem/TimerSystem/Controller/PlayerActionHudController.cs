@@ -30,10 +30,10 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     
     public void ChangeFaceDirection(int newDirection)
     {
-        var cc = actionLogicHandler.FacingIsLegit((HexDirection)newDirection);
-        if (cc == null) return;
-    
-        playerActor.OnPlayerFacingDirectionLegalChanged?.Invoke(cc);
+        if (playerActor.TryChangeFacingDirection((HexDirection)newDirection))
+        {
+            
+        }
     }
     private void UpdateStep()
     {

@@ -10,17 +10,20 @@ public class ActionLogicHandler : MonoBehaviour
 	private HexGrid hexGrid;
 	//private AbilityData currentCastingAbility; //storing the pending abilitydata to be cast
 
+	private void Awake()
+	{
+		playerActor = GetComponent<PlayerActor>();
+	}
+
 	private void Start()
 	{
-		//BattleManager.Instance.InputHandler.OnCastClick.AddListener<HexCellComponent>(HandleDirectionalCast);
-		playerActor = GetComponent<PlayerActor>();
 		hexGrid = BattleManager.Instance.hexgrid;
 	}
 
 	public HexCellComponent FacingIsLegit(HexDirection direction)
 	{
-		var c = BattleManager.Instance.PlayerCell.CellData.GetNeighbor(direction);
-		if (c == null)
+		var c = playerActor.standingCell.CellData.GetNeighbor(direction);
+		if (c == null || c.CellType == CellType.Invalid)
 		{
 			return null;
 		}

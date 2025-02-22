@@ -199,7 +199,8 @@ MonoBehaviour:
   ActionCooldown: 2
   startTimerOnAwake: 1
   actorHourglassData: {fileID: 6218446944541944780}
-  FacingHexDirection: 0
+  standingCell: {fileID: 0}
+  FacingHexDirection: 1
 --- !u!114 &4084432295781431589
 MonoBehaviour:
   m_ObjectHideFlags: 0

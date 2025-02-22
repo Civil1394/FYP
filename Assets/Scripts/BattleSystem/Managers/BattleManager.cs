@@ -141,7 +141,8 @@ public class BattleManager : Singleton<BattleManager>
 			
 			PlayerActor playerActor = newInstance.GetComponent<PlayerActor>();
 			var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
-			playerActor.Init(hg);
+			playerActor.Init(hg,PlayerCell);
+			
 			HourglassesUIContainer.Instance.InitHourglassProducts(hg);
 			cell.CellData.SetCell(playerActor.gameObject,CellType.Player);
 			playerCamera.Follow = playerActor.transform;
