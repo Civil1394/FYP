@@ -24,7 +24,7 @@ public class InputHandler : MonoBehaviour
 		ResetOrbitalCameraAngle();
 		GetPointerEnterExist();
 		GetPointerDown();
-		RedrawCardsController();
+		//RedrawCardsController();
 		SelectCardController();
 		SelectPlayer();
 	}
@@ -74,27 +74,27 @@ public class InputHandler : MonoBehaviour
 			return;
 		}
 	}
-	private void RedrawCardsController()
-	{
-		AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			if (!BattleManager.Instance.TurnManager.CanExecuteAction(TurnActionType.DrawCard)) 
-				return;
-
-			CardsManager.Instance.RedrawCards();
-			
-			for (int i = 0; i < 2; i++)
-			{
-				Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase, "1",
-					abilityDatabase.GetRandomAbilityFromList("1").id);
-				CardsManager.Instance.AddCardToDeck(testCard);
-				var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
-			}
-			
-			BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: redraw");
-		}
-	}
+	// private void RedrawCardsController()
+	// {
+	// 	AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
+	// 	if (Input.GetKeyDown(KeyCode.R))
+	// 	{
+	// 		if (!BattleManager.Instance.TurnManager.CanExecuteAction(TurnActionType.DrawCard)) 
+	// 			return;
+	//
+	// 		CardsManager.Instance.RedrawCards();
+	// 		
+	// 		for (int i = 0; i < 2; i++)
+	// 		{
+	// 			Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase, "1",
+	// 				abilityDatabase.GetRandomAbilityFromList("1").id);
+	// 			CardsManager.Instance.AddCardToDeck(testCard);
+	// 			var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
+	// 		}
+	// 		
+	// 		BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: redraw");
+	// 	}
+	// }
 	
 	private GameObject GetMousePointedGameObject()
 	{

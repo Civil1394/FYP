@@ -7,24 +7,32 @@ using UnityEngine.UI;
 public class PlayerActionHudController : Singleton<PlayerActionHudController>
 {
     public bool IsAutoTrigger = false;
-    public static int SectorCount = 6;
-    [SerializeField] private List<Button> directionButton = new List<Button>();
-    private List<AbilityData> embeddedAbilityDatas;
+    public static int SectorCount =>GameConstants.AbilitySlotCount;
+    
+    [Header("AbilityModel Related")]
+    [SerializeField] private List<AbilityOnHudModel> abilityModels = new List<AbilityOnHudModel>();
+    
+    private List<AbilityData> equippedAbilities;
     private PlayerActor playerActor;
     private ActionLogicHandler actionLogicHandler;
-    private HexGrid hexGrid;
     private void Start()
     {
-        hexGrid = BattleManager.Instance.hexgrid;
         
     }
 
-    public void Initialize(List<AbilityData> embeddedAbilityDatas,PlayerActor playerActor,ActionLogicHandler actionLogicHandler)
+    public void Initialize(List<AbilityData> equippedAbilities,PlayerActor playerActor,ActionLogicHandler actionLogicHandler)
     {
-        this.embeddedAbilityDatas = embeddedAbilityDatas;
+        this.equippedAbilities = equippedAbilities;
         this.playerActor = playerActor;
         this.actionLogicHandler = actionLogicHandler;
         
+
+        int index = 0;
+        foreach (var am in abilityModels)
+        {
+            am.Init(equippedAbilities[index].PrerequisiteChargeSteps,equippedAbilities[index].Icon);
+            index++;
+        }
         playerActor.OnPlayerMoved += UpdateStep;
     }
     
@@ -35,20 +43,9 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
             
         }
     }
-    private void UpdateStep()
+    private void UpdateStep(HexDirection movedDirection)
     {
-        Debug.Log("UpdateStep");
+        abilityModels[(int)movedDirection].NotifyUpdate(1);
     }
     
-    private void OnThresholdReached(int value)
-    {
-        HexCellComponent playerCell = BattleManager.Instance.PlayerCell;
-        HexDirection facingDirection = playerActor.FacingHexDirection;
-        HexCellComponent targetCell = hexGrid.GetCellByDirection(playerCell, facingDirection);
-        if(actionLogicHandler.CastIsLegit(embeddedAbilityDatas[value],targetCell) == false) return;
-        
-        embeddedAbilityDatas[value].TriggerAbility(playerActor.transform,
-                                                    facingDirection,
-                                                    playerCell,HourglassInventory.Instance.hourglassesList[0].TimeType);
-    }
 }

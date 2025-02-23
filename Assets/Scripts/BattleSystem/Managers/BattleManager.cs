@@ -14,21 +14,11 @@ public class BattleManager : Singleton<BattleManager>
 	[SerializeField] private GameObject playerPrefab;
 	[SerializeField] private List<Vector2Int> playerSpawnCoord = new List<Vector2Int>();
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
-	public HourglassUIAnimator playerHourglassUIAnimator;
 	public List<PlayerActor> PlayerActorInstance {  get; private set; } = new List<PlayerActor>();
-	public AbilityDatabase AbilityDatabase;
 	public HexCellComponent PlayerCell;
+	
 	[Header("HexGrid Related Ref")]
 	public HexGrid hexgrid = new HexGrid();
-	
-	
-
-	[Header("Hourglass Related Ref")]
-	[SerializeField] private float initSandAmount = 0.5f;
-	public float InitSandAmount
-	{
-		get => initSandAmount;
-	}
 	
 	[Header("HandCard Related Ref")] 
 	public int handCardsSize = 2;
@@ -37,6 +27,7 @@ public class BattleManager : Singleton<BattleManager>
 	public EnemyDatabase EnemyDatabase;
 	public bool IsBattleStarted = false;
 	
+	[SerializeField] private AbilityDatabase abilityDatabase;
 	#region Manager References
 	[Header("Managers Related Ref")]
 	//TurnManager
@@ -78,37 +69,28 @@ public class BattleManager : Singleton<BattleManager>
 
 	public void InitBattle()
 	{
-		if (AbilityDatabase == null)
-		{
-			Debug.LogError("AbilityDatabase is not assigned to BattleManager!");
-			return;
-		}
-		//Add cards to hand at start of combat
-		for (int i = 0; i < handCardsSize; i++)
-		{
-			Card testCard = CardFactory.Instance.CreateCardFromList(AbilityDatabase, "1",
-				AbilityDatabase.GetRandomAbilityFromList("1").id);
-			CardsManager.Instance.AddCardToDeck(testCard);
-			CardsManager.Instance.DrawCard();
-		}
+		//init Player base abilities
+		AbilityManager.InitBaseAbilities(abilityDatabase);
 		
-		//1.InitHourglasses
+		//InitHourglasses
 		InitHourglasses();
 		
-		//2.InitPlayer
+		//InitPlayer
 		foreach (Vector2Int p in playerSpawnCoord)
 		{
 			InitPlayer(p);
 		}
 		
-		//3.InitEnemies
+		//InitEnemies
 		EnemyManager.Instance.InitEnemies();
 		
 		IsBattleStarted = true;
 		
 		//init player valid move range
 		UpdateValidMoveRange();
-
+		
+		
+		
 		
 	}
 
@@ -116,7 +98,7 @@ public class BattleManager : Singleton<BattleManager>
 	{
 		HourglassInventory.Instance.hourglassesList = HourglassFactory.Instance.CreateHourglasses(5, true,null,null,null);
 		
-		//int slotsAmount = HourglassesUIContainer.Instance.SlotsAmount;
+		//int slotsAmount = HourglassesUIContainer.Instance.hourglassSlotsCount;
 		// Hourglass[] hourglassesArray = new Hourglass[slotsAmount];
 		// for (int i = 0; i < slotsAmount; i++)
 		// {

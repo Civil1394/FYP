@@ -27,7 +27,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
                     if (FindObjectsOfType(typeof(T)).Length > 1)
                     {
-                        Debug.LogError($"[Singleton] Something went really wrong - there should never be more than 1 singleton! Reopening the scene might fix it.");
+                        Debug.LogError($"[Singleton_{typeof(T)}] Something went really wrong - there should never be more than 1 singleton! Reopening the scene might fix it.");
                         return internal_instance.MonoInstance;
                     }
 

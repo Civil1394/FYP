@@ -22,10 +22,9 @@ public class PlayerActor : TimedActor
 	private PlayerMovement playerMovement;
 	private ActionLogicHandler actionLogicHandler;
 	private PendingActionVisualizer pendingActionVisualizer;
-	private AbilityDatabase abilityDatabase;
 
 	#region events
-	public event Action OnPlayerMoved;
+	public event Action<HexDirection> OnPlayerMoved;
 
 	#endregion
 	#region Mono
@@ -42,8 +41,7 @@ public class PlayerActor : TimedActor
 		base.Init(hourglass);
 		this.standingCell = initStandingCell;
 		
-		abilityDatabase = BattleManager.Instance.AbilityDatabase;
-		PlayerActionHudController.Instance.Initialize(abilityDatabase.GetAbilityList("1"),this,actionLogicHandler);
+		PlayerActionHudController.Instance.Initialize(AbilityManager.EquippedAbilities,this,actionLogicHandler);
 
 		if (TryChangeFacingDirection(FacingHexDirection))
 		{ 
@@ -54,7 +52,7 @@ public class PlayerActor : TimedActor
 		{
 			OnTimerStart += _ => QueueMoveAction();    
 			OnTimerComplete += ExecutePendingAction;
-			OnTimerComplete += DrawCardsIfEmptyHand;
+			//OnTimerComplete += DrawCardsIfEmptyHand;
 		}
 	}
 
@@ -78,7 +76,7 @@ public class PlayerActor : TimedActor
 		if (hourglass != null)
 		{
 			OnTimerComplete -= ExecutePendingAction;
-			OnTimerComplete -= DrawCardsIfEmptyHand;
+			//OnTimerComplete -= DrawCardsIfEmptyHand;
 		}
 		
 	}
@@ -145,7 +143,7 @@ public class PlayerActor : TimedActor
         
 		// Update cell states
 		UpdateCellsStates();
-		OnPlayerMoved?.Invoke();
+		OnPlayerMoved?.Invoke(FacingHexDirection);
 		
 
 	}
@@ -184,30 +182,30 @@ public class PlayerActor : TimedActor
 		QueueMoveAction();
 		return true;
 	}
-	private void DrawCardsIfEmptyHand()
-	{
-		
-		if (CardsManager.Instance.Hand.Count == 0)
-		{
-			for (int i = 0; i < BattleManager.Instance.handCardsSize; i++)
-			{
-				Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase,"1", 
-					abilityDatabase.GetRandomAbilityFromList("1").id);
-				CardsManager.Instance.AddCardToDeck(testCard);
-				var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
-				if (drawnCard != null)
-				{
-					BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: {drawnCard.Name}");
-					Debug.Log($"Drew card: {drawnCard.Name}");
-				}
-				else
-				{
-					Debug.Log("No cards left in the deck");
-				}
-			}
-			
-		}
-	}
+	// private void DrawCardsIfEmptyHand()
+	// {
+	// 	
+	// 	if (CardsManager.Instance.Hand.Count == 0)
+	// 	{
+	// 		for (int i = 0; i < BattleManager.Instance.handCardsSize; i++)
+	// 		{
+	// 			Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase,"1", 
+	// 				abilityDatabase.GetRandomAbilityFromList("1").id);
+	// 			CardsManager.Instance.AddCardToDeck(testCard);
+	// 			var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
+	// 			if (drawnCard != null)
+	// 			{
+	// 				BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: {drawnCard.Name}");
+	// 				Debug.Log($"Drew card: {drawnCard.Name}");
+	// 			}
+	// 			else
+	// 			{
+	// 				Debug.Log("No cards left in the deck");
+	// 			}
+	// 		}
+	// 		
+	// 	}
+	// }
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Projectile"))

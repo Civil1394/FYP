@@ -6,12 +6,12 @@ using System.Collections.Generic;
 public class HourglassesUIContainer : Singleton<HourglassesUIContainer>
 {
 	[SerializeField] private GameObject hourglassUIPrefab;
-	public int SlotsAmount;
+	public int hourglassSlotsCount;
 	public List<HourglassUIProduct> HourglassSlots = new List<HourglassUIProduct>();
 
 	private void Awake()
 	{
-		for (int i = 0; i < SlotsAmount; i++)
+		for (int i = 0; i < hourglassSlotsCount; i++)
 		{
 			GenerateEmptyHourglassProduct();
 		}

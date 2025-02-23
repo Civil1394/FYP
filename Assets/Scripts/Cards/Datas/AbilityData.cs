@@ -20,7 +20,7 @@ public class AbilityData : ScriptableObject
 	[ConditionalField("abilityType", AbilityType.Dash)]
 	[SerializeField] DashParameter dashParam;
 
-	public int PrerequisiteSteps;
+	public int PrerequisiteChargeSteps;
 	[Header("Text")]
 	public string Title;
 
