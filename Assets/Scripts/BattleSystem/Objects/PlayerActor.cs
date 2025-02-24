@@ -25,7 +25,7 @@ public class PlayerActor : TimedActor
 
 	#region events
 	public event Action<HexDirection> OnPlayerMoved;
-
+	public event Action<HexDirection> OnPlayerCast;
 	#endregion
 	#region Mono
 
@@ -41,7 +41,10 @@ public class PlayerActor : TimedActor
 		base.Init(hourglass);
 		this.standingCell = initStandingCell;
 		
-		PlayerActionHudController.Instance.Initialize(AbilityManager.EquippedAbilities,this,actionLogicHandler);
+		PlayerActionHudController.Instance.Initialize(AbilityManager.EquippedAbilities,
+												this,
+															actionLogicHandler,
+												(direction => ExecuteCastAction(direction)));
 
 		if (TryChangeFacingDirection(FacingHexDirection))
 		{ 
@@ -125,7 +128,7 @@ public class PlayerActor : TimedActor
 				ExecuteMoveAction();
 				break;
 			case PlayerActionType.Cast:
-				ExecuteCastAction();
+				//ExecuteCastAction();
 				break;
 		}
 
@@ -163,11 +166,11 @@ public class PlayerActor : TimedActor
 		// }
 	}
 
-	private void ExecuteCastAction()
+	private void ExecuteCastAction(HexDirection direction)
 	{
-		CardsManager.Instance.PlaySelectedCard();
-		actionLogicHandler.ExecuteAbility(pendingAction.CardToCast.AbilityData,pendingAction.TargetCell);
-		CardsManager.Instance.ResetSelectedCard();
+		var a = AbilityManager.GetEquippedAbility((int)direction);
+
+		actionLogicHandler.ExecuteAbility(a,direction);
 	}
 	#endregion
 

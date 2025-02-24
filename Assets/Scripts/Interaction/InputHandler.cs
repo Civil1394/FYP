@@ -165,6 +165,7 @@ public class InputHandler : MonoBehaviour
 	}
 	void OnRightMosueButtonDrag()
 	{
+		PlayerActionHudController.Instance.UpdateRotation(orbitalTransposer.m_XAxis.Value);
 		//Controller of allowing the orbitalTransposer rotate head movement towards player object by dragging the mouse in x axis
 		if (Input.GetMouseButtonDown(1) && orbitalTransposer != null)  
 		{

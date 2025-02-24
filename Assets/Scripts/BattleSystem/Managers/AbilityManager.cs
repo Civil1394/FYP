@@ -16,7 +16,7 @@ public static class AbilityManager
 		currentDatabase = abilityDatabase;
 		for (int i = 0; i < GameConstants.AbilitySlotCount; i++)
 		{
-			var ability = currentDatabase.GetRandomAbilityFromList("1");
+			var ability = currentDatabase.GetAbilityList("1")[i];
 			if (ability == null) return;
 			equippedAbilities.Add(ability);
 		}

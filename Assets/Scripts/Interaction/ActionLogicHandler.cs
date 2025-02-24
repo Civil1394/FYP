@@ -48,12 +48,14 @@ public class ActionLogicHandler : MonoBehaviour
 		return false;
 	}
 	
-	public void ExecuteAbility(AbilityData ability, HexCellComponent targetCell = null)
+	public void ExecuteAbility(AbilityData ability, HexDirection direction)
 	{
 		switch (ability.CastType)
 		{
 			case AbilityCastType.Direction_targeted:
-				HandleDirectionalCast(ability, targetCell,HourglassInventory.Instance.hourglassesList[0].TimeType);
+				var c = playerActor.standingCell.CellData.GetNeighbor(direction);
+				if (c == null || c.CellType == CellType.Invalid) return;
+				HandleDirectionalCast(ability, c.ParentComponent ,HourglassInventory.Instance.hourglassesList[0].TimeType);
 				break;
 		}
 		
