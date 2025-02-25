@@ -1,26 +1,54 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 public class ChestSpawner : MonoBehaviour
 {
 	public enum ChestType
 	{
-		Wood,
-		Steel,
-		Gold,
-		Legend
+		Wood = 0,
+		Steel = 1,
+		Gold = 2,
+		Legend = 3
 	}
-	public float woodChestRate;
-	public float steelChestRate;
-	public float goldChestRate;
-	public float legendaryChestRate;
+	
+	[Range(0,1)] public float woodChestRate;
+	[Range(0,1)] public float steelChestRate;
+	[Range(0,1)] public float goldChestRate;
+	[Range(0,1)] public float legendaryChestRate;
 	public int maxChestCount;
 	public Vector2Int[] staticLegendaryChestLocation;
 
-	public ChestType[,] GetChestHeatMap(int width, int height)
+	private void Start()
 	{
-		float[,] rawChestMap = NoiseSystem.GenerateNoiseMap(width, height, 1);
-		
-		return null;
+		SpawnChest();
+	}
+
+	public Dictionary<Vector2Int, ChestType> GetChestHeatMap(int width, int height)
+	{
+		Dictionary<Vector2Int, ChestType> chestMap = new Dictionary<Vector2Int, ChestType>();
+		float[,] rawChestMap = NoiseSystem.GenerateNoiseMap(width, height, 0.5f);
+		List<Vector2Int> rawChestLocations = NoiseSystem.BlobDetection(rawChestMap, 0.5f, 10);
+		foreach (Vector2Int pos in rawChestLocations)
+		{
+			int randValue = (int)Mathf.Floor(Random.value * 100);
+			if(randValue <= legendaryChestRate) chestMap.Add(pos, ChestType.Legend);
+			else if(randValue<=goldChestRate) chestMap.Add(pos, ChestType.Gold);
+			else if(randValue<=steelChestRate) chestMap.Add(pos, ChestType.Steel);
+			else if(randValue<=woodChestRate) chestMap.Add(pos, ChestType.Wood);
+		}
+		return chestMap;
+	}
+
+	public void SpawnChest()
+	{
+		int h = BattleManager.Instance.hexgrid.Height;
+		int w = BattleManager.Instance.hexgrid.Width;
+		print(h+" "+" "+w);
+		foreach (var p in GetChestHeatMap(w, h))
+		{
+			var cell = BattleManager.Instance.hexgrid.GetCellInCoordVector2(p.Key);
+			cell.CellData.SetGuiType(CellGuiType.ValidAttackCell);
+		}
 	}
 }
