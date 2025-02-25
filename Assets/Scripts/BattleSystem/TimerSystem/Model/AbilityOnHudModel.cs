@@ -14,17 +14,21 @@ public class AbilityOnHudModel : MonoBehaviour
     private HexDirection direction;
     private int maxChargeStepsCount;
     private int chargedSteps = 0;
+    private AbilityColorType abilityColor;
     private bool fullyCharged = false;
-    
-    
-    public void Init(HexDirection hexDirection,int requireSteps, Sprite iconSprite, Action<HexDirection> OnFullyCharged)
+
+    private Action<HexDirection> onDirectionCharged;
+    public void Init(HexDirection hexDirection,int requireSteps, Sprite iconSprite,AbilityColorType colorType, Action<HexDirection> OnFullyCharged)
     {
         this.direction = hexDirection;
         this.maxChargeStepsCount = requireSteps;
         this.iconFill.sprite = iconSprite;
         this.iconBg.sprite = iconSprite;
-        this.iconButton.onClick.RemoveAllListeners();
-        this.iconButton.onClick.AddListener(() => HandleChargeCompletion(OnFullyCharged));
+
+        this.iconFill.color = AbilityColorHelper.GetAbilityColor(colorType);
+        //this.iconButton.onClick.RemoveAllListeners();
+        //this.iconButton.onClick.AddListener(() => HandleChargeCompletion(OnFullyCharged));
+        onDirectionCharged = OnFullyCharged;
         Reset();
     }
 
@@ -47,6 +51,7 @@ public class AbilityOnHudModel : MonoBehaviour
             .SetEase(Ease.OutQuad).OnComplete((() =>
             {
                 if (chargedSteps >= maxChargeStepsCount) fullyCharged = true;
+                HandleChargeCompletion(onDirectionCharged);
             }));
     }
 

@@ -34,15 +34,36 @@ public class AbilityData : ScriptableObject
 	
 	[Header("Target")]
 	public AbilityTarget target;               //WHO is targeted?
-
-	
-	
-	
     
 	[Header("FX")]
 	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.Explosive,AbilityType.Dash)]
 	[SerializeField] GameObject Object_fx;
 	
+	public AbilityColorType ColorType;
+
+	/// <summary>
+	/// Creates a new AbilityData instance with a specified color type.
+	/// </summary>
+	/// <param name="isRandom">If true, selects a random color type.</param>
+	/// <param name="color">Optional: Specifies the ability color. If null, a random color will be chosen.</param>
+	/// <returns>Returns a new instance of AbilityData.</returns>
+	public AbilityData Create(AbilityData bp, bool isRandom, AbilityColorType? color = null)
+	{
+		if (bp == null) return null;
+		
+		AbilityData ability = Instantiate(bp);
+
+		if (!isRandom)
+		{
+			ability.ColorType = color ?? (AbilityColorType)Random.Range(0, 3);
+		}
+		else
+		{
+			ability.ColorType = (AbilityColorType)Random.Range(0, 3);
+		}
+
+		return ability;
+	}
 	
 	public void TriggerAbility(Transform parent, HexDirection castDirection, HexCellComponent casterStandingCell,[CanBeNull]TimeType timeType)
 	{
@@ -134,3 +155,4 @@ public enum AbilityType
 	Explosive = 10,
 	Dash = 20
 }
+

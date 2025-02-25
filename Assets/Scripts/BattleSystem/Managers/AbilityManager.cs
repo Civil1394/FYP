@@ -14,9 +14,13 @@ public static class AbilityManager
 	public static void InitBaseAbilities(AbilityDatabase abilityDatabase)
 	{
 		currentDatabase = abilityDatabase;
+		equippedAbilities.Clear();
+		
 		for (int i = 0; i < GameConstants.AbilitySlotCount; i++)
 		{
-			var ability = currentDatabase.GetAbilityList("1")[i];
+			var bp = currentDatabase.GetAbilityList("1")[i];
+			var ability = bp.Create(bp,true);
+
 			if (ability == null) return;
 			equippedAbilities.Add(ability);
 		}

@@ -30,7 +30,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
         int index = 0;
         foreach (var am in abilityModels)
         {
-            am.Init((HexDirection)index, equippedAbilities[index].PrerequisiteChargeSteps, equippedAbilities[index].Icon, ExecuteCastCallback);
+            am.Init((HexDirection)index, equippedAbilities[index].PrerequisiteChargeSteps, equippedAbilities[index].Icon,equippedAbilities[index].ColorType, ExecuteCastCallback);
             index++;
         }
         playerActor.OnPlayerMoved += UpdateDirectionStep;

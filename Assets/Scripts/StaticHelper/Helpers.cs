@@ -41,3 +41,41 @@ public static class GameConstants
 }
 
 
+public enum AbilityColorType
+{
+    Red = 0,
+    Gold = 1,
+    Cyan = 2
+}
+
+public static class AbilityColorHelper
+{
+    public static Color GetAbilityColor(AbilityColorType color)
+    {
+        switch (color)
+        {
+            case AbilityColorType.Red:
+                return HexToColor("#9B3A3A"); // Desaturated red
+
+            case AbilityColorType.Gold:
+                return HexToColor("#D4A200"); // Amber / Gold
+
+            case AbilityColorType.Cyan:
+                return HexToColor("#6A8F8F"); // Muted Cyan
+
+            default:
+                return Color.white; // Default fallback color
+        }
+    }
+    
+
+    private static Color HexToColor(string hex)
+    {
+        Color color;
+        if (ColorUtility.TryParseHtmlString(hex, out color))
+        {
+            return color;
+        }
+        return Color.white; // Fallback in case of an error
+    }
+}
