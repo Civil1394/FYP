@@ -34,7 +34,11 @@ public class HexGrid
     {
         return cells.TryGetValue(coordinates, out HexCellComponent cell) ? cell : null;
     }
-    
+    public HexCellComponent GetCellInCoordVector2(Vector2Int coordinates)
+    {
+        Vector3Int coord = new Vector3Int(coordinates.x,  0, coordinates.y);
+        return cells.TryGetValue(coord, out HexCellComponent cell) ? cell : null;
+    }
     public HexCellComponent GetNearestAvailableCellByWorldPosition(Vector3 worldPos)
     {
         Ray r = new Ray(worldPos, Vector3.down);
