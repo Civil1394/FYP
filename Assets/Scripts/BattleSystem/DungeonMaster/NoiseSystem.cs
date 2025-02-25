@@ -31,7 +31,6 @@ public static class NoiseSystem
 		//center should be calculated with the weight of the pixel intensity
 		List<Vector2Int> blobList = new List<Vector2Int>();
 		List<Vector2Int> blobCenterList = new List<Vector2Int>();
-		Debug.Log(noiseMap.Length);
 		for (int i = 0; i < noiseMap.GetLength(0); i++)
 		{
 			for (int j = 0; j < noiseMap.GetLength(1); j++)
