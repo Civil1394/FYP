@@ -30,6 +30,7 @@ public class LinearBehavior : ProjectileBehavior
     private  HexCellComponent nextCellToMove = new HexCellComponent();
     public override float UpdateBehavior()
     {
+        this.DOKill();
         nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
         
         //Check if reach obstacle or void then 

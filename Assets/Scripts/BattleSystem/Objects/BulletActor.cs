@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -25,7 +26,6 @@ public class BulletActor : TimedActor
         Speed = speed;
         LifeTime = lifeTime;
         InitialLifeTime = lifeTime;
-        IsAlive = true;
         TargetDirection = direction;
         StandingPos = standingPos;
         height_Offset = height_offset;
@@ -41,9 +41,9 @@ public class BulletActor : TimedActor
             transform.rotation = targetRotation;
             AddBehavior<LinearBehavior>();
             
-            //Launch once when init 
-            Launch();
-            OnTimerComplete += Launch;
+            //Launch when init 
+            IsAlive = true;
+            StartCoroutine(Launch());
         }
         else
         {
@@ -62,12 +62,17 @@ public class BulletActor : TimedActor
 
 
     //Activate the behaviors for the projectile
-    private void Launch() 
+    private IEnumerator Launch() 
     {
-        if (!IsAlive) return;
-        LifeTime -= behavior.UpdateBehavior();
+        while (IsAlive)
+        {
+            LifeTime -= behavior.UpdateBehavior();
+            yield return new WaitForSeconds(Speed);
+            CheckLifeTime();
+        }
         
-        CheckLifeTime();
+        
+        yield break;
     }
 
     private void CheckLifeTime()
