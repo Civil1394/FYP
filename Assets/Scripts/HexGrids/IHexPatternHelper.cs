@@ -139,9 +139,10 @@ public class CustomOffsetPattern: IHexPatternHelper
         {
             var convertedOffset = IHexPatternHelper.ConvertOffset(o,startCell.Coordinates);
             var targetCoord = startCell.Coordinates + convertedOffset;
-            var targetCell = BattleManager.Instance.hexgrid.GetCellInCoord(targetCoord)?.CellData;
-            if (targetCell != null)
-                yield return targetCell;
+
+            if (!BattleManager.Instance.hexgrid.IsValidCell(targetCoord)) continue;
+            var targetCell = BattleManager.Instance.hexgrid.GetCellInCoord(targetCoord).CellData;
+            yield return targetCell;
         }
     }
 }
@@ -151,16 +152,12 @@ public static class PresetPatterns
 {
     public static CustomOffsetPattern GetPresetPatternByType(PresetPatternType patternType , int radius)
     {
-        switch (patternType)
+        return patternType switch
         {
-            case PresetPatternType.WaiPattern:
-                return WaiPattern();
-            break;
-            case PresetPatternType.AoePattern:
-                return AoePattern(radius);
-        }
-
-        return null;
+            PresetPatternType.WaiPattern => WaiPattern(),
+            PresetPatternType.AoePattern => AoePattern(radius),
+            _ => null
+        };
     }
      public static CustomOffsetPattern WaiPattern()
     {
