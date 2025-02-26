@@ -16,13 +16,12 @@ public class PlayerActor : TimedActor
 	public IHexPatternHelper attackPattern;
 	
 	[Header("Hourglass trigger config")]
-	
-	private HourglassUIAnimator hourglassUIAnimator;
 	private PlayerAction pendingAction;
 	private PlayerMovement playerMovement;
 	private ActionLogicHandler actionLogicHandler;
 	private PendingActionVisualizer pendingActionVisualizer;
 
+	private HourglassOnHudAnimator hourglassOnHudAnimator;
 	#region events
 	public event Action<HexDirection> OnPlayerMoved;
 	public event Action<HexDirection> OnPlayerCast;
@@ -36,15 +35,18 @@ public class PlayerActor : TimedActor
 		pendingActionVisualizer = GetComponent<PendingActionVisualizer>();
 	}
 
-	public void Init(Hourglass hourglass,HexCellComponent initStandingCell)
+	public void Init(Hourglass hourglass,HexCellComponent initStandingCell, HourglassOnHudAnimator hourglassAnimator )
 	{
 		base.Init(hourglass);
 		this.standingCell = initStandingCell;
+		this.hourglassOnHudAnimator = hourglassAnimator;
 		
-		PlayerActionHudController.Instance.Initialize(AbilityManager.EquippedAbilities,
+		//Please init equipped abilities list first in the count of slots
+		EquippedAbilityManager.InitEquippedAbilities(GameConstants.AbilitySlotCount);
+		PlayerActionHudController.Instance.Initialize(EquippedAbilityManager.EquippedAbilities,
 												this,
 															actionLogicHandler,
-												(direction => ExecuteCastAction(direction)));
+												direction => ExecuteCastAction(direction));
 
 		if (TryChangeFacingDirection(FacingHexDirection))
 		{ 
@@ -53,9 +55,10 @@ public class PlayerActor : TimedActor
 		
 		if (hourglass != null)
 		{
+			hourglassOnHudAnimator.CountTime(hourglass.Sand);
 			OnTimerStart += _ => QueueMoveAction();    
+			OnTimerStart += hourglassOnHudAnimator.CountTime;
 			OnTimerComplete += ExecutePendingAction;
-			//OnTimerComplete += DrawCardsIfEmptyHand;
 		}
 	}
 
@@ -70,7 +73,6 @@ public class PlayerActor : TimedActor
 		//BattleManager.Instance.InputHandler.OnMoveClick.AddListener<HexCellComponent>(QueueMoveAction);
 		//BattleManager.Instance.InputHandler.OnCastClick.AddListener<HexCellComponent>(QueueCastAction);
 		
-		
 
 	}
 
@@ -78,8 +80,9 @@ public class PlayerActor : TimedActor
 	{
 		if (hourglass != null)
 		{
+			OnTimerStart -= _ => QueueMoveAction();    
+			OnTimerStart -= hourglassOnHudAnimator.CountTime;
 			OnTimerComplete -= ExecutePendingAction;
-			//OnTimerComplete -= DrawCardsIfEmptyHand;
 		}
 		
 	}
@@ -168,10 +171,18 @@ public class PlayerActor : TimedActor
 
 	private void ExecuteCastAction(HexDirection direction)
 	{
-		var a = AbilityManager.GetEquippedAbility((int)direction);
+		var a = EquippedAbilityManager.GetEquippedAbilityData((int)direction);
 
 		actionLogicHandler.ExecuteAbility(a,direction);
+		EquippedAbilityManager.RemoveAbilityInDirection(direction);
+		
+		//refill the empty slot in the equippedAbilities List
+		while (EquippedAbilityManager.CheckAnyEmptySlotInEquippedAbilities())
+		{
+			PlayerActionHudController.Instance.TryAddAbility(EquippedAbilityManager.CreateAbilityInstance());
+		}
 	}
+	
 	#endregion
 
 	public bool TryChangeFacingDirection(HexDirection tryDirection)
@@ -185,30 +196,7 @@ public class PlayerActor : TimedActor
 		QueueMoveAction();
 		return true;
 	}
-	// private void DrawCardsIfEmptyHand()
-	// {
-	// 	
-	// 	if (CardsManager.Instance.Hand.Count == 0)
-	// 	{
-	// 		for (int i = 0; i < BattleManager.Instance.handCardsSize; i++)
-	// 		{
-	// 			Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase,"1", 
-	// 				abilityDatabase.GetRandomAbilityFromList("1").id);
-	// 			CardsManager.Instance.AddCardToDeck(testCard);
-	// 			var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
-	// 			if (drawnCard != null)
-	// 			{
-	// 				BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: {drawnCard.Name}");
-	// 				Debug.Log($"Drew card: {drawnCard.Name}");
-	// 			}
-	// 			else
-	// 			{
-	// 				Debug.Log("No cards left in the deck");
-	// 			}
-	// 		}
-	// 		
-	// 	}
-	// }
+
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Projectile"))

@@ -20,7 +20,7 @@ public class HourglassFactory : Singleton<HourglassFactory>
 
 		for (int i = 0; i < num; i++)
 		{
-			int actualSand = isRandom ? Random.Range(1, 1) : sand.Value;
+			int actualSand = isRandom ? Random.Range(3, 3) : sand.Value;
 			TimeType actualTimeType = isRandom 
 				? (TimeType)Random.Range(0, timeTypeCount-1) 
 				: timeType.Value;

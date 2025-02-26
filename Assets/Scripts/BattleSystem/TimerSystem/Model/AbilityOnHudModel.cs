@@ -17,7 +17,18 @@ public class AbilityOnHudModel : MonoBehaviour
     private AbilityColorType abilityColor;
     private bool fullyCharged = false;
 
+    // This callback is provided by the HUD controller.
+    // When the ability is fully charged, the controller will be notified (with the current direction).
     private Action<HexDirection> onDirectionCharged;
+    
+    /// <summary>
+    /// Initializes the HUD model for a specific direction.
+    /// </summary>
+    /// <param name="hexDirection">The direction (or slot index) of this ability.</param>
+    /// <param name="requireSteps">How many steps are required to fully charge this ability.</param>
+    /// <param name="iconSprite">The icon representing the ability.</param>
+    /// <param name="colorType">The color type of the ability.</param>
+    /// <param name="OnFullyCharged">Callback to notify when fully charged.</param>
     public void Init(HexDirection hexDirection,int requireSteps, Sprite iconSprite,AbilityColorType colorType, Action<HexDirection> OnFullyCharged)
     {
         this.direction = hexDirection;
@@ -25,13 +36,17 @@ public class AbilityOnHudModel : MonoBehaviour
         this.iconFill.sprite = iconSprite;
         this.iconBg.sprite = iconSprite;
 
-        this.iconFill.color = AbilityColorHelper.GetAbilityColor(colorType);
-        //this.iconButton.onClick.RemoveAllListeners();
-        //this.iconButton.onClick.AddListener(() => HandleChargeCompletion(OnFullyCharged));
+        Color abilityColor = AbilityColorHelper.GetAbilityColor(colorType);
+        this.iconFill.color = abilityColor;
+        
+        abilityColor.a = 0.3f;
+        this.iconBg.color = abilityColor;
+        
         onDirectionCharged = OnFullyCharged;
         Reset();
     }
 
+    
     private void HandleChargeCompletion(Action<HexDirection> fullyChargedCallback)
     {
         if (!fullyCharged) return;
@@ -39,6 +54,10 @@ public class AbilityOnHudModel : MonoBehaviour
         Reset();
     }
 
+    /// <summary>
+    /// Called externally to add charge steps. When the accumulated steps reach the required count, the ability is considered fully charged.
+    /// </summary>
+    /// <param name="addOnSteps">The number of steps to add.</param>
     public void NotifyUpdate(int addOnSteps)
     {
         if (fullyCharged) return;
@@ -55,6 +74,9 @@ public class AbilityOnHudModel : MonoBehaviour
             }));
     }
 
+    /// <summary>
+    /// Resets the ability charge.
+    /// </summary>
     public void Reset()
     {
         chargedSteps = 0;

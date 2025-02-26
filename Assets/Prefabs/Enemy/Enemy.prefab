@@ -444,7 +444,7 @@ MonoBehaviour:
   startTimerOnAwake: 1
   actorHourglassData: {fileID: 488613096571010833}
   objectCollider: {fileID: 0}
-  hourglassUIProduct: {fileID: 2952380634051371778}
+  hourglassAnimator: {fileID: 5979856810094154544}
 --- !u!136 &5997077565646246563
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -724,16 +724,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2952380634051371778 stripped
+--- !u!114 &5979856810094154544 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6370868573842649023, guid: 332c13a7f60b80643bd003a13cdbba9a,
+  m_CorrespondingSourceObject: {fileID: 2480799137496571789, guid: 332c13a7f60b80643bd003a13cdbba9a,
     type: 3}
   m_PrefabInstance: {fileID: 8111310299770440893}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 170b4a47196e07f4aa76699f2a4d68af, type: 3}
+  m_Script: {fileID: 11500000, guid: df61b49cdfe205e47996ea7e21d2131f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &8940300562761682641 stripped

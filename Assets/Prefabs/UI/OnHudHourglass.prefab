@@ -11,11 +11,10 @@ GameObject:
   - component: {fileID: 4559638368190771883}
   - component: {fileID: 57446701380778968}
   - component: {fileID: 8225493856317010449}
-  - component: {fileID: 7759055117692559224}
-  - component: {fileID: 3743733228105792412}
   - component: {fileID: 1151038330957113887}
+  - component: {fileID: 3573009704483090253}
   m_Layer: 5
-  m_Name: UIHourglass
+  m_Name: OnHudHourglass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +27,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 235166746843000061}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.50000006, y: 0.50000006, z: 1}
   m_ConstrainProportionsScale: 0
@@ -79,44 +78,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7759055117692559224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 235166746843000061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 170b4a47196e07f4aa76699f2a4d68af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hourglass:
-    Sand: 0
-    TimeType: 0
-    Id: 
-    MinThreshold: 0
-    MaxThreshold: 0
-    IsOccupied: 0
-  MinThreshold: 0
-  MaxThreshold: 5
-  ActionCooldown: 2
-  startTimerOnAwake: 1
-  actorHourglassData: {fileID: 0}
---- !u!114 &3743733228105792412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 235166746843000061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19e58bfbed52f044974e65f8673cc8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hourGlass: {fileID: 4559638368190771883}
-  sand: {fileID: 6612221136346839669}
 --- !u!114 &1151038330957113887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,6 +91,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &3573009704483090253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235166746843000061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0c571e22b007e4fb30f8b8d4c7c278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hourGlass: {fileID: 4559638368190771883}
+  sand: {fileID: 6612221136346839669}
 --- !u!1 &7986195963046275965
 GameObject:
   m_ObjectHideFlags: 0

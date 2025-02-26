@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 2
   abilityType: 0
   projectileParam:
-    Damage: 5
+    Damage: 2
     FlowSpeed: 2
     LifeTime: 10
   aoeParam:
@@ -29,3 +29,4 @@ MonoBehaviour:
   CastType: 1
   target: 0
   Object_fx: {fileID: 121798, guid: a1a393c51c7f41b4e8944f73a81f7e31, type: 3}
+  ColorType: 0

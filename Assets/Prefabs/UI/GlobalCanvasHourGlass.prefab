@@ -115,6 +115,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3743733228105792412, guid: 870b4d73804af0045847c1fa9b47def3, type: 3}
+    - {fileID: 3573009704483090253, guid: 870b4d73804af0045847c1fa9b47def3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -123,6 +124,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2480799137496571789}
   m_SourcePrefab: {fileID: 100100000, guid: 870b4d73804af0045847c1fa9b47def3, type: 3}
+--- !u!224 &901698780807185004 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4559638368190771883, guid: 870b4d73804af0045847c1fa9b47def3,
+    type: 3}
+  m_PrefabInstance: {fileID: 3730225910044618951}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3496788213973212218 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 235166746843000061, guid: 870b4d73804af0045847c1fa9b47def3,
@@ -139,5 +146,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df61b49cdfe205e47996ea7e21d2131f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hourGlass: {fileID: 901698780807185004}
+  sand: {fileID: 7496022384833628850}
+--- !u!114 &7496022384833628850 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6612221136346839669, guid: 870b4d73804af0045847c1fa9b47def3,
+    type: 3}
+  m_PrefabInstance: {fileID: 3730225910044618951}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

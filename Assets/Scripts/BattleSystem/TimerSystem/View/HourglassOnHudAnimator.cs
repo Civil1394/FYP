@@ -1,10 +1,17 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Unity.Mathematics;
 
-public class HourglassUIAnimator : HourglassAnimatorBase
+public class HourglassOnHudAnimator : HourglassAnimatorBase
 {
+    private RectTransform rectTransform;
+    private void Start()
+    {
+        rectTransform = GetComponent<RectTransform>();
+    }
+
     protected override Tween RotateHourGlass()
     {
         return hourGlass.DORotate(new Vector3(0, 0, 180f), 0.5f).SetEase(Ease.OutBack);
@@ -12,7 +19,8 @@ public class HourglassUIAnimator : HourglassAnimatorBase
 
     protected override Tween AnimateSand(float duration)
     {
-        const float sandDistance = 128f;
+        
+        float sandDistance = rectTransform.rect.height;
         return sand.rectTransform.DOAnchorPosY(sandDistance, duration)
             .SetEase(Ease.Linear)
             .OnUpdate(() =>

@@ -10,20 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
-  m_Name: TestAoe
+  m_Name: aaaaa
   m_EditorClassIdentifier: 
-  id: 
+  id: 1
   abilityType: 0
   projectileParam:
-    Damage: 0
-    FlowSpeed: 0
-    LifeTime: 0
+    Damage: 1
+    FlowSpeed: 0.5
+    LifeTime: 10
   aoeParam:
-    radius: 0
-    damage: 0
-    force: 0
-  Title: 
+    patternType: 0
+    Radius: 0
+    Damage: 0
+  PrerequisiteChargeSteps: 1
+  Title: aaaaa
   Desc: 
-  CastType: 0
+  Icon: {fileID: 21300000, guid: 3f50c208bc863414a841d3f257eb600f, type: 3}
+  CastType: 1
   target: 0
-  Object_fx: {fileID: 0}
+  Object_fx: {fileID: 193226, guid: cd01c6abe812d494684515011e1321b9, type: 3}
+  ColorType: 0

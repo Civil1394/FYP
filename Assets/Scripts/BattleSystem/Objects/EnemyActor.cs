@@ -7,14 +7,20 @@ using Random = UnityEngine.Random;
 public class EnemyActor : TimedActor 
 {
 	[SerializeField] CapsuleCollider objectCollider;
-	[SerializeField] private HourglassUIProduct hourglassUIProduct;
+	[SerializeField] private HourglassGlobalCanvasAnimator hourglassAnimator;
 	private AIBrain aiBrain;
 
 
 	public override void Init(Hourglass hourglass)
 	{
 		base.Init(hourglass);
-		hourglassUIProduct.Init(hourglass);
+
+		if (hourglass == null)
+		{
+			hourglassAnimator.CountTime(hourglass.Sand);
+			OnTimerStart += hourglassAnimator.CountTime;
+		}
+		
 	}
 
 	protected override void Start()
@@ -24,6 +30,12 @@ public class EnemyActor : TimedActor
 
 		base.Start();
 	}
+
+	private void OnDestroy()
+	{
+		OnTimerStart -= hourglassAnimator.CountTime;
+	}
+
 	protected override void Update()
 	{
 		base.Update();
