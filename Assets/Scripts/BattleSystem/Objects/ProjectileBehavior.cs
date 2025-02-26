@@ -31,19 +31,23 @@ public class LinearBehavior : ProjectileBehavior
     public override float UpdateBehavior()
     {
         this.DOKill();
-        nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
-        
-        //Check if reach obstacle or void then 
-        if (!nextCellToMove || nextCellToMove.CellData.CellType == CellType.Invalid)
+        for (int i = 0; i < lifeTime; i++)
         {
-            return lifeTime;
+           
+            if (!nextCellToMove || nextCellToMove.CellData.CellType == CellType.Invalid)
+            {
+                break;
+            }
+            nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
+            standingCell = nextCellToMove;
         }
         
-       Tween currentMovement = this.transform.DOMove(nextCellToMove.transform.position + height_offset, speed)
+        
+        Tween currentMovement = this.transform.DOMove(nextCellToMove.transform.position + height_offset, speed)
             .SetEase(Ease.Linear)
             .OnComplete(()=>
-            {
-                standingCell = nextCellToMove;
+            { 
+                BulletActor.SelfDestroy();
             });
         return 1;
     }

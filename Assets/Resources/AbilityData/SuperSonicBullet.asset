@@ -16,7 +16,7 @@ MonoBehaviour:
   abilityType: 0
   projectileParam:
     Damage: 0.5
-    FlowSpeed: 0.05
+    FlowSpeed: 1
     LifeTime: 10
   aoeParam:
     patternType: 0

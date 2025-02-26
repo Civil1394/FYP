@@ -64,15 +64,10 @@ public class BulletActor : TimedActor
     //Activate the behaviors for the projectile
     private IEnumerator Launch() 
     {
-        while (IsAlive)
-        {
-            LifeTime -= behavior.UpdateBehavior();
-            yield return new WaitForSeconds(Speed);
-            CheckLifeTime();
-        }
-        
-        
-        yield break;
+
+      behavior.UpdateBehavior();
+      yield return new WaitForSeconds(Speed);
+      
     }
 
     private void CheckLifeTime()
