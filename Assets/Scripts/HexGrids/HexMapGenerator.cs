@@ -73,9 +73,11 @@ public class HexMapGenerator : MonoBehaviour
             } while (xStartPos < rightBotLocalLoc.x - innerRadius);
             
             c += 1;
-            zStartPos = (startLocalLoc.z - c * (innerRadius + outerRadius/2)) - c * zOffset ;
+            zStartPos = (startLocalLoc.z - c * (innerRadius + outerRadius / 2)) - c * zOffset;
         } while (zStartPos > rightBotLocalLoc.z );
-        
+
+        BattleManager.Instance.hexgrid.Height = c;
+        BattleManager.Instance.hexgrid.Width = r;
     }
     
     Vector3 GetLeftTopCorner(Mesh mesh, Transform meshTransform)

@@ -7,8 +7,8 @@ public class HexGrid
 
     private Dictionary<Vector3Int, HexCellComponent> cells = new Dictionary<Vector3Int, HexCellComponent>();
     public float CellDistance;
-    public int Width { get; private set; }
-    public int Height { get; private set; }
+    public int Width;
+    public int Height;
     public Dictionary<HexCellComponent,int> PlayerSixDirCellsSet = new Dictionary<HexCellComponent, int>();
     public HexGrid()
     {
