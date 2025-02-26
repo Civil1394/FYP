@@ -28,6 +28,16 @@ public class HexGrid
         return cells.ContainsKey(coordinates);
     }
 
+    public bool IsValidCell(Vector3Int coordinates)
+    {
+        return cells.ContainsKey(coordinates) && GetCellInCoord(coordinates).CellData.CellType != CellType.Invalid;
+    }
+    public bool IsValidCell(Vector2Int coord)
+    {
+        Vector3Int coordinates = new Vector3Int(coord.x, 0, coord.y);
+        return cells.ContainsKey(coordinates) && GetCellInCoord(coordinates).CellData.CellType != CellType.Invalid;
+    }
+
     #region Coordiantes Utilities
 
     public HexCellComponent GetCellInCoord(Vector3Int coordinates)
