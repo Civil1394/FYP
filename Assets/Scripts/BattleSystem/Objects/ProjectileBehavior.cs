@@ -27,23 +27,27 @@ public abstract class ProjectileBehavior : MonoBehaviour
 
 public class LinearBehavior : ProjectileBehavior
 {
-    private  HexCellComponent nextCellToMove = new HexCellComponent();
     public override float UpdateBehavior()
     {
+        HexCellComponent nextCellToMove = new HexCellComponent();
+        Vector3 startPos = standingCell.transform.position;
         this.DOKill();
         for (int i = 0; i < lifeTime; i++)
         {
+            nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
            
-            if (!nextCellToMove || nextCellToMove.CellData.CellType == CellType.Invalid)
+            if (nextCellToMove == null || nextCellToMove.CellData.CellType == CellType.Invalid)
             {
                 break;
             }
-            nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
+            
             standingCell = nextCellToMove;
         }
+        Vector3 endPos   = nextCellToMove.transform.position + height_offset;
+        float distance = Vector3.Distance(startPos, endPos);
+        float travelTime = distance / speed;
         
-        
-        Tween currentMovement = this.transform.DOMove(nextCellToMove.transform.position + height_offset, speed)
+        Tween currentMovement = this.transform.DOMove(endPos, travelTime)
             .SetEase(Ease.Linear)
             .OnComplete(()=>
             { 
@@ -51,8 +55,5 @@ public class LinearBehavior : ProjectileBehavior
             });
         return 1;
     }
-
-    private void OnDestroy()
-    {
-    }
+    
 }

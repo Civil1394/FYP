@@ -35,10 +35,9 @@ public class BulletActor : TimedActor
         HexCellComponent nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
         if (nextCellToMove != null)
         {
-            Vector3 faceDirection = nextCellToMove.transform.position;
-            // Set initial rotation
-            targetRotation = Quaternion.LookRotation(faceDirection) * Quaternion.Euler(0, -90, 0);
-            transform.rotation = targetRotation;
+            Vector3 targetPosition = nextCellToMove.transform.position;
+            targetPosition.y = transform.position.y; // Keep current y level
+            transform.LookAt(targetPosition);
             AddBehavior<LinearBehavior>();
             
             //Launch when init 

@@ -89,11 +89,11 @@ public class AbilityData : ScriptableObject
 		{
 			HexCellComponent spawnCell = BattleManager.Instance.hexgrid.GetCellByDirection(casterStandingCell, castingDirection);
 			Vector3 height_offset = new Vector3(0, 3, 0);
-			GameObject bullet = Instantiate(Object_fx, spawnCell.transform.position + height_offset, Quaternion.LookRotation(spawnCell.transform.position));
+			GameObject bullet = Instantiate(Object_fx, spawnCell.transform.position + height_offset, Quaternion.identity);
 			var bulletComponent = bullet.AddComponent<BulletActor>();
 			bulletComponent.Initialize(
 				projectileParam.Damage,
-				projectileParam.FlowSpeed,
+				projectileParam.TravelSpeed,
 				spawnCell.CellData.Coordinates,
 				castingDirection,
 				projectileParam.LifeTime,

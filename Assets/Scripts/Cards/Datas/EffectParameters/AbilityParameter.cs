@@ -1,4 +1,5 @@
 
+using UnityEngine;
 using UnityEngine.Serialization;
 
 public abstract class AbilityParameter 
@@ -22,6 +23,7 @@ public class AoeParameter : AbilityParameter
 public class ProjectileParameter : AbilityParameter
 {
 	public float Damage;
-	public float FlowSpeed;
+	[Tooltip("Higher = Faster")]
+	public float TravelSpeed;
 	public float LifeTime;
 }
