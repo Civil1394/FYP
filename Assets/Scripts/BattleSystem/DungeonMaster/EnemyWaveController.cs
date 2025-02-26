@@ -24,9 +24,11 @@ public class EnemyWaveController : MonoBehaviour
 			{
 				int randIndex = Random.Range(0, enemyMap.Count);
 				Vector2Int pos = enemyMap[randIndex];
+				Vector2Int randVector = new Vector2Int((int)Random.Range(-10f, 10f), (int)Random.Range(-10f, 10f));
+				pos+=randVector;
 				if (!BattleManager.Instance.hexgrid.IsValidCell(pos)) continue;
-				
-				//if(Vector2Int.Distance())
+				EnemyManager.Instance.InstanciateEnemy(pos);
+				break;
 			}
 			cnt--;
 			yield return waveDuration/enemyCount;

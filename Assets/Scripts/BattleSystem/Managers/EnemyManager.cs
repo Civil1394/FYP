@@ -20,6 +20,27 @@ public class EnemyManager : Singleton<EnemyManager>
 		OnMove += EnemyCatcher;
 	}
 
+	public void InstanciateEnemy(Vector2Int coord)
+	{
+		HexCellComponent cell = BattleManager.Instance.hexgrid.GetCellInCoord(new Vector3Int(coord.x, 0, coord.y));
+		if (cell.CellData.CellType == CellType.Empty)
+		{
+			AIBrain newInstance = Instantiate(enemyPrefab, cell.transform.position, quaternion.identity, enemyGroup);
+			ReserveCell(newInstance, cell.CellData);
+			
+			var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
+			newInstance.gameObject.GetComponent<EnemyActor>().Init(hg);
+				
+			newInstance.currentCoord = cell.CellData.Coordinates;
+			newInstance.currentCell = cell.CellData;
+			enemiesDict.Add(newInstance,newInstance.currentCoord);
+			cell.CellData.SetCell(newInstance.gameObject,CellType.Enemy);
+		}
+		else
+		{
+			Debug.LogError("Not valid cell to spawn!");
+		}
+	}
 	public void InitEnemies()
 	{
 		foreach (var coord in spawnCoords)
@@ -42,7 +63,6 @@ public class EnemyManager : Singleton<EnemyManager>
 				continue;
 			}
 		}
-		
 	}
 
     public bool ReserveCell(AIBrain enemy, HexCell cell)
