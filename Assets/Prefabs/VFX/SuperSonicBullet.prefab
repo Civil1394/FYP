@@ -9555,7 +9555,7 @@ GameObject:
   - component: {fileID: 7043229531973975582}
   - component: {fileID: 1373457413573602848}
   m_Layer: 0
-  m_Name: BulletMeshSmallFire
+  m_Name: SuperSonicBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

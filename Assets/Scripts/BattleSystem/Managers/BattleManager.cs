@@ -29,14 +29,7 @@ public class BattleManager : Singleton<BattleManager>
 	[SerializeField] private AbilityDatabase abilityDatabase;
 	#region Manager References
 	[Header("Managers Related Ref")]
-	//TurnManager
-	[SerializeField] TurnManager _turnManager;
-	public TurnManager TurnManager
-	{
-		get => _turnManager;
-		private set => _turnManager = value;
-		
-	}
+
 	//InputHandler
 	[SerializeField] private InputHandler _inputHandler;
 	[SerializeField] private MultipleCharacterControlSystem _multipleCharacterControlSystem;
@@ -50,14 +43,11 @@ public class BattleManager : Singleton<BattleManager>
 		get => _multipleCharacterControlSystem;
 		private set => _multipleCharacterControlSystem = value;
 	}
-
-	//ChainManager
-	public ChainManager chainManager { get; private set; }
+	
 	[SerializeField] private bool actionExecuted = false;
 	protected override void Awake()
 	{
 		base.Awake();
-		if(_turnManager == null) _turnManager = new TurnManager();
 	}
 	#endregion
 	private void Start()
@@ -156,9 +146,6 @@ public class BattleManager : Singleton<BattleManager>
 		//Update Valid cells set of six direction from player
 		hexgrid.UpdatePlayerSixDirCellsSet();
 		
-		TurnManager.ExecuteAction(TurnActionType.Move,
-			$"Moved from {previousStandingCell.CellData.Coordinates} to {newStandingCell.CellData.Coordinates}");
-
 	}
 
 	private void ClearValidMoveCells(HexCellComponent oldStandingCell)
@@ -182,11 +169,7 @@ public class BattleManager : Singleton<BattleManager>
 		}
 	}
 	
-	private void HandleActionExecuted(TurnAction action)
-	{
-		Debug.Log($"Action executed: {action.ActionType} - {action.Description}");
-		actionExecuted = true;
-	}
+
 }
 
 

@@ -9,6 +9,8 @@ public class HexCellMeshGenerator : MonoBehaviour
 
     [SerializeField] private float outlineWidth = 0.05f;
     [SerializeField] private Color outlineColor = Color.black;
+    [SerializeField] private Material outlineMaterial; // Reference to URP Unlit material
+
     private void Awake()
     {
         Mesh mesh = GenerateHexMesh();
@@ -38,9 +40,9 @@ public class HexCellMeshGenerator : MonoBehaviour
         lr.SetPositions(outerVertices);
 
         // Set appearance
-        lr.material = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
-        lr.material.SetFloat("_Surface", 1);
-        lr.material.color = outlineColor;
+        lr.material = new Material(outlineMaterial.shader);
+        lr.material.SetFloat("_Surface", 1); // Optional: for transparency
+        lr.material.SetColor("_BaseColor", outlineColor);
         lr.startWidth = outlineWidth;
         lr.endWidth = outlineWidth;
     }
@@ -103,7 +105,6 @@ public class HexCellMeshGenerator : MonoBehaviour
     }
     void OnDrawGizmosSelected()
     {
-        // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(transform.position, INNER_RADIUS*collideOffset);
     }

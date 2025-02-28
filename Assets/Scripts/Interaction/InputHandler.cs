@@ -24,29 +24,10 @@ public class InputHandler : MonoBehaviour
 		ResetOrbitalCameraAngle();
 		GetPointerEnterExist();
 		GetPointerDown();
-		//RedrawCardsController();
-		SelectCardController();
 		SelectPlayer();
 	}
 	
-	private void SelectCardController()
-	{
-		if (Input.GetKeyDown(KeyCode.Q))
-		{
-			if(CardsManager.Instance.SelectCard(0))
-				SetInputState(InputState.CastingAbility);
-			else
-				SetInputState(InputState.Move);
-		}
-		else if (Input.GetKeyDown(KeyCode.E))
-		{
-			if(CardsManager.Instance.SelectCard(1))
-				SetInputState(InputState.CastingAbility);
-			else
-				SetInputState(InputState.Move);
-		}
-		
-	}
+
 
 	private void SelectPlayer()
 	{

@@ -19,6 +19,7 @@ public class HourglassOnHudAnimator : HourglassAnimatorBase
 
     protected override Tween AnimateSand(float duration)
     {
+        if (sand == null) Debug.LogWarning("Hourglass.AnimateSand: sand == null");
         
         float sandDistance = rectTransform.rect.height;
         return sand.rectTransform.DOAnchorPosY(sandDistance, duration)

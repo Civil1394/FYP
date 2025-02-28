@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using System.Collections;
-using UnityEditor.UI;
 using Random = UnityEngine.Random;
 
 public class EnemyActor : TimedActor 
@@ -17,7 +16,6 @@ public class EnemyActor : TimedActor
 
 		if (hourglass == null)
 		{
-			hourglassAnimator.CountTime(hourglass.Sand);
 			OnTimerStart += hourglassAnimator.CountTime;
 		}
 		

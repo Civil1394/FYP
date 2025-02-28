@@ -13,23 +13,15 @@ public class HourglassGlobalCanvasAnimator : HourglassAnimatorBase
 
     protected override Tween RotateHourGlass()
     {
-        Vector3 targetRotation = initialHourGlassRotation + new Vector3(0, 0, 180f);
-        return hourGlass.DOLocalRotate(targetRotation, 0.5f).SetEase(Ease.OutBack);
+        // Vector3 targetRotation = initialHourGlassRotation + new Vector3(0, 0, 180f);
+        // return hourGlass.DOLocalRotate(targetRotation, 0.5f).SetEase(Ease.OutBack);
+        return null;
     }
 
     protected override Tween AnimateSand(float duration)
     {
-        float sandDistance = 3f;
-        Vector3 startPos = initialSandPosition;
-        Vector3 endPos = startPos + Vector3.up * sandDistance;
-
-        return sand.rectTransform.DOLocalMove(endPos, duration)
-            .SetEase(Ease.Linear)
-            .OnUpdate(() =>
-            {
-                float progress = Vector3.Distance(sand.rectTransform.localPosition, startPos) / sandDistance;
-                UpdateSandColor(1 - progress);
-            });
+        
+        return null;
     }
 
     protected override void ResetState()

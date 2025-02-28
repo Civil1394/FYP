@@ -76,7 +76,8 @@ MonoBehaviour:
   flatTopped: 1
   collideOffset: 1.5
   outlineWidth: 0.05
-  outlineColor: {r: 0, g: 0, b: 0, a: 0.12156863}
+  outlineColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineMaterial: {fileID: 2100000, guid: b7492a68c9b5ae048813f1e19df3c148, type: 2}
 --- !u!23 &5139704593720545627
 MeshRenderer:
   m_ObjectHideFlags: 0

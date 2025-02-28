@@ -59,8 +59,6 @@ public class ActionLogicHandler : MonoBehaviour
 				break;
 		}
 		
-
-		BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.PlayCard, $"castedability:{ability.name}");
 	}
 	private void HandleDirectionalCast(AbilityData abilityData,HexCellComponent directionCell,TimeType timeType)
 	{

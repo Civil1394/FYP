@@ -4787,7 +4787,7 @@ GameObject:
   - component: {fileID: 5486294863745340517}
   - component: {fileID: 7991818102707126714}
   m_Layer: 0
-  m_Name: FireballMissilePink_Modified
+  m_Name: Canonball
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

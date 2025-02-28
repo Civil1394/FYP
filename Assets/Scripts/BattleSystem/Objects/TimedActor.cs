@@ -1,7 +1,6 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using UnityEditor.UI;
 using TMPro;
 public abstract class TimedActor : MonoBehaviour
 {
@@ -12,7 +11,7 @@ public abstract class TimedActor : MonoBehaviour
     [SerializeField] private bool startTimerOnAwake = true;
     
     private float currentCooldown;
-    private bool isTimerActive = false;
+    protected bool isTimerActive = false;
 
     [SerializeField] private TMP_Text actorHourglassData;
     #region Events

@@ -55,11 +55,15 @@ public class PlayerActor : TimedActor
 		
 		if (hourglass != null)
 		{
-			hourglassOnHudAnimator.CountTime(hourglass.Sand);
 			OnTimerStart += _ => QueueMoveAction();    
-			OnTimerStart += hourglassOnHudAnimator.CountTime;
 			OnTimerComplete += ExecutePendingAction;
 		}
+
+		if (hourglassOnHudAnimator != null)
+		{
+			OnTimerStart += hourglassOnHudAnimator.CountTime;
+		}
+		
 	}
 
 	protected override void Start()
@@ -101,14 +105,7 @@ public class PlayerActor : TimedActor
 		ShowPendingActionPreview();
 	}
 	
-	public void QueueCastAction(HexCellComponent targetCell)
-	{
-		Card cardToBeCast = CardsManager.Instance.GetSelectedCard();
-		if(actionLogicHandler.CastIsLegit(cardToBeCast.AbilityData,targetCell) == false) return;
-		// Replace current pending action
-		pendingAction = new PlayerAction(PlayerActionType.Cast, targetCell,cardToBeCast);
-		ShowPendingActionPreview();
-	}
+
 	private void ShowPendingActionPreview()
 	{
 		pendingActionVisualizer.ShowPendingActionPointer(pendingAction.Type , pendingAction.TargetCell );
