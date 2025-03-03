@@ -27,8 +27,8 @@ public class ChestSpawner : MonoBehaviour
 	public Dictionary<Vector2Int, ChestType> GetChestHeatMap(int width, int height)
 	{
 		Dictionary<Vector2Int, ChestType> chestMap = new Dictionary<Vector2Int, ChestType>();
-		float[,] rawChestMap = NoiseSystem.GenerateNoiseMap(width, height, 0.5f);
-		List<Vector2Int> rawChestLocations = NoiseSystem.BlobDetection(rawChestMap, 0.5f, 10);
+		float[,] rawChestMap = NoiseSystem.GenerateNoiseMap(width, height, 0.1f);
+		List<Vector2Int> rawChestLocations = NoiseSystem.GetCenterPosition(rawChestMap, 10, 5);
 		foreach (Vector2Int pos in rawChestLocations)
 		{
 			int randValue = (int)Mathf.Floor(Random.value * 100);

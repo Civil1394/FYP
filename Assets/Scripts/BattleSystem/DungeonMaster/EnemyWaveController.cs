@@ -10,7 +10,7 @@ public class EnemyWaveController : MonoBehaviour
 		int h = BattleManager.Instance.hexgrid.Height;
 		int w = BattleManager.Instance.hexgrid.Width;
 		float[,] rawEnemySpawnMap = NoiseSystem.GenerateNoiseMap(w, h, 0.5f);
-		List<Vector2Int> enemySpawnMap = NoiseSystem.BlobDetection(rawEnemySpawnMap, 0.5f, 10);
+		List<Vector2Int> enemySpawnMap = NoiseSystem.GetCenterPosition(rawEnemySpawnMap, 10, 3);
 		return enemySpawnMap;
 	}
 	IEnumerator EnemyWave(int enemyCount, float waveDuration)
