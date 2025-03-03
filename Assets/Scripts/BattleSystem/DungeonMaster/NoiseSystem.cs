@@ -63,42 +63,5 @@ public static class NoiseSystem
 		}
 		return pointList;
 	}
-	// public static List<Vector2Int> BlobDetection(float[,] noiseMap, float valueThreshold, int distThreshold)
-	// {
-	// 	//implement the blob detection algorithm
-	// 	//return the center of each blob
-	// 	//center should be calculated with the weight of the pixel intensity
-	// 	List<Blob> blobList = new List<Blob>();
-	// 	List<Blob> blobCenterList = new List<Blob>();
-	// 	for (int i = 0; i < noiseMap.GetLength(0); i++)
-	// 	{
-	// 		for (int j = 0; j < noiseMap.GetLength(1); j++)
-	// 		{
-	// 			Debug.Log(noiseMap[i, j]);
-	// 			if (noiseMap[i, j] > valueThreshold)
-	// 			{
-	// 				blobList.Add(new Blob(new Vector2Int(i, j), noiseMap[i, j]));
-	// 			}
-	// 		}
-	// 	}
-	// 	blobCenterList.Add(blobList[0]);
-	// 	foreach (var b in blobList)
-	// 	{
-	// 		foreach (var bc in blobCenterList)
-	// 		{
-	// 			var tempDis = Vector2Int.Distance(b.position, bc.position);
-	// 			if (tempDis > distThreshold)
-	// 			{
-	// 				blobCenterList.Add(b);
-	// 			}
-	// 			else
-	// 			{
-	// 				bc.position = (b.position*b.intensity+bc.position*bc.intensity)/bc.intensity+b.intensity;;
-	// 				bc.intensity+=distThreshold;
-	// 			}
-	// 		}
-	// 	}
-	// 	Debug.Log(blobCenterList.Count);
-	// 	return blobCenterList;
-	// }
+
 }
