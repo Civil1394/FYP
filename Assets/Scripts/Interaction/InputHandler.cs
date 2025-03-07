@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
-using System.Collections;
-using UnityEngine.EventSystems;
 using Cinemachine;
+using DG.Tweening;
 public class InputHandler : MonoBehaviour
 {
 	private GameObject lastPointedObject;
@@ -20,41 +18,40 @@ public class InputHandler : MonoBehaviour
 	
 	private void Update()
 	{
-		OnRightMosueButtonDrag();
+		ScrollToRotateOrbitalCamera();
 		ResetOrbitalCameraAngle();
 		GetPointerEnterExist();
 		GetPointerDown();
-		SelectPlayer();
 	}
 	
 
 
-	private void SelectPlayer()
-	{
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(0);
-			return;
-		}
-
-		if (Input.GetKeyDown(KeyCode.Alpha2))
-		{
-			BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(1);
-			return;
-		}
-
-		if (Input.GetKeyDown(KeyCode.Alpha3))
-		{
-			BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(2);
-			return;
-		}
-
-		if (Input.GetKeyDown(KeyCode.Alpha4))
-		{
-			BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(3);
-			return;
-		}
-	}
+	// private void SelectPlayer()
+	// {
+	// 	if (Input.GetKeyDown(KeyCode.Alpha1))
+	// 	{
+	// 		BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(0);
+	// 		return;
+	// 	}
+	//
+	// 	if (Input.GetKeyDown(KeyCode.Alpha2))
+	// 	{
+	// 		BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(1);
+	// 		return;
+	// 	}
+	//
+	// 	if (Input.GetKeyDown(KeyCode.Alpha3))
+	// 	{
+	// 		BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(2);
+	// 		return;
+	// 	}
+	//
+	// 	if (Input.GetKeyDown(KeyCode.Alpha4))
+	// 	{
+	// 		BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(3);
+	// 		return;
+	// 	}
+	// }
 	// private void RedrawCardsController()
 	// {
 	// 	AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
@@ -157,6 +154,37 @@ public class InputHandler : MonoBehaviour
 			orbitalTransposer.m_XAxis.m_InputAxisName = "";
 			orbitalTransposer.m_XAxis.m_InputAxisValue = 0;
 		}
+	}
+
+	void ScrollToRotateOrbitalCamera()
+	{
+		PlayerActionHudController.Instance.UpdateRotation(orbitalTransposer.m_XAxis.Value);
+		//Controller of allowing the orbitalTransposer rotate head movement towards player object by dragging the mouse in x axis
+		if (Input.GetAxisRaw("Mouse ScrollWheel")>0&& orbitalTransposer != null)
+		{
+			DOTween.To(
+				() => orbitalTransposer.m_XAxis.Value, 
+				x => orbitalTransposer.m_XAxis.Value = x, 
+				orbitalTransposer.m_XAxis.Value + 60, 
+				0.2f);
+		}
+		else if(Input.GetAxisRaw("Mouse ScrollWheel")<0&& orbitalTransposer != null)
+		{
+			DOTween.To(
+				() => orbitalTransposer.m_XAxis.Value, 
+				x => orbitalTransposer.m_XAxis.Value = x, 
+				orbitalTransposer.m_XAxis.Value - 60, 
+				0.2f);
+		}
+		// if (Input.GetMouseButtonDown(1) && orbitalTransposer != null)  
+		// {
+		// 	orbitalTransposer.m_XAxis.m_InputAxisName = "Mouse X";
+		// }
+		// else if (Input.GetMouseButtonUp(1) && orbitalTransposer != null)
+		// {
+		// 	orbitalTransposer.m_XAxis.m_InputAxisName = "";
+		// 	orbitalTransposer.m_XAxis.m_InputAxisValue = 0;
+		// }
 	}
 	public void SetInputState(InputState newState)
 	{
