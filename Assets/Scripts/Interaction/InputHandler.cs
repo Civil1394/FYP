@@ -1,9 +1,12 @@
 using UnityEngine;
 using Cinemachine;
 using DG.Tweening;
+using UnityEditor;
+
 public class InputHandler : MonoBehaviour
 {
 	private GameObject lastPointedObject;
+	private bool isRotating = false;
 	public GenericAction OnMoveClick = new GenericAction();
 	public GenericAction OnCastClick = new GenericAction();
 	public InputState inputState = InputState.Move;
@@ -22,6 +25,7 @@ public class InputHandler : MonoBehaviour
 		ResetOrbitalCameraAngle();
 		GetPointerEnterExist();
 		GetPointerDown();
+		OnSixDirectionKeyPress();
 	}
 	
 
@@ -130,7 +134,6 @@ public class InputHandler : MonoBehaviour
 			{
 				OnCastClick?.Invoke(pointedObject.GetComponent<HexCellComponent>());
 			}
-				
 		}
 	}
 
@@ -160,37 +163,84 @@ public class InputHandler : MonoBehaviour
 	{
 		PlayerActionHudController.Instance.UpdateRotation(orbitalTransposer.m_XAxis.Value);
 		//Controller of allowing the orbitalTransposer rotate head movement towards player object by dragging the mouse in x axis
+		if(isRotating)return;
 		if (Input.GetAxisRaw("Mouse ScrollWheel")>0&& orbitalTransposer != null)
 		{
+			isRotating = true;
 			DOTween.To(
-				() => orbitalTransposer.m_XAxis.Value, 
-				x => orbitalTransposer.m_XAxis.Value = x, 
-				orbitalTransposer.m_XAxis.Value + 60, 
-				0.2f);
+				() => orbitalTransposer.m_XAxis.Value,
+				x => orbitalTransposer.m_XAxis.Value = x,
+				orbitalTransposer.m_XAxis.Value + 60,
+				0.1f).OnComplete(
+				() =>
+				{
+					isRotating = false;
+				});
 		}
 		else if(Input.GetAxisRaw("Mouse ScrollWheel")<0&& orbitalTransposer != null)
 		{
+			isRotating = true;
 			DOTween.To(
-				() => orbitalTransposer.m_XAxis.Value, 
-				x => orbitalTransposer.m_XAxis.Value = x, 
-				orbitalTransposer.m_XAxis.Value - 60, 
-				0.2f);
+				() => orbitalTransposer.m_XAxis.Value,
+				x => orbitalTransposer.m_XAxis.Value = x,
+				orbitalTransposer.m_XAxis.Value - 60,
+				0.1f).OnComplete(
+				() =>
+				{
+					isRotating = false;
+				});
 		}
-		// if (Input.GetMouseButtonDown(1) && orbitalTransposer != null)  
-		// {
-		// 	orbitalTransposer.m_XAxis.m_InputAxisName = "Mouse X";
-		// }
-		// else if (Input.GetMouseButtonUp(1) && orbitalTransposer != null)
-		// {
-		// 	orbitalTransposer.m_XAxis.m_InputAxisName = "";
-		// 	orbitalTransposer.m_XAxis.m_InputAxisValue = 0;
-		// }
+	}
+
+	void OnSixDirectionKeyPress()
+	{
+		float cameraAngle = orbitalTransposer.m_XAxis.Value;
+		cameraAngle = ToPositiveAngle(cameraAngle);
+		int cameraRotationCnt = (int)((cameraAngle + 45) / 60);
+		print(cameraRotationCnt);
+		if (Input.GetKeyDown(KeyCode.W))
+		{
+			//default nw
+			print((HexDirection)(((int)HexDirection.NW + cameraRotationCnt) % 6));
+		}
+		else if(Input.GetKeyDown(KeyCode.E))
+		{
+			//default ne
+			print((HexDirection)(((int)HexDirection.NE + cameraRotationCnt) % 6));
+		}
+		else if(Input.GetKeyDown(KeyCode.D))
+		{
+			//default e
+			print((HexDirection)(((int)HexDirection.E + cameraRotationCnt) % 6));
+		}
+		else if(Input.GetKeyDown(KeyCode.X))
+		{
+			//default se
+			print((HexDirection)(((int)HexDirection.SE + cameraRotationCnt) % 6));
+		}
+		else if(Input.GetKeyDown(KeyCode.Z))
+		{
+			//default sw
+			print((HexDirection)(((int)HexDirection.SW + cameraRotationCnt) % 6));
+		}
+		else if(Input.GetKeyDown(KeyCode.A))
+		{
+			//default w
+			print((HexDirection)(((int)HexDirection.W + cameraRotationCnt) % 6));
+		}
 	}
 	public void SetInputState(InputState newState)
 	{
 		inputState = newState;
 	}
-	
+	float ToPositiveAngle(float angle)
+	{
+		angle = angle % 360;
+		while(angle < 0) {
+			angle += 360;
+		}
+		return angle;
+	}
 }
 public enum InputState
 {

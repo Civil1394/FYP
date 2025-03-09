@@ -107,23 +107,6 @@ public class TrianglePattern : IHexPatternHelper
     }
 }
 
-public class VertexDirectionPattern: IHexPatternHelper
-{
-    private int numOfDir;
-    private int range;
-    private HexVertexDirection[] dir;
-    public VertexDirectionPattern(int numOfDir, int range, params HexVertexDirection[] dir)
-    {
-        this.numOfDir = numOfDir;
-        this.range = range;
-        this.dir = dir;
-    }
-    public IEnumerable<HexCell> GetPattern(HexCell startCell)
-    { 
-        //loop through switch on vertex direction, implement some helper function for difference in odd and even row
-        throw new NotImplementedException();
-    }
-}
 public class CustomOffsetPattern: IHexPatternHelper
 {
     private readonly List<Vector3Int> offsets;

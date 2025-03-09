@@ -3,7 +3,8 @@ using System;
 
 public enum HexDirection
 {
-    NE = 0, E = 1, SE = 2, SW = 3, W = 4, NW = 5 , NONE = 6
+    //NE = 0, E = 1, SE = 2, SW = 3, W = 4, NW = 5 , NONE = 6
+    NW = 0, W = 1, SW = 2, SE = 3, E = 4, NE = 5, NONE = 6
 }
 
 public static class HexDirectionExtensions
@@ -14,17 +15,6 @@ public static class HexDirectionExtensions
     }
 }
 
-public enum HexVertexDirection
-{
-    N = 0, NE = 1, SE = 2, S = 3, SW = 4,NW = 5, NONE = 6
-}
-public static class HexVertexDirectionExtensions
-{
-    public static HexVertexDirection Opposite(this HexVertexDirection direction)
-    {
-        return (HexVertexDirection)(((int)direction + 3) % 6);
-    }
-}
 public enum CellType
 {
     Empty = 0,

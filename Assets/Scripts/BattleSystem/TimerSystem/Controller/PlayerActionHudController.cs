@@ -122,6 +122,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     {
         float delta = 45;
         if(objectTransform == null) Debug.LogWarning("Action Hud Object transform is null");
-        objectTransform.DOLocalRotate(new Vector3(0,0,cameraRotation + delta), .2f);
+        objectTransform.localRotation = Quaternion.Euler(0, 0, cameraRotation+delta);
+        //objectTransform.DOLocalRotate(new Vector3(0,0,cameraRotation + delta), .2f);
     }
 }
