@@ -201,32 +201,38 @@ public class InputHandler : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.W))
 		{
 			//default nw
-			print((HexDirection)(((int)HexDirection.NW + cameraRotationCnt) % 6));
+			int tempDir = ((int)HexDirection.NW + cameraRotationCnt) % 6;
+			PlayerActionHudController.Instance.ChangeFaceDirection(tempDir);
 		}
 		else if(Input.GetKeyDown(KeyCode.E))
 		{
 			//default ne
-			print((HexDirection)(((int)HexDirection.NE + cameraRotationCnt) % 6));
+			int tempDir = ((int)HexDirection.NE + cameraRotationCnt) % 6;
+			PlayerActionHudController.Instance.ChangeFaceDirection(tempDir);
 		}
 		else if(Input.GetKeyDown(KeyCode.D))
 		{
 			//default e
-			print((HexDirection)(((int)HexDirection.E + cameraRotationCnt) % 6));
+			int tempDir = ((int)HexDirection.E + cameraRotationCnt) % 6;
+			PlayerActionHudController.Instance.ChangeFaceDirection(tempDir);
 		}
 		else if(Input.GetKeyDown(KeyCode.X))
 		{
 			//default se
-			print((HexDirection)(((int)HexDirection.SE + cameraRotationCnt) % 6));
+			int tempDir = ((int)HexDirection.SE + cameraRotationCnt) % 6;
+			PlayerActionHudController.Instance.ChangeFaceDirection(tempDir);
 		}
 		else if(Input.GetKeyDown(KeyCode.Z))
 		{
 			//default sw
-			print((HexDirection)(((int)HexDirection.SW + cameraRotationCnt) % 6));
+			int tempDir = ((int)HexDirection.SW + cameraRotationCnt) % 6;
+			PlayerActionHudController.Instance.ChangeFaceDirection(tempDir);
 		}
 		else if(Input.GetKeyDown(KeyCode.A))
 		{
 			//default w
-			print((HexDirection)(((int)HexDirection.W + cameraRotationCnt) % 6));
+			int tempDir = ((int)HexDirection.W + cameraRotationCnt) % 6;
+			PlayerActionHudController.Instance.ChangeFaceDirection(tempDir);
 		}
 	}
 	public void SetInputState(InputState newState)
