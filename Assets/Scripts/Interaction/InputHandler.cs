@@ -26,6 +26,7 @@ public class InputHandler : MonoBehaviour
 		GetPointerEnterExist();
 		GetPointerDown();
 		OnSixDirectionKeyPress();
+		OnShiftDown();
 	}
 	
 
@@ -192,12 +193,26 @@ public class InputHandler : MonoBehaviour
 		}
 	}
 
+	void OnShiftDown()
+	{
+		if (Input.GetKeyDown(KeyCode.LeftShift))
+		{
+			inputState = InputState.CastingAbility;
+		}
+		if (Input.GetKeyUp(KeyCode.LeftShift))
+		{
+			inputState = InputState.Move;
+		}
+	}
 	void OnSixDirectionKeyPress()
 	{
 		float cameraAngle = orbitalTransposer.m_XAxis.Value;
 		cameraAngle = ToPositiveAngle(cameraAngle);
 		int cameraRotationCnt = (int)((cameraAngle + 45) / 60);
 		print(cameraRotationCnt);
+
+		#region Movement input
+
 		if (Input.GetKeyDown(KeyCode.W))
 		{
 			//default nw
@@ -234,6 +249,9 @@ public class InputHandler : MonoBehaviour
 			int tempDir = ((int)HexDirection.W + cameraRotationCnt) % 6;
 			PlayerActionHudController.Instance.ChangeFaceDirection(tempDir);
 		}
+
+		#endregion
+
 	}
 	public void SetInputState(InputState newState)
 	{
