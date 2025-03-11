@@ -29,21 +29,29 @@ public class LinearBehavior : ProjectileBehavior
 {
     public override float UpdateBehavior()
     {
+        HexCellComponent finalDest = standingCell;
         HexCellComponent nextCellToMove = new HexCellComponent();
-        Vector3 startPos = standingCell.transform.position;
+        
         this.DOKill();
         for (int i = 0; i < lifeTime; i++)
         {
-            nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
+            nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(finalDest, direction);
            
-            if (nextCellToMove == null || nextCellToMove.CellData.CellType == CellType.Invalid)
+            if (nextCellToMove == null)
             {
                 break;
             }
             
-            standingCell = nextCellToMove;
+            if (nextCellToMove.CellData.CellType == CellType.Invalid)
+            {
+                break;
+            }
+            
+            finalDest = nextCellToMove;
         }
-        Vector3 endPos   = nextCellToMove.transform.position + height_offset;
+        
+        Vector3 startPos = standingCell.transform.position;
+        Vector3 endPos   = finalDest.transform.position + height_offset;
         float distance = Vector3.Distance(startPos, endPos);
         float travelTime = distance / speed;
         
