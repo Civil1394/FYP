@@ -28,56 +28,60 @@ public class InputHandler : MonoBehaviour
 		OnSixDirectionKeyPress();
 		OnShiftDown();
 	}
-	
 
 
-	// private void SelectPlayer()
-	// {
-	// 	if (Input.GetKeyDown(KeyCode.Alpha1))
-	// 	{
-	// 		BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(0);
-	// 		return;
-	// 	}
-	//
-	// 	if (Input.GetKeyDown(KeyCode.Alpha2))
-	// 	{
-	// 		BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(1);
-	// 		return;
-	// 	}
-	//
-	// 	if (Input.GetKeyDown(KeyCode.Alpha3))
-	// 	{
-	// 		BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(2);
-	// 		return;
-	// 	}
-	//
-	// 	if (Input.GetKeyDown(KeyCode.Alpha4))
-	// 	{
-	// 		BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(3);
-	// 		return;
-	// 	}
-	// }
-	// private void RedrawCardsController()
-	// {
-	// 	AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
-	// 	if (Input.GetKeyDown(KeyCode.R))
-	// 	{
-	// 		if (!BattleManager.Instance.TurnManager.CanExecuteAction(TurnActionType.DrawCard)) 
-	// 			return;
-	//
-	// 		CardsManager.Instance.RedrawCards();
-	// 		
-	// 		for (int i = 0; i < 2; i++)
-	// 		{
-	// 			Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase, "1",
-	// 				abilityDatabase.GetRandomAbilityFromList("1").id);
-	// 			CardsManager.Instance.AddCardToDeck(testCard);
-	// 			var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
-	// 		}
-	// 		
-	// 		BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: redraw");
-	// 	}
-	// }
+	#region Dumb code
+
+		// private void SelectPlayer()
+    	// {
+    	// 	if (Input.GetKeyDown(KeyCode.Alpha1))
+    	// 	{
+    	// 		BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(0);
+    	// 		return;
+    	// 	}
+    	//
+    	// 	if (Input.GetKeyDown(KeyCode.Alpha2))
+    	// 	{
+    	// 		BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(1);
+    	// 		return;
+    	// 	}
+    	//
+    	// 	if (Input.GetKeyDown(KeyCode.Alpha3))
+    	// 	{
+    	// 		BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(2);
+    	// 		return;
+    	// 	}
+    	//
+    	// 	if (Input.GetKeyDown(KeyCode.Alpha4))
+    	// 	{
+    	// 		BattleManager.Instance.MultipleCharacterControlSystem.SwitchCharacter(3);
+    	// 		return;
+    	// 	}
+    	// }
+    	// private void RedrawCardsController()
+    	// {
+    	// 	AbilityDatabase abilityDatabase = BattleManager.Instance.AbilityDatabase;
+    	// 	if (Input.GetKeyDown(KeyCode.R))
+    	// 	{
+    	// 		if (!BattleManager.Instance.TurnManager.CanExecuteAction(TurnActionType.DrawCard)) 
+    	// 			return;
+    	//
+    	// 		CardsManager.Instance.RedrawCards();
+    	// 		
+    	// 		for (int i = 0; i < 2; i++)
+    	// 		{
+    	// 			Card testCard = CardFactory.Instance.CreateCardFromList(abilityDatabase, "1",
+    	// 				abilityDatabase.GetRandomAbilityFromList("1").id);
+    	// 			CardsManager.Instance.AddCardToDeck(testCard);
+    	// 			var (newDeck, newHand, drawnCard) = CardsManager.Instance.DrawCard();
+    	// 		}
+    	// 		
+    	// 		BattleManager.Instance.TurnManager.ExecuteAction(TurnActionType.DrawCard, $"Drew card: redraw");
+    	// 	}
+    	// }
+
+	#endregion
+
 	
 	private GameObject GetMousePointedGameObject()
 	{
