@@ -212,7 +212,7 @@ public class InputHandler : MonoBehaviour
 	{
 		float cameraAngle = orbitalTransposer.m_XAxis.Value;
 		cameraAngle = ToPositiveAngle(cameraAngle);
-		int cameraRotationCnt = (int)((cameraAngle + 45) / 60);
+		int cameraRotationCnt = 6 - (int)((cameraAngle + 45) / 60);
 		print(cameraRotationCnt);
 
 		#region Movement input
