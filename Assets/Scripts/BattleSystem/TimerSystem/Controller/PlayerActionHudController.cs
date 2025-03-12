@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-
 /// <summary>
 /// View of equippedAbilityQueue on Hud
 /// </summary>
