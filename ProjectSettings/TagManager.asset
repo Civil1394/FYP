@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Cell
   - Enemy
-  - Projectile
+  - IDamagable
   layers:
   - Default
   - TransparentFX
