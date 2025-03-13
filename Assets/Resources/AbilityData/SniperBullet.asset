@@ -15,13 +15,16 @@ MonoBehaviour:
   id: 1
   abilityType: 0
   projectileParam:
-    Damage: 1
+    Damage: 8
     TravelSpeed: 40
     LifeTime: 10
-  aoeParam:
-    patternType: 0
-    Radius: 0
+    VFX_Height_Offset: {x: 0, y: 3, z: 0}
+  blastParam:
     Damage: 0
+    Width: 0
+    BlastStepDelay: 0
+    BlastStepCount: 0
+    VFX_Height_Offset: {x: 0, y: 0, z: 0}
   PrerequisiteChargeSteps: 2
   Title: 2
   Desc: 

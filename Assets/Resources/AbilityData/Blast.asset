@@ -13,20 +13,24 @@ MonoBehaviour:
   m_Name: Blast
   m_EditorClassIdentifier: 
   id: 3
-  abilityType: 0
+  abilityType: 10
   projectileParam:
-    Damage: 0
+    Damage: 3
     TravelSpeed: 0
     LifeTime: 0
+    VFX_Height_Offset: {x: 0, y: 0, z: 0}
   blastParam:
-    patternType: 0
-    Radius: 0
-    Damage: 0
+    Damage: 5
+    Width: 0
+    BlastStepDelay: 0.5
+    BlastStepCount: 0
+    VFX_Height_Offset: {x: 0, y: 0, z: 0}
   PrerequisiteChargeSteps: 0
   Title: 
   Desc: 
-  Icon: {fileID: 0}
-  CastType: 0
+  Icon: {fileID: 21300000, guid: 378cedcd9a7976a4993d603d4398b723, type: 3}
+  CastType: 1
   target: 0
-  Object_fx: {fileID: 0}
+  Object_fx: {fileID: 569846001531763723, guid: 92b48bce99d1e784f9e5302b587d87c7,
+    type: 3}
   ColorType: 0
