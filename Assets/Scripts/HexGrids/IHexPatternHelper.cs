@@ -138,7 +138,7 @@ public static class PresetPatterns
         return patternType switch
         {
             PresetPatternType.WaiPattern => WaiPattern(),
-            PresetPatternType.AoePattern => AoePattern(radius),
+            PresetPatternType.AoePattern => BlastPattern(radius),
             _ => null
         };
     }
@@ -158,7 +158,7 @@ public static class PresetPatterns
     }
 
 
-    public static CustomOffsetPattern AoePattern(int radius)
+    public static CustomOffsetPattern BlastPattern(int radius)
     {
         // Calculate the total number of cells in the pattern
         int totalCells = radius * 6;

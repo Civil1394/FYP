@@ -18,27 +18,27 @@ public class BulletActor : TimedActor
     
     private Quaternion targetRotation;
     private ProjectileBehavior behavior;
-    public void Initialize(float damage, float speed, Vector3Int standingPos , HexDirection direction, float lifeTime,Vector3 height_offset,TimeType type)
+
+    public void InitBullet(ProjectileParameter parameter, HexDirection castingDirection, HexCellComponent casterCell)
     {
-        this.gameObject.tag = "Projectile";
-        ActionCooldown = speed;
-        Damage = damage;
-        Speed = speed;
-        LifeTime = lifeTime;
-        InitialLifeTime = lifeTime;
-        TargetDirection = direction;
-        StandingPos = standingPos;
-        height_Offset = height_offset;
-        TimeType = type;
+        this.gameObject.tag = "IDamagable";
+        Damage = parameter.Damage;
+        Speed = parameter.TravelSpeed;
+        LifeTime = parameter.LifeTime;
+        InitialLifeTime = parameter.LifeTime;
+        TargetDirection = castingDirection;
+        StandingPos = casterCell.CellData.Coordinates;
+        height_Offset = parameter.VFX_Height_Offset;
+        TimeType = TimeType.Boost;
         
         HexCellComponent standingCell = BattleManager.Instance.hexgrid.GetCellInCoord(StandingPos);
-        HexCellComponent nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, direction);
+        HexCellComponent nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, castingDirection);
         if (nextCellToMove != null)
         {
             Vector3 targetPosition = nextCellToMove.transform.position;
             targetPosition.y = transform.position.y; // Keep current y level
             transform.LookAt(targetPosition);
-            AddBehavior<LinearBehavior>();
+            AddBehavior<LinearProjectileBehavior>();
             
             //Launch when init 
             IsAlive = true;
@@ -48,15 +48,13 @@ public class BulletActor : TimedActor
         {
             SelfDestroy();
         }
-        
-       
     }
     
     //init behaviors
     private void AddBehavior<T>() where T : ProjectileBehavior
     {
         behavior = gameObject.AddComponent<T>();
-        behavior.Initialize(this, StandingPos, TargetDirection, Speed,height_Offset, LifeTime);
+        behavior.Init(this, StandingPos, TargetDirection, Speed,height_Offset, LifeTime);
     }
 
 
@@ -68,16 +66,7 @@ public class BulletActor : TimedActor
       yield return new WaitForSeconds(Speed);
       
     }
-
-    private void CheckLifeTime()
-    {
-        //Debug.Log(LifeTime);
-        if (LifeTime <= 0)
-        {
-            IsAlive = false;
-            SelfDestroy();
-        }
-    }
+    
 
     public void SelfDestroy()
     {

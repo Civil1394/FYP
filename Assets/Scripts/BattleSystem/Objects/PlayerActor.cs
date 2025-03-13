@@ -196,13 +196,10 @@ public class PlayerActor : TimedActor
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("Projectile"))
+		if (other.CompareTag("IDamagable"))
 		{
-			Debug.Log("gethit");
-			//TakeDamage(other.GetComponent<BulletActor>().Damage);
-			var bullet = other.GetComponent<BulletActor>();
-			TimeManipulate(bullet.TimeType,bullet.Speed);
-			Debug.Log(bullet.TimeType);
+			var damageDealer = other.gameObject.GetComponent<DamageDealer>();
+			TimeManipulate(TimeType.Boost,damageDealer.Damage);
 			Destroy(other.gameObject);
 		}
 	}

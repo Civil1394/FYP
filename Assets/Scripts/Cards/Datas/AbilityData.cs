@@ -12,10 +12,9 @@ public class AbilityData : ScriptableObject
 	public AbilityType abilityType;              
 	[ConditionalField("abilityType", AbilityType.Projectile)]
 	[SerializeField] ProjectileParameter projectileParam;
-
-	[FormerlySerializedAs("explosiveParam")]
-	[ConditionalField("abilityType", AbilityType.Explosive)]
-	[SerializeField] AoeParameter aoeParam;
+	
+	[ConditionalField("abilityType", AbilityType.Blast)]
+	[SerializeField] BlastParameter blastParam;
     
 	[ConditionalField("abilityType", AbilityType.Dash)]
 	[SerializeField] DashParameter dashParam;
@@ -36,7 +35,7 @@ public class AbilityData : ScriptableObject
 	public AbilityTarget target;               //WHO is targeted?
     
 	[Header("FX")]
-	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.Explosive,AbilityType.Dash)]
+	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.Blast,AbilityType.Dash)]
 	[SerializeField] GameObject Object_fx;
 	
 	public AbilityColorType ColorType;
@@ -72,8 +71,8 @@ public class AbilityData : ScriptableObject
 			case AbilityType.Projectile:
 				TriggerProjectile(castDirection, casterStandingCell,timeType);
 				break;
-			case AbilityType.Explosive:
-				TriggerAoe();
+			case AbilityType.Blast:
+				TriggerBlast(castDirection,casterStandingCell, timeType);
 				break;
 			case AbilityType.Dash:
 				TriggerDash();
@@ -88,17 +87,12 @@ public class AbilityData : ScriptableObject
 		if (projectileParam != null)
 		{
 			HexCellComponent spawnCell = BattleManager.Instance.hexgrid.GetCellByDirection(casterStandingCell, castingDirection);
-			Vector3 height_offset = new Vector3(0, 3, 0);
-			GameObject bullet = Instantiate(Object_fx, spawnCell.transform.position + height_offset, Quaternion.identity);
-			var bulletComponent = bullet.AddComponent<BulletActor>();
-			bulletComponent.Initialize(
-				projectileParam.Damage,
-				projectileParam.TravelSpeed,
-				spawnCell.CellData.Coordinates,
+			GameObject bulletObject = Instantiate(Object_fx, spawnCell.transform.position + projectileParam.VFX_Height_Offset, Quaternion.identity);
+			var bulletComponent = bulletObject.AddComponent<BulletActor>();
+			bulletComponent.InitBullet(
+				this.projectileParam,
 				castingDirection,
-				projectileParam.LifeTime,
-				height_offset,
-				timeType
+				spawnCell
 			);
 		}
 		else
@@ -107,11 +101,15 @@ public class AbilityData : ScriptableObject
 		}
 	}
 
-	private void TriggerAoe()
+	private void TriggerBlast(HexDirection castingDirection, HexCellComponent casterStandingCell, TimeType timeType)
 	{
-		if (aoeParam != null)
+		if (blastParam != null)
 		{
-			Debug.Log($"Explosive effect triggered: {Desc} with radius {aoeParam.Radius}");
+			GameObject blastHandlerObject = new GameObject();
+			var blastActor = blastHandlerObject.AddComponent<BlastActor>();
+			blastActor.InitBlast(this.Object_fx,this.blastParam, castingDirection,casterStandingCell);
+			
+
 		}
 		else
 		{
@@ -151,7 +149,7 @@ public enum AbilityTarget
 public enum AbilityType
 {
 	Projectile = 0,
-	Explosive = 10,
+	Blast = 10,
 	Dash = 20
 }
 

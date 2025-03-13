@@ -41,7 +41,7 @@ public class EnemyActor : TimedActor
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("Projectile"))
+		if (other.CompareTag("IDamagable"))
 		{
 			Debug.Log("gethit");
 			//TakeDamage(other.GetComponent<BulletActor>().Damage);

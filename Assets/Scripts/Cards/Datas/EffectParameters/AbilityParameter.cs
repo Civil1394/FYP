@@ -12,11 +12,15 @@ public class DashParameter : AbilityParameter
 }
 
 [System.Serializable]
-public class AoeParameter : AbilityParameter
+public class BlastParameter : AbilityParameter
 {
-	[FormerlySerializedAs("PatternType")] public PresetPatternType patternType;
-	public int Radius;
 	public float Damage;
+	
+	//public PresetPatternType patternType;
+	public int Width;
+	public float BlastStepDelay;
+	public int BlastStepCount;
+	public Vector3 VFX_Height_Offset;
 }
 
 [System.Serializable]
@@ -26,4 +30,6 @@ public class ProjectileParameter : AbilityParameter
 	[Tooltip("Higher = Faster")]
 	public float TravelSpeed;
 	public float LifeTime;
+
+	public Vector3 VFX_Height_Offset;
 }

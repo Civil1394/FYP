@@ -13,6 +13,30 @@ public static class HexDirectionExtensions
     {
         return (HexDirection)(((int)direction + 3) % 6);
     }
+
+    public static HexDirection[] NearbyBound(HexDirection centerDirection, int width)
+    {
+        
+        HexDirection[] directions = new HexDirection[width];
+        if (width >= 6)
+        {
+            
+            for (int i = 0; i < 6; i++)
+            {
+                directions[i] = (HexDirection)i;
+            }
+        }
+        else
+        {
+            //TODO: return direction array which form a boundary according to width
+            for (int i = 0; i < width; i++)
+            {
+                directions[i] = (HexDirection)i;
+            }
+        }
+
+        return directions;
+    }
 }
 
 public enum CellType
