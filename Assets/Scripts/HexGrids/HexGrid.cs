@@ -179,6 +179,18 @@ public class HexGrid
         return cells.TryGetValue(pivotCell.CellData.GetNeighbor(direction).Coordinates, out HexCellComponent neighbor) ? neighbor : null;
     }
 
+    public HexCellComponent[] GetCellsByDirection(HexCellComponent pivotCell, HexDirection[] directions)
+    {
+        HexCellComponent[] cells = new HexCellComponent[directions.Length];
+        int index = 0;
+        foreach (var direction in directions)
+        {
+            cells[index] = GetCellByDirection(pivotCell, direction);
+            index++;
+        }
+        return cells;
+            
+    }
     public HexDirection CheckNeigborCellDirection(HexCellComponent pivotCell, HexCellComponent neigborCell)
     {
         for (int i = 0; i < pivotCell.CellData.Neighbors.Length; i++)

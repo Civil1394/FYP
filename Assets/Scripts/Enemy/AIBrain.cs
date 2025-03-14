@@ -247,7 +247,7 @@ public class AIBrain : MonoBehaviour
         print("attacked");
         //Need to use Opposite to reverse the direction from player toward enemy
         //then it can be casting direction
-        HexDirection castDirection = HexDirectionExtensions.Opposite(
+        HexDirection castDirection = HexDirectionHelper.Opposite(
             BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(
                 playerGrid, currentCell.ParentComponent
             ));

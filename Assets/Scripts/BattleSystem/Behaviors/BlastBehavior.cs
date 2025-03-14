@@ -24,15 +24,35 @@ public abstract class BlastBehavior : MonoBehaviour
 
 public class LinearBlastBehavior : BlastBehavior
 {
-	private List<HexCellComponent> cellsInLastStep = new List<HexCellComponent>();
-	
+	private HexCellComponent[] cellsInStep;
+
+	public override void Init(GameObject blastVFXPrefab, int width, HexDirection castingDirection, HexCellComponent casterCell)
+	{
+		base.Init(blastVFXPrefab, width, castingDirection, casterCell);
+		//init cells in step 1
+		cellsInStep = BattleManager.Instance.hexgrid.GetCellsByDirection(casterCell,
+			HexDirectionHelper.GetDirectionsAround(castingDirection, width));
+	}
 
 	public override void UpdateBehavior()
 	{
 		for (int i = 0; i < width; i++)
 		{
+			if (cellsInStep[i] != null)
+			{
+				Instantiate(blastVFX,cellsInStep[i].transform.position,Quaternion.Euler(-90,0,0));
+				var c = cellsInStep[i].CellData.GetNeighbor(castingDirection);
+				if (c.CellType != CellType.Invalid)
+					cellsInStep[i] = c.ParentComponent;
+				else cellsInStep[i] = null;
+			}
+			else
+			{
+				Debug.LogWarning(i + " is blocked");
+			}
 			
 		}
+		
 	}
 	
 }

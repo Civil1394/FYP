@@ -9,9 +9,10 @@ public class BlastActor : DamageDealer
 	private BlastParameter parameter;
 	public void InitBlast(GameObject blast_VFX_Object,BlastParameter BlastParameter , HexDirection castingDirection, HexCellComponent casterCell)
 	{
+		this.gameObject.name = "BlastActor";
+		this.parameter = BlastParameter;
 		base.Init(parameter.Damage);
 		this.BlastVFXObject = blast_VFX_Object;
-		this.parameter = BlastParameter;
 		AddBehavior<LinearBlastBehavior>(castingDirection,casterCell);
 		StartCoroutine(Launch());
 
@@ -33,7 +34,7 @@ public class BlastActor : DamageDealer
 			yield return new WaitForSeconds(parameter.BlastStepDelay);
 			stepCount--;
 		}
-		
+		Destroy(gameObject);
 	}
 	
 }

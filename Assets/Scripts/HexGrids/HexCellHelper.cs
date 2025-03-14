@@ -7,34 +7,39 @@ public enum HexDirection
     NW = 0, W = 1, SW = 2, SE = 3, E = 4, NE = 5, NONE = 6
 }
 
-public static class HexDirectionExtensions
+public static class HexDirectionHelper
 {
     public static HexDirection Opposite(this HexDirection direction)
     {
         return (HexDirection)(((int)direction + 3) % 6);
     }
 
-    public static HexDirection[] NearbyBound(HexDirection centerDirection, int width)
+    
+    public static HexDirection[] GetDirectionsAround(HexDirection centerDirection, int width)
     {
         
         HexDirection[] directions = new HexDirection[width];
+
         if (width >= 6)
         {
-            
             for (int i = 0; i < 6; i++)
             {
                 directions[i] = (HexDirection)i;
             }
         }
-        else
+        if (width % 2 == 0)
         {
-            //TODO: return direction array which form a boundary according to width
-            for (int i = 0; i < width; i++)
-            {
-                directions[i] = (HexDirection)i;
-            }
+            Debug.LogError(width + " is not a odd number or > 1");
+            return directions;
         }
-
+        
+        int k = (width - 1) / 2;
+        int start = ((int)centerDirection - k + 6) % 6;
+        for(int i = 0; i < width; i++)
+        {
+            directions[i] = (HexDirection)((start + i) % 6);
+        }
+        
         return directions;
     }
 }

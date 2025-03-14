@@ -30,9 +30,6 @@ public class AbilityData : ScriptableObject
 	public Sprite Icon;
 	[Header("Cast")]
 	public AbilityCastType CastType; //How the ability is cast?
-	
-	[Header("Target")]
-	public AbilityTarget target;               //WHO is targeted?
     
 	[Header("FX")]
 	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.Blast,AbilityType.Dash)]
