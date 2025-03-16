@@ -41,13 +41,14 @@ public class EnemyActor : TimedActor
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("IDamagable"))
+		if (other.CompareTag("DamageDealer"))
 		{
-			Debug.Log("gethit");
-			//TakeDamage(other.GetComponent<BulletActor>().Damage);
-			var bullet = other.GetComponent<BulletActor>();
-			TimeManipulate(bullet.TimeType,bullet.Speed);
-			Destroy(other.gameObject);
+			var damageDealer = other.gameObject.GetComponentInParent<DamageDealer>();
+			if (damageDealer != null && damageDealer.CasterType != CasterType.Enemy)
+			{
+				damageDealer.DoDamage(TimeManipulate,other.gameObject);
+			}
+			
 		}
 	}
 

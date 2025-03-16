@@ -29,7 +29,7 @@ public class AbilityData : ScriptableObject
 	[Header("Icon")]
 	public Sprite Icon;
 	[Header("Cast")]
-	public AbilityCastType CastType; //How the ability is cast?
+	public AbilityCastType CastType;
     
 	[Header("FX")]
 	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.Blast,AbilityType.Dash)]
@@ -61,7 +61,7 @@ public class AbilityData : ScriptableObject
 		return ability;
 	}
 	
-	public void TriggerAbility(Transform parent, HexDirection castDirection, HexCellComponent casterStandingCell,[CanBeNull]TimeType timeType)
+	public void TriggerAbility(CasterType casterType, HexDirection castDirection, HexCellComponent casterStandingCell,[CanBeNull]TimeType timeType)
 	{
 		switch (abilityType)
 		{
@@ -69,7 +69,7 @@ public class AbilityData : ScriptableObject
 				TriggerProjectile(castDirection, casterStandingCell,timeType);
 				break;
 			case AbilityType.Blast:
-				TriggerBlast(castDirection,casterStandingCell, timeType);
+				TriggerBlast(casterType,castDirection,casterStandingCell, timeType);
 				break;
 			case AbilityType.Dash:
 				TriggerDash();
@@ -98,13 +98,13 @@ public class AbilityData : ScriptableObject
 		}
 	}
 
-	private void TriggerBlast(HexDirection castingDirection, HexCellComponent casterStandingCell, TimeType timeType)
+	private void TriggerBlast(CasterType casterType,HexDirection castingDirection, HexCellComponent casterStandingCell, TimeType timeType)
 	{
 		if (blastParam != null)
 		{
 			GameObject blastHandlerObject = new GameObject();
 			var blastActor = blastHandlerObject.AddComponent<BlastActor>();
-			blastActor.InitBlast(this.Object_fx,this.blastParam, castingDirection,casterStandingCell);
+			blastActor.InitBlast(casterType,this.Object_fx,this.blastParam, castingDirection,casterStandingCell);
 			
 
 		}
@@ -143,6 +143,13 @@ public enum AbilityTarget
 	Environment
 }
 
+//Identify who cast the ability
+public enum CasterType
+{
+	Player,
+	Enemy,
+	None
+}
 public enum AbilityType
 {
 	Projectile = 0,

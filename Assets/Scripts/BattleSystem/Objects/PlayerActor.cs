@@ -196,11 +196,13 @@ public class PlayerActor : TimedActor
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("IDamagable"))
+		if (other.CompareTag("DamageDealer"))
 		{
-			var damageDealer = other.gameObject.GetComponent<DamageDealer>();
-			TimeManipulate(TimeType.Boost,damageDealer.Damage);
-			Destroy(other.gameObject);
+			var damageDealer = other.gameObject.GetComponentInParent<DamageDealer>();
+			if (damageDealer != null && damageDealer.CasterType != CasterType.Player)
+			{
+				damageDealer.DoDamage(TimeManipulate,other.gameObject);
+			}
 		}
 	}
 	

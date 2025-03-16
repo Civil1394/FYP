@@ -40,15 +40,24 @@ public class LinearBlastBehavior : BlastBehavior
 		{
 			if (cellsInStep[i] != null)
 			{
-				Instantiate(blastVFX,cellsInStep[i].transform.position,Quaternion.Euler(-90,0,0));
+				var part =Instantiate(blastVFX,cellsInStep[i].transform.position,Quaternion.Euler(-90,0,0));
+				part.transform.parent = this.transform;
+				part.name = "blastVFX";
+				part.tag = "DamageDealer";
+				
 				var c = cellsInStep[i].CellData.GetNeighbor(castingDirection);
-				if (c.CellType != CellType.Invalid)
+				if (c == null || c.CellType == CellType.Invalid)
+				{
+					cellsInStep[i] = null;
+				}
+				else
+				{
 					cellsInStep[i] = c.ParentComponent;
-				else cellsInStep[i] = null;
+				}
 			}
 			else
 			{
-				Debug.LogWarning(i + " is blocked");
+				//Debug.LogWarning(i + " is blocked");
 			}
 			
 		}

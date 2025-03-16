@@ -16,6 +16,6 @@ public class DirectionTargeting : IAttack
 
     public void Attack(HexDirection castDirection, HexCellComponent standingCell)
     {
-        abilityData.TriggerAbility(enemy, castDirection, standingCell,hourglass.TimeType);
+        abilityData.TriggerAbility(CasterType.Enemy, castDirection, standingCell,hourglass.TimeType);
     }
 }

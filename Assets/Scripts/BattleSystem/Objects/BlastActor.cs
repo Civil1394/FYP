@@ -1,15 +1,19 @@
+using System;
 using UnityEngine;
 using System.Collections;
 
 public class BlastActor : DamageDealer
 {
+	
 	public GameObject BlastVFXObject { get; private set; }
 	
 	private BlastBehavior behavior;
 	private BlastParameter parameter;
-	public void InitBlast(GameObject blast_VFX_Object,BlastParameter BlastParameter , HexDirection castingDirection, HexCellComponent casterCell)
+	public void InitBlast(CasterType casterType,GameObject blast_VFX_Object,BlastParameter BlastParameter , HexDirection castingDirection, HexCellComponent casterCell)
 	{
+		this.casterType = casterType;
 		this.gameObject.name = "BlastActor";
+		this.tag = "DamageDealer";
 		this.parameter = BlastParameter;
 		base.Init(parameter.Damage);
 		this.BlastVFXObject = blast_VFX_Object;
@@ -36,5 +40,10 @@ public class BlastActor : DamageDealer
 		}
 		Destroy(gameObject);
 	}
-	
+
+	public override void DoDamage(Action<float> damageAction,GameObject sourceVFX)
+	{
+		Destroy(sourceVFX);
+		damageAction?.Invoke(_damage);
+	}
 }

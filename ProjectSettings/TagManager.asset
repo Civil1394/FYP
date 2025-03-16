@@ -7,6 +7,8 @@ TagManager:
   - Cell
   - Enemy
   - IDamagable
+  - Projectile
+  - DamageDealer
   layers:
   - Default
   - TransparentFX

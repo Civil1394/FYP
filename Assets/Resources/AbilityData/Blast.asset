@@ -20,9 +20,9 @@ MonoBehaviour:
     LifeTime: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
   blastParam:
-    Damage: 5
+    Damage: 1
     Width: 3
-    BlastStepDelay: 0.2
+    BlastStepDelay: 0.1
     BlastStepCount: 8
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
   PrerequisiteChargeSteps: 1

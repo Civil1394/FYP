@@ -1,8 +1,12 @@
+using System;
 using UnityEngine;
 using System.Collections;
 
-public class DamageDealer : MonoBehaviour
+public abstract class DamageDealer : MonoBehaviour
 {
+	
+	protected CasterType casterType;
+	public CasterType CasterType => casterType;
 	protected float _damage;
 	public float Damage => _damage;
 
@@ -10,4 +14,6 @@ public class DamageDealer : MonoBehaviour
 	{
 		_damage = damage;
 	}
+	
+	public abstract void DoDamage(Action<float> damageAction, GameObject source = null);
 }
