@@ -4,16 +4,16 @@ using DG.Tweening;
 
 public abstract class ProjectileBehavior : MonoBehaviour
 {
-    protected BulletActor BulletActor;
+    protected ProjectileActor ProjectileActor;
     protected HexCellComponent casterCell;
     protected HexDirection castingDirection;
     protected float speed;
     protected Vector3 height_offset;
     protected float lifeTime;
-    public virtual void Init(BulletActor bulletActor, Vector3Int standingPos, HexDirection direction, float speed,
+    public virtual void Init(ProjectileActor projectileActor, Vector3Int standingPos, HexDirection direction, float speed,
         Vector3 height_offset, float lifeTime)
     {
-        this.BulletActor = bulletActor;
+        this.ProjectileActor = projectileActor;
         this.casterCell = BattleManager.Instance.hexgrid.GetCellInCoord(standingPos);
         this.castingDirection = direction;
         this.speed = speed;
@@ -59,7 +59,7 @@ public class LinearProjectileBehavior : ProjectileBehavior
             .SetEase(Ease.Linear)
             .OnComplete(()=>
             { 
-                BulletActor.SelfDestroy();
+                Destroy(this.gameObject);
             });
         return 1;
     }

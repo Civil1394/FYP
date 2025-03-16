@@ -66,7 +66,7 @@ public class AbilityData : ScriptableObject
 		switch (abilityType)
 		{
 			case AbilityType.Projectile:
-				TriggerProjectile(castDirection, casterStandingCell,timeType);
+				TriggerProjectile(casterType,castDirection, casterStandingCell,timeType);
 				break;
 			case AbilityType.Blast:
 				TriggerBlast(casterType,castDirection,casterStandingCell, timeType);
@@ -79,14 +79,15 @@ public class AbilityData : ScriptableObject
 				break;
 		}
 	}
-	private void TriggerProjectile(HexDirection castingDirection, HexCellComponent casterStandingCell,TimeType timeType)
+	private void TriggerProjectile(CasterType casterType,HexDirection castingDirection, HexCellComponent casterStandingCell,TimeType timeType)
 	{
 		if (projectileParam != null)
 		{
 			HexCellComponent spawnCell = BattleManager.Instance.hexgrid.GetCellByDirection(casterStandingCell, castingDirection);
 			GameObject bulletObject = Instantiate(Object_fx, spawnCell.transform.position + projectileParam.VFX_Height_Offset, Quaternion.identity);
-			var bulletComponent = bulletObject.AddComponent<BulletActor>();
+			var bulletComponent = bulletObject.AddComponent<ProjectileActor>();
 			bulletComponent.InitBullet(
+				casterType,
 				this.projectileParam,
 				castingDirection,
 				spawnCell

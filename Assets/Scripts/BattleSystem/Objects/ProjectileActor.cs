@@ -4,10 +4,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using DG.Tweening;
 
-public class BulletActor : TimedActor
+public class ProjectileActor : DamageDealer
 {
-    public float Damage { get; private set; }
-    public float Speed { get; private set; }
+    public float TravelSpeed { get; private set; }
     public Vector3Int StandingPos;
     public HexDirection TargetDirection { get; set; }
     public float LifeTime { get; private set; }
@@ -19,11 +18,12 @@ public class BulletActor : TimedActor
     private Quaternion targetRotation;
     private ProjectileBehavior behavior;
 
-    public void InitBullet(ProjectileParameter parameter, HexDirection castingDirection, HexCellComponent casterCell)
+    public void InitBullet(CasterType casterType,ProjectileParameter parameter, HexDirection castingDirection, HexCellComponent casterCell)
     {
-        this.gameObject.tag = "IDamagable";
-        Damage = parameter.Damage;
-        Speed = parameter.TravelSpeed;
+        this.casterType = casterType;
+        this.gameObject.tag = "DamageDealer";
+        _damage = parameter.Damage;
+        TravelSpeed = parameter.TravelSpeed;
         LifeTime = parameter.LifeTime;
         InitialLifeTime = parameter.LifeTime;
         TargetDirection = castingDirection;
@@ -46,7 +46,7 @@ public class BulletActor : TimedActor
         }
         else
         {
-            SelfDestroy();
+            Destroy(gameObject);
         }
     }
     
@@ -54,7 +54,7 @@ public class BulletActor : TimedActor
     private void AddBehavior<T>() where T : ProjectileBehavior
     {
         behavior = gameObject.AddComponent<T>();
-        behavior.Init(this, StandingPos, TargetDirection, Speed,height_Offset, LifeTime);
+        behavior.Init(this, StandingPos, TargetDirection, TravelSpeed,height_Offset, LifeTime);
     }
 
 
@@ -63,17 +63,15 @@ public class BulletActor : TimedActor
     {
 
       behavior.UpdateBehavior();
-      yield return new WaitForSeconds(Speed);
+      yield return new WaitForSeconds(TravelSpeed);
       
     }
     
 
-    public void SelfDestroy()
+    public override void DoDamage(Action<float> damageAction, GameObject source = null)
     {
-        Destroy(gameObject);
+        damageAction?.Invoke(_damage);
+        Destroy(this.gameObject);
     }
 
-    private void OnDestroy()
-    {
-    }
 }
