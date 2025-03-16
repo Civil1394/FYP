@@ -43,7 +43,7 @@ public class BlastActor : DamageDealer
 
 	public override void DoDamage(Action<float> damageAction,GameObject sourceVFX)
 	{
-		
+		damageAction?.Invoke(_damage);
 		Destroy(sourceVFX);
 	}
 }
