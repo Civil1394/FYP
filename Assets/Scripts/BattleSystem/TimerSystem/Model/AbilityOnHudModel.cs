@@ -18,19 +18,10 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
     private AbilityColorType abilityColor;
     private bool fullyCharged = false;
     private Vector2 playerActionHudControllerVector2;
-    // This callback is provided by the HUD controller.
-    // When the ability is fully charged, the controller will be notified (with the current direction).
     private Action<HexDirection> onDirectionCharged;
-    private float currentZRotation;
-    /// <summary>
-    /// Initializes the HUD model for a specific direction.
-    /// </summary>
-    /// <param name="hexDirection">The direction (or slot index) of this ability.</param>
-    /// <param name="requireSteps">How many steps are required to fully charge this ability.</param>
-    /// <param name="iconSprite">The icon representing the ability.</param>
-    /// <param name="colorType">The color type of the ability.</param>
-    /// <param name="OnFullyCharged">Callback to notify when fully charged.</param>
-    public void Init(HexDirection hexDirection,int requireSteps, Sprite iconSprite,AbilityColorType colorType, Action<HexDirection> OnFullyCharged)
+    public float currentZRotation;
+
+    public void Init(HexDirection hexDirection, int requireSteps, Sprite iconSprite, AbilityColorType colorType, Action<HexDirection> OnFullyCharged)
     {
         this.direction = hexDirection;
         this.maxChargeStepsCount = requireSteps;
@@ -39,10 +30,10 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
 
         Color abilityColor = AbilityColorHelper.GetAbilityColor(colorType);
         this.iconFill.color = abilityColor;
-        
+
         abilityColor.a = 0.3f;
         this.iconBg.color = abilityColor;
-        
+
         onDirectionCharged = OnFullyCharged;
         Reset();
     }
@@ -61,14 +52,10 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         Reset();
     }
 
-    /// <summary>
-    /// Called externally to add charge steps. When the accumulated steps reach the required count, the ability is considered fully charged.
-    /// </summary>
-    /// <param name="addOnSteps">The number of steps to add.</param>
     public void NotifyUpdate(int addOnSteps)
     {
         if (fullyCharged) return;
-        
+
         chargedSteps = Math.Clamp(chargedSteps + addOnSteps, 0, maxChargeStepsCount);
         float targetFill = (float)chargedSteps / maxChargeStepsCount;
 
@@ -81,9 +68,6 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
             }));
     }
 
-    /// <summary>
-    /// Resets the ability charge.
-    /// </summary>
     public void Reset()
     {
         chargedSteps = 0;
@@ -91,32 +75,61 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         fullyCharged = false;
         DOTween.Kill(iconFill);
     }
-    
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        var rotation = transform.rotation;
-        rotation.z = PlayerActionHudController.Instance.rotationZs[(int)direction];
-        transform.rotation = rotation;
+        // Snap back to the original position
+        UpdateRotation(PlayerActionHudController.Instance.rotationZs[(int)direction]);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.up = playerActionHudControllerVector2 - eventData.position;
-        if (transform.rotation.z > currentZRotation + 30)
+        Vector2 dir = playerActionHudControllerVector2 - eventData.position;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
+        angle = ToPositiveAngle(angle);
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        // Determine which hex direction this angle corresponds to
+        int newDirectionIndex = DetermineHexDirectionFromAngle(angle);
+        HexDirection newDirection = (HexDirection)newDirectionIndex;
+    
+        // Only swap if the direction has actually changed
+        if (newDirection != direction)
         {
-            PlayerActionHudController.Instance.SwapAbilitySlot(direction, (HexDirection)(((int)direction + 1)%6));
+            PlayerActionHudController.Instance.SwapAbilitySlot(direction, newDirection);
+            // Update the current rotation after swapping
+            currentZRotation = PlayerActionHudController.Instance.rotationZs[(int)direction];
         }
-        if (transform.rotation.z > currentZRotation - 30)
+    }
+
+    private int DetermineHexDirectionFromAngle(float angle)
+    {
+        // Get reference to the rotationZs array
+        int[] rotations = PlayerActionHudController.Instance.rotationZs;
+    
+        // Find the closest rotation angle
+        int closestIndex = 0;
+        float minDifference = float.MaxValue;
+    
+        for (int i = 0; i < rotations.Length; i++)
         {
-            PlayerActionHudController.Instance.SwapAbilitySlot(direction, (HexDirection)(((int)direction - 1)%6));
+            float rotationAngle = rotations[i];
+            float difference = CalculateAngleDifference(angle, rotationAngle);
+        
+            if (difference < minDifference)
+            {
+                minDifference = difference;
+                closestIndex = i;
+            }
         }
+    
+        return closestIndex;
     }
 
     public void UpdateRotation(int newZRotation)
     {
         var rotation = transform.rotation;
-        rotation.z = newZRotation;
+        rotation.eulerAngles = new Vector3(0, 0, newZRotation);
         transform.rotation = rotation;
     }
 
@@ -125,6 +138,32 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         currentZRotation = PlayerActionHudController.Instance.rotationZs[(int)newDirection];
         direction = newDirection;
     }
-}
 
-  
+    float ToPositiveAngle(float angle)
+    {
+        // Normalize the angle to the range [0, 360)
+        angle = angle % 360; // Reduce to [-360, 360]
+        if (angle < 0)
+        {
+            angle += 360; // Convert negative angles to positive
+        }
+        return angle;
+    }
+    float CalculateAngleDifference(float angle1, float angle2)
+    {
+        // Normalize the angles to be within 0-360 degrees
+        angle1 = ToPositiveAngle(angle1);
+        angle2 = ToPositiveAngle(angle2);
+
+        // Calculate the raw difference
+        float difference = Mathf.Abs(angle1 - angle2);
+
+        // If the difference is greater than 180 degrees, take the smaller angle (360 - difference)
+        if (difference > 180)
+        {
+            difference = 360 - difference;
+        }
+
+        return difference;
+    }
+}
