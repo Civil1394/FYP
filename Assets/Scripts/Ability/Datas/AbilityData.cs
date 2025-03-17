@@ -1,0 +1,110 @@
+using UnityEngine;
+using System.Collections;
+using JetBrains.Annotations;
+using UnityEngine.Serialization;
+
+[CreateAssetMenu(fileName = "Ability", menuName ="Ability/AbilityData")]
+public class AbilityData : ScriptableObject
+{
+	public string id;
+	
+	[Header("Type")]
+	public AbilityType abilityType;              
+	[ConditionalField("abilityType", AbilityType.Projectile)]
+	public ProjectileParameter projectileParam;
+	
+	[ConditionalField("abilityType", AbilityType.ProijectileVolley)]
+	public ProjectileVolleyParameter projVolleyParam;
+	
+	[ConditionalField("abilityType", AbilityType.Blast)]
+	public BlastParameter blastParam;
+	
+	[ConditionalField("abilityType", AbilityType.Dash)]
+	public DashParameter dashParam;
+
+	public int PrerequisiteChargeSteps;
+	[Header("Text")]
+	public string Title;
+
+	[TextArea(5, 7)]
+	public string Desc;
+	
+	[Header("Icon")]
+	public Sprite Icon;
+	[Header("Cast")]
+	public AbilityCastType CastType;
+    
+	[Header("FX")]
+	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.ProijectileVolley,AbilityType.Blast,AbilityType.Dash)]
+	public GameObject Object_fx;
+	
+	public AbilityColorType ColorType;
+
+	/// <summary>
+	/// Creates a new AbilityData instance with a specified color type.
+	/// </summary>
+	/// <param name="isRandom">If true, selects a random color type.</param>
+	/// <param name="color">Optional: Specifies the ability color. If null, a random color will be chosen.</param>
+	/// <returns>Returns a new instance of AbilityData.</returns>
+	public AbilityData Create(AbilityData bp, bool isRandom, AbilityColorType? color = null)
+	{
+		if (bp == null) return null;
+		
+		AbilityData ability = Instantiate(bp);
+
+		if (!isRandom)
+		{
+			ability.ColorType = color ?? (AbilityColorType)Random.Range(0, 3);
+		}
+		else
+		{
+			ability.ColorType = (AbilityColorType)Random.Range(0, 3);
+		}
+
+		return ability;
+	}
+	public void TriggerAbility(CasterType casterType, HexDirection castDirection, HexCellComponent casterStandingCell, TimeType timeType)
+	{
+		IAbilityExecutor executor = AbilityExecutorFactory.CreateExecutor(this);
+		if (executor != null)
+		{
+			executor.Execute(casterType, castDirection, casterStandingCell, timeType);
+		}
+		else
+		{
+			Debug.LogWarning($"No executor found for ability type: {abilityType}");
+		}
+	}
+}
+public enum AbilityType
+{
+	Projectile = 0,
+	ProijectileVolley = 1,
+	Blast = 10,
+	Dash = 20
+}
+
+public enum AbilityCastType
+{
+	Auto_targeted,
+	Direction_targeted,
+	Location_targeted,
+	Unit_targeted,
+	Self_cast,
+}
+public enum AbilityTarget
+{
+	None,
+	Player,
+	Enemy,
+	Environment
+}
+
+//Identify who cast the ability
+public enum CasterType
+{
+	Player,
+	Enemy,
+	None
+}
+

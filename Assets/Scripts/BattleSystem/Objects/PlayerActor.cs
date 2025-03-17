@@ -65,20 +65,7 @@ public class PlayerActor : TimedActor
 		}
 		
 	}
-
-	protected override void Start()
-	{
-		//attackPattern = PresetPatterns.AoePattern(2);
-		
-		base.Start();
-		
-		
-		//abandoned
-		//BattleManager.Instance.InputHandler.OnMoveClick.AddListener<HexCellComponent>(QueueMoveAction);
-		//BattleManager.Instance.InputHandler.OnCastClick.AddListener<HexCellComponent>(QueueCastAction);
-		
-
-	}
+	
 
 	private void OnDestroy()
 	{
@@ -128,7 +115,7 @@ public class PlayerActor : TimedActor
 				ExecuteMoveAction();
 				break;
 			case PlayerActionType.Cast:
-				//ExecuteCastAction();
+
 				break;
 		}
 

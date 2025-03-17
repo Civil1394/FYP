@@ -58,7 +58,7 @@ MonoBehaviour:
   emptyColor: {r: 1, g: 1, b: 1, a: 0.105882354}
   invalidColor: {r: 1, g: 0, b: 0, a: 0.49019608}
   validMoveRangeColor: {r: 0.21933962, g: 0.8773585, b: 0.3533654, a: 0.48235294}
-  validAttackRangeColor: {r: 0.8773585, g: 0.61025804, b: 0.23589355, a: 0.29411766}
+  validAttackRangeColor: {r: 0.8773585, g: 0.61025804, b: 0.23589355, a: 0.31764707}
   objectStandingColor: {r: 0.087736584, g: 0.4433962, b: 0.010457456, a: 0.92156863}
   DebugCoord: {fileID: 1087753283687301406}
 --- !u!114 &-5586953948419392428
