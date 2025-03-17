@@ -14,7 +14,7 @@ public class AbilityData : ScriptableObject
 	public ProjectileParameter projectileParam;
 	
 	[ConditionalField("abilityType", AbilityType.ProijectileVolley)]
-	public ProjectileVolleyParameter projVolleyParam;
+	public ProjectileVolleyParameter projectileVolleyParam;
 	
 	[ConditionalField("abilityType", AbilityType.Blast)]
 	public BlastParameter blastParam;
@@ -76,35 +76,5 @@ public class AbilityData : ScriptableObject
 		}
 	}
 }
-public enum AbilityType
-{
-	Projectile = 0,
-	ProijectileVolley = 1,
-	Blast = 10,
-	Dash = 20
-}
 
-public enum AbilityCastType
-{
-	Auto_targeted,
-	Direction_targeted,
-	Location_targeted,
-	Unit_targeted,
-	Self_cast,
-}
-public enum AbilityTarget
-{
-	None,
-	Player,
-	Enemy,
-	Environment
-}
-
-//Identify who cast the ability
-public enum CasterType
-{
-	Player,
-	Enemy,
-	None
-}
 

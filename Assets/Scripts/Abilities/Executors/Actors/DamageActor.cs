@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using JetBrains.Annotations;
 
-public abstract class DamageDealer : MonoBehaviour
+public abstract class DamageActor : MonoBehaviour
 {
 	
 	protected CasterType casterType;

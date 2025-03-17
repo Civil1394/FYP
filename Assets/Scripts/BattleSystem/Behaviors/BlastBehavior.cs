@@ -43,7 +43,7 @@ public class LinearBlastBehavior : BlastBehavior
 				var part =Instantiate(blastVFX,cellsInStep[i].transform.position,Quaternion.Euler(-90,0,0));
 				part.transform.parent = this.transform;
 				part.name = "blastVFX";
-				part.tag = "DamageDealer";
+				part.tag = "DamageActor";
 				
 				var c = cellsInStep[i].CellData.GetNeighbor(castingDirection);
 				if (c == null || c.CellType == CellType.Invalid)

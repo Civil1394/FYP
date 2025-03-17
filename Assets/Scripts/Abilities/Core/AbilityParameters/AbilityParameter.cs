@@ -11,8 +11,6 @@ public abstract class AbilityParameter
 public class BlastParameter : AbilityParameter
 {
 	public float Damage;
-	
-	//public PresetPatternType patternType;
 	public int Width;
 	public float BlastStepDelay;
 	public int BlastStepCount;

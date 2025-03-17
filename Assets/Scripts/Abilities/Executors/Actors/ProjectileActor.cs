@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using DG.Tweening;
 
-public class ProjectileActor : DamageDealer
+public class ProjectileActor : DamageActor
 {
     public float TravelSpeed { get; private set; }
     public Vector3Int StandingPos;
@@ -21,7 +21,7 @@ public class ProjectileActor : DamageDealer
     public void InitBullet(CasterType casterType,ProjectileParameter parameter, HexDirection castingDirection, HexCellComponent casterCell)
     {
         this.casterType = casterType;
-        this.gameObject.tag = "DamageDealer";
+        this.gameObject.tag = "DamageActor";
         _damage = parameter.Damage;
         TravelSpeed = parameter.TravelSpeed;
         LifeTime = parameter.LifeTime;

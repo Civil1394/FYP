@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public class BlastActor : DamageDealer
+public class BlastActor : DamageActor
 {
 	
 	public GameObject BlastVFXObject { get; private set; }
@@ -13,7 +13,7 @@ public class BlastActor : DamageDealer
 	{
 		this.casterType = casterType;
 		this.gameObject.name = "BlastActor";
-		this.tag = "DamageDealer";
+		this.tag = "DamageActor";
 		this.parameter = BlastParameter;
 		base.Init(parameter.Damage);
 		this.BlastVFXObject = blast_VFX_Object;
