@@ -26,6 +26,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     {
         
     }
+    
     /// <summary>
     /// Initializes the HUD with a list of abilities.
     /// </summary>
@@ -99,9 +100,6 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
         return false;
     }
     
-    
-
-    
     public void ChangeFaceDirection(int newDirection)
     {
         if (playerActor.TryChangeFacingDirection((HexDirection)newDirection))
@@ -122,5 +120,10 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
         if(objectTransform == null) Debug.LogWarning("Action Hud Object transform is null");
         objectTransform.localRotation = Quaternion.Euler(0, 0, cameraRotation+delta);
         //objectTransform.DOLocalRotate(new Vector3(0,0,cameraRotation + delta), .2f);
+    }
+
+    public void SwapAbilitySlot(int a, int b)
+    {
+        
     }
 }

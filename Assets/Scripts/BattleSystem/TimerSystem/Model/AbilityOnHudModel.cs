@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.EventSystems;
+using Button = UnityEngine.UI.Button;
+using Image = UnityEngine.UI.Image;
 
-public class AbilityOnHudModel : MonoBehaviour
+public class AbilityOnHudModel : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     [SerializeField] private Image iconFill;
     [SerializeField] private Image iconBg;
@@ -83,6 +84,21 @@ public class AbilityOnHudModel : MonoBehaviour
         iconFill.fillAmount = 0;
         fullyCharged = false;
         DOTween.Kill(iconFill);
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        throw new NotImplementedException();
     }
 }
 
