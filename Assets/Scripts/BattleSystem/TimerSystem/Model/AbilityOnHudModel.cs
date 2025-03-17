@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 
-public class AbilityOnHudModel : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
 {
     [SerializeField] private Image iconFill;
     [SerializeField] private Image iconBg;
@@ -17,11 +17,11 @@ public class AbilityOnHudModel : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     private int chargedSteps = 0;
     private AbilityColorType abilityColor;
     private bool fullyCharged = false;
-
+    private Vector2 playerActionHudControllerVector2;
     // This callback is provided by the HUD controller.
     // When the ability is fully charged, the controller will be notified (with the current direction).
     private Action<HexDirection> onDirectionCharged;
-    
+    private float currentZRotation;
     /// <summary>
     /// Initializes the HUD model for a specific direction.
     /// </summary>
@@ -47,7 +47,13 @@ public class AbilityOnHudModel : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         Reset();
     }
 
-    
+    public void Start()
+    {
+        playerActionHudControllerVector2 = new Vector2(PlayerActionHudController.Instance.transform.position.x,
+            PlayerActionHudController.Instance.transform.position.y);
+        currentZRotation = transform.rotation.z;
+    }
+
     private void HandleChargeCompletion(Action<HexDirection> fullyChargedCallback)
     {
         if (!fullyCharged) return;
@@ -85,20 +91,39 @@ public class AbilityOnHudModel : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         fullyCharged = false;
         DOTween.Kill(iconFill);
     }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        throw new NotImplementedException();
-    }
+    
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        throw new NotImplementedException();
+        var rotation = transform.rotation;
+        rotation.z = PlayerActionHudController.Instance.rotationZs[(int)direction];
+        transform.rotation = rotation;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        throw new NotImplementedException();
+        transform.up = playerActionHudControllerVector2 - eventData.position;
+        if (transform.rotation.z > currentZRotation + 30)
+        {
+            PlayerActionHudController.Instance.SwapAbilitySlot(direction, (HexDirection)(((int)direction + 1)%6));
+        }
+        if (transform.rotation.z > currentZRotation - 30)
+        {
+            PlayerActionHudController.Instance.SwapAbilitySlot(direction, (HexDirection)(((int)direction - 1)%6));
+        }
+    }
+
+    public void UpdateRotation(int newZRotation)
+    {
+        var rotation = transform.rotation;
+        rotation.z = newZRotation;
+        transform.rotation = rotation;
+    }
+
+    public void UpdateDirection(HexDirection newDirection)
+    {
+        currentZRotation = PlayerActionHudController.Instance.rotationZs[(int)newDirection];
+        direction = newDirection;
     }
 }
 

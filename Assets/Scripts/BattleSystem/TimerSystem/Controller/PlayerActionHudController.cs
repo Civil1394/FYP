@@ -13,6 +13,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     
     [Header("AbilityModel Related")]
     [SerializeField] private List<AbilityOnHudModel> abilityModels = new List<AbilityOnHudModel>();
+    public int[] rotationZs = { 210, 270, 330, 30, 90, 150 };
     
     
     // This list acts as a queue for the abilities displayed on the HUD.
@@ -122,8 +123,13 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
         //objectTransform.DOLocalRotate(new Vector3(0,0,cameraRotation + delta), .2f);
     }
 
-    public void SwapAbilitySlot(int a, int b)
+    public void SwapAbilitySlot(HexDirection a, HexDirection b)
     {
-        
+        AbilityOnHudModel tmp = abilityModels[(int)a];
+        abilityModels[(int)a] = abilityModels[(int)b];
+        abilityModels[(int)b] = tmp;
+        abilityModels[(int)a].UpdateDirection(a);
+        abilityModels[(int)b].UpdateDirection(b);
+        abilityModels[(int)a].UpdateRotation(rotationZs[(int)a]);
     }
 }
