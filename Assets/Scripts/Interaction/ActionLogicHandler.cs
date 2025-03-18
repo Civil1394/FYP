@@ -57,6 +57,15 @@ public class ActionLogicHandler : MonoBehaviour
 				if (c == null || c.CellType == CellType.Invalid) return;
 				HandleDirectionalCast(ability, c.ParentComponent ,HourglassInventory.Instance.hourglassesList[0].TimeType);
 				break;
+			case AbilityCastType.Auto_targeted:
+				Debug.LogError("Auto targeted No Implementation");
+				break;
+			case AbilityCastType.Location_targeted:
+				Debug.LogError("Locationtargeted no implementation");
+				break;
+			case AbilityCastType.Self_cast:
+				Debug.LogError("Self cast no implementation");
+				break;
 		}
 		
 	}

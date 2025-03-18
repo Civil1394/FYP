@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 
 public class ProjectileVolleyAbilityExecutor: IAbilityExecutor
 {
@@ -11,8 +12,47 @@ public class ProjectileVolleyAbilityExecutor: IAbilityExecutor
 		this.objectFx = objectFx;
 		this.parameters = parameters;
 	}
+
 	public void Execute(CasterType casterType, HexDirection castDirection, HexCellComponent casterStandingCell, TimeType timeType)
 	{
-		throw new System.NotImplementedException();
+		FireVolleyAsync(casterType, castDirection, casterStandingCell).Forget();
+	}
+	
+	private async UniTask FireVolleyAsync(CasterType casterType, HexDirection castDirection, HexCellComponent casterStandingCell)
+	{
+		for (int i = 0; i < parameters.BurstCount; i++)
+		{
+			await Burst(casterType, castDirection, casterStandingCell);
+        
+			// Wait for the delay between bursts (except after the last shot)
+			if (i < parameters.BurstCount - 1)
+			{
+				await UniTask.Delay((int)(parameters.DelayBetweenBurst * 1000)); // Convert seconds to milliseconds
+			}
+		}
+	}
+
+	private async UniTask Burst(CasterType casterType, HexDirection castDirection, HexCellComponent casterStandingCell)
+	{
+		for (int i = 0; i < parameters.ProjectilePerBurst; i++)
+		{
+			HexCellComponent spawnCell =
+				BattleManager.Instance.hexgrid.GetCellByDirection(casterStandingCell, castDirection);
+			GameObject bulletObject = Object.Instantiate(objectFx,
+				spawnCell.transform.position + parameters.ProjectileConfig.VFX_Height_Offset, Quaternion.identity);
+			var bulletComponent = bulletObject.AddComponent<ProjectileActor>();
+			bulletComponent.InitBullet(
+				casterType,
+				parameters.ProjectileConfig,
+				castDirection,
+				spawnCell
+			);
+
+			if (i < parameters.ProjectilePerBurst - 1)
+			{
+				await UniTask.Delay((int)(parameters.DelayBetweenProjectiles * 1000));
+			}
+		}
+		
 	}
 }

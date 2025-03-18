@@ -13,7 +13,7 @@ public class AbilityData : ScriptableObject
 	[ConditionalField("abilityType", AbilityType.Projectile)]
 	public ProjectileParameter projectileParam;
 	
-	[ConditionalField("abilityType", AbilityType.ProijectileVolley)]
+	[ConditionalField("abilityType", AbilityType.ProjectileVolley)]
 	public ProjectileVolleyParameter projectileVolleyParam;
 	
 	[ConditionalField("abilityType", AbilityType.Blast)]
@@ -35,7 +35,7 @@ public class AbilityData : ScriptableObject
 	public AbilityCastType CastType;
     
 	[Header("FX")]
-	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.ProijectileVolley,AbilityType.Blast,AbilityType.Dash)]
+	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.ProjectileVolley,AbilityType.Blast,AbilityType.Dash)]
 	public GameObject Object_fx;
 	
 	public AbilityColorType ColorType;
