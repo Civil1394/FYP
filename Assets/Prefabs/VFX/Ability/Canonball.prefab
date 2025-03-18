@@ -4803,7 +4803,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.0022}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5059470196639411439}
@@ -19389,7 +19389,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1525780614021214497
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19744,6 +19744,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GlobalCanvasHourGlass
+      objectReference: {fileID: 0}
+    - target: {fileID: 3496788213973212218, guid: 332c13a7f60b80643bd003a13cdbba9a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

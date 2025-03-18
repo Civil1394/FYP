@@ -19,13 +19,23 @@ MonoBehaviour:
     TravelSpeed: 0
     LifeTime: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
+  projectileVolleyParam:
+    ProjectileConfig:
+      Damage: 0
+      TravelSpeed: 0
+      LifeTime: 0
+      VFX_Height_Offset: {x: 0, y: 0, z: 0}
+    ProjectilePerBurst: 1
+    DelayBetweenProjectiles: 0
+    BurstCount: 1
+    DelayBetweenBurst: 0
   blastParam:
     Damage: 10
     Width: 3
     BlastStepDelay: 0.1
     BlastStepCount: 8
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
-  PrerequisiteChargeSteps: 1
+  PrerequisiteChargeSteps: 2
   Title: 
   Desc: 
   Icon: {fileID: 21300000, guid: 153d5d0187375dd4ea8e98c50ae6e234, type: 3}

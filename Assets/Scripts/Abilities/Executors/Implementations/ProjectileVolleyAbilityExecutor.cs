@@ -36,10 +36,11 @@ public class ProjectileVolleyAbilityExecutor: IAbilityExecutor
 	{
 		for (int i = 0; i < parameters.ProjectilePerBurst; i++)
 		{
+			Vector3 randDelta = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
 			HexCellComponent spawnCell =
 				BattleManager.Instance.hexgrid.GetCellByDirection(casterStandingCell, castDirection);
 			GameObject bulletObject = Object.Instantiate(objectFx,
-				spawnCell.transform.position + parameters.ProjectileConfig.VFX_Height_Offset, Quaternion.identity);
+				spawnCell.transform.position + parameters.ProjectileConfig.VFX_Height_Offset + randDelta, Quaternion.identity);
 			var bulletComponent = bulletObject.AddComponent<ProjectileActor>();
 			bulletComponent.InitBullet(
 				casterType,
