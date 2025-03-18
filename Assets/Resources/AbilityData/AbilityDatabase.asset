@@ -15,4 +15,4 @@ MonoBehaviour:
   abilityLists:
   - listName: 1
     abilities:
-    - {fileID: 11400000, guid: 508e71a5d9770274a933dc9fb2268f80, type: 2}
+    - {fileID: 11400000, guid: be571eccfb4ece345b7bd9097785517b, type: 2}

@@ -11,7 +11,7 @@ public static class AbilityExecutorFactory
 				return new ProjectileAbilityExecutor(abilityData.Object_fx, abilityData.projectileParam);
 			case AbilityType.Blast:
 				return new BlastAbilityExecutor(abilityData.Object_fx, abilityData.blastParam);
-			case AbilityType.ProijectileVolley:
+			case AbilityType.ProjectileVolley:
 				return new ProjectileVolleyAbilityExecutor(abilityData.Object_fx, abilityData.projectileVolleyParam);
 			default:
 				Debug.LogWarning($"No executor implemented for ability type: {abilityData.abilityType}");

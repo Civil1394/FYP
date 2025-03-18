@@ -4,7 +4,7 @@ using System.Collections;
 public enum AbilityType
 {
 	Projectile = 0,
-	ProijectileVolley = 1,
+	ProjectileVolley = 1,
 	Blast = 10,
 	Dash = 20
 }

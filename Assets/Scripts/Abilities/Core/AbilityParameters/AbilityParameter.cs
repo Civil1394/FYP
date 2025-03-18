@@ -35,16 +35,16 @@ public class ProjectileVolleyParameter : AbilityParameter
 	public ProjectileParameter ProjectileConfig;
 
 	[Tooltip("Number of projectiles fired in a single cast")]
-	public int ProjectilesPerCast = 1;
+	public int ProjectilePerBurst = 1;
 
 	[Tooltip("Delay between firing each projectile within a cast (0 = all at once)")]
 	public float DelayBetweenProjectiles = 0f;
 
 	[Tooltip("Total number of times this volley is repeated (e.g., 3 bursts)")]
-	public int NumberOfCasts = 1;
+	public int BurstCount = 1;
 
 	[Tooltip("Delay between each cast of the volley")]
-	public float DelayBetweenCasts = 0f;
+	public float DelayBetweenBurst = 0f;
 }
 [System.Serializable]
 public class DashParameter : AbilityParameter
