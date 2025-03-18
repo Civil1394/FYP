@@ -35,7 +35,7 @@ MonoBehaviour:
     BlastStepDelay: 0
     BlastStepCount: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
-  PrerequisiteChargeSteps: 3
+  PrerequisiteChargeSteps: 2
   Title: MiniGun
   Desc: 
   Icon: {fileID: 21300000, guid: e483684ce17132445bdc2e83c34f6054, type: 3}
