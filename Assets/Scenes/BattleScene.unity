@@ -3860,7 +3860,22 @@ PrefabInstance:
     - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.003921569
+      value: 0.007843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6884323695978738214, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
@@ -6033,6 +6048,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 1
   m_AspectRatio: 2.162393
+--- !u!21 &723600101
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI Extensions/SoftMaskShader
+  m_Shader: {fileID: 4800000, guid: 947afae4d36f1274ea2e4098262ceef6, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaMask:
+        m_Texture: {fileID: 2800000, guid: 37d0c694d097ad94195b572b73e527c9, type: 3}
+        m_Scale: {x: 0.00052083336, y: 0.0025}
+        m_Offset: {x: 0.5, y: -0.92749995}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _CutOff: 0
+    - _FlipAlphaMask: 0
+    - _HardBlend: 0
+    - _NoOuterClip: 0
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &735079746 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4456700375310258992, guid: fb980e345945b59448cb9d2f94e6ca55,
@@ -7292,7 +7353,22 @@ PrefabInstance:
     - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.003921569
+      value: 0.007843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6884323695978738214, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
@@ -7403,52 +7479,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1228440618}
   m_SourcePrefab: {fileID: 100100000, guid: fb980e345945b59448cb9d2f94e6ca55, type: 3}
---- !u!21 &857510262
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI Extensions/SoftMaskShader
-  m_Shader: {fileID: 4800000, guid: 947afae4d36f1274ea2e4098262ceef6, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaMask:
-        m_Texture: {fileID: 2800000, guid: 37d0c694d097ad94195b572b73e527c9, type: 3}
-        m_Scale: {x: 0.00052083336, y: 0.0009259259}
-        m_Offset: {x: 0.5, y: 0.8687394}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _CutOff: 0
-    - _FlipAlphaMask: 0
-    - _HardBlend: 0
-    - _NoOuterClip: 0
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &867934731
 GameObject:
   m_ObjectHideFlags: 0
@@ -8296,6 +8326,52 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 943029225}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!21 &1009644246
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI Extensions/SoftMaskShader
+  m_Shader: {fileID: 4800000, guid: 947afae4d36f1274ea2e4098262ceef6, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaMask:
+        m_Texture: {fileID: 2800000, guid: 37d0c694d097ad94195b572b73e527c9, type: 3}
+        m_Scale: {x: 0.00052083336, y: 0.0009259259}
+        m_Offset: {x: 0.5, y: 0.96018517}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _CutOff: 0
+    - _FlipAlphaMask: 0
+    - _HardBlend: 0
+    - _NoOuterClip: 0
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &1033776677
 GameObject:
   m_ObjectHideFlags: 0
@@ -9153,6 +9229,7 @@ MonoBehaviour:
   - {fileID: 877638163}
   - {fileID: 1317065249}
   rotationZs: d20000000e0100004a0100001e0000005a00000096000000
+  cameraRotationCnt: 0
 --- !u!225 &1147286908
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -9788,7 +9865,22 @@ PrefabInstance:
     - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.003921569
+      value: 0.007843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6884323695978738214, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
@@ -10256,7 +10348,22 @@ PrefabInstance:
     - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.003921569
+      value: 0.007843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6884323695978738214, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
@@ -10415,7 +10522,22 @@ PrefabInstance:
     - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.003921569
+      value: 0.007843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6884323695978738214, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
@@ -14203,52 +14325,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1601080099}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!21 &1608265535
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI Extensions/SoftMaskShader
-  m_Shader: {fileID: 4800000, guid: 947afae4d36f1274ea2e4098262ceef6, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaMask:
-        m_Texture: {fileID: 2800000, guid: 37d0c694d097ad94195b572b73e527c9, type: 3}
-        m_Scale: {x: 0.00052083336, y: 0.0025}
-        m_Offset: {x: 0.5, y: -0.6805966}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _CutOff: 0
-    - _FlipAlphaMask: 0
-    - _HardBlend: 0
-    - _NoOuterClip: 0
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &1625559842
 GameObject:
   m_ObjectHideFlags: 0
@@ -16257,18 +16333,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
+      propertyPath: m_Color.a
+      value: 0.007843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
+        type: 3}
       propertyPath: m_Color.b
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4992838092888289240, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6884323695978738214, guid: fb980e345945b59448cb9d2f94e6ca55,
         type: 3}
@@ -17350,7 +17431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 857510262}
+  m_Material: {fileID: 1009644246}
   m_Color: {r: 0.8037735, g: 0.8037735, b: 0.8037735, a: 0.9607843}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -18109,7 +18190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 1608265535}
+  m_Material: {fileID: 723600101}
   m_Color: {r: 0.8039216, g: 0.8039216, b: 0.8039216, a: 0.9607843}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}

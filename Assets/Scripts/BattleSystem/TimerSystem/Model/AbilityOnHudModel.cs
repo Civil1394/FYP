@@ -31,7 +31,7 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         Color abilityColor = AbilityColorHelper.GetAbilityColor(colorType);
         this.iconFill.color = abilityColor;
 
-        abilityColor.a = 0.3f;
+        abilityColor.a = 0.5f;
         this.iconBg.color = abilityColor;
 
         onDirectionCharged = OnFullyCharged;
