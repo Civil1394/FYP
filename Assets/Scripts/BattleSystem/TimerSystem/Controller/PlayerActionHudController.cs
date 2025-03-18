@@ -14,7 +14,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     [Header("AbilityModel Related")]
     [SerializeField] private List<AbilityOnHudModel> abilityModels = new List<AbilityOnHudModel>();
     public int[] rotationZs = { 210, 270, 330, 30, 90, 150 };
-    
+    public int cameraRotationCnt;
     
     // This list acts as a queue for the abilities displayed on the HUD.
     //private List<AbilityData> equippedAbilities;

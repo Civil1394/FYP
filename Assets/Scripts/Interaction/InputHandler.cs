@@ -213,8 +213,7 @@ public class InputHandler : MonoBehaviour
 		float cameraAngle = orbitalTransposer.m_XAxis.Value;
 		cameraAngle = ToPositiveAngle(cameraAngle);
 		int cameraRotationCnt = 6 - (int)((cameraAngle + 45) / 60);
-		print(cameraRotationCnt);
-
+		PlayerActionHudController.Instance.cameraRotationCnt = cameraRotationCnt;
 		#region Movement input
 
 		if (Input.GetKeyDown(KeyCode.W))

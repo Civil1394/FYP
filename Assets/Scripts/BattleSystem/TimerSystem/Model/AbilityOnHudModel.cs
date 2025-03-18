@@ -84,21 +84,38 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 dir = playerActionHudControllerVector2 - eventData.position;
+        // If this is a Canvas in Screen Space - Overlay or Screen Space - Camera mode
+        RectTransform hudTransform = PlayerActionHudController.Instance.transform as RectTransform;
+        Vector2 localMousePos;
+    
+        // Convert screen position to local position within the UI canvas
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            hudTransform, 
+            eventData.position, 
+            eventData.pressEventCamera, 
+            out localMousePos);
+    
+        // Calculate direction in UI local space
+        Vector2 dir = Vector2.zero - localMousePos; // Assuming hub center is at local 0,0
+    
+        // Calculate angle in UI local space 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
         angle = ToPositiveAngle(angle);
+    
+        // Apply rotation (in local space)
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
         // Determine which hex direction this angle corresponds to
         int newDirectionIndex = DetermineHexDirectionFromAngle(angle);
-        HexDirection newDirection = (HexDirection)newDirectionIndex;
+        HexDirection newDirection =
+            (HexDirection)((newDirectionIndex + PlayerActionHudController.Instance.cameraRotationCnt) % 6);
     
         // Only swap if the direction has actually changed
         if (newDirection != direction)
         {
             PlayerActionHudController.Instance.SwapAbilitySlot(direction, newDirection);
             // Update the current rotation after swapping
-            currentZRotation = PlayerActionHudController.Instance.rotationZs[(int)direction];
+            //currentZRotation = PlayerActionHudController.Instance.rotationZs[(int)direction];
         }
     }
 
@@ -130,7 +147,8 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
     {
         var rotation = transform.rotation;
         rotation.eulerAngles = new Vector3(0, 0, newZRotation);
-        transform.rotation = rotation;
+        transform.DOLocalRotateQuaternion(rotation, 0.1f);
+        // transform.rotation = rotation;
     }
 
     public void UpdateDirection(HexDirection newDirection)
