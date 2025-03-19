@@ -19,12 +19,14 @@ MonoBehaviour:
     TravelSpeed: 0
     LifeTime: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
+    IsSelfDestructOnCollision: 0
   projectileVolleyParam:
     ProjectileConfig:
       Damage: 1
       TravelSpeed: 20
       LifeTime: 5
       VFX_Height_Offset: {x: 0, y: 3, z: 0}
+      IsSelfDestructOnCollision: 1
     ProjectilePerBurst: 3
     DelayBetweenProjectiles: 0.05
     BurstCount: 3

@@ -10,11 +10,9 @@ public class ProjectileActor : DamageActor
     public Vector3Int StandingPos;
     public HexDirection TargetDirection { get; set; }
     public float LifeTime { get; private set; }
-    public float InitialLifeTime { get; private set; }
-    public bool IsAlive { get; private set; }
     public Vector3 height_Offset { get; private set; }
-    public TimeType TimeType { get; private set; }
     
+    private ProjectileParameter parameter;
     private Quaternion targetRotation;
     private ProjectileBehavior behavior;
 
@@ -22,15 +20,17 @@ public class ProjectileActor : DamageActor
     {
         this.casterType = casterType;
         this.gameObject.tag = "DamageActor";
+        this.parameter = parameter;
+        
+        
         _damage = parameter.Damage;
         TravelSpeed = parameter.TravelSpeed;
         LifeTime = parameter.LifeTime;
-        InitialLifeTime = parameter.LifeTime;
+        
         TargetDirection = castingDirection;
         StandingPos = casterCell.CellData.Coordinates;
         height_Offset = parameter.VFX_Height_Offset;
-        TimeType = TimeType.Boost;
-        
+
         HexCellComponent standingCell = BattleManager.Instance.hexgrid.GetCellInCoord(StandingPos);
         HexCellComponent nextCellToMove = BattleManager.Instance.hexgrid.GetCellByDirection(standingCell, castingDirection);
         if (nextCellToMove != null)
@@ -41,7 +41,6 @@ public class ProjectileActor : DamageActor
             AddBehavior<LinearProjectileBehavior>();
             
             //Launch when init 
-            IsAlive = true;
             StartCoroutine(Launch());
         }
         else
@@ -71,7 +70,11 @@ public class ProjectileActor : DamageActor
     public override void DoDamage(Action<float> damageAction, GameObject source = null)
     {
         damageAction?.Invoke(_damage);
-        Destroy(this.gameObject);
+        if (parameter.IsSelfDestructOnCollision)
+        {
+            Destroy(this.gameObject);
+        }
+        
     }
 
 }

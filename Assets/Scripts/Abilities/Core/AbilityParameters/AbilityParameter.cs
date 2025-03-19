@@ -25,7 +25,9 @@ public class ProjectileParameter : AbilityParameter
 	public float TravelSpeed;
 	public float LifeTime;
 	
-	public Vector3 VFX_Height_Offset;
+	public Vector3 VFX_Height_Offset = new Vector3(0, 3, 0);
+	
+	public bool IsSelfDestructOnCollision = true;
 }
 
 [System.Serializable]
