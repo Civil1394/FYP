@@ -12,23 +12,25 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
     [SerializeField] private Button iconButton;
     [SerializeField] private float fillDuration = 0.5f;
 
+    AbilityData localAbilityData;
+    
     private HexDirection direction;
     private int maxChargeStepsCount;
     private int chargedSteps = 0;
     private AbilityColorType abilityColor;
     private bool fullyCharged = false;
-    private Vector2 playerActionHudControllerVector2;
     private Action<HexDirection> onDirectionCharged;
     public float currentZRotation;
 
-    public void Init(HexDirection hexDirection, int requireSteps, Sprite iconSprite, AbilityColorType colorType, Action<HexDirection> OnFullyCharged)
+    public void Init(HexDirection hexDirection, AbilityData ad, Action<HexDirection> OnFullyCharged)
     {
+        this.localAbilityData = ad;
         this.direction = hexDirection;
-        this.maxChargeStepsCount = requireSteps;
-        this.iconFill.sprite = iconSprite;
-        this.iconBg.sprite = iconSprite;
+        this.maxChargeStepsCount = ad.PrerequisiteChargeSteps;
+        this.iconFill.sprite = ad.Icon;
+        this.iconBg.sprite = ad.Icon;
 
-        Color abilityColor = AbilityColorHelper.GetAbilityColor(colorType);
+        Color abilityColor = AbilityColorHelper.GetAbilityColor(ad.ColorType);
         this.iconFill.color = abilityColor;
 
         abilityColor.a = 0.5f;
@@ -40,8 +42,6 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
 
     public void Start()
     {
-        playerActionHudControllerVector2 = new Vector2(PlayerActionHudController.Instance.transform.position.x,
-            PlayerActionHudController.Instance.transform.position.y);
         currentZRotation = transform.rotation.z;
     }
 
@@ -64,7 +64,7 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
             .SetEase(Ease.OutQuad).OnComplete((() =>
             {
                 if (chargedSteps >= maxChargeStepsCount) fullyCharged = true;
-                HandleChargeCompletion(onDirectionCharged);
+                //HandleChargeCompletion(onDirectionCharged);
             }));
     }
 
@@ -76,6 +76,18 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         DOTween.Kill(iconFill);
     }
 
+    public void ShowAttackPattern()
+    {
+        // foreach (var hc in )
+        // {
+        //     
+        // }
+    }
+
+    public void UnshownAttackPattern()
+    {
+        
+    }
     public void OnEndDrag(PointerEventData eventData)
     {
         // Snap back to the original position
@@ -159,6 +171,7 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
 
     float ToPositiveAngle(float angle)
     {
+        //same code in input handler
         // Normalize the angle to the range [0, 360)
         angle = angle % 360; // Reduce to [-360, 360]
         if (angle < 0)

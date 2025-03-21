@@ -9,7 +9,7 @@ public class InputHandler : MonoBehaviour
 	public GenericAction OnMoveClick = new GenericAction();
 	public GenericAction OnCastClick = new GenericAction();
 	public InputState inputState = InputState.Move;
-	
+	public HexCellComponent selectedAbility;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	private CinemachineOrbitalTransposer orbitalTransposer;
 	private void Start()
@@ -198,11 +198,11 @@ public class InputHandler : MonoBehaviour
 
 	void OnShiftDown()
 	{
-		if (Input.GetKeyDown(KeyCode.LeftShift))
+		if (Input.GetKeyDown(KeyCode.LeftControl))
 		{
 			inputState = InputState.CastingAbility;
 		}
-		if (Input.GetKeyUp(KeyCode.LeftShift))
+		if (Input.GetKeyUp(KeyCode.LeftControl))
 		{
 			inputState = InputState.Move;
 		}
@@ -213,8 +213,11 @@ public class InputHandler : MonoBehaviour
 		cameraAngle = ToPositiveAngle(cameraAngle);
 		int cameraRotationCnt = 6 - (int)((cameraAngle + 45) / 60);
 		PlayerActionHudController.Instance.cameraRotationCnt = cameraRotationCnt;
+		if (inputState == InputState.CastingAbility)
+		{
+			return;
+		}
 		#region Movement input
-
 		if (Input.GetKeyDown(KeyCode.W))
 		{
 			//default nw
@@ -256,7 +259,47 @@ public class InputHandler : MonoBehaviour
 			PlayerActionHudController.Instance.ChangeFaceDirection((int)HexDirection.NONE);
 		}
 		#endregion
+	}
 
+	void OnAltSixDirectionKeyPress()
+	{
+		if (inputState == InputState.Move)
+		{
+			return;
+		}
+		#region Movement input
+		if (Input.GetKeyDown(KeyCode.W))
+		{
+			//default nw
+			//should tell the corresponding ability to show the attack pattern for player to choose
+		}
+		else if(Input.GetKeyDown(KeyCode.E))
+		{
+			//default ne
+
+		}
+		else if(Input.GetKeyDown(KeyCode.D))
+		{
+			//default e
+
+		}
+		else if(Input.GetKeyDown(KeyCode.X))
+		{
+			//default se
+
+		}
+		else if(Input.GetKeyDown(KeyCode.Z))
+		{
+			//default sw
+
+		}
+		else if(Input.GetKeyDown(KeyCode.A))
+		{
+			//default w
+
+		}
+
+		#endregion
 	}
 	public void SetInputState(InputState newState)
 	{

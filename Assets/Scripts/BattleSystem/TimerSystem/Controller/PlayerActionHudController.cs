@@ -58,7 +58,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
             if (i < EquippedAbilityManager.EquippedAbilities.Count)
             {
                 var abilityData = EquippedAbilityManager.EquippedAbilities[i];
-                abilityModels[i].Init((HexDirection)i, abilityData.PrerequisiteChargeSteps, abilityData.Icon, abilityData.ColorType, OnAbilityCast);
+                abilityModels[i].Init((HexDirection)i, abilityData, OnAbilityCast);
             }
             else
             {
