@@ -255,7 +255,6 @@ public class InputHandler : MonoBehaviour
 		{
 			PlayerActionHudController.Instance.ChangeFaceDirection((int)HexDirection.NONE);
 		}
-s
 		#endregion
 
 	}

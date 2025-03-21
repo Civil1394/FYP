@@ -2,11 +2,19 @@ using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
-public class PlayerActor : TimedActor
+public class PlayerActor : TimedActor,IDamagable
 {
-	public float Health { get; private set; }
-	
+	[Header("Player Status")]
+	private float currentHealth = 100f;
+	public float Health
+	{
+		get { return currentHealth; }
+	}
+
+	[SerializeField] TMP_Text HealthText;
+
 	[Header("Facing Direction")]
 	public HexCellComponent standingCell;
 	public HexDirection FacingHexDirection;
@@ -63,6 +71,8 @@ public class PlayerActor : TimedActor
 		{
 			OnTimerStart += hourglassOnHudAnimator.CountTime;
 		}
+		
+		HealthText.text = currentHealth.ToString();
 		
 	}
 	
@@ -186,19 +196,6 @@ public class PlayerActor : TimedActor
 		QueueMoveAction();
 		return true;
 	}
-
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.CompareTag("DamageActor"))
-		{
-			var damageActor = other.gameObject.GetComponentInParent<DamageActor>();
-			if (damageActor != null && damageActor.CasterType != CasterType.Player)
-			{
-				damageActor.DoDamage(TimeManipulate,other.gameObject);
-			}
-		}
-	}
-	
 	protected override void OverDrive()
 	{
 		base.OverDrive();
@@ -210,5 +207,40 @@ public class PlayerActor : TimedActor
 		base.Collapse();
 		Destroy(this.gameObject);
 	}
-	
+
+#region IDamagable implementation
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.CompareTag("DamageActor"))
+		{
+			var damageActor = other.gameObject.GetComponentInParent<DamageActor>();
+			if (damageActor != null && damageActor.CasterType != CasterType.Player)
+			{
+				damageActor.DoDamage(TakeDamage, other.gameObject);
+			}
+
+		}
+	}
+	public void TakeDamage(float damage)
+	{
+		currentHealth -= damage;
+		HealthText.text = currentHealth.ToString();
+		DeathCheck();
+	}
+
+	protected override void DeathCheck()
+	{
+		if(currentHealth <= 0) OnDeath();
+	}
+
+	protected override void OnDeath()
+	{
+		Destroy(gameObject);
+	}
+#endregion
+
+
+
 }
+

@@ -15,16 +15,18 @@ MonoBehaviour:
   id: 2
   abilityType: 0
   projectileParam:
-    Damage: 20
+    Damage: 50
     TravelSpeed: 5
     LifeTime: 10
     VFX_Height_Offset: {x: 0, y: 3, z: 0}
+    IsSelfDestructOnCollision: 1
   projectileVolleyParam:
     ProjectileConfig:
       Damage: 0
       TravelSpeed: 0
       LifeTime: 0
       VFX_Height_Offset: {x: 0, y: 0, z: 0}
+      IsSelfDestructOnCollision: 1
     ProjectilePerBurst: 1
     DelayBetweenProjectiles: 0
     BurstCount: 1
@@ -42,3 +44,4 @@ MonoBehaviour:
   CastType: 1
   Object_fx: {fileID: 121798, guid: a1a393c51c7f41b4e8944f73a81f7e31, type: 3}
   ColorType: 0
+  statusEffectdata: {fileID: 0}

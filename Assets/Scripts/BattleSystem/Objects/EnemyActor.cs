@@ -2,13 +2,19 @@ using System;
 using UnityEngine;
 using System.Collections;
 using Random = UnityEngine.Random;
+using TMPro;
 
-public class EnemyActor : TimedActor 
+public class EnemyActor : TimedActor, IDamagable
 {
 	[SerializeField] CapsuleCollider objectCollider;
 	[SerializeField] private HourglassGlobalCanvasAnimator hourglassAnimator;
 	private AIBrain aiBrain;
-
+	private float currentHealth = 100f;
+	public float Health
+	{
+		get { return currentHealth; }
+	}
+	[SerializeField] TMP_Text HealthText;
 
 	public override void Init(Hourglass hourglass)
 	{
@@ -18,7 +24,7 @@ public class EnemyActor : TimedActor
 		{
 			OnTimerStart += hourglassAnimator.CountTime;
 		}
-		
+		HealthText.text = currentHealth.ToString();
 	}
 
 	protected override void Start()
@@ -39,18 +45,7 @@ public class EnemyActor : TimedActor
 		base.Update();
 	}
 
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.CompareTag("DamageActor"))
-		{
-			var damageActor = other.gameObject.GetComponentInParent<DamageActor>();
-			if (damageActor != null && damageActor.CasterType != CasterType.Enemy)
-			{
-				damageActor.DoDamage(TimeManipulate,other.gameObject);
-			}
-			
-		}
-	}
+	
 
 	protected override void OverDrive()
 	{
@@ -58,7 +53,7 @@ public class EnemyActor : TimedActor
 		aiBrain.currentCell.ClearCell();
 		Destroy(this.gameObject);
 	}
-	
+
 	protected override void Collapse()
 	{
 		base.Collapse();
@@ -66,4 +61,37 @@ public class EnemyActor : TimedActor
 		Destroy(this.gameObject);
 	}
 
+	
+#region IDamagable implementation
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.CompareTag("DamageActor"))
+		{
+			var damageActor = other.gameObject.GetComponentInParent<DamageActor>();
+			if (damageActor != null && damageActor.CasterType != CasterType.Enemy)
+			{
+				damageActor.DoDamage(TakeDamage, other.gameObject);
+			}
+
+		}
+	}
+	public void TakeDamage(float damage)
+	{
+		currentHealth -= damage;
+		HealthText.text = currentHealth.ToString();
+		DeathCheck();
+	}
+
+	protected override void DeathCheck()
+	{
+		if(currentHealth <= 0) OnDeath();
+	}
+
+	protected override void OnDeath()
+	{
+		Destroy(gameObject);
+	}
+#endregion
 }
+

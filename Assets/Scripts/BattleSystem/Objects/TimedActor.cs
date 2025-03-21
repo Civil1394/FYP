@@ -97,4 +97,7 @@ public abstract class TimedActor : MonoBehaviour
     {
         Debug.Log("Collapse");
     }
+    
+    protected abstract void DeathCheck();
+    protected abstract void OnDeath(); 
 }

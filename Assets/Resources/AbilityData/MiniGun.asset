@@ -22,12 +22,12 @@ MonoBehaviour:
     IsSelfDestructOnCollision: 0
   projectileVolleyParam:
     ProjectileConfig:
-      Damage: 1
+      Damage: 2
       TravelSpeed: 20
       LifeTime: 5
       VFX_Height_Offset: {x: 0, y: 3, z: 0}
       IsSelfDestructOnCollision: 1
-    ProjectilePerBurst: 3
+    ProjectilePerBurst: 5
     DelayBetweenProjectiles: 0.05
     BurstCount: 3
     DelayBetweenBurst: 0.2
@@ -44,3 +44,4 @@ MonoBehaviour:
   CastType: 1
   Object_fx: {fileID: 193226, guid: cd01c6abe812d494684515011e1321b9, type: 3}
   ColorType: 0
+  statusEffectdata: {fileID: 0}

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee8d9bc2cc423448beac62a8c54ddf1, type: 3}
+  m_Name: Poison
+  m_EditorClassIdentifier: 
+  id: 2
+  displayName: Posion
+  icon: {fileID: 0}
+  effectType: 0
+  applicationRule: 0
+  duration: 5
+  tickInterval: 1
+  isPermanentUntilRemoved: 0
+  visualEffect: {fileID: 185086, guid: 6c4ae31fa47a6c143a4e64ca4b65fc4a, type: 3}
+  baseValue: 1
+  scalingFactor: 1
+  maxStacks: 5
+  description: 
