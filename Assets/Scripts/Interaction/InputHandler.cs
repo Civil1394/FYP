@@ -251,7 +251,11 @@ public class InputHandler : MonoBehaviour
 			int tempDir = ((int)HexDirection.W + cameraRotationCnt) % 6;
 			PlayerActionHudController.Instance.ChangeFaceDirection(tempDir);
 		}
-
+		else if(Input.GetKeyDown(KeyCode.S))
+		{
+			PlayerActionHudController.Instance.ChangeFaceDirection((int)HexDirection.NONE);
+		}
+s
 		#endregion
 
 	}

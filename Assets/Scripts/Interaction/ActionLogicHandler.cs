@@ -22,6 +22,10 @@ public class ActionLogicHandler : MonoBehaviour
 
 	public HexCellComponent FacingIsLegit(HexDirection direction)
 	{
+		if (direction == HexDirection.NONE)
+		{
+			return null;
+		}
 		var c = playerActor.standingCell.CellData.GetNeighbor(direction);
 		if (c == null || c.CellType == CellType.Invalid)
 		{

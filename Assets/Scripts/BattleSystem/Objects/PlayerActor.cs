@@ -55,7 +55,7 @@ public class PlayerActor : TimedActor
 		
 		if (hourglass != null)
 		{
-			OnTimerStart += _ => QueueMoveAction();    
+			//OnTimerStart += _ => QueueMoveAction();
 			OnTimerComplete += ExecutePendingAction;
 		}
 
@@ -91,8 +91,12 @@ public class PlayerActor : TimedActor
 		// Visual feedback that action is queued
 		ShowPendingActionPreview();
 	}
-	
 
+	public void DequeueMoveAction()
+	{
+		pendingAction = null;
+		pendingActionVisualizer.RemovePendingActionPointer();
+	}
 	private void ShowPendingActionPreview()
 	{
 		pendingActionVisualizer.ShowPendingActionPointer(pendingAction.Type , pendingAction.TargetCell );
@@ -118,9 +122,7 @@ public class PlayerActor : TimedActor
 
 				break;
 		}
-
-		pendingActionVisualizer.RemovePendingActionPointer();
-		pendingAction = null;
+		DequeueMoveAction();
 		CheckTimerStatus();
 	}
 	
@@ -134,8 +136,8 @@ public class PlayerActor : TimedActor
 		// Update cell states
 		UpdateCellsStates();
 		OnPlayerMoved?.Invoke(FacingHexDirection);
-		
-
+		FacingHexDirection = HexDirection.NONE;
+		//onplayermoved
 	}
 
 	private void UpdateCellsStates()
@@ -171,6 +173,10 @@ public class PlayerActor : TimedActor
 
 	public bool TryChangeFacingDirection(HexDirection tryDirection)
 	{
+		if (tryDirection == HexDirection.NONE)
+		{
+			DequeueMoveAction();
+		}
 		var cc = actionLogicHandler.FacingIsLegit((HexDirection)tryDirection);
 		if (cc == null) return false;
 		
