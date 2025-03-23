@@ -79,7 +79,7 @@ public class ActionLogicHandler : MonoBehaviour
 		HexDirection castDirection =
 			BattleManager.Instance.hexgrid.CheckNeigborCellDirection(playerCell, directionCell);
 		
-		abilityData.TriggerAbility(CasterType.Player, castDirection, playerCell,timeType);
+		abilityData.TriggerAbility(CasterType.Player, castDirection, playerCell,BattleManager.Instance.PlayerActorInstance.gameObject,timeType);
 		
 		ResetCasting();
 	}

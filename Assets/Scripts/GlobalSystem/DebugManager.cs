@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using TMPro;
+using Unity.VisualScripting;
 
 public class DebugManager : Singleton<DebugManager>
 {
@@ -18,8 +19,12 @@ public class DebugManager : Singleton<DebugManager>
 			//hourglasses.Add(new Hourglass(Random.Range(1,10),TimeType.Boost));
 		}
 	}
-	
-	
+
+	private void Update()
+	{
+		DebugCastUse();
+	}
+
 	public void Quit()
 	{
 		// For testing in the Unity editor
@@ -58,6 +63,15 @@ public class DebugManager : Singleton<DebugManager>
 		foreach (var coord in CellsCoordGUI)
 		{
 			coord.gameObject.transform.parent.gameObject.SetActive(!coord.gameObject.transform.parent.gameObject.activeSelf);
+		}
+	}
+
+	public void DebugCastUse()
+	{
+		if (Input.GetKeyDown(KeyCode.LeftShift)&&Input.GetKeyDown(KeyCode.D))
+		{
+				var e = EquippedAbilityManager.GetEquippedAbilityData((int)HexDirection.E);
+				e.TriggerAbility(CasterType.Player,HexDirection.E,BattleManager.Instance.PlayerCell,BattleManager.Instance.gameObject,TimeType.Boost);
 		}
 	}
 }

@@ -10,7 +10,7 @@ public static class AbilityExecutorFactory
 			case AbilityType.Projectile:
 				return new ProjectileAbilityExecutor(abilityData.Object_fx, abilityData.projectileParam);
 			case AbilityType.Blast:
-				return new BlastAbilityExecutor(abilityData.Object_fx, abilityData.blastParam);
+				return new BlastAbilityExecutor(abilityData.Object_fx, abilityData.blastParam,abilityData);
 			case AbilityType.ProjectileVolley:
 				return new ProjectileVolleyAbilityExecutor(abilityData.Object_fx, abilityData.projectileVolleyParam);
 			default:

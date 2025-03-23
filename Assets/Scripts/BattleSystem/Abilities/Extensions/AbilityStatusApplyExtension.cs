@@ -12,21 +12,25 @@ public enum AbilityStatusApplicationType
 [System.Serializable]
 public class StatusApplicationParameter
 {
-	public StatusEffectData statusEffect;
+	public StatusEffectData statusEffect;//Data of status Effect
+    
+    //Below are the application param of status effect
 	public AbilityStatusApplicationType applicationType;
 	public int initialStacks = 1;
-	public float applicationChance = 1.0f; // 1.0 = 100% chance
+    [Tooltip("1.0 = 100% chance")]
+	public float applicationChance = 1.0f; 
 	[Tooltip("If true, will attempt to apply to self instead of target")]
 	public bool applyToSelf = false;
 }
 
 [System.Serializable]
-public class StatusEffectParameter : AbilityParameter
+public class StatusEffectsParameter : AbilityParameter
 {
+    //list of the the applicable status effect of the ability
 	public List<StatusApplicationParameter> statusEffects = new List<StatusApplicationParameter>();
 }
 
-
+//Extension Methods for Abilitydata
 public static class AbilityDataExtensions
 {
     public static void ApplyStatusEffects(this AbilityData ability, 
@@ -35,34 +39,14 @@ public static class AbilityDataExtensions
                                           GameObject target,
                                           CasterType casterType)
     {
-        // Check if the ability has a StatusEffectParameter
+        // Check if the ability has a StatusEffectsParameter
         if (ability == null || target == null)
             return;
         
-        StatusEffectParameter statusParam = null;
-        
-        // Use reflection to get the field if it exists
-        var field = ability.GetType().GetField("statusEffectParam");
-        if (field != null)
-        {
-            statusParam = field.GetValue(ability) as StatusEffectParameter;
-        }
+        StatusEffectsParameter statusParam  = ability.statusEffectsParam;
         
         if (statusParam == null || statusParam.statusEffects.Count == 0)
             return;
-        //Add status effect manager component to object
-        ObjectStatusEffectManager targetStatusManager = target.GetComponent<ObjectStatusEffectManager>();
-        ObjectStatusEffectManager sourceStatusManager = source.GetComponent<ObjectStatusEffectManager>();
-        
-        if (targetStatusManager == null)
-        {
-            targetStatusManager = target.AddComponent<ObjectStatusEffectManager>();
-        }
-        
-        if (sourceStatusManager == null && source != null)
-        {
-            sourceStatusManager = source.AddComponent<ObjectStatusEffectManager>();
-        }
         
         // Apply each applicable status effect
         foreach (var statusApp in statusParam.statusEffects)
@@ -74,17 +58,39 @@ public static class AbilityDataExtensions
             // Check chance to apply
             if (statusApp.applicationChance < 1.0f && Random.value > statusApp.applicationChance)
                 continue;
-                
-            if (statusApp.applyToSelf && sourceStatusManager != null)
+            
+            //check apply to whom
+            if (statusApp.applyToSelf)
             {
-                // Apply to the caster
-                sourceStatusManager.ApplyStatusEffect(statusApp.statusEffect, target, casterType, statusApp.initialStacks);
+                ObjectStatusEffectManager sourceStatusManager = source.GetComponent<ObjectStatusEffectManager>();
+        
+                if (sourceStatusManager == null)
+                {
+                    sourceStatusManager = target.AddComponent<ObjectStatusEffectManager>();
+                }
+            
+                if (sourceStatusManager != null)
+                {
+                    // Apply to the source
+                    sourceStatusManager.ApplyStatusEffect(statusApp.statusEffect, source, casterType, statusApp.initialStacks);
+                }
             }
-            else if (targetStatusManager != null)
+            else
             {
-                // Apply to the target
-                targetStatusManager.ApplyStatusEffect(statusApp.statusEffect, source, casterType, statusApp.initialStacks);
+                ObjectStatusEffectManager targetStatusManager = target.GetComponent<ObjectStatusEffectManager>();
+        
+                if (targetStatusManager == null)
+                {
+                    targetStatusManager = target.AddComponent<ObjectStatusEffectManager>();
+                }
+            
+                if (statusApp.applyToSelf && targetStatusManager != null)
+                {
+                    // Apply to the target
+                    targetStatusManager.ApplyStatusEffect(statusApp.statusEffect, target, casterType, statusApp.initialStacks);
+                }
             }
+           
         }
     }
 }

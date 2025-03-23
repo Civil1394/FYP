@@ -148,6 +148,7 @@ public class PlayerActor : TimedActor,IDamagable
 		OnPlayerMoved?.Invoke(FacingHexDirection);
 		FacingHexDirection = HexDirection.NONE;
 		//onplayermoved
+		
 	}
 
 	private void UpdateCellsStates()

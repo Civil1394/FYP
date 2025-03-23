@@ -5,6 +5,7 @@ public class ProjectileAbilityExecutor : IAbilityExecutor
 {
 	private GameObject objectFx;
 	private ProjectileParameter parameters;
+	private IAbilityExecutor abilityExecutorImplementation;
 
 	public ProjectileAbilityExecutor(GameObject objectFx, ProjectileParameter parameters)
 	{
@@ -12,9 +13,11 @@ public class ProjectileAbilityExecutor : IAbilityExecutor
 		this.parameters = parameters;
 	}
 	
-
-	public void Execute(CasterType casterType, HexDirection castDirection, HexCellComponent casterStandingCell, TimeType timeType)
+	
+	public void Execute(CasterType casterType, HexDirection castDirection, HexCellComponent casterStandingCell, GameObject casterObject,
+		TimeType timeType)
 	{
+		
 		HexCellComponent spawnCell = BattleManager.Instance.hexgrid.GetCellByDirection(casterStandingCell, castDirection);
 		GameObject bulletObject = Object.Instantiate(objectFx, spawnCell.transform.position + parameters.VFX_Height_Offset, Quaternion.identity);
 		var bulletComponent = bulletObject.AddComponent<ProjectileActor>();

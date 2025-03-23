@@ -13,7 +13,7 @@ public class BattleManager : Singleton<BattleManager>
 	[SerializeField] private List<Vector2Int> playerSpawnCoord = new List<Vector2Int>();
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	[SerializeField] private HourglassOnHudAnimator hourglassOnHudAnimator;
-	public List<PlayerActor> PlayerActorInstance {  get; private set; } = new List<PlayerActor>();
+	public PlayerActor PlayerActorInstance;
 	public HexCellComponent PlayerCell;
 	
 	[Header("HexGrid Related Ref")]
@@ -117,8 +117,8 @@ public class BattleManager : Singleton<BattleManager>
 			cell.CellData.SetCell(playerActor.gameObject,CellType.Player);
 			playerCamera.Follow = playerActor.transform;
 			playerCamera.LookAt = playerActor.transform;
-			
-			PlayerActorInstance.Add(playerActor);
+
+			PlayerActorInstance = playerActor;
 			MultipleCharacterControlSystem.charactersActorList.Add(playerActor);
 		}
 		else
