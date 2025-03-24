@@ -49,7 +49,8 @@ public enum CellType
     Empty = 0,
     Player = 1,
     Enemy = 2,
-    Invalid = 3,
+    Chest = 3,
+    Invalid = 4,
    
 }
 
@@ -57,5 +58,6 @@ public enum CellGuiType
 {
     Empty = 0,
     ValidMoveCell = 1,
-    ValidAttackCell = 2
+    ValidAttackCell = 2,
+    Chest = 3
 }

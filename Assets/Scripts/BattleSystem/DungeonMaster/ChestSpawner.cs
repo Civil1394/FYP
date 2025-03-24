@@ -48,7 +48,7 @@ public class ChestSpawner : MonoBehaviour
 		foreach (var p in GetChestHeatMap(w, h))
 		{
 			var cell = BattleManager.Instance.hexgrid.GetCellInCoordVector2(p.Key);
-			cell.CellData.SetGuiType(CellGuiType.ValidAttackCell);
+			cell.CellData.SetGuiType(CellGuiType.Chest);
 		}
 	}
 }
