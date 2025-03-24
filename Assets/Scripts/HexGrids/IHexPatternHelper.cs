@@ -24,8 +24,10 @@ public interface IHexPatternHelper
 [System.Serializable]
 public class LinePattern : IHexPatternHelper
 {
-    private int range;
-    private HexDirection[] dir;
+    public int range;
+    public HexDirection[] dir;
+
+    public LinePattern(){}
     public LinePattern(int range, params HexDirection[] dir)
     {
         this.range = range;
@@ -47,7 +49,8 @@ public class LinePattern : IHexPatternHelper
 [System.Serializable]
 public class HexagonPattern : IHexPatternHelper
 {
-    private int range;
+    public int range;
+    public HexagonPattern(){}
     public HexagonPattern(int range)
     {
         this.range = range;
@@ -68,9 +71,9 @@ public class HexagonPattern : IHexPatternHelper
 [System.Serializable]
 public class TrianglePattern : IHexPatternHelper
 {
-    private int iteration;
-    private bool isUpward;
-
+    public int iteration;
+    public bool isUpward;
+    public TrianglePattern(){}
     public TrianglePattern(int iteration, bool isUpward = true)
     {
         this.iteration = iteration;
@@ -110,6 +113,7 @@ public class TrianglePattern : IHexPatternHelper
 public class CustomOffsetPattern: IHexPatternHelper
 {
     public List<Vector3Int> Offsets;
+    public CustomOffsetPattern(){}
     public CustomOffsetPattern(params Vector3Int[] offsets)
     {
         this.Offsets = offsets.ToList();

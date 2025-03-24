@@ -40,7 +40,8 @@ public partial class AbilityData : ScriptableObject
 	
 	public AbilityColorType ColorType;
 
-	public CustomOffsetPattern pattern;
+	public IHexPatternHelper selectablePattern;
+	public IHexPatternHelper aoePattern;
 	/// <summary>
 	/// Creates a new AbilityData instance with a specified color type.
 	/// </summary>

@@ -1,205 +1,191 @@
 using UnityEngine;
 using UnityEditor;
+using System;
+using System.Linq;
 using System.Collections.Generic;
 
 [CustomEditor(typeof(AbilityData))]
 public class HexPatternEditor : Editor
 {
-    [SerializeField] private int gridSize = 13; // Size of the grid (will be a gridSize x gridSize matrix)
-    private const float CELL_SIZE = 20f; // Size of each cell in the grid
-    private const float CENTER_OFFSET = CELL_SIZE * 3 / 4f; // Offset for the center row
+    private AbilityData abilityData;
 
-    private bool[,] checkboxMatrix;
-    private Vector2 scrollPosition;
-    
-    private SerializedProperty customOffsetPatternProp;
-    private SerializedProperty offsetsProp;
+    private Type[] hexPatternTypes;
+
+    private int customMatrixSize = 3; // Matrix size input for CustomOffsetPattern
+
+    private Dictionary<Vector2Int, bool> selectionMatrix = new(); // Persistent checkbox state
+
     private void OnEnable()
     {
-        // Find the property that holds the CustomOffsetPattern
-        // This assumes your MonoBehaviour has a field of type CustomOffsetPattern
-        // Adjust the property path as needed for your specific implementation
-        FindCustomOffsetPatternProperty();
+        abilityData = (AbilityData)target;
 
-        // Initialize the checkbox matrix
-        checkboxMatrix = new bool[gridSize, gridSize];
-        
-        // If we have existing offsets, populate the matrix
-        if (customOffsetPatternProp != null)
+        // Fetch all non-abstract types that implement IHexPatternHelper
+        hexPatternTypes = new Type[]
         {
-            PopulateMatrixFromOffsets();
-        }
-    }
-
-    private void FindCustomOffsetPatternProperty()
-    {
-        customOffsetPatternProp = serializedObject.FindProperty("pattern");
-        offsetsProp = customOffsetPatternProp.FindPropertyRelative("Offsets");
-    }
-
-    private void PopulateMatrixFromOffsets()
-    {
-        // Clear the matrix first
-        for (int x = 0; x < gridSize; x++)
-        {
-            for (int z = 0; z < gridSize; z++)
-            {
-                checkboxMatrix[x, z] = false;
-            }
-        }
-
-        // Get the center of the grid
-        int centerX = gridSize / 2;
-        int centerZ = gridSize / 2;
-
-        // Get the actual abilityData component
-        AbilityData abilityData = (AbilityData)target;
-        if (abilityData.pattern == null)
-        {
-            return;
-        }
-        var offsets = abilityData.pattern.Offsets;
-        if (offsets != null)
-        {
-            foreach (var offset in offsets)
-            {
-                // Convert offset coordinates to matrix indices
-                int matrixX = centerX + offset.x;
-                int matrixZ = centerZ + offset.z;
-
-                // Check if this position is within bounds of our matrix
-                if (matrixX >= 0 && matrixX < gridSize && matrixZ >= 0 && matrixZ < gridSize)
-                {
-                    checkboxMatrix[matrixX, matrixZ] = true;
-                }
-            }
-        }
+            typeof(LinePattern),
+            typeof(HexagonPattern),
+            typeof(TrianglePattern),
+            typeof(CustomOffsetPattern)
+        };
     }
 
     public override void OnInspectorGUI()
     {
-        // Draw the default inspector
+        serializedObject.Update();
+
+        // Draw default fields for AbilityData
         DrawDefaultInspector();
 
-        // If we couldn't find the CustomOffsetPattern property, just return
-        
-        if (customOffsetPatternProp == null)
-        {
-            EditorGUILayout.HelpBox("No CustomOffsetPattern field found.", MessageType.Warning);
-            return;
-        }
-        
-        EditorGUILayout.LabelField("Hex Offset Pattern", EditorStyles.boldLabel);
-        
-        serializedObject.Update();
-        
-        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-        
-        // Draw the hex grid UI
-        DrawCustomInput();
-        
-        EditorGUILayout.EndScrollView();
-        
-        // Apply button
-        if (GUILayout.Button("Apply Pattern"))
-        {
-            ApplyPatternFromMatrix();
-            serializedObject.ApplyModifiedProperties();
-        }
-        
+        DrawHexPatternField("Selectable Pattern", ref abilityData.selectablePattern);
+        DrawHexPatternField("AOE Pattern", ref abilityData.aoePattern);
+
         serializedObject.ApplyModifiedProperties();
     }
 
-    private void DrawCustomInput()
+    private void DrawHexPatternField(string label, ref IHexPatternHelper pattern)
     {
-        int centerX = gridSize / 2;
-        int centerZ = gridSize / 2;
-        
-        for (int z = 0; z < gridSize; z++)
+        EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
+
+        // Identify current type
+        Type currentType = pattern?.GetType();
+
+        // Create a dropdown to select pattern type
+        int currentIndex = Array.FindIndex(hexPatternTypes, t => t == currentType);
+        int selectedIndex = EditorGUILayout.Popup("Pattern Type", currentIndex, hexPatternTypes.Select(t => t.Name).ToArray());
+
+        if (selectedIndex != currentIndex)
         {
-            GUILayout.BeginHorizontal();
-            
-            // Indent odd rows (in a hex grid) to create the hex effect
+            // Change pattern type immediately
+            if (selectedIndex >= 0 && selectedIndex < hexPatternTypes.Length)
+            {
+                pattern = (IHexPatternHelper)Activator.CreateInstance(hexPatternTypes[selectedIndex]);
+                EditorUtility.SetDirty(abilityData);
+            }
+        }
+
+        if (pattern != null)
+        {
+            // Draw specific UI based on the type of pattern
+            EditorGUI.indentLevel++;
+            if (pattern is LinePattern linePattern) DrawLinePatternUI(linePattern);
+            else if (pattern is HexagonPattern hexagonPattern) DrawHexagonPatternUI(hexagonPattern);
+            else if (pattern is TrianglePattern trianglePattern) DrawTrianglePatternUI(trianglePattern);
+            else if (pattern is CustomOffsetPattern customOffsetPattern) DrawCustomOffsetPatternUI(customOffsetPattern);
+            EditorGUI.indentLevel--;
+        }
+    }
+
+    private void DrawLinePatternUI(LinePattern pattern)
+    {
+        pattern.range = EditorGUILayout.IntField("Range", pattern.range);
+
+        // Display multi-select dropdown for HexDirection
+        HexDirection[] allDirections = (HexDirection[])Enum.GetValues(typeof(HexDirection));
+
+        bool[] selectedDirections = new bool[allDirections.Length];
+        for (int i = 0; i < allDirections.Length; i++)
+        {
+            if (pattern.dir != null && pattern.dir.Contains(allDirections[i]))
+                selectedDirections[i] = true;
+        }
+
+        EditorGUILayout.LabelField("Directions");
+        for (int i = 0; i < allDirections.Length; i++)
+        {
+            selectedDirections[i] = EditorGUILayout.Toggle(allDirections[i].ToString(), selectedDirections[i]);
+        }
+
+        // Apply the selected directions
+        pattern.dir = allDirections.Where((t, i) => selectedDirections[i]).ToArray();
+    }
+
+    private void DrawHexagonPatternUI(HexagonPattern pattern)
+    {
+        pattern.range = EditorGUILayout.IntField("Radius", pattern.range);
+    }
+
+    private void DrawTrianglePatternUI(TrianglePattern pattern)
+    {
+        pattern.iteration = EditorGUILayout.IntField("Iteration", pattern.iteration);
+        pattern.isUpward = EditorGUILayout.Toggle("Is Upward", pattern.isUpward);
+    }
+
+    private void DrawCustomOffsetPatternUI(CustomOffsetPattern pattern)
+    {
+        // Ensure Offsets is initialized
+        if (pattern.Offsets == null)
+        {
+            pattern.Offsets = new List<Vector3Int>();
+        }
+
+        // Input for matrix size (odd number only)
+        customMatrixSize = Mathf.Max(3, EditorGUILayout.IntField("Matrix Size (Odd)", customMatrixSize));
+
+        if (customMatrixSize % 2 == 0)
+        {
+            customMatrixSize += 1; // Ensure matrix size is always odd
+        }
+
+        int center = customMatrixSize / 2;
+
+        // Initialize selectionMatrix from pattern.Offsets
+        foreach (var offset in pattern.Offsets)
+        {
+            Vector2Int key = new(offset.x, offset.z);
+            if (!selectionMatrix.ContainsKey(key))
+            {
+                selectionMatrix[key] = true;
+            }
+        }
+
+        EditorGUILayout.LabelField("Select Offsets:");
+
+        for (int z = 0; z < customMatrixSize; z++)
+        {
+            EditorGUILayout.BeginHorizontal();
+
+            // Indent odd rows for hexagonal display
             if (z % 2 == 1)
             {
-                GUILayout.Space(CENTER_OFFSET);
+                GUILayout.Space(12);
             }
 
-            for (int x = 0; x < gridSize; x++)
+            for (int x = 0; x < customMatrixSize; x++)
             {
-                // Calculate the offset coordinates
-                int offsetX = x - centerX;
-                int offsetZ = z - centerZ;
+                Vector2Int offset = new(x - center, z - center);
 
-                // Create a tooltip showing the coordinates
-                string tooltip = $"Offset: ({offsetX}, {offsetZ})";
-                
-                // Special styling for the center cell
-                GUIStyle style = new GUIStyle(GUI.skin.toggle);
-                if (x == centerX && z == centerZ)
+                // Skip the center cell
+                if (x == center && z == center)
                 {
-                    GUILayout.Space(CELL_SIZE);
+                    GUILayout.Space(20);
                     continue;
-                    // style.normal.textColor = Color.red;
-                    // style.onNormal.textColor = Color.red;
-                    // tooltip = "Center (0, 0, 0)";
                 }
 
-                EditorGUI.BeginChangeCheck();
-                bool newValue = GUILayout.Toggle(checkboxMatrix[x, z], new GUIContent("", tooltip), style, GUILayout.Width(CELL_SIZE), GUILayout.Height(CELL_SIZE));
-                if (EditorGUI.EndChangeCheck())
-                {
-                    checkboxMatrix[x, z] = newValue;
-                }
+                bool isChecked = selectionMatrix.ContainsKey(offset) && selectionMatrix[offset];
+                bool newValue = GUILayout.Toggle(isChecked, "", GUILayout.Width(20));
+
+                if (newValue)
+                    selectionMatrix[offset] = true;
+                else
+                    selectionMatrix[offset] = false;
             }
-            
-            GUILayout.EndHorizontal();
-        }
-    }
 
-    private void DrawLinePatternInput()
-    {
-        
-    }
-    private void ApplyPatternFromMatrix()
-    {
-        // Clear the existing offsets
-        offsetsProp.ClearArray();
-        
-        // Get the center of the grid
-        int centerX = gridSize / 2;
-        int centerZ = gridSize / 2;
-        
-        // Convert matrix to offsets
-        List<Vector3Int> newOffsets = new List<Vector3Int>();
-        
-        for (int x = 0; x < gridSize; x++)
+            EditorGUILayout.EndHorizontal();
+        }
+
+        if (GUILayout.Button("Save Offsets"))
         {
-            for (int z = 0; z < gridSize; z++)
+            pattern.Offsets.Clear();
+
+            foreach (var p in selectionMatrix)
             {
-                if (checkboxMatrix[x, z])
+                if (p.Value && p.Key != Vector2Int.zero) // Skip center
                 {
-                    // Skip the center cell since it's the reference cell
-                    if (x == centerX && z == centerZ)
-                        continue;
-                        
-                    // Convert matrix indices to offset coordinates
-                    int offsetX = x - centerX;
-                    int offsetZ = z - centerZ;
-                    
-                    newOffsets.Add(new Vector3Int(offsetX, 0, offsetZ));
+                    pattern.Offsets.Add(new Vector3Int(p.Key.x, 0, p.Key.y));
                 }
             }
-        }
-        
-        // Add new elements to the array
-        offsetsProp.arraySize = newOffsets.Count;
-        for (int i = 0; i < newOffsets.Count; i++)
-        {
-            SerializedProperty offsetElement = offsetsProp.GetArrayElementAtIndex(i);
-            offsetElement.FindPropertyRelative("x").intValue = newOffsets[i].x;
-            offsetElement.FindPropertyRelative("y").intValue = newOffsets[i].y;
-            offsetElement.FindPropertyRelative("z").intValue = newOffsets[i].z;
+
+            EditorUtility.SetDirty(abilityData);
         }
     }
-}
+} 
