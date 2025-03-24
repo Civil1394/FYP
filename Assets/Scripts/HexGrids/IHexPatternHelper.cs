@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 using System.Linq;
-
 public interface IHexPatternHelper 
 {
     IEnumerable<HexCell> GetPattern(HexCell startCell);
@@ -23,6 +21,7 @@ public interface IHexPatternHelper
         );
     }
 }
+[System.Serializable]
 public class LinePattern : IHexPatternHelper
 {
     private int range;
@@ -45,6 +44,7 @@ public class LinePattern : IHexPatternHelper
         }
     }
 }
+[System.Serializable]
 public class HexagonPattern : IHexPatternHelper
 {
     private int range;
@@ -65,7 +65,7 @@ public class HexagonPattern : IHexPatternHelper
         }
     }
 }
-
+[System.Serializable]
 public class TrianglePattern : IHexPatternHelper
 {
     private int iteration;
@@ -106,19 +106,27 @@ public class TrianglePattern : IHexPatternHelper
         }
     }
 }
-
+[System.Serializable]
 public class CustomOffsetPattern: IHexPatternHelper
 {
-    private readonly List<Vector3Int> offsets;
+    public List<Vector3Int> Offsets;
     public CustomOffsetPattern(params Vector3Int[] offsets)
     {
-        this.offsets = offsets.ToList();
+        this.Offsets = offsets.ToList();
+    }
+    public CustomOffsetPattern(params Vector2Int[] offsets)
+    {
+        this.Offsets = new List<Vector3Int>();
+        foreach (var o in offsets)
+        {
+            this.Offsets.Add(new Vector3Int(o.x, 0, o.y));
+        }
     }
     public IEnumerable<HexCell> GetPattern(HexCell startCell)
     {
         //Vector3Int axialPos = OffsetToAxial(startCell.Coordinates);
         
-        foreach (var o in offsets)
+        foreach (var o in Offsets)
         {
             var convertedOffset = IHexPatternHelper.ConvertOffset(o,startCell.Coordinates);
             var targetCoord = startCell.Coordinates + convertedOffset;
@@ -128,64 +136,4 @@ public class CustomOffsetPattern: IHexPatternHelper
             yield return targetCell;
         }
     }
-}
-
-
-public static class PresetPatterns
-{
-    public static CustomOffsetPattern GetPresetPatternByType(PresetPatternType patternType , int radius)
-    {
-        return patternType switch
-        {
-            PresetPatternType.WaiPattern => WaiPattern(),
-            PresetPatternType.AoePattern => BlastPattern(radius),
-            _ => null
-        };
-    }
-     public static CustomOffsetPattern WaiPattern()
-    {
-        return new CustomOffsetPattern(
-            new Vector3Int(0, 0, -3),
-            new Vector3Int(1, 0, -3),
-            new Vector3Int(0, 0, -4),
-            new Vector3Int(-2, 0, 1),
-            new Vector3Int(-2, 0, 2),
-            new Vector3Int(-3, 0, 2),
-            new Vector3Int(3, 0, 1),
-            new Vector3Int(2, 0, 2),
-            new Vector3Int(3, 0, 2)
-        );
-    }
-
-
-    public static CustomOffsetPattern BlastPattern(int radius)
-    {
-        // Calculate the total number of cells in the pattern
-        int totalCells = radius * 6;
-        Vector3Int[] cells = new Vector3Int[totalCells];
-
-        int index = 0;
-
-        // Generate cells based on the 6 directions in a hexagonal grid
-        for (int r = 1; r <= radius; r++)
-        {
-            cells[index++] = new Vector3Int(r, 0, 0);    // +X direction
-            cells[index++] = new Vector3Int(-r, 0, 0);   // -X direction
-            cells[index++] = new Vector3Int(-r, 0, r);    // +Z direction
-            cells[index++] = new Vector3Int(-r, 0, -r);   // -Z direction
-            cells[index++] = new Vector3Int(r, 0, r);   // +X, -Z diagonal
-            cells[index++] = new Vector3Int(r, 0, -r);   // -X, +Z diagonal
-        }
-        
-        return new CustomOffsetPattern(cells);
-    }
-
-
-}
-
-
-public enum PresetPatternType
-{
-    WaiPattern = 0,
-    AoePattern = 1
 }
