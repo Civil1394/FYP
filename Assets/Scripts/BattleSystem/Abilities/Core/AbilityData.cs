@@ -35,9 +35,9 @@ public partial class AbilityData : ScriptableObject
 	[Header("Cast")]
 	public AbilityCastType CastType;
 	[ConditionalField("CastType",AbilityCastType.Location_targeted)]
-	public HexPatternBase selectablePattern;
+	public HexPatternBase SelectablePattern;
 	[ConditionalField("CastType",AbilityCastType.Location_targeted)]
-	public HexPatternBase aoePattern;
+	public HexPatternBase AoePattern;
 	
 	[Header("FX")]
 	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.ProjectileVolley,AbilityType.Blast,AbilityType.Dash)]

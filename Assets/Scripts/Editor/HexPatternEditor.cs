@@ -36,8 +36,8 @@ public class HexPatternEditor : Editor
         if (abilityData.CastType == AbilityCastType.Location_targeted)
         {
             // Draw pattern fields with proper handling for ScriptableObjects
-            DrawHexPatternField("Selectable Pattern", ref abilityData.selectablePattern);
-            DrawHexPatternField("AOE Pattern", ref abilityData.aoePattern);
+            DrawHexPatternField("Selectable Pattern", ref abilityData.SelectablePattern);
+            DrawHexPatternField("AOE Pattern", ref abilityData.AoePattern);
         }
        
 

@@ -83,7 +83,7 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
 
     public void ShowAttackPattern()
     {
-        currentPattern = localAbilityData.selectablePattern.GetPattern(BattleManager.Instance.PlayerCell.CellData).ToList();
+        currentPattern = localAbilityData.SelectablePattern.GetPattern(BattleManager.Instance.PlayerCell.CellData).ToList();
         foreach (var cell in currentPattern)
         {
             cell.SetGuiType(CellGuiType.ValidAttackCell);
