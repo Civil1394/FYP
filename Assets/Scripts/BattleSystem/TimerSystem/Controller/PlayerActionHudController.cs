@@ -112,8 +112,11 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     {
         abilityModels[(int)movedDirection].NotifyUpdate(1);
     }
-    
 
+    public void ShowAbilityRange(int inputDirection)
+    {
+        abilityModels[inputDirection].ShowAttackPattern();
+    }
     //rotate according to orbital transposer camera
     public void UpdateRotation(float cameraRotation)
     {

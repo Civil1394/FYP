@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEditor;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 [CustomEditor(typeof(AbilityData))]
 public class HexPatternEditor : Editor
@@ -11,15 +11,13 @@ public class HexPatternEditor : Editor
 
     private Type[] hexPatternTypes;
 
+    private Dictionary<Vector2Int, bool> selectionMatrix = new();
     private int customMatrixSize = 3; // Matrix size input for CustomOffsetPattern
-
-    private Dictionary<Vector2Int, bool> selectionMatrix = new(); // Persistent checkbox state
-
     private void OnEnable()
     {
         abilityData = (AbilityData)target;
 
-        // Fetch all non-abstract types that implement IHexPatternHelper
+        // Get all scriptable object types implementing IHexPatternHelper
         hexPatternTypes = new Type[]
         {
             typeof(LinePattern),
@@ -36,36 +34,44 @@ public class HexPatternEditor : Editor
         // Draw default fields for AbilityData
         DrawDefaultInspector();
 
+        // Draw pattern fields with proper handling for ScriptableObjects
         DrawHexPatternField("Selectable Pattern", ref abilityData.selectablePattern);
         DrawHexPatternField("AOE Pattern", ref abilityData.aoePattern);
+
+        if (GUILayout.Button("Force Save"))
+        {
+            EditorUtility.SetDirty(abilityData);
+            AssetDatabase.SaveAssets();
+        }
 
         serializedObject.ApplyModifiedProperties();
     }
 
-    private void DrawHexPatternField(string label, ref IHexPatternHelper pattern)
+    private void DrawHexPatternField(string label, ref HexPatternBase pattern)
     {
         EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
 
-        // Identify current type
-        Type currentType = pattern?.GetType();
+        // Get the current pattern type
+        Type currentType = pattern != null ? pattern.GetType() : null;
 
-        // Create a dropdown to select pattern type
+        // Create a dropdown to switch pattern types
         int currentIndex = Array.FindIndex(hexPatternTypes, t => t == currentType);
         int selectedIndex = EditorGUILayout.Popup("Pattern Type", currentIndex, hexPatternTypes.Select(t => t.Name).ToArray());
 
+        // Handle pattern type switching
         if (selectedIndex != currentIndex)
         {
-            // Change pattern type immediately
             if (selectedIndex >= 0 && selectedIndex < hexPatternTypes.Length)
             {
-                pattern = (IHexPatternHelper)Activator.CreateInstance(hexPatternTypes[selectedIndex]);
+                // Replace the existing pattern with a new instance
+                pattern = CreatePatternInstance(hexPatternTypes[selectedIndex]);
                 EditorUtility.SetDirty(abilityData);
             }
         }
 
+        // Draw the specific UI for the selected pattern
         if (pattern != null)
         {
-            // Draw specific UI based on the type of pattern
             EditorGUI.indentLevel++;
             if (pattern is LinePattern linePattern) DrawLinePatternUI(linePattern);
             else if (pattern is HexagonPattern hexagonPattern) DrawHexagonPatternUI(hexagonPattern);
@@ -75,19 +81,41 @@ public class HexPatternEditor : Editor
         }
     }
 
+    // Helper: Create and save a new ScriptableObject instance
+    private HexPatternBase CreatePatternInstance(Type patternType)
+    {
+        // Define the asset path using the AbilityData name
+        string path = "Assets/Resources/AbilityData/Patterns";
+        if (!AssetDatabase.IsValidFolder(path))
+        {
+            AssetDatabase.CreateFolder("Assets/Resources/AbilityData", "Patterns");
+        }
+
+        // Construct a unique path based on AbilityData name and pattern type
+        string assetPath = $"{path}/{abilityData.name}_{patternType.Name}.asset";
+
+        // Check if the asset already exists
+        HexPatternBase existingPattern = AssetDatabase.LoadAssetAtPath<HexPatternBase>(assetPath);
+        if (existingPattern != null)
+        {
+            return existingPattern; // Return the existing asset
+        }
+
+        // Create a new ScriptableObject if not found
+        HexPatternBase newPattern = (HexPatternBase)ScriptableObject.CreateInstance(patternType);
+        AssetDatabase.CreateAsset(newPattern, assetPath);
+        AssetDatabase.SaveAssets();
+
+        return newPattern;
+    }
+
     private void DrawLinePatternUI(LinePattern pattern)
     {
         pattern.range = EditorGUILayout.IntField("Range", pattern.range);
 
-        // Display multi-select dropdown for HexDirection
+        // Multi-select dropdown for HexDirection
         HexDirection[] allDirections = (HexDirection[])Enum.GetValues(typeof(HexDirection));
-
-        bool[] selectedDirections = new bool[allDirections.Length];
-        for (int i = 0; i < allDirections.Length; i++)
-        {
-            if (pattern.dir != null && pattern.dir.Contains(allDirections[i]))
-                selectedDirections[i] = true;
-        }
+        bool[] selectedDirections = allDirections.Select(dir => pattern.dir?.Contains(dir) ?? false).ToArray();
 
         EditorGUILayout.LabelField("Directions");
         for (int i = 0; i < allDirections.Length; i++)
@@ -95,97 +123,110 @@ public class HexPatternEditor : Editor
             selectedDirections[i] = EditorGUILayout.Toggle(allDirections[i].ToString(), selectedDirections[i]);
         }
 
-        // Apply the selected directions
         pattern.dir = allDirections.Where((t, i) => selectedDirections[i]).ToArray();
+
+        MarkObjectDirty(pattern);
     }
 
     private void DrawHexagonPatternUI(HexagonPattern pattern)
     {
         pattern.range = EditorGUILayout.IntField("Radius", pattern.range);
+        MarkObjectDirty(pattern);
     }
 
     private void DrawTrianglePatternUI(TrianglePattern pattern)
     {
         pattern.iteration = EditorGUILayout.IntField("Iteration", pattern.iteration);
         pattern.isUpward = EditorGUILayout.Toggle("Is Upward", pattern.isUpward);
+        MarkObjectDirty(pattern);
     }
 
-    private void DrawCustomOffsetPatternUI(CustomOffsetPattern pattern)
+private void DrawCustomOffsetPatternUI(CustomOffsetPattern pattern)
+{
+    if (pattern.Offsets == null)
     {
-        // Ensure Offsets is initialized
-        if (pattern.Offsets == null)
+        pattern.Offsets = new System.Collections.Generic.List<Vector3Int>();
+    }
+
+    // Allow the user to adjust the grid size (always odd for symmetry)
+    customMatrixSize = Mathf.Max(3, EditorGUILayout.IntField("Matrix Size (Odd)", customMatrixSize));
+    if (customMatrixSize % 2 == 0) customMatrixSize += 1; // Ensure odd size
+
+    int center = customMatrixSize / 2; // Find center index
+
+    // Sync selectionMatrix with pattern.Offsets
+    foreach (var offset in pattern.Offsets)
+    {
+        Vector2Int key = new(offset.x, offset.z);
+        if (!selectionMatrix.ContainsKey(key))
         {
-            pattern.Offsets = new List<Vector3Int>();
-        }
-
-        // Input for matrix size (odd number only)
-        customMatrixSize = Mathf.Max(3, EditorGUILayout.IntField("Matrix Size (Odd)", customMatrixSize));
-
-        if (customMatrixSize % 2 == 0)
-        {
-            customMatrixSize += 1; // Ensure matrix size is always odd
-        }
-
-        int center = customMatrixSize / 2;
-
-        // Initialize selectionMatrix from pattern.Offsets
-        foreach (var offset in pattern.Offsets)
-        {
-            Vector2Int key = new(offset.x, offset.z);
-            if (!selectionMatrix.ContainsKey(key))
-            {
-                selectionMatrix[key] = true;
-            }
-        }
-
-        EditorGUILayout.LabelField("Select Offsets:");
-
-        for (int z = 0; z < customMatrixSize; z++)
-        {
-            EditorGUILayout.BeginHorizontal();
-
-            // Indent odd rows for hexagonal display
-            if (z % 2 == 1)
-            {
-                GUILayout.Space(12);
-            }
-
-            for (int x = 0; x < customMatrixSize; x++)
-            {
-                Vector2Int offset = new(x - center, z - center);
-
-                // Skip the center cell
-                if (x == center && z == center)
-                {
-                    GUILayout.Space(20);
-                    continue;
-                }
-
-                bool isChecked = selectionMatrix.ContainsKey(offset) && selectionMatrix[offset];
-                bool newValue = GUILayout.Toggle(isChecked, "", GUILayout.Width(20));
-
-                if (newValue)
-                    selectionMatrix[offset] = true;
-                else
-                    selectionMatrix[offset] = false;
-            }
-
-            EditorGUILayout.EndHorizontal();
-        }
-
-        if (GUILayout.Button("Save Offsets"))
-        {
-            pattern.Offsets.Clear();
-
-            foreach (var p in selectionMatrix)
-            {
-                if (p.Value && p.Key != Vector2Int.zero) // Skip center
-                {
-                    pattern.Offsets.Add(new Vector3Int(p.Key.x, 0, p.Key.y));
-                }
-            }
-
-            EditorUtility.SetDirty(abilityData);
+            selectionMatrix[key] = true;
         }
     }
-} 
+
+    EditorGUILayout.LabelField("Select Offsets:");
+
+    // Draw the checkbox grid
+    for (int z = 0; z < customMatrixSize; z++)
+    {
+        EditorGUILayout.BeginHorizontal();
+
+        // Indent for odd rows (hex grid style)
+        if (z % 2 == 1)
+        {
+            GUILayout.Space(12);
+        }
+
+        for (int x = 0; x < customMatrixSize; x++)
+        {
+            Vector2Int offset = new(x - center, z - center);
+
+            // Skip the center cell (player position)
+            if (x == center && z == center)
+            {
+                GUILayout.Space(20);
+                continue;
+            }
+
+            // Ensure the cell exists in the matrix
+            if (!selectionMatrix.ContainsKey(offset))
+            {
+                selectionMatrix[offset] = false;
+            }
+
+            // Display a toggle (checkbox) for the cell
+            bool newValue = GUILayout.Toggle(selectionMatrix[offset], "", GUILayout.Width(20));
+
+            // Update the matrix if changed
+            if (newValue != selectionMatrix[offset])
+            {
+                selectionMatrix[offset] = newValue;
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+    }
+
+    // Button to save the selected offsets
+    if (GUILayout.Button("Save Offsets"))
+    {
+        pattern.Offsets.Clear();
+
+        foreach (var entry in selectionMatrix)
+        {
+            if (entry.Value && entry.Key != Vector2Int.zero) // Skip center
+            {
+                pattern.Offsets.Add(new Vector3Int(entry.Key.x, 0, entry.Key.y));
+            }
+        }
+
+        MarkObjectDirty(pattern);
+    }
+}
+
+    // Ensure the pattern and abilityData are marked as dirty
+    private void MarkObjectDirty(UnityEngine.Object obj)
+    {
+        EditorUtility.SetDirty(obj);
+        EditorUtility.SetDirty(abilityData);
+    }
+}

@@ -180,6 +180,10 @@ public class HexCell
         CellGuiType = newCellGuiType;
     }
 
+    public void ResetCuiType()
+    {
+        //show have a function that reset the cell gui type?
+    }
     public HexCell GetNeighbor(HexDirection direction)
     {
         return Neighbors[(int)direction];

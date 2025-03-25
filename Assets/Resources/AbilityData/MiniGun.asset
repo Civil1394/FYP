@@ -44,4 +44,7 @@ MonoBehaviour:
   CastType: 1
   Object_fx: {fileID: 193226, guid: cd01c6abe812d494684515011e1321b9, type: 3}
   ColorType: 0
-  statusEffectdata: {fileID: 0}
+  selectablePattern: {fileID: 11400000, guid: 3f531cd29a005104594e000848d3d9d4, type: 2}
+  aoePattern: {fileID: 0}
+  statusEffectsParam:
+    statusEffects: []

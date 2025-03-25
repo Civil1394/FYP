@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Transactions;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.EventSystems;
@@ -22,6 +25,8 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
     private Action<HexDirection> onDirectionCharged;
     public float currentZRotation;
 
+
+    public List<HexCell> currentPattern;
     public void Init(HexDirection hexDirection, AbilityData ad, Action<HexDirection> OnFullyCharged)
     {
         this.localAbilityData = ad;
@@ -78,15 +83,20 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
 
     public void ShowAttackPattern()
     {
-        // foreach (var hc in )
-        // {
-        //     
-        // }
+        currentPattern = localAbilityData.selectablePattern.GetPattern(BattleManager.Instance.PlayerCell.CellData).ToList();
+        foreach (var cell in currentPattern)
+        {
+            cell.SetGuiType(CellGuiType.ValidAttackCell);
+        }
     }
 
     public void UnshownAttackPattern()
     {
-        
+        foreach (var cell in currentPattern)
+        {
+            cell.SetGuiType(CellGuiType.Empty);
+        }
+        currentPattern.Clear();
     }
     public void OnEndDrag(PointerEventData eventData)
     {

@@ -12,6 +12,8 @@ public class InputHandler : MonoBehaviour
 	public HexCellComponent selectedAbility;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	private CinemachineOrbitalTransposer orbitalTransposer;
+
+	private int cameraRotationCnt;
 	private void Start()
 	{
 		orbitalTransposer = playerCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
@@ -22,9 +24,11 @@ public class InputHandler : MonoBehaviour
 	{
 		ScrollToRotateOrbitalCamera();
 		ResetOrbitalCameraAngle();
+		UpdateCameraRotationCnt();
 		GetPointerEnterExist();
 		GetPointerDown();
 		OnSixDirectionKeyPress();
+		OnAltSixDirectionKeyPress();
 		OnShiftDown();
 	}
 
@@ -207,12 +211,16 @@ public class InputHandler : MonoBehaviour
 			inputState = InputState.Move;
 		}
 	}
-	void OnSixDirectionKeyPress()
+
+	void UpdateCameraRotationCnt()
 	{
 		float cameraAngle = orbitalTransposer.m_XAxis.Value;
 		cameraAngle = ToPositiveAngle(cameraAngle);
-		int cameraRotationCnt = 6 - (int)((cameraAngle + 45) / 60);
+		cameraRotationCnt = 6 - (int)((cameraAngle + 45) / 60);
 		PlayerActionHudController.Instance.cameraRotationCnt = cameraRotationCnt;
+	}
+	void OnSixDirectionKeyPress()
+	{
 		if (inputState == InputState.CastingAbility)
 		{
 			return;
@@ -271,34 +279,39 @@ public class InputHandler : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.W))
 		{
 			//default nw
-			//should tell the corresponding ability to show the attack pattern for player to choose
+			int tempDir = ((int)HexDirection.NW + cameraRotationCnt) % 6;
+			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
 		}
 		else if(Input.GetKeyDown(KeyCode.E))
 		{
 			//default ne
-
+			int tempDir = ((int)HexDirection.NE + cameraRotationCnt) % 6;
+			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
 		}
 		else if(Input.GetKeyDown(KeyCode.D))
 		{
 			//default e
-
+			int tempDir = ((int)HexDirection.E + cameraRotationCnt) % 6;
+			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
 		}
 		else if(Input.GetKeyDown(KeyCode.X))
 		{
 			//default se
-
+			int tempDir = ((int)HexDirection.SE + cameraRotationCnt) % 6;
+			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
 		}
 		else if(Input.GetKeyDown(KeyCode.Z))
 		{
 			//default sw
-
+			int tempDir = ((int)HexDirection.SW + cameraRotationCnt) % 6;
+			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
 		}
 		else if(Input.GetKeyDown(KeyCode.A))
 		{
 			//default w
-
+			int tempDir = ((int)HexDirection.W + cameraRotationCnt) % 6;
+			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
 		}
-
 		#endregion
 	}
 	public void SetInputState(InputState newState)
