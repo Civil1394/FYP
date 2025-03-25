@@ -87,15 +87,26 @@ public class HexPatternEditor : Editor
     // Helper: Create and save a new ScriptableObject instance
     private HexPatternBase CreatePatternInstance(Type patternType)
     {
-        // Define the asset path using the AbilityData name
-        string path = "Assets/Resources/AbilityData/Patterns";
-        if (!AssetDatabase.IsValidFolder(path))
+        // Define the base patterns path
+        string basePath = "Assets/Resources/AbilityData/Patterns";
+    
+        // Create the AbilityData-specific folder path
+        string abilityFolderPath = $"{basePath}/{abilityData.name}";
+
+        // Ensure the base Patterns folder exists
+        if (!AssetDatabase.IsValidFolder(basePath))
         {
             AssetDatabase.CreateFolder("Assets/Resources/AbilityData", "Patterns");
         }
 
-        // Construct a unique path based on AbilityData name and pattern type
-        string assetPath = $"{path}/{abilityData.name}_{patternType.Name}.asset";
+        // Create the ability-specific folder if it doesn't exist
+        if (!AssetDatabase.IsValidFolder(abilityFolderPath))
+        {
+            AssetDatabase.CreateFolder(basePath, abilityData.name);
+        }
+
+        // Construct a unique path for the pattern asset
+        string assetPath = $"{abilityFolderPath}/{abilityData.name}_{patternType.Name}.asset";
 
         // Check if the asset already exists
         HexPatternBase existingPattern = AssetDatabase.LoadAssetAtPath<HexPatternBase>(assetPath);
