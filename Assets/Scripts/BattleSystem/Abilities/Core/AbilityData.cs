@@ -31,17 +31,24 @@ public partial class AbilityData : ScriptableObject
 	
 	[Header("Icon")]
 	public Sprite Icon;
+	
 	[Header("Cast")]
 	public AbilityCastType CastType;
-    
+	[ConditionalField("CastType",AbilityCastType.Location_targeted)]
+	public HexPatternBase selectablePattern;
+	[ConditionalField("CastType",AbilityCastType.Location_targeted)]
+	public HexPatternBase aoePattern;
+	
 	[Header("FX")]
 	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.ProjectileVolley,AbilityType.Blast,AbilityType.Dash)]
 	public GameObject Object_fx;
 	
-	public AbilityColorType ColorType;
+	public AbilityColorType ColorType{
+		get;
+		set;
+	}
 
-	public HexPatternBase selectablePattern;
-	public HexPatternBase aoePattern;
+	
 	/// <summary>
 	/// Creates a new AbilityData instance with a specified color type.
 	/// </summary>

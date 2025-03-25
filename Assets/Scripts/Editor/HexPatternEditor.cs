@@ -33,10 +33,13 @@ public class HexPatternEditor : Editor
 
         // Draw default fields for AbilityData
         DrawDefaultInspector();
-
-        // Draw pattern fields with proper handling for ScriptableObjects
-        DrawHexPatternField("Selectable Pattern", ref abilityData.selectablePattern);
-        DrawHexPatternField("AOE Pattern", ref abilityData.aoePattern);
+        if (abilityData.CastType == AbilityCastType.Location_targeted)
+        {
+            // Draw pattern fields with proper handling for ScriptableObjects
+            DrawHexPatternField("Selectable Pattern", ref abilityData.selectablePattern);
+            DrawHexPatternField("AOE Pattern", ref abilityData.aoePattern);
+        }
+       
 
         if (GUILayout.Button("Force Save"))
         {
