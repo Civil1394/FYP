@@ -1,6 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
+public enum StatusEffectId
+{
+    None = 0,
+    
+    Poison = 5,
+    
+    Frost = 10,
+}
 public enum StatusEffectType
 {
     Damage,     // Deals damage over time (e.g., Poison, Burn)
@@ -20,7 +30,7 @@ public enum StatusEffectApplication
 public class StatusEffectData : ScriptableObject
 {
     [Header("Identification")]
-    public string id;
+    public StatusEffectId id;
     public string displayName;
     public Sprite icon;
     
@@ -48,33 +58,13 @@ public class StatusEffectData : ScriptableObject
     [TextArea(3, 5)]
     public string description;
     
-    // Create a runtime instance of this status effect with specific parameters
-    public StatusEffect CreateInstance(GameObject target, GameObject source, CasterType casterType, int initialStacks = 1)
-    {
-        StatusEffect statusEffect = new StatusEffect
-        {
-            Data = this,
-            Target = target,
-            Source = source,
-            CasterType = casterType,
-            RemainingDuration = duration,
-            CurrentStacks = Mathf.Min(initialStacks, maxStacks),
-            TimeSinceLastTick = 0f,
-            IsActive = true
-        };
-        
-        return statusEffect;
-    }
 }
 
 // Runtime instance of a status effect
 [System.Serializable]
-public class StatusEffect
+public class StatusEffectInstance : IStatusEffectHandler
 {
     public StatusEffectData Data;
-    public GameObject Target;
-    public GameObject Source;
-    public CasterType CasterType;
     public float RemainingDuration;
     public int CurrentStacks;
     public float TimeSinceLastTick;
@@ -82,9 +72,40 @@ public class StatusEffect
     
     public GameObject ActiveVisualEffect;
     
-    public float CalculateValue()
+    public virtual float ProcessDamageEffect(IDamagable damagable)
     {
-        return Data.baseValue * Data.scalingFactor * CurrentStacks;
+        throw new System.NotImplementedException("This handler does not support damage effects");
     }
+    
+    public virtual void ApplyControlEffect(TimedActor actor)
+    {
+        throw new System.NotImplementedException("This handler does not support control effects");
+    }
+    
+    public virtual void ApplyStatEffect(TimedActor actor)
+    {
+        throw new System.NotImplementedException("This handler does not support stat effects");
+    }
+    
+    public virtual void ApplyUtilityEffect()
+    {
+        throw new System.NotImplementedException("This handler does not support utility effects");
+    }
+
+    public virtual void RemoveControlEffect(TimedActor actor)
+    {
+        throw new NotImplementedException();
+    }
+
+    public virtual void RemoveStatEffect(TimedActor actor)
+    {
+        throw new NotImplementedException();
+    }
+
+    public virtual void RemoveUtilityEffect()
+    {
+        throw new NotImplementedException();
+    }
+    
 }
 

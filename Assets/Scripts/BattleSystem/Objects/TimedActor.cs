@@ -7,13 +7,20 @@ public abstract class TimedActor : MonoBehaviour
     public Hourglass hourglass = null;
     public float MinThreshold = 0f;
     public float MaxThreshold = 5f;
-    public float ActionCooldown = 2f;
-    [SerializeField] private bool startTimerOnAwake = true;
+    public float BaseActionCooldown { get; private set; }
+    public float ActionCooldown 
+    {
+        get { return BaseActionCooldown * ActionCooldownMultiplier; }
+        set { BaseActionCooldown = value; }
+    }
+    public float CurrentCooldown;
+    public bool IsTimerActive = false;
+    public float ActionCooldownMultiplier = 1.0f;
     
-    private float currentCooldown;
-    protected bool isTimerActive = false;
-
+    [SerializeField] private bool startTimerOnAwake = true;
     [SerializeField] private TMP_Text actorHourglassData;
+    protected ObjectStatusEffectManager statusManager;
+    
     #region Events
 
     public event Action<float> OnTimerStart;
@@ -34,25 +41,41 @@ public abstract class TimedActor : MonoBehaviour
     }
     protected virtual void Start()
     {
-
+        statusManager = GetComponent<ObjectStatusEffectManager>();
+        if (statusManager == null)
+        {
+            statusManager = gameObject.AddComponent<ObjectStatusEffectManager>();
+        }
+        //
+        // statusManager.OnStatusEffectApplied += HandleStatusEffectApplied;
+        // statusManager.OnStatusEffectRemoved += HandleStatusEffectRemoved;
     }
-    
+
+    private void OnDestroy()
+    {
+        // if (statusManager != null)
+        // {
+        //     statusManager.OnStatusEffectApplied -= HandleStatusEffectApplied;
+        //     statusManager.OnStatusEffectRemoved -= HandleStatusEffectRemoved;
+        // }
+    }
+
     protected virtual void Update()
     {
-        if (!isTimerActive) return;
+        if (!IsTimerActive) return;
         if(actorHourglassData != null) actorHourglassData.text = Helpers.GetShortFormTimeType(hourglass.TimeType) +
-                                                                 " / " +currentCooldown.ToString("F2") + 
+                                                                 " / " +CurrentCooldown.ToString("F2") + 
                                                                  " / " + ActionCooldown.ToString("F1") +
                                                                  " / " + MaxThreshold.ToString("F1");
         if(ActionCooldown <= MinThreshold) OverDrive();
         if(ActionCooldown >= MaxThreshold) Collapse();
 
         
-        currentCooldown -= Time.deltaTime;
+        CurrentCooldown -= Time.deltaTime;
         OnTimerTick?.Invoke(GetNormalizedTime());
-        if (currentCooldown <= 0)
+        if (CurrentCooldown <= 0)
         {
-            isTimerActive = false;
+            IsTimerActive = false;
             OnTimerComplete?.Invoke();
             CheckTimerStatus();
         }
@@ -60,31 +83,39 @@ public abstract class TimedActor : MonoBehaviour
     
     public void CheckTimerStatus()
     {
-        currentCooldown = ActionCooldown;
-        OnTimerStart?.Invoke(currentCooldown);
-        isTimerActive = true;
+        CurrentCooldown = ActionCooldown;
+        OnTimerStart?.Invoke(CurrentCooldown);
+        IsTimerActive = true;
+    }
+    #region TimerUtilities
+    public void AdjustCurrentCooldown(float multiplier)
+    {
+        if (IsTimerActive)
+        {
+            CurrentCooldown *= multiplier;
+        }
     }
 
     public void PauseTimer()
     {
-        isTimerActive = false;
+        IsTimerActive = false;
     }
 
     public void ResumeTimer()
     {
-        isTimerActive = true;
+        IsTimerActive = true;
     }
-
+    
     protected float GetNormalizedTime()
     {
-        float v = (currentCooldown / ActionCooldown);
+        float v = (CurrentCooldown / ActionCooldown);
         return v;
     }
     
 
     protected virtual void TimeManipulate(float flowTime)
     {
-         ActionCooldown -= flowTime;
+        ActionCooldown -= flowTime;
     }
 
     protected virtual void OverDrive()
@@ -97,6 +128,8 @@ public abstract class TimedActor : MonoBehaviour
     {
         Debug.Log("Collapse");
     }
+    #endregion
+    
     
     protected abstract void DeathCheck();
     protected abstract void OnDeath(); 

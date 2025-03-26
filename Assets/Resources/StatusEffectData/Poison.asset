@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee8d9bc2cc423448beac62a8c54ddf1, type: 3}
   m_Name: Poison
   m_EditorClassIdentifier: 
-  id: 2
+  id: 5
   displayName: Posion
   icon: {fileID: 0}
   effectType: 0
@@ -20,8 +20,8 @@ MonoBehaviour:
   duration: 5
   tickInterval: 1
   isPermanentUntilRemoved: 0
-  visualEffect: {fileID: 185086, guid: 6c4ae31fa47a6c143a4e64ca4b65fc4a, type: 3}
-  baseValue: 1
+  visualEffect: {fileID: 185086, guid: 578054d8f3d0764448fe325d28687000, type: 3}
+  baseValue: 10
   scalingFactor: 1
-  maxStacks: 5
+  maxStacks: 99
   description: 

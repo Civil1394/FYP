@@ -43,6 +43,10 @@ public class PlayerActor : TimedActor,IDamagable
 		pendingActionVisualizer = GetComponent<PendingActionVisualizer>();
 	}
 
+	protected void Start()
+	{
+		base.Start();
+	}
 	public void Init(Hourglass hourglass,HexCellComponent initStandingCell, HourglassOnHudAnimator hourglassAnimator )
 	{
 		base.Init(hourglass);
@@ -75,7 +79,6 @@ public class PlayerActor : TimedActor,IDamagable
 		HealthText.text = currentHealth.ToString();
 		
 	}
-	
 
 	private void OnDestroy()
 	{
@@ -228,6 +231,11 @@ public class PlayerActor : TimedActor,IDamagable
 		currentHealth -= damage;
 		HealthText.text = currentHealth.ToString();
 		DeathCheck();
+	}
+
+	public void HandleStatusEffectDamage(float damage)
+	{
+		TakeDamage(damage);
 	}
 
 	protected override void DeathCheck()

@@ -6,22 +6,23 @@ using System.Linq;
 
 public class ObjectStatusEffectManager : MonoBehaviour 
 {
-	private List<StatusEffect> activeStatusEffects = new List<StatusEffect>();
+	private List<StatusEffectInstance> activeStatusEffects = new List<StatusEffectInstance>();
     
     // Event to notify UI and other systems when status effects change
-    public event Action<List<StatusEffect>> OnStatusEffectsChanged;
+    public event Action<List<StatusEffectInstance>> OnStatusEffectsChanged;
     
-    // Event for when a specific status effect is applied
-    public event Action<StatusEffect> OnStatusEffectApplied;
+    public List<StatusEffectInstance> ActiveStatusEffects => activeStatusEffects;
     
-    // Event for when a specific status effect is removed
-    public event Action<StatusEffect> OnStatusEffectRemoved;
-    
-    // Event that passes damage values when taking damage from a status effect
-    public event Action<float, StatusEffectData> OnStatusEffectDamage;
-    
-    public List<StatusEffect> ActiveStatusEffects => activeStatusEffects;
-    
+    private TimedActor actor;
+    private IDamagable damagable;
+    private void Start()
+    {
+        if(actor == null)
+            actor = GetComponent<TimedActor>();
+        if(damagable == null)
+            damagable = GetComponent<IDamagable>();
+    }
+
     private void Update()
     {
         UpdateStatusEffects();
@@ -30,18 +31,18 @@ public class ObjectStatusEffectManager : MonoBehaviour
     private void UpdateStatusEffects()
     {
         bool effectsChanged = false;
-        List<StatusEffect> effectsToRemove = new List<StatusEffect>();
-        
+        List<StatusEffectInstance> effectsToRemove = new List<StatusEffectInstance>();
+    
         foreach (var effect in activeStatusEffects)
         {
             if (!effect.IsActive)
                 continue;
-                
+            
             // Skip permanent effects for duration check
             if (!effect.Data.isPermanentUntilRemoved)
             {
                 effect.RemainingDuration -= Time.deltaTime;
-                
+            
                 // Check if the effect has expired
                 if (effect.RemainingDuration <= 0)
                 {
@@ -49,146 +50,169 @@ public class ObjectStatusEffectManager : MonoBehaviour
                     continue;
                 }
             }
-            
+        
             // Handle ticking effects
             if (effect.Data.tickInterval > 0)
             {
                 effect.TimeSinceLastTick += Time.deltaTime;
-                
+            
                 if (effect.TimeSinceLastTick >= effect.Data.tickInterval)
                 {
                     effect.TimeSinceLastTick = 0;
-                    ProcessStatusEffectTick(effect);
+                
+                    // Apply tick effects based on type
+                    if (effect.Data.effectType == StatusEffectType.Damage)
+                    {
+                        if (damagable != null)
+                        {
+                           effect.ProcessDamageEffect(damagable);
+                        }
+                    }
                 }
             }
         }
-        
+    
         // Remove any expired effects
         foreach (var effect in effectsToRemove)
         {
             RemoveStatusEffect(effect.Data.id);
             effectsChanged = true;
         }
-        
+    
         if (effectsChanged)
         {
             NotifyStatusEffectsChanged();
         }
     }
     
-    private void ProcessStatusEffectTick(StatusEffect effect)
-    {
-        switch (effect.Data.effectType)
-        {
-            case StatusEffectType.Damage:
-                float damage = effect.CalculateValue();
-                OnStatusEffectDamage?.Invoke(damage, effect.Data);
-                break;
-                
-            case StatusEffectType.Stat:
-                // Stats are mostly handled passively through modifiers
-                break;
-                
-            case StatusEffectType.Control:
-                // Control effects typically don't tick but apply continuous state
-                break;
-                
-            case StatusEffectType.Utility:
-                // Custom behavior for utility effects
-                break;
-        }
-    }
     
-    public void ApplyStatusEffect(StatusEffectData effectData, GameObject source, CasterType casterType, int stacks = 1)
+    public void ApplyStatusEffect(StatusEffectData effectData, int stacks = 1)
     {
-        // Check if the effect already exists
-        StatusEffect existingEffect = activeStatusEffects.FirstOrDefault(e => e.Data.id == effectData.id);
+        // Check if the effectInstance already exists
+        StatusEffectInstance existingEffectInstance = activeStatusEffects.FirstOrDefault(e => e.Data.id == effectData.id);
         
-        if (existingEffect != null)
+        if (existingEffectInstance != null)
         {
-            // Handle existing effect according to application rule
+            // Handle existing effectInstance according to application rule
             switch (effectData.applicationRule)
             {
                 case StatusEffectApplication.Stack:
-                    existingEffect.CurrentStacks = Mathf.Min(existingEffect.CurrentStacks + stacks, effectData.maxStacks);
+                    existingEffectInstance.CurrentStacks = Mathf.Min(existingEffectInstance.CurrentStacks + stacks, effectData.maxStacks);
+                    AddNewStatusEffect(effectData, stacks);
                     break;
                     
                 case StatusEffectApplication.Refresh:
-                    existingEffect.RemainingDuration = effectData.duration;
+                    existingEffectInstance.RemainingDuration = effectData.duration;
                     break;
                     
                 case StatusEffectApplication.Replace:
-                    RemoveStatusEffect(existingEffect.Data.id);
-                    AddNewStatusEffect(effectData, source, casterType, stacks);
+                    RemoveStatusEffect(existingEffectInstance.Data.id);
+                    AddNewStatusEffect(effectData, stacks);
                     return;
             }
             
-            OnStatusEffectApplied?.Invoke(existingEffect);
         }
         else
         {
-            // Add as a new effect
-            AddNewStatusEffect(effectData, source, casterType, stacks);
+            
+            // Add as a new effectInstance
+            AddNewStatusEffect(effectData, stacks);
         }
         
         NotifyStatusEffectsChanged();
     }
     
-    private void AddNewStatusEffect(StatusEffectData effectData, GameObject source, CasterType casterType, int stacks)
+    private void AddNewStatusEffect(StatusEffectData effectData,int stacks)
     {
-        StatusEffect newEffect = effectData.CreateInstance(gameObject, source, casterType, stacks);
-        
+        // Create handler instance using factory
+        StatusEffectInstance newEffect = StatusEffectHandlerFactory.CreateHandler(
+            effectData,stacks);
+    
         // Instantiate visual effect if present
         if (effectData.visualEffect != null)
         {
             newEffect.ActiveVisualEffect = Instantiate(effectData.visualEffect, transform.position, Quaternion.identity);
             newEffect.ActiveVisualEffect.transform.SetParent(transform);
         }
-        
+    
+        // Add to active effects list
         activeStatusEffects.Add(newEffect);
-        OnStatusEffectApplied?.Invoke(newEffect);
+        
+        if (actor != null)
+        {
+            switch (effectData.effectType)
+            {
+                case StatusEffectType.Stat:
+                    newEffect.ApplyStatEffect(actor);
+                    break;
+                
+                case StatusEffectType.Control:
+                    newEffect.ApplyControlEffect(actor);
+                    break;
+                
+                case StatusEffectType.Utility:
+                    newEffect.ApplyUtilityEffect();
+                    break;
+            }
+        }
     }
     
-    public bool RemoveStatusEffect(string statusEffectId, int stacksToRemove = 0)
+    public bool RemoveStatusEffect(StatusEffectId statusEffectId, int stacksToRemove = 0)
     {
-        StatusEffect effect = activeStatusEffects.FirstOrDefault(e => e.Data.id == statusEffectId);
+        StatusEffectInstance effectInstance = activeStatusEffects.FirstOrDefault(e => e.Data.id == statusEffectId);
         
-        if (effect == null)
+        if (effectInstance == null)
             return false;
             
-        // If stacksToRemove is 0 or not specified, remove the effect entirely
+        // If stacksToRemove is 0 or not specified, remove the effectInstance entirely
         // Otherwise, reduce stacks
         if (stacksToRemove > 0)
         {
-            effect.CurrentStacks = Mathf.Max(0, effect.CurrentStacks - stacksToRemove);
+            effectInstance.CurrentStacks = Mathf.Max(0, effectInstance.CurrentStacks - stacksToRemove);
             
-            // If no stacks remain, remove the effect
-            if (effect.CurrentStacks == 0)
+            // If no stacks remain, remove the effectInstance
+            if (effectInstance.CurrentStacks == 0)
             {
-                RemoveEffectCompletely(effect);
+                RemoveEffectCompletely(effectInstance);
             }
         }
         else
         {
-            RemoveEffectCompletely(effect);
+            RemoveEffectCompletely(effectInstance);
         }
         
         NotifyStatusEffectsChanged();
         return true;
     }
     
-    private void RemoveEffectCompletely(StatusEffect effect)
+    private void RemoveEffectCompletely(StatusEffectInstance effect)
     {
-        effect.IsActive = false;
-        
-        // Clean up visual effect
+        // Clean up visual effect if present
         if (effect.ActiveVisualEffect != null)
         {
             Destroy(effect.ActiveVisualEffect);
         }
-        
+    
+        // Apply removal effects
+        TimedActor actor = GetComponent<TimedActor>();
+        if (actor != null)
+        {
+            switch (effect.Data.effectType)
+            {
+                case StatusEffectType.Stat:
+                    effect.RemoveStatEffect(actor);
+                    break;
+                
+                case StatusEffectType.Control:
+                    effect.RemoveControlEffect(actor);
+                    break;
+                
+                case StatusEffectType.Utility:
+                    effect.RemoveUtilityEffect();
+                    break;
+            }
+        }
         activeStatusEffects.Remove(effect);
-        OnStatusEffectRemoved?.Invoke(effect);
     }
     
     public void ClearAllStatusEffects()
@@ -203,12 +227,14 @@ public class ObjectStatusEffectManager : MonoBehaviour
     
     public bool HasStatusEffect(string statusEffectId)
     {
-        return activeStatusEffects.Any(e => e.Data.id == statusEffectId && e.IsActive);
+        //return activeStatusEffects.Any(e => e.Data.id == statusEffectId && e.IsActive);
+        return false;
     }
     
-    public StatusEffect GetStatusEffect(string statusEffectId)
+    public StatusEffectInstance GetStatusEffect(string statusEffectId)
     {
-        return activeStatusEffects.FirstOrDefault(e => e.Data.id == statusEffectId && e.IsActive);
+        //return activeStatusEffects.FirstOrDefault(e => e.Data.id == statusEffectId && e.IsActive);
+        return null;
     }
     
     private void NotifyStatusEffectsChanged()

@@ -83,6 +83,11 @@ public class EnemyActor : TimedActor, IDamagable
 		DeathCheck();
 	}
 
+	public void HandleStatusEffectDamage(float damage)
+	{
+		TakeDamage(damage);
+	}
+
 	protected override void DeathCheck()
 	{
 		if(currentHealth <= 0) OnDeath();

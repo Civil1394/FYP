@@ -72,7 +72,7 @@ public static class AbilityDataExtensions
                 if (sourceStatusManager != null)
                 {
                     // Apply to the source
-                    sourceStatusManager.ApplyStatusEffect(statusApp.statusEffect, source, casterType, statusApp.initialStacks);
+                    sourceStatusManager.ApplyStatusEffect(statusApp.statusEffect, statusApp.initialStacks);
                 }
             }
             else
@@ -87,7 +87,7 @@ public static class AbilityDataExtensions
                 if (statusApp.applyToSelf && targetStatusManager != null)
                 {
                     // Apply to the target
-                    targetStatusManager.ApplyStatusEffect(statusApp.statusEffect, target, casterType, statusApp.initialStacks);
+                    targetStatusManager.ApplyStatusEffect(statusApp.statusEffect, statusApp.initialStacks);
                 }
             }
            
