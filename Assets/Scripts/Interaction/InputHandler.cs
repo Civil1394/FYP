@@ -9,7 +9,7 @@ public class InputHandler : MonoBehaviour
 	public GenericAction OnMoveClick = new GenericAction();
 	public GenericAction OnCastClick = new GenericAction();
 	public InputState inputState = InputState.Move;
-	public HexCellComponent selectedAbility;
+	public HexDirection selectedAbility;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	private CinemachineOrbitalTransposer orbitalTransposer;
 
@@ -275,45 +275,51 @@ public class InputHandler : MonoBehaviour
 		{
 			return;
 		}
-		#region Movement input
+		#region Ability input
 		if (Input.GetKeyDown(KeyCode.W))
 		{
 			//default nw
 			int tempDir = ((int)HexDirection.NW + cameraRotationCnt) % 6;
 			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
+			selectedAbility = (HexDirection)tempDir;
 		}
 		else if(Input.GetKeyDown(KeyCode.E))
 		{
 			//default ne
 			int tempDir = ((int)HexDirection.NE + cameraRotationCnt) % 6;
 			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
-		}
-		else if(Input.GetKeyDown(KeyCode.D))
+            selectedAbility = (HexDirection)tempDir;
+        }
+        else if(Input.GetKeyDown(KeyCode.D))
 		{
 			//default e
 			int tempDir = ((int)HexDirection.E + cameraRotationCnt) % 6;
 			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
-		}
-		else if(Input.GetKeyDown(KeyCode.X))
+            selectedAbility = (HexDirection)tempDir;
+        }
+        else if(Input.GetKeyDown(KeyCode.X))
 		{
 			//default se
 			int tempDir = ((int)HexDirection.SE + cameraRotationCnt) % 6;
 			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
-		}
-		else if(Input.GetKeyDown(KeyCode.Z))
+            selectedAbility = (HexDirection)tempDir;
+        }
+        else if(Input.GetKeyDown(KeyCode.Z))
 		{
 			//default sw
 			int tempDir = ((int)HexDirection.SW + cameraRotationCnt) % 6;
 			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
-		}
-		else if(Input.GetKeyDown(KeyCode.A))
+            selectedAbility = (HexDirection)tempDir;
+        }
+        else if(Input.GetKeyDown(KeyCode.A))
 		{
 			//default w
 			int tempDir = ((int)HexDirection.W + cameraRotationCnt) % 6;
 			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
-		}
-		#endregion
-	}
+            selectedAbility = (HexDirection)tempDir;
+        }
+        #endregion
+    }
 	public void SetInputState(InputState newState)
 	{
 		inputState = newState;
