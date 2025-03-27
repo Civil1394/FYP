@@ -137,7 +137,9 @@ public class InputHandler : MonoBehaviour
 		GameObject pointedObject = GetMousePointedGameObject();
 		if (Input.GetKeyDown(KeyCode.Mouse0) && pointedObject)
 		{
+			print("pointer down");
 			if (selectedAbility == HexDirection.NONE) return;
+			print("use " + selectedAbility);
 			BattleManager.Instance.PlayerActorInstance.ExecuteCastAction(selectedAbility);
 			//if(inputState == InputState.Move)
 			//	OnMoveClick.Invoke(pointedObject.GetComponent<HexCellComponent>());
@@ -212,7 +214,6 @@ public class InputHandler : MonoBehaviour
 		if (Input.GetKeyUp(KeyCode.LeftControl))
 		{
 			inputState = InputState.Move;
-			selectedAbility = HexDirection.NONE;
 		}
 	}
 
