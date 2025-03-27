@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cinemachine;
 using DG.Tweening;
+using UnityEngine.UI.Extensions;
 
 public class InputHandler : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class InputHandler : MonoBehaviour
 	public GenericAction OnMoveClick = new GenericAction();
 	public GenericAction OnCastClick = new GenericAction();
 	public InputState inputState = InputState.Move;
-	public HexDirection selectedAbility;
+	public HexDirection selectedAbility = HexDirection.NONE;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	private CinemachineOrbitalTransposer orbitalTransposer;
 
@@ -211,6 +212,7 @@ public class InputHandler : MonoBehaviour
 		if (Input.GetKeyUp(KeyCode.LeftControl))
 		{
 			inputState = InputState.Move;
+			selectedAbility = HexDirection.NONE;
 		}
 	}
 
