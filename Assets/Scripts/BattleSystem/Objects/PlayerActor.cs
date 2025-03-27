@@ -169,7 +169,7 @@ public class PlayerActor : TimedActor,IDamagable
 		// }
 	}
 
-	private void ExecuteCastAction(HexDirection direction)
+	public void ExecuteCastAction(HexDirection direction)
 	{
 		var a = EquippedAbilityManager.GetEquippedAbilityData((int)direction);
 

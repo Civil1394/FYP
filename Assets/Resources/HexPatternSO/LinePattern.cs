@@ -15,17 +15,26 @@ public partial class LinePattern : HexPatternBase
     // }
     public override IEnumerable<HexCell> GetPattern(HexCell startCell)
     {
-        
-        foreach (var d in dir)
+        foreach(var d in dir)
         {
-            HexCell targetCell = startCell.GetNeighbor(d);
+            HexCell temp = startCell;
             for (var i = 0; i < range; i++)
             {
-                targetCell = targetCell.GetNeighbor(d);
-                if (targetCell != null)
-                    yield return targetCell;
-                Debug.Log(this.GetType()+" "+targetCell.Coordinates);
+                temp = temp.GetNeighbor(d);
+                yield return temp;
             }
         }
+        //foreach (var d in dir)
+        //{
+        //    HexCell targetCell = startCell.GetNeighbor(d);
+        //    yield return targetCell;
+        //    for (var i = 0; i < range; i++)
+        //    {
+        //        targetCell = targetCell.GetNeighbor(d);
+        //        if (targetCell != null)
+        //            yield return targetCell;
+        //        
+        //    }
+        //}
     }
 }

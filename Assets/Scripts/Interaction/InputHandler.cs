@@ -27,9 +27,9 @@ public class InputHandler : MonoBehaviour
 		UpdateCameraRotationCnt();
 		GetPointerEnterExist();
 		GetPointerDown();
-		OnSixDirectionKeyPress();
+        OnShiftDown();
+        OnSixDirectionKeyPress();
 		OnAltSixDirectionKeyPress();
-		OnShiftDown();
 	}
 
 
@@ -136,12 +136,14 @@ public class InputHandler : MonoBehaviour
 		GameObject pointedObject = GetMousePointedGameObject();
 		if (Input.GetKeyDown(KeyCode.Mouse0) && pointedObject)
 		{
-			if(inputState == InputState.Move)
-				OnMoveClick.Invoke(pointedObject.GetComponent<HexCellComponent>());
-			if (inputState == InputState.CastingAbility)
-			{
-				OnCastClick?.Invoke(pointedObject.GetComponent<HexCellComponent>());
-			}
+			if (selectedAbility == HexDirection.NONE) return;
+			BattleManager.Instance.PlayerActorInstance.ExecuteCastAction(selectedAbility);
+			//if(inputState == InputState.Move)
+			//	OnMoveClick.Invoke(pointedObject.GetComponent<HexCellComponent>());
+			//if (inputState == InputState.CastingAbility)
+			//{
+			//	OnCastClick?.Invoke(pointedObject.GetComponent<HexCellComponent>());
+			//}
 		}
 	}
 

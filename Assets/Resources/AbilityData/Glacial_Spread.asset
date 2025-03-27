@@ -42,7 +42,7 @@ MonoBehaviour:
   Desc: 
   Icon: {fileID: 21300000, guid: 153d5d0187375dd4ea8e98c50ae6e234, type: 3}
   CastType: 2
-  SelectablePattern: {fileID: 11400000, guid: 21ab6e969a3b3ce42bdd6c96f2003559, type: 2}
+  SelectablePattern: {fileID: 11400000, guid: dab54184426a9444080a2acd8142bb1a, type: 2}
   AoePattern: {fileID: 0}
   Object_fx: {fileID: 569846001531763723, guid: 92b48bce99d1e784f9e5302b587d87c7,
     type: 3}

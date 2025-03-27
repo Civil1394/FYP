@@ -129,6 +129,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     public void SwapAbilitySlot(HexDirection a, HexDirection b)
     {
         (abilityModels[(int)a], abilityModels[(int)b]) = (abilityModels[(int)b], abilityModels[(int)a]);
+        (EquippedAbilityManager.EquippedAbilities[(int)a], EquippedAbilityManager.EquippedAbilities[(int)b]) = (EquippedAbilityManager.EquippedAbilities[(int)b], EquippedAbilityManager.EquippedAbilities[(int)a]);
         abilityModels[(int)a].UpdateDirection(a);
         abilityModels[(int)b].UpdateDirection(b);
         abilityModels[(int)a].UpdateRotation(rotationZs[(int)a]);
