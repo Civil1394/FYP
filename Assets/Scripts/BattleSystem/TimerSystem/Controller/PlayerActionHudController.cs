@@ -25,7 +25,6 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     private Action<HexDirection> executeCastCallback;
     private void Start()
     {
-        
     }
     
     /// <summary>
@@ -51,7 +50,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     /// <summary>
     /// Refreshes all HUD models based on the current equippedAbilities queue.
     /// </summary>
-    private void RefreshHUD()
+    public void RefreshHUD()
     {
         for (int i = 0; i < abilityModels.Count; i++)
         {
