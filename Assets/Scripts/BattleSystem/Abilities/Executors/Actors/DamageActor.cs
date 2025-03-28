@@ -5,6 +5,11 @@ using JetBrains.Annotations;
 
 public abstract class DamageActor : MonoBehaviour
 {
+	#region Events
+
+	public abstract event Action<GameObject> OnHitApplyStatusEffect;
+
+	#endregion
 	
 	protected CasterType casterType;
 	public CasterType CasterType => casterType;
@@ -16,5 +21,5 @@ public abstract class DamageActor : MonoBehaviour
 		_damage = damage;
 	}
 	
-	public abstract void DoDamage(Action<float> damageAction, GameObject source = null);
+	public abstract void DoDamage(Action<float> damageAction, GameObject damagedTarget,GameObject source = null);
 }

@@ -15,7 +15,7 @@ public class ProjectileActor : DamageActor
     private ProjectileParameter parameter;
     private Quaternion targetRotation;
     private ProjectileBehavior behavior;
-
+    public override event Action<GameObject> OnHitApplyStatusEffect;
     public void InitBullet(CasterType casterType,ProjectileParameter parameter, HexDirection castingDirection, HexCellComponent casterCell)
     {
         this.casterType = casterType;
@@ -67,14 +67,14 @@ public class ProjectileActor : DamageActor
     }
     
 
-    public override void DoDamage(Action<float> damageAction, GameObject source = null)
+    public override void DoDamage(Action<float> damageAction,GameObject damagedObject, GameObject source = null)
     {
         damageAction?.Invoke(_damage);
         if (parameter.IsSelfDestructOnCollision)
         {
             Destroy(this.gameObject);
         }
-        
+        OnHitApplyStatusEffect?.Invoke(damagedObject);
     }
 
 }

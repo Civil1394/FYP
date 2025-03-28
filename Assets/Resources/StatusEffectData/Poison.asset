@@ -21,7 +21,7 @@ MonoBehaviour:
   tickInterval: 1
   isPermanentUntilRemoved: 0
   visualEffect: {fileID: 185086, guid: 578054d8f3d0764448fe325d28687000, type: 3}
-  baseValue: 10
+  baseValue: 2
   scalingFactor: 1
   maxStacks: 99
   description: 

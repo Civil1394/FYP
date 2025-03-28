@@ -1,31 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ProjectileAbilityExecutor : IAbilityExecutor
+public class ProjectileAbilityExecutor : AbilityExecutorBase
 {
-	private GameObject objectFx;
-	private ProjectileParameter parameters;
-	private IAbilityExecutor abilityExecutorImplementation;
-
-	public ProjectileAbilityExecutor(GameObject objectFx, ProjectileParameter parameters)
+	private readonly ProjectileParameter parameters;
+    
+	public ProjectileAbilityExecutor(AbilityData sourceAbility) : base(sourceAbility)
 	{
-		this.objectFx = objectFx;
-		this.parameters = parameters;
+		this.parameters = sourceAbility.projectileParam;
 	}
-	
-	
-	public void Execute(CasterType casterType, HexCellComponent castCell, HexCellComponent casterStandingCell, GameObject casterObject,
-		TimeType timeType)
+    
+	protected override void ExecuteAbilitySpecific(
+		CasterType casterType, 
+		HexDirection castDirection,
+		HexCellComponent castCell, 
+		HexCellComponent casterStandingCell, 
+		GameObject casterObject)
 	{
-		var castDirection = BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(casterStandingCell, castCell);
-		//HexCellComponent spawnCell = BattleManager.Instance.hexgrid.GetCellByDirection(casterStandingCell, castCell.ce);
-		GameObject bulletObject = Object.Instantiate(objectFx, castCell.transform.position + parameters.VFX_Height_Offset, Quaternion.identity);
-		var bulletComponent = bulletObject.AddComponent<ProjectileActor>();
-		bulletComponent.InitBullet(
-			casterType,
-			parameters,
-			castDirection,
-			castCell
-		);
+		// Instantiate projectile
+		GameObject bulletObject = UnityEngine.Object.Instantiate(
+			objectFx, 
+			castCell.transform.position + parameters.VFX_Height_Offset, 
+			Quaternion.identity);
+            
+		// Initialize projectile
+		ProjectileActor projectileActor = bulletObject.AddComponent<ProjectileActor>();
+		projectileActor.InitBullet(casterType, parameters, castDirection, castCell);
+        
+		// Subscribe to OnHit event to apply hit status effects
+		projectileActor.OnHitApplyStatusEffect += (target) => 
+			sourceAbility.ApplyStatusEffects(AbilityStatusApplicationType.OnHit, target);
 	}
 }

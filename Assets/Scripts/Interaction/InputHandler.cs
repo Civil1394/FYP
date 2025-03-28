@@ -140,6 +140,7 @@ public class InputHandler : MonoBehaviour
 		{
 			print("pointer down");
 			if (selectedAbility == HexDirection.NONE) return;
+			
 			var tempAbilityInUse = EquippedAbilityManager.GetEquippedAbilityData((int)selectedAbility);
 			HexCellComponent tempPointedCell;
 			if(!pointedObject.TryGetComponent<HexCellComponent>(out tempPointedCell)) return;

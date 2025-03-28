@@ -1,35 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BlastAbilityExecutor : IAbilityExecutor
+public class BlastAbilityExecutor : AbilityExecutorBase
 {
-	private GameObject objectFx;
-	private BlastParameter parameters;
-	private AbilityData sourceAbility;
-
-	
-	public BlastAbilityExecutor(GameObject objectFx, BlastParameter parameters, AbilityData sourceAbility)
+	private readonly BlastParameter parameters;
+    
+	public BlastAbilityExecutor(AbilityData sourceAbility) : base(sourceAbility)
 	{
-		this.objectFx = objectFx;
-		this.parameters = parameters;
-		this.sourceAbility = sourceAbility;
+		this.parameters = sourceAbility.blastParam;
 	}
-
-	public void Execute(CasterType casterType, HexCellComponent castCell, HexCellComponent casterStandingCell,GameObject casterObject, TimeType timeType)
+    
+	protected override void ExecuteAbilitySpecific(
+		CasterType casterType, 
+		HexDirection castDirection,
+		HexCellComponent castCell, 
+		HexCellComponent casterStandingCell, 
+		GameObject casterObject)
 	{
-		GameObject blastHandlerObject = new GameObject();
-		var blastActor = blastHandlerObject.AddComponent<BlastActor>();
-		var castDirection = BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(casterStandingCell, castCell);
-
+		// Create the blast handler
+		GameObject blastHandlerObject = new GameObject("BlastHandler");
+		BlastActor blastActor = blastHandlerObject.AddComponent<BlastActor>();
+        
+		// Initialize the blast
 		blastActor.InitBlast(casterType, objectFx, parameters, castDirection, casterStandingCell);
-		
-		// Apply on-cast status effects
-		if (sourceAbility != null)
-		{
-			if(casterType == CasterType.Player)
-			{
-				sourceAbility.ApplyStatusEffects(AbilityStatusApplicationType.OnCast, BattleManager.Instance.PlayerActorInstance.gameObject, BattleManager.Instance.PlayerActorInstance.gameObject, casterType);
-			}
-		}
+        
+		// Subscribe to OnHit event to apply hit status effects
+		blastActor.OnHitApplyStatusEffect += (target) => 
+			sourceAbility.ApplyStatusEffects(AbilityStatusApplicationType.OnHit, target);
 	}
 }

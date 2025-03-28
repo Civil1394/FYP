@@ -71,7 +71,7 @@ public class EnemyActor : TimedActor, IDamagable
 			var damageActor = other.gameObject.GetComponentInParent<DamageActor>();
 			if (damageActor != null && damageActor.CasterType != CasterType.Enemy)
 			{
-				damageActor.DoDamage(TakeDamage, other.gameObject);
+				damageActor.DoDamage(TakeDamage, this.gameObject,other.gameObject);
 			}
 
 		}

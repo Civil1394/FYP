@@ -9,6 +9,8 @@ public class BlastActor : DamageActor
 	
 	private BlastBehavior behavior;
 	private BlastParameter parameter;
+	
+	public override event Action<GameObject> OnHitApplyStatusEffect;
 	public void InitBlast(CasterType casterType,GameObject blast_VFX_Object,BlastParameter BlastParameter , HexDirection castingDirection, HexCellComponent casterCell)
 	{
 		this.casterType = casterType;
@@ -41,9 +43,12 @@ public class BlastActor : DamageActor
 		Destroy(gameObject);
 	}
 
-	public override void DoDamage(Action<float> damageAction,GameObject sourceVFX)
+	
+
+	public override void DoDamage(Action<float> damageAction,GameObject damagedObject,GameObject sourceVFX)
 	{
 		damageAction?.Invoke(_damage);
 		Destroy(sourceVFX);
+		OnHitApplyStatusEffect?.Invoke(damagedObject);
 	}
 }

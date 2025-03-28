@@ -98,7 +98,7 @@ public class ObjectStatusEffectManager : MonoBehaviour
             {
                 case StatusEffectApplication.Stack:
                     existingEffectInstance.CurrentStacks = Mathf.Min(existingEffectInstance.CurrentStacks + stacks, effectData.maxStacks);
-                    AddNewStatusEffect(effectData, stacks);
+                    existingEffectInstance.RemainingDuration = effectData.duration;
                     break;
                     
                 case StatusEffectApplication.Refresh:
@@ -131,7 +131,7 @@ public class ObjectStatusEffectManager : MonoBehaviour
         // Instantiate visual effect if present
         if (effectData.visualEffect != null)
         {
-            newEffect.ActiveVisualEffect = Instantiate(effectData.visualEffect, transform.position, Quaternion.identity);
+            newEffect.ActiveVisualEffect = Instantiate(effectData.visualEffect, transform.position + (Vector3.up * 2), Quaternion.identity);
             newEffect.ActiveVisualEffect.transform.SetParent(transform);
         }
     

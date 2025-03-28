@@ -2,59 +2,66 @@
 using System.Collections;
 using Cysharp.Threading.Tasks;
 
-public class ProjectileVolleyAbilityExecutor: IAbilityExecutor
+public class ProjectileVolleyAbilityExecutor : AbilityExecutorBase
 {
-	private GameObject objectFx;
-	private ProjectileVolleyParameter parameters;
-
-	public ProjectileVolleyAbilityExecutor(GameObject objectFx, ProjectileVolleyParameter parameters)
-	{
-		this.objectFx = objectFx;
-		this.parameters = parameters;
-	}
-
-	public void Execute(CasterType casterType, HexCellComponent castCell, HexCellComponent casterStandingCell,GameObject casterObject, TimeType timeType)
-	{
-		var castDirection = BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(casterStandingCell, castCell);
-		FireVolleyAsync(casterType, castDirection, casterStandingCell).Forget();
-	}
-	
-	private async UniTask FireVolleyAsync(CasterType casterType, HexDirection castDirection, HexCellComponent casterStandingCell)
-	{
-		for (int i = 0; i < parameters.BurstCount; i++)
-		{
-			await Burst(casterType, castDirection, casterStandingCell);
-        
-			// Wait for the delay between bursts (except after the last shot)
-			if (i < parameters.BurstCount - 1)
-			{
-				await UniTask.Delay((int)(parameters.DelayBetweenBurst * 1000)); // Convert seconds to milliseconds
-			}
-		}
-	}
-
-	private async UniTask Burst(CasterType casterType, HexDirection castDirection, HexCellComponent casterStandingCell)
-	{
-		for (int i = 0; i < parameters.ProjectilePerBurst; i++)
-		{
-			Vector3 randDelta = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-			HexCellComponent spawnCell =
-				BattleManager.Instance.hexgrid.GetCellByDirection(casterStandingCell, castDirection);
-			GameObject bulletObject = Object.Instantiate(objectFx,
-				spawnCell.transform.position + parameters.ProjectileConfig.VFX_Height_Offset + randDelta, Quaternion.identity);
-			var bulletComponent = bulletObject.AddComponent<ProjectileActor>();
-			bulletComponent.InitBullet(
-				casterType,
-				parameters.ProjectileConfig,
-				castDirection,
-				spawnCell
-			);
-
-			if (i < parameters.ProjectilePerBurst - 1)
-			{
-				await UniTask.Delay((int)(parameters.DelayBetweenProjectiles * 1000));
-			}
-		}
-		
-	}
+    private readonly ProjectileVolleyParameter parameters;
+    
+    public ProjectileVolleyAbilityExecutor(AbilityData sourceAbility) : base(sourceAbility)
+    {
+        this.parameters = sourceAbility.projectileVolleyParam;
+    }
+    
+    protected override void ExecuteAbilitySpecific(
+        CasterType casterType, 
+        HexDirection castDirection,
+        HexCellComponent castCell, 
+        HexCellComponent casterStandingCell, 
+        GameObject casterObject)
+    {
+        FireVolleyAsync(casterType, castDirection, castCell).Forget();
+    }
+    
+    private async UniTask FireVolleyAsync(CasterType casterType, HexDirection castDirection, HexCellComponent castCell)
+    {
+        for (int i = 0; i < parameters.BurstCount; i++)
+        {
+            await Burst(casterType, castDirection, castCell);
+            
+            // Wait for the delay between bursts (except after the last shot)
+            if (i < parameters.BurstCount - 1)
+            {
+                await UniTask.Delay((int)(parameters.DelayBetweenBurst * 1000));
+            }
+        }
+    }
+    
+    private async UniTask Burst(CasterType casterType, HexDirection castDirection, HexCellComponent castCell)
+    {
+        for (int i = 0; i < parameters.ProjectilePerBurst; i++)
+        {
+            Vector3 randDelta = new Vector3(
+                UnityEngine.Random.Range(-1f, 1f), 
+                UnityEngine.Random.Range(-1f, 1f), 
+                UnityEngine.Random.Range(-1f, 1f));
+                
+            HexCellComponent spawnCell = BattleManager.Instance.hexgrid.GetCellByDirection(castCell, castDirection);
+            
+            GameObject bulletObject = UnityEngine.Object.Instantiate(
+                objectFx,
+                spawnCell.transform.position + parameters.ProjectileConfig.VFX_Height_Offset + randDelta, 
+                Quaternion.identity);
+                
+            ProjectileActor bulletComponent = bulletObject.AddComponent<ProjectileActor>();
+            bulletComponent.InitBullet(casterType, parameters.ProjectileConfig, castDirection, spawnCell);
+            
+            // Subscribe to OnHit event to apply hit status effects
+            bulletComponent.OnHitApplyStatusEffect += (target) => 
+                sourceAbility.ApplyStatusEffects(AbilityStatusApplicationType.OnHit, target);
+            
+            if (i < parameters.ProjectilePerBurst - 1)
+            {
+                await UniTask.Delay((int)(parameters.DelayBetweenProjectiles * 1000));
+            }
+        }
+    }
 }
