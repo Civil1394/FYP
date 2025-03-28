@@ -15,11 +15,13 @@ public class BlastAbilityExecutor : IAbilityExecutor
 		this.sourceAbility = sourceAbility;
 	}
 
-	public void Execute(CasterType casterType, HexDirection castingDirection, HexCellComponent casterStandingCell,GameObject casterObject, TimeType timeType)
+	public void Execute(CasterType casterType, HexCellComponent castCell, HexCellComponent casterStandingCell,GameObject casterObject, TimeType timeType)
 	{
 		GameObject blastHandlerObject = new GameObject();
 		var blastActor = blastHandlerObject.AddComponent<BlastActor>();
-		blastActor.InitBlast(casterType,objectFx,parameters, castingDirection,casterStandingCell);
+		var castDirection = BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(casterStandingCell, castCell);
+
+		blastActor.InitBlast(casterType, objectFx, parameters, castDirection, casterStandingCell);
 		
 		// Apply on-cast status effects
 		if (sourceAbility != null)

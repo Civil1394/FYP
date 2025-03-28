@@ -13,8 +13,9 @@ public class ProjectileVolleyAbilityExecutor: IAbilityExecutor
 		this.parameters = parameters;
 	}
 
-	public void Execute(CasterType casterType, HexDirection castDirection, HexCellComponent casterStandingCell,GameObject casterObject, TimeType timeType)
+	public void Execute(CasterType casterType, HexCellComponent castCell, HexCellComponent casterStandingCell,GameObject casterObject, TimeType timeType)
 	{
+		var castDirection = BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(casterStandingCell, castCell);
 		FireVolleyAsync(casterType, castDirection, casterStandingCell).Forget();
 	}
 	

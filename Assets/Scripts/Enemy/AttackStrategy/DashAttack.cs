@@ -13,7 +13,7 @@ public class DashAttack : IAttack
     
     
 
-    public void Attack(HexDirection castDirection, HexCellComponent standingCell)
+    public void Attack(HexCellComponent castCell, HexCellComponent standingCell)
     {
         // Vector3 direction = (castDirection.transform.position - enemy.position).normalized;
         // enemy.position += direction * dashSpeed * Time.deltaTime;

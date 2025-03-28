@@ -243,15 +243,16 @@ public class AIBrain : MonoBehaviour
 
     public void PerformAttack()
     {
+        //this attack need to rework by using the abilty data, the chase also need to rework
         attackDur = 6;
         print("attacked");
         //Need to use Opposite to reverse the direction from player toward enemy
         //then it can be casting direction
-        HexDirection castDirection = HexDirectionHelper.Opposite(
-            BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(
-                playerGrid, currentCell.ParentComponent
-            ));
-        attackStrategy.Attack(castDirection, currentCell.ParentComponent);
+        // HexDirection castDirection = HexDirectionHelper.Opposite(
+        //     BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(
+        //         playerGrid, currentCell.ParentComponent
+        //     ));
+        // attackStrategy.Attack(castDirection, currentCell.ParentComponent);
     }
 
     private void OnDrawGizmos()

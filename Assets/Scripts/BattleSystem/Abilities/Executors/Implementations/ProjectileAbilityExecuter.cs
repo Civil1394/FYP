@@ -14,18 +14,18 @@ public class ProjectileAbilityExecutor : IAbilityExecutor
 	}
 	
 	
-	public void Execute(CasterType casterType, HexDirection castDirection, HexCellComponent casterStandingCell, GameObject casterObject,
+	public void Execute(CasterType casterType, HexCellComponent castCell, HexCellComponent casterStandingCell, GameObject casterObject,
 		TimeType timeType)
 	{
-		
-		HexCellComponent spawnCell = BattleManager.Instance.hexgrid.GetCellByDirection(casterStandingCell, castDirection);
-		GameObject bulletObject = Object.Instantiate(objectFx, spawnCell.transform.position + parameters.VFX_Height_Offset, Quaternion.identity);
+		var castDirection = BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(casterStandingCell, castCell);
+		//HexCellComponent spawnCell = BattleManager.Instance.hexgrid.GetCellByDirection(casterStandingCell, castCell.ce);
+		GameObject bulletObject = Object.Instantiate(objectFx, castCell.transform.position + parameters.VFX_Height_Offset, Quaternion.identity);
 		var bulletComponent = bulletObject.AddComponent<ProjectileActor>();
 		bulletComponent.InitBullet(
 			casterType,
 			parameters,
 			castDirection,
-			spawnCell
+			castCell
 		);
 	}
 }

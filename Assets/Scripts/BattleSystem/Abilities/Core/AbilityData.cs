@@ -72,12 +72,12 @@ public partial class AbilityData : ScriptableObject
 
 		return ability;
 	}
-	public void TriggerAbility(CasterType casterType, HexDirection castDirection, HexCellComponent casterStandingCell,GameObject casterObject, TimeType timeType)
+	public void TriggerAbility(CasterType casterType, HexCellComponent castCell, HexCellComponent casterStandingCell,GameObject casterObject, TimeType timeType)
 	{
 		IAbilityExecutor executor = AbilityExecutorFactory.CreateExecutor(this);
 		if (executor != null)
 		{
-			executor.Execute(casterType, castDirection, casterStandingCell,casterObject, timeType);
+			executor.Execute(casterType, castCell, casterStandingCell,casterObject, timeType);
 		}
 		else
 		{

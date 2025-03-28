@@ -55,11 +55,13 @@ public class PlayerActor : TimedActor,IDamagable
 		
 		//Please init equipped abilities list first in the count of slots
 		EquippedAbilityManager.InitEquippedAbilities(GameConstants.AbilitySlotCount);
-		PlayerActionHudController.Instance.Initialize(EquippedAbilityManager.EquippedAbilities,
-												this,
-															actionLogicHandler,
-												direction => ExecuteCastAction(direction));
-
+		PlayerActionHudController.Instance.Initialize(
+			EquippedAbilityManager.EquippedAbilities,
+			this,
+			actionLogicHandler,
+			_ => { }
+		);
+//direction => ExecuteCastAction(direction)
 		if (TryChangeFacingDirection(FacingHexDirection))
 		{ 
 			playerMovement.ChangeFacingDirection(facingCell);
@@ -169,12 +171,12 @@ public class PlayerActor : TimedActor,IDamagable
 		// }
 	}
 
-	public void ExecuteCastAction(HexDirection direction)
+	public void ExecuteCastAction(HexDirection abiltyDirection, HexCellComponent castCell)
 	{
-		var a = EquippedAbilityManager.GetEquippedAbilityData((int)direction);
+		var a = EquippedAbilityManager.GetEquippedAbilityData((int)abiltyDirection);
 
-		actionLogicHandler.ExecuteAbility(a,direction);
-		EquippedAbilityManager.RemoveAbilityInDirection(direction);
+		actionLogicHandler.ExecuteAbility(a,castCell);
+		EquippedAbilityManager.RemoveAbilityInDirection(abiltyDirection);
 		
 		//refill the empty slot in the equippedAbilities List
 		while (EquippedAbilityManager.CheckAnyEmptySlotInEquippedAbilities())

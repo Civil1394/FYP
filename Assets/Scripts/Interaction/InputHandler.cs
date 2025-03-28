@@ -1,7 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Cinemachine;
 using DG.Tweening;
-using UnityEngine.UI.Extensions;
 
 public class InputHandler : MonoBehaviour
 {
@@ -139,8 +140,14 @@ public class InputHandler : MonoBehaviour
 		{
 			print("pointer down");
 			if (selectedAbility == HexDirection.NONE) return;
+			var tempAbilityInUse = EquippedAbilityManager.GetEquippedAbilityData((int)selectedAbility);
+			HexCellComponent tempPointedCell;
+			if(!pointedObject.TryGetComponent<HexCellComponent>(out tempPointedCell)) return;
+			List<HexCell> selectableCells = tempAbilityInUse.SelectablePattern
+				.GetPattern(BattleManager.Instance.PlayerCell.CellData).ToList();
+			if (!selectableCells.Contains(tempPointedCell.CellData)) return;
 			print("use " + selectedAbility);
-			BattleManager.Instance.PlayerActorInstance.ExecuteCastAction(selectedAbility);
+			BattleManager.Instance.PlayerActorInstance.ExecuteCastAction(selectedAbility, tempPointedCell);
 			//if(inputState == InputState.Move)
 			//	OnMoveClick.Invoke(pointedObject.GetComponent<HexCellComponent>());
 			//if (inputState == InputState.CastingAbility)

@@ -3,5 +3,5 @@ using System.Collections;
 
 public interface IAbilityExecutor 
 {
-	void Execute(CasterType casterType, HexDirection castDirection, HexCellComponent casterStandingCell,GameObject casterObject, TimeType timeType);
+	void Execute(CasterType casterType, HexCellComponent castCell, HexCellComponent casterStandingCell,GameObject casterObject, TimeType timeType);
 }

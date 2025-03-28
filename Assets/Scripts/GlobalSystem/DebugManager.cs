@@ -22,7 +22,7 @@ public class DebugManager : Singleton<DebugManager>
 
 	private void Update()
 	{
-		DebugCastUse();
+		//DebugCastUse();
 	}
 
 	public void Quit()
@@ -66,13 +66,13 @@ public class DebugManager : Singleton<DebugManager>
 		}
 	}
 
-	public void DebugCastUse()
-	{
-		if (Input.GetKeyDown(KeyCode.LeftShift)&&Input.GetKeyDown(KeyCode.D))
-		{
-				var e = EquippedAbilityManager.GetEquippedAbilityData((int)HexDirection.E);
-				e.TriggerAbility(CasterType.Player,HexDirection.E,BattleManager.Instance.PlayerCell,BattleManager.Instance.gameObject,TimeType.Boost);
-		}
-	}
+	// public void DebugCastUse()
+	// {
+	// 	if (Input.GetKeyDown(KeyCode.LeftShift)&&Input.GetKeyDown(KeyCode.D))
+	// 	{
+	// 		var e = EquippedAbilityManager.GetEquippedAbilityData((int)HexDirection.E);
+	// 		e.TriggerAbility(CasterType.Player,HexDirection.E,BattleManager.Instance.PlayerCell,BattleManager.Instance.gameObject,TimeType.Boost);
+	// 	}
+	// }
 }
 

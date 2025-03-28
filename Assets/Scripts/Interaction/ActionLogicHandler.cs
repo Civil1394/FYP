@@ -52,14 +52,14 @@ public class ActionLogicHandler : MonoBehaviour
 		return false;
 	}
 	
-	public void ExecuteAbility(AbilityData ability, HexDirection direction)
+	public void ExecuteAbility(AbilityData ability, HexCellComponent castCell)
 	{
 		switch (ability.CastType)
 		{
 			case AbilityCastType.Direction_targeted:
-				var c = playerActor.standingCell.CellData.GetNeighbor(direction);
-				if (c == null || c.CellType == CellType.Invalid) return;
-				HandleDirectionalCast(ability, c.ParentComponent ,HourglassInventory.Instance.hourglassesList[0].TimeType);
+				//var c = playerActor.standingCell.CellData.GetNeighbor(direction);
+				if (castCell == null || castCell.CellData.CellType == CellType.Invalid) return;
+				HandleDirectionalCast(ability, castCell ,HourglassInventory.Instance.hourglassesList[0].TimeType);
 				break;
 			case AbilityCastType.Auto_targeted:
 				Debug.LogError("Auto targeted No Implementation");
@@ -73,13 +73,14 @@ public class ActionLogicHandler : MonoBehaviour
 		}
 		
 	}
-	private void HandleDirectionalCast(AbilityData abilityData,HexCellComponent directionCell,TimeType timeType)
+
+	private void HandleDirectionalCast(AbilityData abilityData, HexCellComponent directionCell, TimeType timeType)
 	{
 		HexCellComponent playerCell = BattleManager.Instance.PlayerCell;
-		HexDirection castDirection =
-			BattleManager.Instance.hexgrid.CheckNeigborCellDirection(playerCell, directionCell);
+		// HexDirection castDirection =
+		// 	BattleManager.Instance.hexgrid.CheckNeigborCellDirection(playerCell, directionCell);
 		
-		abilityData.TriggerAbility(CasterType.Player, castDirection, playerCell,BattleManager.Instance.PlayerActorInstance.gameObject,timeType);
+		abilityData.TriggerAbility(CasterType.Player, directionCell, playerCell,BattleManager.Instance.PlayerActorInstance.gameObject,timeType);
 		
 		ResetCasting();
 	}
