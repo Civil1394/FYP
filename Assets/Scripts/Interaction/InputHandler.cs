@@ -148,6 +148,7 @@ public class InputHandler : MonoBehaviour
 			if (!selectableCells.Contains(tempPointedCell.CellData)) return;
 			print("use " + selectedAbility);
 			BattleManager.Instance.PlayerActorInstance.ExecuteCastAction(selectedAbility, tempPointedCell);
+			PlayerActionHudController.Instance.RefreshHUD();
 			//if(inputState == InputState.Move)
 			//	OnMoveClick.Invoke(pointedObject.GetComponent<HexCellComponent>());
 			//if (inputState == InputState.CastingAbility)
