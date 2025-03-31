@@ -14,13 +14,19 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
     [SerializeField] private Button iconButton;
     [SerializeField] private float fillDuration = 0.5f;
 
-    AbilityData localAbilityData;
+    public AbilityData localAbilityData;
     
     private HexDirection direction;
     private int maxChargeStepsCount;
     private int chargedSteps = 0;
     private AbilityColorType abilityColor;
-    private bool fullyCharged = false;
+    private bool fullyCharged;
+    public bool FullyCharged
+    {
+        get { return fullyCharged; }
+        set { fullyCharged = value; }
+        
+    }
     private Action<HexDirection> onDirectionCharged;
     public float currentZRotation;
 
@@ -49,12 +55,13 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         currentZRotation = transform.rotation.z;
     }
 
-    private void HandleChargeCompletion(Action<HexDirection> fullyChargedCallback)
-    {
-        if (!fullyCharged) return;
-        fullyChargedCallback?.Invoke(direction);
-        Reset();
-    }
+    // private void HandleChargeCompletion(Action<HexDirection> fullyChargedCallback)
+    // {
+    //     if (!fullyCharged) return;
+    //     fullyChargedCallback?.Invoke(direction);
+    //     Reset();
+    // }
+
 
     public void NotifyUpdate(int addOnSteps)
     {
@@ -88,7 +95,14 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
             cell.SetGuiType(CellGuiType.ValidAttackCell);
         }
     }
-
+    public void UseAbility(HexDirection abiltyDirection, HexCellComponent castCell)
+    {
+        if(abiltyDirection == direction) print("ability dir is synced");
+        if (!fullyCharged) return;
+        BattleManager.Instance.PlayerActorInstance.ExecuteCastAction(abiltyDirection, castCell);
+        Reset();
+    }
+    
     public void UnshownAttackPattern()
     {
         foreach (var cell in currentPattern)

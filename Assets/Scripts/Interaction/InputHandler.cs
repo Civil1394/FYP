@@ -140,16 +140,8 @@ public class InputHandler : MonoBehaviour
 		{
 			print("pointer down");
 			if (selectedAbility == HexDirection.NONE) return;
-			
-			var tempAbilityInUse = EquippedAbilityManager.GetEquippedAbilityData((int)selectedAbility);
-			HexCellComponent tempPointedCell;
-			if(!pointedObject.TryGetComponent<HexCellComponent>(out tempPointedCell)) return;
-			List<HexCell> selectableCells = tempAbilityInUse.SelectablePattern
-				.GetPattern(BattleManager.Instance.PlayerCell.CellData).ToList();
-			if (!selectableCells.Contains(tempPointedCell.CellData)) return;
-			print("use " + selectedAbility);
-			BattleManager.Instance.PlayerActorInstance.ExecuteCastAction(selectedAbility, tempPointedCell);
-			PlayerActionHudController.Instance.RefreshHUD();
+			if (!pointedObject) return;
+			PlayerActionHudController.Instance.CastAbility(selectedAbility, pointedObject.GetComponent<HexCellComponent>());
 			//if(inputState == InputState.Move)
 			//	OnMoveClick.Invoke(pointedObject.GetComponent<HexCellComponent>());
 			//if (inputState == InputState.CastingAbility)
@@ -294,43 +286,37 @@ public class InputHandler : MonoBehaviour
 		{
 			//default nw
 			int tempDir = ((int)HexDirection.NW + cameraRotationCnt) % 6;
-			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
-			selectedAbility = (HexDirection)tempDir;
+			selectedAbility = PlayerActionHudController.Instance.SelectAbility(tempDir);
 		}
 		else if(Input.GetKeyDown(KeyCode.E))
 		{
 			//default ne
 			int tempDir = ((int)HexDirection.NE + cameraRotationCnt) % 6;
-			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
-            selectedAbility = (HexDirection)tempDir;
+			selectedAbility = PlayerActionHudController.Instance.SelectAbility(tempDir);
         }
         else if(Input.GetKeyDown(KeyCode.D))
 		{
 			//default e
 			int tempDir = ((int)HexDirection.E + cameraRotationCnt) % 6;
-			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
-            selectedAbility = (HexDirection)tempDir;
+            selectedAbility = PlayerActionHudController.Instance.SelectAbility(tempDir);
         }
         else if(Input.GetKeyDown(KeyCode.X))
 		{
 			//default se
 			int tempDir = ((int)HexDirection.SE + cameraRotationCnt) % 6;
-			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
-            selectedAbility = (HexDirection)tempDir;
+			selectedAbility = PlayerActionHudController.Instance.SelectAbility(tempDir);
         }
         else if(Input.GetKeyDown(KeyCode.Z))
 		{
 			//default sw
 			int tempDir = ((int)HexDirection.SW + cameraRotationCnt) % 6;
-			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
-            selectedAbility = (HexDirection)tempDir;
+			selectedAbility = PlayerActionHudController.Instance.SelectAbility(tempDir);
         }
         else if(Input.GetKeyDown(KeyCode.A))
 		{
 			//default w
 			int tempDir = ((int)HexDirection.W + cameraRotationCnt) % 6;
-			PlayerActionHudController.Instance.ShowAbilityRange(tempDir);
-            selectedAbility = (HexDirection)tempDir;
+			selectedAbility = PlayerActionHudController.Instance.SelectAbility(tempDir);
         }
         #endregion
     }

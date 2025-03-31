@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 /// <summary>
 /// View of equippedAbilityQueue on Hud
@@ -112,9 +113,27 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
         abilityModels[(int)movedDirection].NotifyUpdate(1);
     }
 
-    public void ShowAbilityRange(int inputDirection)
+    public HexDirection SelectAbility(int inputDirection)
     {
+        if (!abilityModels[inputDirection].FullyCharged) return HexDirection.NONE;
         abilityModels[inputDirection].ShowAttackPattern();
+        return(HexDirection)inputDirection;
+    }
+    public void CastAbility(HexDirection abiltyDirection, HexCellComponent castCell)
+    {
+        if(abiltyDirection == HexDirection.NONE) return;
+        if (!IsCastCellLegit(abiltyDirection, castCell)) ;
+        if (!abilityModels[(int)abiltyDirection].FullyCharged) return;
+        abilityModels[(int)abiltyDirection].UseAbility(abiltyDirection,castCell);
+        RefreshHUD();
+    }
+    public bool IsCastCellLegit(HexDirection abiltyDirection, HexCellComponent castCell)
+    {
+        AbilityData tempAd = abilityModels[(int)abiltyDirection].localAbilityData;
+        List<HexCell> selectableCells = tempAd.SelectablePattern
+            .GetPattern(BattleManager.Instance.PlayerCell.CellData).ToList();
+        if (selectableCells.Contains(castCell.CellData)) return true;
+        return false;
     }
     //rotate according to orbital transposer camera
     public void UpdateRotation(float cameraRotation)
