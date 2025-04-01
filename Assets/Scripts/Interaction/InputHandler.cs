@@ -11,7 +11,13 @@ public class InputHandler : MonoBehaviour
 	public GenericAction OnMoveClick = new GenericAction();
 	public GenericAction OnCastClick = new GenericAction();
 	public InputState inputState = InputState.Move;
-	public HexDirection selectedAbility = HexDirection.NONE;
+	private HexDirection selectedAbility = HexDirection.NONE;
+
+	public HexDirection SelectedAbility
+	{
+		get { return selectedAbility; }
+		set { selectedAbility = value; }
+	}	
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	private CinemachineOrbitalTransposer orbitalTransposer;
 
@@ -20,6 +26,7 @@ public class InputHandler : MonoBehaviour
 	{
 		orbitalTransposer = playerCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
 		orbitalTransposer.m_XAxis.Value = -45;
+		selectedAbility = HexDirection.NONE;
 	}
 	
 	private void Update()
@@ -141,6 +148,7 @@ public class InputHandler : MonoBehaviour
 		{
 			print("pointer down");
 			if (selectedAbility == HexDirection.NONE) return;
+			print(selectedAbility.ToString());
 			if (!pointedObject) return;
 			PlayerActionHudController.Instance.CastAbility(selectedAbility, pointedObject.GetComponent<HexCellComponent>());
 			//if(inputState == InputState.Move)

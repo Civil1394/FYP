@@ -122,7 +122,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     public void CastAbility(HexDirection abiltyDirection, HexCellComponent castCell)
     {
         if(abiltyDirection == HexDirection.NONE) return;
-        if (!IsCastCellLegit(abiltyDirection, castCell)) ;
+        if (!IsCastCellLegit(abiltyDirection, castCell)) return;
         if (!abilityModels[(int)abiltyDirection].FullyCharged) return;
         abilityModels[(int)abiltyDirection].UseAbility(abiltyDirection,castCell);
         RefreshHUD();
