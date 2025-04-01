@@ -30,6 +30,7 @@ public class InputHandler : MonoBehaviour
 		GetPointerEnterExist();
 		GetPointerDown();
         OnShiftDown();
+        OnRightClick();
         OnSixDirectionKeyPress();
 		OnAltSixDirectionKeyPress();
 	}
@@ -151,6 +152,13 @@ public class InputHandler : MonoBehaviour
 		}
 	}
 
+	void OnRightClick()
+	{
+		if (Input.GetMouseButtonDown(1))
+		{
+			selectedAbility = HexDirection.NONE;
+		}
+	}
 	void ResetOrbitalCameraAngle()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))

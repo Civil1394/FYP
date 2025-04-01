@@ -53,6 +53,7 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
     public void Start()
     {
         currentZRotation = transform.rotation.z;
+        iconButton.onClick.AddListener(OnAbilityUIButtonClick);
     }
 
     // private void HandleChargeCompletion(Action<HexDirection> fullyChargedCallback)
@@ -61,7 +62,16 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
     //     fullyChargedCallback?.Invoke(direction);
     //     Reset();
     // }
-
+    void OnAbilityUIButtonClick()
+    {
+        if (!fullyCharged)
+        {
+            BattleManager.Instance.InputHandler.selectedAbility = HexDirection.NONE;
+            return;
+        }
+        BattleManager.Instance.InputHandler.selectedAbility = this.direction;
+        ShowAttackPattern();
+    }
 
     public void NotifyUpdate(int addOnSteps)
     {
