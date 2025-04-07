@@ -151,6 +151,8 @@ public class InputHandler : MonoBehaviour
 			print(selectedAbility.ToString());
 			if (!pointedObject) return;
 			PlayerActionHudController.Instance.CastAbility(selectedAbility, pointedObject.GetComponent<HexCellComponent>());
+			
+			
 			//if(inputState == InputState.Move)
 			//	OnMoveClick.Invoke(pointedObject.GetComponent<HexCellComponent>());
 			//if (inputState == InputState.CastingAbility)

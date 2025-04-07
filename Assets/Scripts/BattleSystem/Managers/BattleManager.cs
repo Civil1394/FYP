@@ -153,18 +153,18 @@ public class BattleManager : Singleton<BattleManager>
 		HexCellComponent[] oldNearbyCells = BattleManager.Instance.hexgrid.GetCellsInRange(oldStandingCell, validMoveRange);
 		foreach (var cell in oldNearbyCells)
 		{
-			cell.CellData.SetGuiType(CellGuiType.Empty);
+			cell.CellData.SetGuiType(CellActionType.Empty);
 		}
 	}
 	
-	private void UpdateValidMoveRange()
+	public void UpdateValidMoveRange()
 	{
 		HexCellComponent[] newNearbyCells = hexgrid.GetCellsInRange(hexgrid.GetCellByType(CellType.Player), validMoveRange);
 		foreach (var cell in newNearbyCells)
 		{
 			if (cell.CellData.CellType == CellType.Empty)
 			{
-				cell.CellData.SetGuiType(CellGuiType.ValidMoveCell);
+				cell.CellData.SetGuiType(CellActionType.ValidMoveCell);
 			}
 		}
 	}

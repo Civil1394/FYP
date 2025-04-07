@@ -53,12 +53,40 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     /// </summary>
     public void RefreshHUD()
     {
+        Dictionary<AbilityData, (int chargedSteps, bool fullyCharged)> abilityChargeStates = 
+            new Dictionary<AbilityData, (int, bool)>();
+        
+        for (int i = 0; i < abilityModels.Count && i < EquippedAbilityManager.EquippedAbilities.Count; i++)
+        {
+            AbilityData abilityData = abilityModels[i].localAbilityData;
+            if (abilityData != null)
+            {
+                int chargedSteps = abilityModels[i].GetChargedSteps();
+                bool fullyCharged = abilityModels[i].FullyCharged;
+                abilityChargeStates[abilityData] = (chargedSteps, fullyCharged);
+            }
+        }
+        
         for (int i = 0; i < abilityModels.Count; i++)
         {
             if (i < EquippedAbilityManager.EquippedAbilities.Count)
             {
-                var abilityData = EquippedAbilityManager.EquippedAbilities[i];
+                AbilityData abilityData = EquippedAbilityManager.EquippedAbilities[i];
+                
                 abilityModels[i].Init((HexDirection)i, abilityData, OnAbilityCast);
+            
+                // Check if we have saved charge state for this ability data
+                if (abilityChargeStates.TryGetValue(abilityData, out var chargeState))
+                {
+                    if (chargeState.fullyCharged)
+                    {
+                        abilityModels[i].SetFullyCharged();
+                    }
+                    else if (chargeState.chargedSteps > 0)
+                    {
+                        abilityModels[i].RestoreChargeSteps(chargeState.chargedSteps);
+                    }
+                }
             }
             else
             {
@@ -78,9 +106,6 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     {
         // Execute external cast logic.
         executeCastCallback?.Invoke(castDirection);
-        
-        // Refresh the entire HUD so that all remaining abilities are shifted forward.
-        RefreshHUD();
     }
     
     
@@ -126,6 +151,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
         if (!abilityModels[(int)abiltyDirection].FullyCharged) return;
         abilityModels[(int)abiltyDirection].UseAbility(abiltyDirection,castCell);
         RefreshHUD();
+        
     }
     public bool IsCastCellLegit(HexDirection abiltyDirection, HexCellComponent castCell)
     {

@@ -37,6 +37,34 @@ public static class EquippedAbilityManager
 		return newAbilityInstance;
 	}
 
+	public static void RemoveAndReplaceAbilityInDirection(HexDirection direction)
+	{
+		if (equippedAbilities.Count == 0)
+		{
+			Debug.LogError("Ability list is empty");
+			return;
+		}
+    
+		int index = (int)direction;
+		if (index >= 0 && index < equippedAbilities.Count)
+		{
+			// Remove the ability at the specified direction
+			equippedAbilities.RemoveAt(index);
+        
+			// Create a new ability and insert it at the same position
+			var bp = currentDatabase.GetRandomAbilityFromList("1");
+			var newAbilityInstance = bp.Create(bp, true);
+        
+			if (newAbilityInstance == null)
+			{
+				Debug.LogError("AbilityData is null, fail to create ability instance");
+				return;
+			}
+        
+			// Insert the new ability at the same index
+			equippedAbilities.Insert(index, newAbilityInstance);
+		}
+	}
 	public static void RemoveAbilityInDirection(HexDirection direction)
 	{
 		if (equippedAbilities.Count == 0)

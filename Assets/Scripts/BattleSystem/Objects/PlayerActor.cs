@@ -160,14 +160,14 @@ public class PlayerActor : TimedActor,IDamagable
 	{
 		// foreach (var c in attackPattern.GetPattern(playerCell.CellData))
 		// {
-		// 	c.SetGuiType(CellGuiType.Empty);
+		// 	c.SetGuiType(CellActionType.Empty);
 		// }
 		BattleManager.Instance.OnPlayerMove(this, standingCell, pendingAction.TargetCell);
 		standingCell = pendingAction.TargetCell;
 		TryChangeFacingDirection(FacingHexDirection);
 		// foreach (var c in attackPattern.GetPattern(pendingAction.TargetCell.CellData))
 		// {
-		// 	c.SetGuiType(CellGuiType.ValidAttackCell);
+		// 	c.SetGuiType(CellActionType.ValidAttackCell);
 		// }
 	}
 
@@ -176,7 +176,7 @@ public class PlayerActor : TimedActor,IDamagable
 		var a = EquippedAbilityManager.GetEquippedAbilityData((int)abiltyDirection);
 
 		actionLogicHandler.ExecuteAbility(a,castCell);
-		EquippedAbilityManager.RemoveAbilityInDirection(abiltyDirection);
+		EquippedAbilityManager.RemoveAndReplaceAbilityInDirection(abiltyDirection);
 		
 		//refill the empty slot in the equippedAbilities List
 		while (EquippedAbilityManager.CheckAnyEmptySlotInEquippedAbilities())

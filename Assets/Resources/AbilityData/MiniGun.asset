@@ -41,8 +41,8 @@ MonoBehaviour:
   Title: MiniGun
   Desc: 
   Icon: {fileID: 21300000, guid: e483684ce17132445bdc2e83c34f6054, type: 3}
-  CastType: 2
-  SelectablePattern: {fileID: 11400000, guid: 1cb1ee2a3164f3a46a536d68c6044199, type: 2}
+  CastType: 1
+  SelectablePattern: {fileID: 11400000, guid: dab54184426a9444080a2acd8142bb1a, type: 2}
   AoePattern: {fileID: 0}
   Object_fx: {fileID: 193226, guid: cd01c6abe812d494684515011e1321b9, type: 3}
   statusEffectsParam:

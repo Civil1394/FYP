@@ -50,18 +50,18 @@ public class HexCellComponent : MonoBehaviour
                 break;
         }
 
-        switch (CellData.CellGuiType)
+        switch (CellData.CellActionType)
         {
-            case CellGuiType.ValidMoveCell:
+            case CellActionType.ValidMoveCell:
                 customCellMat.color = validMoveRangeColor;
                 break;
-            case CellGuiType.ValidAttackCell:
+            case CellActionType.ValidAttackCell:
                 customCellMat.color = validAttackRangeColor;
                 break;
-            case CellGuiType.Chest:
+            case CellActionType.Chest:
                 customCellMat.color = Color.green;
                 break;
-            case CellGuiType.Empty:
+            case CellActionType.Empty:
                 UpdateCellTypeColor();
                 break;
         }
@@ -116,7 +116,7 @@ public class HexCell
     public string ID;
     public Vector3Int Coordinates;
     [SerializeField] private CellType cellType;
-    [SerializeField] private CellGuiType cellGuiType;
+    [SerializeField] private CellActionType cellActionType;
 
     public CellType CellType
     {
@@ -131,14 +131,14 @@ public class HexCell
         }
     }
 
-    public CellGuiType CellGuiType
+    public CellActionType CellActionType
     {
-        get => cellGuiType;
+        get => cellActionType;
         set
         {
-            if (cellGuiType != value)
+            if (cellActionType != value)
             {
-                cellGuiType = value;
+                cellActionType = value;
                 OnCellTypeChanged?.Invoke();
             }
         }
@@ -154,7 +154,7 @@ public class HexCell
         this.ID = ID;
         this.Coordinates = coordinates;
         this.CellType = cellType;
-        this.CellGuiType = CellGuiType.Empty;
+        this.CellActionType = CellActionType.Empty;
         ParentComponent = parentComponent;
     }
 
@@ -175,9 +175,9 @@ public class HexCell
         CellType = newCellType;
     }
 
-    public void SetGuiType(CellGuiType newCellGuiType)
+    public void SetGuiType(CellActionType newCellActionType)
     {
-        CellGuiType = newCellGuiType;
+        CellActionType = newCellActionType;
     }
 
     public void ResetCuiType()

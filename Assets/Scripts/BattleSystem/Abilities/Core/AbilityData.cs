@@ -34,7 +34,7 @@ public partial class AbilityData : ScriptableObject
 	
 	[Header("Cast")]
 	public AbilityCastType CastType;
-	[ConditionalField("CastType",AbilityCastType.Location_targeted)]
+	[ConditionalField("CastType",AbilityCastType.Direction_targeted,AbilityCastType.Location_targeted)]
 	public HexPatternBase SelectablePattern;
 	[ConditionalField("CastType",AbilityCastType.Location_targeted)]
 	public HexPatternBase AoePattern;

@@ -54,7 +54,7 @@ public enum CellType
    
 }
 
-public enum CellGuiType
+public enum CellActionType
 {
     Empty = 0,
     ValidMoveCell = 1,

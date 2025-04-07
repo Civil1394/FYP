@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17b36dd2477e1ec4c84d383e9b7ca060, type: 3}
-  m_Name: Glacial_Spread_LinePattern
+  m_Name: CommonDirectionalPattern
   m_EditorClassIdentifier: 
   range: 1
   dir: 000000000100000002000000030000000400000005000000

@@ -88,7 +88,7 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
                 //HandleChargeCompletion(onDirectionCharged);
             }));
     }
-
+    #region ChargeSteps
     public void Reset()
     {
         chargedSteps = 0;
@@ -96,13 +96,36 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         fullyCharged = false;
         DOTween.Kill(iconFill);
     }
-
+    
+    public int GetChargedSteps()
+    {
+        return chargedSteps;
+    }
+    
+    public void RestoreChargeSteps(int steps)
+    {
+        chargedSteps = Math.Clamp(steps, 0, maxChargeStepsCount);
+        float targetFill = (float)chargedSteps / maxChargeStepsCount;
+    
+        DOTween.Kill(iconFill);
+        iconFill.fillAmount = targetFill;
+    
+        if (chargedSteps >= maxChargeStepsCount)
+            fullyCharged = true;
+    }
+    public void SetFullyCharged()
+    {
+        fullyCharged = true;
+        chargedSteps = maxChargeStepsCount;
+        iconFill.fillAmount = 1.0f;
+    }
+    #endregion
     public void ShowAttackPattern()
     {
         currentPattern = localAbilityData.SelectablePattern.GetPattern(BattleManager.Instance.PlayerCell.CellData).ToList();
         foreach (var cell in currentPattern)
         {
-            cell.SetGuiType(CellGuiType.ValidAttackCell);
+            cell.SetGuiType(CellActionType.ValidAttackCell);
         }
     }
     public void UseAbility(HexDirection abiltyDirection, HexCellComponent castCell)
@@ -111,13 +134,15 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         if (!fullyCharged) return;
         BattleManager.Instance.PlayerActorInstance.ExecuteCastAction(abiltyDirection, castCell);
         Reset();
+        UnshownAttackPattern();
+        BattleManager.Instance.UpdateValidMoveRange();
     }
     
     public void UnshownAttackPattern()
     {
         foreach (var cell in currentPattern)
         {
-            cell.SetGuiType(CellGuiType.Empty);
+            cell.SetGuiType(CellActionType.Empty);
         }
         currentPattern.Clear();
     }
