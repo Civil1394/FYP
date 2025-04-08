@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 4774153241310355843}
   - component: {fileID: 4992838092888289240}
   - component: {fileID: 908343250059391283}
+  - component: {fileID: 1351263665532965473}
   m_Layer: 5
   m_Name: AbilityHudModel
   m_TagString: Untagged
@@ -140,6 +141,9 @@ MonoBehaviour:
   iconBg: {fileID: 2332253222371903464}
   iconButton: {fileID: 8735788388709368588}
   fillDuration: 0.25
+  localAbilityData: {fileID: 0}
+  currentZRotation: 0
+  currentPattern: []
 --- !u!114 &4992838092888289240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +187,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!225 &1351263665532965473
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456700375310258992}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6786219836271218621
 GameObject:
   m_ObjectHideFlags: 0

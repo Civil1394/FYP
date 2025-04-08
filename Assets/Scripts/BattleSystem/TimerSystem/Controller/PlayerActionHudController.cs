@@ -24,6 +24,8 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     
     // This callback is passed in from outside (when initializing) to execute the cast.
     private Action<HexDirection> executeCastCallback;
+    
+    private bool isShowHudModels = false;
     private void Start()
     {
     }
@@ -46,6 +48,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
         
         playerActor.OnPlayerMoved += UpdateDirectionStep;
         playerActor.OnPlayerCast += OnAbilityCast;
+        isShowHudModels = true;
     }
     
     /// <summary>
@@ -73,7 +76,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
             {
                 AbilityData abilityData = EquippedAbilityManager.EquippedAbilities[i];
                 
-                abilityModels[i].Init((HexDirection)i, abilityData, OnAbilityCast);
+                abilityModels[i].Init((HexDirection)i, abilityData, SwitchToShowHudModels);
             
                 // Check if we have saved charge state for this ability data
                 if (abilityChargeStates.TryGetValue(abilityData, out var chargeState))
@@ -106,6 +109,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     {
         // Execute external cast logic.
         executeCastCallback?.Invoke(castDirection);
+        
     }
     
     
@@ -142,6 +146,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     {
         if (!abilityModels[inputDirection].FullyCharged) return HexDirection.NONE;
         abilityModels[inputDirection].ShowAttackPattern();
+        SwitchToShowHudModels();
         return(HexDirection)inputDirection;
     }
     public void CastAbility(HexDirection abiltyDirection, HexCellComponent castCell)
@@ -150,6 +155,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
         if (!IsCastCellLegit(abiltyDirection, castCell)) return;
         if (!abilityModels[(int)abiltyDirection].FullyCharged) return;
         abilityModels[(int)abiltyDirection].UseAbility(abiltyDirection,castCell);
+        SwitchToShowHudModels();
         RefreshHUD();
         
     }
@@ -177,5 +183,22 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
         abilityModels[(int)a].UpdateDirection(a);
         abilityModels[(int)b].UpdateDirection(b);
         abilityModels[(int)a].UpdateRotation(rotationZs[(int)a]);
+    }
+
+    private void SwitchToShowHudModels()
+    {
+        isShowHudModels = !isShowHudModels;
+        foreach (var abilityModel in abilityModels)
+        {
+            var c = abilityModel.GetComponent<CanvasGroup>();
+            if (isShowHudModels)
+            {
+                c.alpha = 1;
+            }
+            else
+            {
+                c.alpha = 0;
+            }
+        }
     }
 }

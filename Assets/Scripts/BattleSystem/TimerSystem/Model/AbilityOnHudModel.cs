@@ -27,12 +27,12 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         set { fullyCharged = value; }
         
     }
-    private Action<HexDirection> onDirectionCharged;
+    private Action onSelectAbility;
     public float currentZRotation;
 
 
     public List<HexCell> currentPattern;
-    public void Init(HexDirection hexDirection, AbilityData ad, Action<HexDirection> OnFullyCharged)
+    public void Init(HexDirection hexDirection, AbilityData ad, Action OnSelectAbility)
     {
         this.localAbilityData = ad;
         this.direction = hexDirection;
@@ -46,7 +46,7 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         abilityColor.a = 0.5f;
         this.iconBg.color = abilityColor;
 
-        onDirectionCharged = OnFullyCharged;
+        onSelectAbility = OnSelectAbility;
         Reset();
     }
 
@@ -70,6 +70,7 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
             return;
         }
         BattleManager.Instance.InputHandler.SelectedAbility = this.direction;
+        onSelectAbility?.Invoke();
         ShowAttackPattern();
     }
 
@@ -85,7 +86,7 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
             .SetEase(Ease.OutQuad).OnComplete((() =>
             {
                 if (chargedSteps >= maxChargeStepsCount) fullyCharged = true;
-                //HandleChargeCompletion(onDirectionCharged);
+                //HandleChargeCompletion(onSelectAbility);
             }));
     }
     #region ChargeSteps
