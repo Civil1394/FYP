@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HexCellMeshGenerator : MonoBehaviour
 {
-    public static float OUTER_RADIUS = 0.2f;
+    public static float OUTER_RADIUS = 0.17f;
     public static float INNER_RADIUS;
     public bool flatTopped = false;
     [SerializeField] private float collideOffset = 1.5f;

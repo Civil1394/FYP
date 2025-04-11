@@ -66,6 +66,21 @@ public class DebugManager : Singleton<DebugManager>
 		}
 	}
 
+	public void PrintPlayerDirCell()
+	{
+		if(IsDebugDrawPlayerDirCell)
+		{
+			foreach (var pair in BattleManager.Instance.hexgrid.PlayerSixDirCellsSet)
+			{
+				HexCellComponent cell = pair.Key;
+				int value = pair.Value;
+            
+				// Print to console
+				Debug.Log($"Cell: {cell.name} - Direction: {value}");
+				
+			}
+		}
+	}
 	// public void DebugCastUse()
 	// {
 	// 	if (Input.GetKeyDown(KeyCode.LeftShift)&&Input.GetKeyDown(KeyCode.D))

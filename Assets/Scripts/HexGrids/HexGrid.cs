@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
+[System.Serializable]
 public class HexGrid 
 {
 
@@ -273,11 +274,10 @@ public class HexGrid
     #endregion
 
     //EnemyAttackStrategy logic use
-    public void UpdatePlayerSixDirCellsSet()
+    public void UpdatePlayerSixDirCellsSet(HexCellComponent playerCell)
     {
         PlayerSixDirCellsSet.Clear();
-        HexCellComponent playerCell = GetCellByType(CellType.Player);
-        for (HexDirection direction = HexDirection.NE; direction <= HexDirection.NW; direction++)
+        for (HexDirection direction = HexDirection.NW; direction <= HexDirection.NE; direction++)
         {
             HexCellComponent temp = playerCell;
             int tempDis = 1;

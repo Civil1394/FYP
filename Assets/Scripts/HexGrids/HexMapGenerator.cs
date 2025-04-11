@@ -4,8 +4,6 @@ using System.Linq;
 public class HexMapGenerator : MonoBehaviour
 {
     public HexCellComponent hexCellPrefab;
-    public int numberInRow = 5;
-    public int numberOfColumn = 5;
     public float zOffset = 0.04f;
     
     
@@ -117,38 +115,6 @@ public class HexMapGenerator : MonoBehaviour
         return rightBottomCorner;
     }
     
-    void CreateHexagonRow()
-    {
-        float hexWidth = HexCellMeshGenerator.GetHexagonWidth();
-        float innerRadius = HexCellMeshGenerator.GetInnerRadius();
-        float outerRadius = HexCellMeshGenerator.OUTER_RADIUS;
-        Vector3 topLeftWorldLoc = GetLeftTopCorner(this.GetComponent<MeshFilter>().mesh, this.transform);
-    
-        // Convert world position to local position
-        Vector3 topLeftLocalLoc = transform.InverseTransformPoint(topLeftWorldLoc);
-        Vector3 startLocLocal = new Vector3(topLeftLocalLoc.x + innerRadius, 0.1f, topLeftLocalLoc.z - innerRadius);
-        
-        
-        for (int j = 0; j < numberOfColumn; j++)
-        {
-            for (int i = 0; i < numberInRow; i++)
-            {
-                HexCellComponent hexCell = Instantiate(hexCellPrefab, transform);
-                float zPosition = (startLocLocal.z - j * (innerRadius + outerRadius/2));
-                if(j%2 == 0)hexCell.transform.localPosition = new Vector3(startLocLocal.x + i*hexWidth, 0.1f, zPosition);
-                if(j%2 == 1)hexCell.transform.localPosition = new Vector3(startLocLocal.x + i*hexWidth + hexWidth/2, 0.1f, zPosition);
-                hexCell.gameObject.name = "HexCell ( " + i + " , " + j + " )";
-                // Check for collision and destroy if necessary
-                if (hexCell.GetComponent<HexCellMeshGenerator>().CheckForCollisionAtCurrentPosition())
-                {
-                    Debug.Log($"Hex at position { ( i , j ) } overlaps with another object. Destroying.");
-                    Destroy(hexCell.gameObject);
-                    continue;
-                }
-            } 
-        }
-        
-    }
     private void Awake()
     {
         

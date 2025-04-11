@@ -120,12 +120,13 @@ public class BattleManager : Singleton<BattleManager>
 
 			PlayerActorInstance = playerActor;
 			MultipleCharacterControlSystem.charactersActorList.Add(playerActor);
+			hexgrid.UpdatePlayerSixDirCellsSet(PlayerCell);
 		}
 		else
 		{
 			Debug.LogError("Not valid cell to spawn!");
 		}
-		hexgrid.UpdatePlayerSixDirCellsSet();
+		
 	}
 	#endregion
 	
@@ -144,7 +145,7 @@ public class BattleManager : Singleton<BattleManager>
 		UpdateValidMoveRange();
 		
 		//Update Valid cells set of six direction from player
-		hexgrid.UpdatePlayerSixDirCellsSet();
+		hexgrid.UpdatePlayerSixDirCellsSet(PlayerCell);
 		
 	}
 
