@@ -66,7 +66,7 @@ public class AIBrain : MonoBehaviour
     {
         wanderState = new GridEnemyWander(this, null, 10, pathFinding);
         chaseState = new GridEnemyChase(this, null, pathFinding);
-        attackState = new GridEnemyAttack(this, null);
+        attackState = new GridEnemyAttack(this, null, enemyConfig.AbilityData);
         #region Set up state transition
 
         stateMachine.AddTransition(
@@ -95,7 +95,7 @@ public class AIBrain : MonoBehaviour
     {
         wanderState = new GridEnemyWander(this, null, 10, pathFinding);
         chaseState = new GridEnemyChase(this, null, pathFinding);
-        attackState = new GridEnemyAttack(this, null);
+        attackState = new GridEnemyAttack(this, null, enemyConfig.AbilityData);
         retreatState = new GridEnemyRetreat(this, null, pathFinding, 10);
         #region Set up state transition
 
@@ -138,7 +138,7 @@ public class AIBrain : MonoBehaviour
     {
         wanderState = new GridEnemyWander(this, null, 10, pathFinding);
         chaseState = new GridEnemyChase(this, null, pathFinding);
-        attackState = new GridEnemyAttack(this, null);
+        attackState = new GridEnemyAttack(this, null, enemyConfig.AbilityData);
         #region Set up state transition
 
         stateMachine.AddTransition(
@@ -166,7 +166,7 @@ public class AIBrain : MonoBehaviour
     {
         wanderState = new GridEnemyWander(this, null, 10, pathFinding);
         chaseState = new GridEnemyChase(this, null, pathFinding);
-        attackState = new GridEnemyAttack(this, null);
+        attackState = new GridEnemyAttack(this, null, enemyConfig.AbilityData);
         retreatState = new GridEnemyRetreat(this, null, pathFinding, 3);
         #region Set up state transition
 

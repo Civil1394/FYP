@@ -540,7 +540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a8005f2ed1c09041baf9101e40467ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyConfig: {fileID: 11400000, guid: f8af5a25b0974bd458e396b65e25a529, type: 2}
+  enemyConfig: {fileID: 11400000, guid: 69b89e0a2def3724c987bb17c4d32eb8, type: 2}
   playerDetector: {fileID: 0}
   enemyActor: {fileID: -6313553018507609414}
   currentCoord: {x: 0, y: 0, z: 0}
@@ -548,7 +548,7 @@ MonoBehaviour:
     ID: 
     Coordinates: {x: 0, y: 0, z: 0}
     cellType: 0
-    cellGuiType: 0
+    cellActionType: 0
   playerGrid: {fileID: 0}
   attackTargetGrid: {fileID: 0}
   gPath: []
@@ -575,7 +575,9 @@ MonoBehaviour:
     IsOccupied: 0
   MinThreshold: 0
   MaxThreshold: 10
-  ActionCooldown: 2
+  CurrentCooldown: 0
+  IsTimerActive: 0
+  ActionCooldownMultiplier: 1
   startTimerOnAwake: 1
   actorHourglassData: {fileID: 488613096571010833}
   objectCollider: {fileID: 0}

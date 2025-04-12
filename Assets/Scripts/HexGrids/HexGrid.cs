@@ -224,6 +224,25 @@ public class HexGrid
         }
         return HexDirection.NONE;
     }
+
+    public HexDirection GetFuzzyHexDirectionBy2Cell(HexCellComponent pivotCell, HexCellComponent endCell)
+    {
+        Vector3 originDir = (endCell.transform.position - pivotCell.transform.position).normalized;
+        float minDistance = float.MaxValue;
+        HexDirection closestDir = HexDirection.NONE;
+        for (int i = 0; i < pivotCell.CellData.Neighbors.Length; i++)
+        {
+            Vector3 tempDir = (pivotCell.CellData.Neighbors[i].ParentComponent.transform.position - pivotCell.transform.position).normalized;
+            float tempDis = Vector3.Distance(originDir, tempDir);
+            if (tempDis <= minDistance)
+            {
+                Debug.Log((HexDirection)i+" "+tempDis);
+                minDistance = tempDis;
+                closestDir = (HexDirection)i;
+            }
+        }
+        return closestDir;
+    }
     #endregion
 
     #region Type Utilities

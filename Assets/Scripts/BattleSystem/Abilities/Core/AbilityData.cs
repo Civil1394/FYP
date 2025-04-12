@@ -67,7 +67,7 @@ public partial class AbilityData : ScriptableObject
 		}
 		else
 		{
-			ability.ColorType = (AbilityColorType)Random.Range(0, 3);
+			ability.ColorType = (AbilityColorType)Random.Range(0, 3);	
 		}
 
 		return ability;
