@@ -37,10 +37,15 @@ MonoBehaviour:
     BlastStepDelay: 0
     BlastStepCount: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
+  explosiveChargeParam:
+    Damage: 0
+    ChargeTime: 0
+    TriggerCount: 0
+    TriggerBetweenDelay: 0
   PrerequisiteChargeSteps: 4
   Title: CanonBall
   Desc: 
-  Icon: {fileID: 21300000, guid: 90025555fad431a45a265003979da495, type: 3}
+  Icon: {fileID: 21300000, guid: 67cf25bb7034cb74ab31dd6c20e3876e, type: 3}
   CastType: 1
   SelectablePattern: {fileID: 11400000, guid: dab54184426a9444080a2acd8142bb1a, type: 2}
   AoePattern: {fileID: 0}

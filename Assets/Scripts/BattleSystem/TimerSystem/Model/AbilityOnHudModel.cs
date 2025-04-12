@@ -66,12 +66,13 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
     {
         if (!fullyCharged)
         {
-            BattleManager.Instance.InputHandler.SelectedAbility = HexDirection.NONE;
+            BattleManager.Instance.InputHandler.SelectedAbilityDirection = HexDirection.NONE;
             return;
         }
-        BattleManager.Instance.InputHandler.SelectedAbility = this.direction;
+        BattleManager.Instance.InputHandler.SelectedAbilityDirection = this.direction;
         onSelectAbility?.Invoke();
         ShowAttackPattern();
+        BattleManager.Instance.InputHandler.SetInputState(InputState.CastingAbility);
     }
 
     public void NotifyUpdate(int addOnSteps)

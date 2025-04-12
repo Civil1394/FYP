@@ -5,6 +5,7 @@ public enum AbilityType
 {
 	Projectile = 0,
 	ProjectileVolley = 1,
+	ExplosiveCharge = 5,
 	Blast = 10,
 	Dash = 20
 }

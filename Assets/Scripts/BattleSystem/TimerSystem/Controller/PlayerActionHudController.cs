@@ -76,7 +76,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
             {
                 AbilityData abilityData = EquippedAbilityManager.EquippedAbilities[i];
                 
-                abilityModels[i].Init((HexDirection)i, abilityData, SwitchToShowHudModels);
+                abilityModels[i].Init((HexDirection)i, abilityData, OnSelectAbility);
             
                 // Check if we have saved charge state for this ability data
                 if (abilityChargeStates.TryGetValue(abilityData, out var chargeState))
@@ -146,7 +146,9 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
     {
         if (!abilityModels[inputDirection].FullyCharged) return HexDirection.NONE;
         abilityModels[inputDirection].ShowAttackPattern();
-        SwitchToShowHudModels();
+        SwitchToShowHudModels(false);
+        BattleManager.Instance.InputHandler.SetInputState(InputState.CastingAbility);
+        playerActor.DequeueMoveAction();
         return(HexDirection)inputDirection;
     }
     public void CastAbility(HexDirection abiltyDirection, HexCellComponent castCell)
@@ -155,7 +157,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
         if (!IsCastCellLegit(abiltyDirection, castCell)) return;
         if (!abilityModels[(int)abiltyDirection].FullyCharged) return;
         abilityModels[(int)abiltyDirection].UseAbility(abiltyDirection,castCell);
-        SwitchToShowHudModels();
+        SwitchToShowHudModels(true);
         RefreshHUD();
         
     }
@@ -185,13 +187,18 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
         abilityModels[(int)a].UpdateRotation(rotationZs[(int)a]);
     }
 
-    private void SwitchToShowHudModels()
+    public void OnSelectAbility()
     {
-        isShowHudModels = !isShowHudModels;
+        playerActor.DequeueMoveAction();
+        SwitchToShowHudModels(false);
+    }
+    private void SwitchToShowHudModels(bool isShow)
+    {
+        //isShowHudModels = !isShowHudModels;
         foreach (var abilityModel in abilityModels)
         {
             var c = abilityModel.GetComponent<CanvasGroup>();
-            if (isShowHudModels)
+            if (isShow)
             {
                 c.alpha = 1;
             }

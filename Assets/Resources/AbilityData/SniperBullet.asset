@@ -37,10 +37,15 @@ MonoBehaviour:
     BlastStepDelay: 0
     BlastStepCount: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
-  PrerequisiteChargeSteps: 1
+  explosiveChargeParam:
+    Damage: 0
+    ChargeTime: 0
+    TriggerCount: 0
+    TriggerBetweenDelay: 0
+  PrerequisiteChargeSteps: 2
   Title: 2
   Desc: 
-  Icon: {fileID: 21300000, guid: 75b85a06def45b24d84cd593231983e1, type: 3}
+  Icon: {fileID: 21300000, guid: 06669a468075a53479cb57817f21beb2, type: 3}
   CastType: 1
   SelectablePattern: {fileID: 11400000, guid: dab54184426a9444080a2acd8142bb1a, type: 2}
   AoePattern: {fileID: 0}

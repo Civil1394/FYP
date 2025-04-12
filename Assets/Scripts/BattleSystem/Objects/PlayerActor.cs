@@ -99,6 +99,7 @@ public class PlayerActor : TimedActor,IDamagable
 	#region QueueAction
 	public void QueueMoveAction()
 	{
+		if (BattleManager.Instance.InputHandler.inputState == InputState.CastingAbility) return;
 		if (!actionLogicHandler.FacingIsLegit(FacingHexDirection)) return;
 		// Replace current pending action
 		pendingAction = new PlayerAction(PlayerActionType.Move, facingCell);
