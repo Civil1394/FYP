@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
-  m_Name: SniperBullet
+  m_Name: ExplosiveCharge
   m_EditorClassIdentifier: 
-  id: 1
-  abilityType: 0
+  id: 5
+  abilityType: 5
   projectileParam:
-    Damage: 10
-    TravelSpeed: 60
-    LifeTime: 20
+    Damage: 0
+    TravelSpeed: 0
+    LifeTime: 0
     VFX_Height_Offset: {x: 0, y: 3, z: 0}
     IsSelfDestructOnCollision: 1
   projectileVolleyParam:
@@ -25,8 +25,8 @@ MonoBehaviour:
       Damage: 0
       TravelSpeed: 0
       LifeTime: 0
-      VFX_Height_Offset: {x: 0, y: 0, z: 0}
-      IsSelfDestructOnCollision: 0
+      VFX_Height_Offset: {x: 0, y: 3, z: 0}
+      IsSelfDestructOnCollision: 1
     ProjectilePerBurst: 1
     DelayBetweenProjectiles: 0
     BurstCount: 1
@@ -38,17 +38,17 @@ MonoBehaviour:
     BlastStepCount: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
   explosiveChargeParam:
-    Damage: 0
-    ChargeTime: 0
-    TriggerCount: 0
+    Damage: 50
+    ChargeTime: 0.5
+    TriggerCount: 1
     TriggerBetweenDelay: 0
-  PrerequisiteChargeSteps: 2
-  Title: 2
+  PrerequisiteChargeSteps: 1
+  Title: 
   Desc: 
-  Icon: {fileID: 21300000, guid: 06669a468075a53479cb57817f21beb2, type: 3}
-  CastType: 1
-  SelectablePattern: {fileID: 11400000, guid: dab54184426a9444080a2acd8142bb1a, type: 2}
+  Icon: {fileID: 21300000, guid: 3f50c208bc863414a841d3f257eb600f, type: 3}
+  CastType: 0
+  SelectablePattern: {fileID: 0}
   AoePattern: {fileID: 0}
-  Object_fx: {fileID: 193226, guid: ce606b4ad4bcd3a4ba66a61380fa2f75, type: 3}
+  Object_fx: {fileID: 0}
   statusEffectsParam:
     statusEffects: []

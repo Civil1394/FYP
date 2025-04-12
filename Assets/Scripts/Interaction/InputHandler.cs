@@ -11,12 +11,12 @@ public class InputHandler : MonoBehaviour
 	public GenericAction OnMoveClick = new GenericAction();
 	public GenericAction OnCastClick = new GenericAction();
 	public InputState inputState = InputState.Move;
-	private HexDirection selectedAbility = HexDirection.NONE;
+	public HexDirection selectedAbilityDirection = HexDirection.NONE;
 
-	public HexDirection SelectedAbility
+	public HexDirection SelectedAbilityDirection
 	{
-		get { return selectedAbility; }
-		set { selectedAbility = value; }
+		get { return selectedAbilityDirection; }
+		set { selectedAbilityDirection = value; }
 	}	
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	private CinemachineOrbitalTransposer orbitalTransposer;
@@ -26,7 +26,7 @@ public class InputHandler : MonoBehaviour
 	{
 		orbitalTransposer = playerCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
 		orbitalTransposer.m_XAxis.Value = -45;
-		selectedAbility = HexDirection.NONE;
+		selectedAbilityDirection = HexDirection.NONE;
 	}
 	
 	private void Update()
@@ -36,10 +36,10 @@ public class InputHandler : MonoBehaviour
 		UpdateCameraRotationCnt();
 		GetPointerEnterExist();
 		GetPointerDown();
-        OnShiftDown();
+        OnLeftCtrlDown();
         OnRightClick();
         OnSixDirectionKeyPress();
-		OnAltSixDirectionKeyPress();
+		OnCtrlSixDirectionKeyPress();
 	}
 
 
@@ -147,10 +147,10 @@ public class InputHandler : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Mouse0) && pointedObject)
 		{
 			print("pointer down");
-			if (selectedAbility == HexDirection.NONE) return;
-			print(selectedAbility.ToString());
+			if (selectedAbilityDirection == HexDirection.NONE) return;
+			print(selectedAbilityDirection.ToString());
 			if (!pointedObject) return;
-			PlayerActionHudController.Instance.CastAbility(selectedAbility, pointedObject.GetComponent<HexCellComponent>());
+			PlayerActionHudController.Instance.CastAbility(selectedAbilityDirection, pointedObject.GetComponent<HexCellComponent>());
 			
 			
 			//if(inputState == InputState.Move)
@@ -166,7 +166,7 @@ public class InputHandler : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown(1))
 		{
-			selectedAbility = HexDirection.NONE;
+			selectedAbilityDirection = HexDirection.NONE;
 		}
 	}
 	void ResetOrbitalCameraAngle()
@@ -224,13 +224,13 @@ public class InputHandler : MonoBehaviour
 		}
 	}
 
-	void OnShiftDown()
+	void OnLeftCtrlDown()
 	{
 		if (Input.GetKeyDown(KeyCode.LeftControl))
 		{
 			inputState = InputState.CastingAbility;
 		}
-		if (Input.GetKeyUp(KeyCode.LeftControl))
+		if (Input.GetKeyUp(KeyCode.LeftControl) && selectedAbilityDirection == HexDirection.NONE)
 		{
 			inputState = InputState.Move;
 		}
@@ -293,50 +293,52 @@ public class InputHandler : MonoBehaviour
 		#endregion
 	}
 
-	void OnAltSixDirectionKeyPress()
+	void OnCtrlSixDirectionKeyPress()
 	{
 		if (inputState == InputState.Move)
 		{
 			return;
 		}
 		#region Ability input
+
 		if (Input.GetKeyDown(KeyCode.W))
 		{
 			//default nw
 			int tempDir = ((int)HexDirection.NW + cameraRotationCnt) % 6;
-			selectedAbility = PlayerActionHudController.Instance.SelectAbility(tempDir);
+			selectedAbilityDirection = PlayerActionHudController.Instance.SelectAbility(tempDir);
 		}
 		else if(Input.GetKeyDown(KeyCode.E))
 		{
 			//default ne
 			int tempDir = ((int)HexDirection.NE + cameraRotationCnt) % 6;
-			selectedAbility = PlayerActionHudController.Instance.SelectAbility(tempDir);
-        }
-        else if(Input.GetKeyDown(KeyCode.D))
+			selectedAbilityDirection = PlayerActionHudController.Instance.SelectAbility(tempDir);
+		}
+		else if(Input.GetKeyDown(KeyCode.D))
 		{
 			//default e
 			int tempDir = ((int)HexDirection.E + cameraRotationCnt) % 6;
-            selectedAbility = PlayerActionHudController.Instance.SelectAbility(tempDir);
-        }
-        else if(Input.GetKeyDown(KeyCode.X))
+			selectedAbilityDirection = PlayerActionHudController.Instance.SelectAbility(tempDir);
+		}
+		else if(Input.GetKeyDown(KeyCode.X))
 		{
 			//default se
 			int tempDir = ((int)HexDirection.SE + cameraRotationCnt) % 6;
-			selectedAbility = PlayerActionHudController.Instance.SelectAbility(tempDir);
-        }
-        else if(Input.GetKeyDown(KeyCode.Z))
+			selectedAbilityDirection = PlayerActionHudController.Instance.SelectAbility(tempDir);
+		}
+		else if(Input.GetKeyDown(KeyCode.Z))
 		{
 			//default sw
 			int tempDir = ((int)HexDirection.SW + cameraRotationCnt) % 6;
-			selectedAbility = PlayerActionHudController.Instance.SelectAbility(tempDir);
-        }
-        else if(Input.GetKeyDown(KeyCode.A))
+			selectedAbilityDirection = PlayerActionHudController.Instance.SelectAbility(tempDir);
+		}
+		else if(Input.GetKeyDown(KeyCode.A))
 		{
 			//default w
 			int tempDir = ((int)HexDirection.W + cameraRotationCnt) % 6;
-			selectedAbility = PlayerActionHudController.Instance.SelectAbility(tempDir);
-        }
-        #endregion
+			selectedAbilityDirection = PlayerActionHudController.Instance.SelectAbility(tempDir);
+		}
+	
+		#endregion
     }
 	public void SetInputState(InputState newState)
 	{
@@ -353,6 +355,6 @@ public class InputHandler : MonoBehaviour
 }
 public enum InputState
 {
-	Move,
-	CastingAbility
+	Move = 0,
+	CastingAbility = 1
 }

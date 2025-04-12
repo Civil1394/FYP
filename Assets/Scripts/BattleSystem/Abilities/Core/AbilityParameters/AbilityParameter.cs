@@ -48,6 +48,16 @@ public class ProjectileVolleyParameter : AbilityParameter
 	[Tooltip("Delay between each cast of the volley")]
 	public float DelayBetweenBurst = 0f;
 }
+
+[System.Serializable]
+public class ExplosiveChargeParameter : AbilityParameter
+{
+	public float Damage;
+	public float ChargeTime;
+	public int TriggerCount;
+	public float TriggerBetweenDelay;
+}
+
 [System.Serializable]
 public class DashParameter : AbilityParameter
 {

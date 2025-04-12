@@ -21,7 +21,11 @@ public partial class AbilityData : ScriptableObject
 	
 	[ConditionalField("abilityType", AbilityType.Dash)]
 	public DashParameter dashParam;
-
+	
+	[ConditionalField("abilityType",AbilityType.ExplosiveCharge)]
+	public ExplosiveChargeParameter explosiveChargeParam;
+	
+	
 	public int PrerequisiteChargeSteps;
 	[Header("Text")]
 	public string Title;
