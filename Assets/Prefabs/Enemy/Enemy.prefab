@@ -580,6 +580,7 @@ MonoBehaviour:
   ActionCooldownMultiplier: 1
   startTimerOnAwake: 1
   actorHourglassData: {fileID: 488613096571010833}
+  hitVFX: {fileID: 1835174905073365006, guid: 1d7489525a7b07049bd0e89eac948c6b, type: 3}
   objectCollider: {fileID: 0}
   hourglassAnimator: {fileID: 5979856810094154544}
   HealthText: {fileID: 38521961521666007}

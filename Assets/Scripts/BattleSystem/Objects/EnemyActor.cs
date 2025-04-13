@@ -6,6 +6,7 @@ using TMPro;
 
 public class EnemyActor : TimedActor, IDamagable
 {
+	public GameObject hitVFX;
 	[SerializeField] CapsuleCollider objectCollider;
 	[SerializeField] private HourglassGlobalCanvasAnimator hourglassAnimator;
 	private AIBrain aiBrain;
@@ -80,6 +81,7 @@ public class EnemyActor : TimedActor, IDamagable
 	{
 		currentHealth -= damage;
 		HealthText.text = currentHealth.ToString();
+		Instantiate(hitVFX, transform.position, Quaternion.identity);
 		DeathCheck();
 	}
 

@@ -45,7 +45,7 @@ MonoBehaviour:
   PrerequisiteChargeSteps: 2
   Title: MiniGun
   Desc: 
-  Icon: {fileID: 21300000, guid: 3f50c208bc863414a841d3f257eb600f, type: 3}
+  Icon: {fileID: 21300000, guid: e1eac74f78e687c40b038a6d90be9664, type: 3}
   CastType: 1
   SelectablePattern: {fileID: 11400000, guid: dab54184426a9444080a2acd8142bb1a, type: 2}
   AoePattern: {fileID: 0}

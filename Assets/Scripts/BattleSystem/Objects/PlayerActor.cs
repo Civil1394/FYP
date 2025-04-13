@@ -6,6 +6,7 @@ using TMPro;
 
 public class PlayerActor : TimedActor,IDamagable
 {
+	public GameObject hitVFX;
 	[Header("Player Status")]
 	private float currentHealth = 100f;
 	public float Health
@@ -233,6 +234,7 @@ public class PlayerActor : TimedActor,IDamagable
 	{
 		currentHealth -= damage;
 		HealthText.text = currentHealth.ToString();
+		Instantiate(hitVFX, transform.position, Quaternion.identity);
 		DeathCheck();
 	}
 
