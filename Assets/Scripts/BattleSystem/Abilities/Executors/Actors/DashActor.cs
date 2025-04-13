@@ -4,13 +4,13 @@ using System.Collections;
 
 public class DashActor : DamageActor 
 {
-	private ProjectileParameter parameter;
+	private DashParameter parameter;
 
 	public HexCellComponent TargetCell{get; private set;}
 	public float DashSpeed { get; private set; }
 	public override event Action<GameObject> OnHitApplyStatusEffect;
 
-	public void InitDash(CasterType casterType, ProjectileParameter parameter, HexCellComponent targetCell,
+	public void InitDash(CasterType casterType, DashParameter parameter, HexCellComponent targetCell,
 		TimedActor casterActor)
 	{
 		this.casterType = casterType;
@@ -19,7 +19,6 @@ public class DashActor : DamageActor
         
         
 		_damage = parameter.Damage;
-		DashSpeed = parameter.TravelSpeed;
         
 		TargetCell = targetCell;
 		

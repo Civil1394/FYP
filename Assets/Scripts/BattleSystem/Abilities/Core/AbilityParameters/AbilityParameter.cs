@@ -65,7 +65,8 @@ public class ExplosiveChargeParameter : AbilityParameter
 [System.Serializable]
 public class DashParameter : AbilityParameter
 {
-	
+	public float Damage;
+	public Vector3 VFX_Height_Offset;
 }
 [System.Serializable]
 public class UtilityParameter : AbilityParameter
