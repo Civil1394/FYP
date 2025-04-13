@@ -16,7 +16,9 @@ public class EnemyManager : Singleton<EnemyManager>
     public Action<AIBrain,Vector3Int> OnMove;
 
 
-    [SerializeField] private bool IsSpawnEnemy = true;
+    [SerializeField] private bool IsSpawnEnemy;
+
+    [SerializeField] private EnemyWaveController enemyWaveController;
 	private void Start()
 	{
 		OnMove += EnemyCatcher;
@@ -32,7 +34,7 @@ public class EnemyManager : Singleton<EnemyManager>
 			
 			var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
 			newInstance.gameObject.GetComponent<EnemyActor>().Init(hg);
-				
+			
 			newInstance.currentCoord = cell.CellData.Coordinates;
 			newInstance.currentCell = cell.CellData;
 			enemiesDict.Add(newInstance,newInstance.currentCoord);
@@ -45,7 +47,8 @@ public class EnemyManager : Singleton<EnemyManager>
 	}
 	public void InitEnemies()
 	{
-		if(IsSpawnEnemy)
+		if (IsSpawnEnemy)
+		{
 			foreach (var coord in spawnCoords)
 			{
 				HexCellComponent cell = BattleManager.Instance.hexgrid.GetCellInCoord(new Vector3Int(coord.x, 0, coord.y));
@@ -62,10 +65,14 @@ public class EnemyManager : Singleton<EnemyManager>
 				}
 				else
 				{
+					print(coord.ToString());
 					Debug.LogError("Not valid cell to spawn!");
 					continue;
 				}
 			}
+		}
+
+		StartCoroutine(enemyWaveController.EnemyWave(10, 10f));
 	}
 
     public bool ReserveCell(AIBrain enemy, HexCell cell)
