@@ -57,16 +57,18 @@ public class ProjectileActor : DamageActor
         {
             case ProjectileBehavior.BehaviorType.Linear:
                 behavior = gameObject.AddComponent<LinearProjectileBehavior>();
+                behavior.Init(this, StandingPos, TargetDirection, TravelSpeed,height_Offset, LifeTime);
                 break;
             case ProjectileBehavior.BehaviorType.Parabola:
                 behavior = gameObject.AddComponent<ParabolaProjectileBehavior>();
+                behavior.Init(this, StandingPos, TargetDirection, TravelSpeed,height_Offset, LifeTime,parameter.ParabolaBlastVFX);
                 break;
             default:
                 Debug.LogErrorFormat("{0} is not a valid behavior type.", behaviorType);
                 break;
         }
         
-        behavior.Init(this, StandingPos, TargetDirection, TravelSpeed,height_Offset, LifeTime);
+        
     }
 
 

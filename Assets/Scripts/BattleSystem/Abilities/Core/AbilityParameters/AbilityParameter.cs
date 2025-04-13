@@ -29,6 +29,9 @@ public class ProjectileParameter : AbilityParameter
 	public Vector3 VFX_Height_Offset = new Vector3(0, 3, 0);
 	
 	public bool IsSelfDestructOnCollision = true;
+
+	[ConditionalField("BehaviorType", ProjectileBehavior.BehaviorType.Parabola)]
+	public GameObject ParabolaBlastVFX;
 }
 
 [System.Serializable]

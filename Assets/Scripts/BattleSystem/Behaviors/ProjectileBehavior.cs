@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using JetBrains.Annotations;
 
 
 public abstract class ProjectileBehavior : MonoBehaviour
@@ -16,8 +17,9 @@ public abstract class ProjectileBehavior : MonoBehaviour
     protected float speed;
     protected Vector3 height_offset;
     protected float lifeTime;
+    protected GameObject parabolaBlastVFX;
     public virtual void Init(ProjectileActor projectileActor, Vector3Int standingPos, HexDirection direction, float speed,
-        Vector3 height_offset, float lifeTime)
+        Vector3 height_offset, float lifeTime,[CanBeNull] GameObject ParabolaBlastVFX = null)
     {
         this.ProjectileActor = projectileActor;
         this.casterCell = BattleManager.Instance.hexgrid.GetCellInCoord(standingPos);
@@ -25,6 +27,7 @@ public abstract class ProjectileBehavior : MonoBehaviour
         this.speed = speed;
         this.height_offset = height_offset;
         this.lifeTime = lifeTime;
+        this.parabolaBlastVFX = ParabolaBlastVFX;
     }
 
     public abstract float UpdateBehavior();
@@ -94,8 +97,7 @@ public class ParabolaProjectileBehavior : ProjectileBehavior
         Vector3 endPos = finalDest.transform.position + height_offset;
         float distance = Vector3.Distance(startPos, endPos);
         float travelTime = distance / speed;
-
-        // Start the parabolic movement
+        
         StartCoroutine(MoveInParabola(startPos, endPos, travelTime));
 
         return travelTime; // Return the total travel time
@@ -121,9 +123,9 @@ public class ParabolaProjectileBehavior : ProjectileBehavior
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
-        // Ensure the projectile ends exactly at the end position
+        
         transform.position = end;
+        Instantiate(parabolaBlastVFX, end, Quaternion.identity);
         Destroy(gameObject);
     }
 }
