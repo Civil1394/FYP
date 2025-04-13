@@ -15,7 +15,8 @@ public static class AbilityExecutorFactory
                 
 			case AbilityType.ProjectileVolley:
 				return new ProjectileVolleyAbilityExecutor(abilityData);
-                
+			case AbilityType.Dash:
+				return null;
 			default:
 				Debug.LogWarning($"No executor implemented for ability type: {abilityData.abilityType}");
 				return null;
