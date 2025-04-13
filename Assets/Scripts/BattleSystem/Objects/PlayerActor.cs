@@ -158,6 +158,7 @@ public class PlayerActor : TimedActor,IDamagable
 
 	public void ExecuteDash(HexCellComponent targetCell)
 	{
+		print("player dash");
 		// Execute the actual movement
 		playerMovement.Dash(targetCell);
 		BattleManager.Instance.OnPlayerMove(this, standingCell, targetCell);

@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Dash(HexCellComponent targetCell)
     {
-        this.transform.DOMove(targetCell.CalPosForAction(), 0.5f).SetEase(Ease.InElastic);
+        this.transform.DOMove(targetCell.CalPosForAction(), 0.5f).SetEase(Ease.InBack);
         this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
     }
     void OnDrawGizmos()

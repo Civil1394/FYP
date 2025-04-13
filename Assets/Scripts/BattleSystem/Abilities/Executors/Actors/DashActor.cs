@@ -21,7 +21,7 @@ public class DashActor : DamageActor
 		_damage = parameter.Damage;
         
 		TargetCell = targetCell;
-		
+
 		if (targetCell != null)
 		{
 			//Launch when init 
@@ -43,16 +43,14 @@ public class DashActor : DamageActor
 		}
 	}
 
-	IEnumerator LaunchEnemy(EnemyActor enemyActor)
+	void LaunchEnemy(EnemyActor enemyActor)
 	{
 		enemyActor.ExecuteDash(TargetCell);
-		yield return null;
 	}
 
-	IEnumerator LaunchPlayer(PlayerActor playerActor)
+	void LaunchPlayer(PlayerActor playerActor)
 	{
 		playerActor.ExecuteDash(TargetCell);
-		yield return null;
 	}
 	public override void DoDamage(Action<float> damageAction, GameObject damagedTarget, GameObject source = null)
 	{

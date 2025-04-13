@@ -247,7 +247,7 @@ public class AIBrain : MonoBehaviour
         var nextGridPosition = cellToDash.ParentComponent.transform.position;
         Vector3 directionToNextGrid = (nextGridPosition - transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToNextGrid);
-        transform.DOMove(cellToDash.ParentComponent.transform.position, enemyActor.ActionCooldown).SetEase(Ease.InElastic);
+        transform.DOMove(cellToDash.ParentComponent.transform.position, enemyActor.ActionCooldown).SetEase(Ease.InBack);
         EnemyManager.Instance.OnMove(this, cellToDash.Coordinates);
         transform.DORotateQuaternion(targetRotation, enemyActor.ActionCooldown);
         currentCoord = cellToDash.Coordinates;

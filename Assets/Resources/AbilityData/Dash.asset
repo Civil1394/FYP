@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
+  m_Name: Dash
+  m_EditorClassIdentifier: 
+  id: 
+  abilityType: 20
+  projectileParam:
+    BehaviorType: 0
+    Damage: 0
+    TravelSpeed: 0
+    LifeTime: 0
+    VFX_Height_Offset: {x: 0, y: 3, z: 0}
+    IsSelfDestructOnCollision: 1
+    ParabolaBlastVFX: {fileID: 0}
+  projectileVolleyParam:
+    ProjectileConfig:
+      BehaviorType: 0
+      Damage: 0
+      TravelSpeed: 0
+      LifeTime: 0
+      VFX_Height_Offset: {x: 0, y: 3, z: 0}
+      IsSelfDestructOnCollision: 1
+      ParabolaBlastVFX: {fileID: 0}
+    ProjectilePerBurst: 1
+    DelayBetweenProjectiles: 0
+    BurstCount: 1
+    DelayBetweenBurst: 0
+  blastParam:
+    Damage: 0
+    Width: 0
+    BlastStepDelay: 0
+    BlastStepCount: 0
+    VFX_Height_Offset: {x: 0, y: 0, z: 0}
+  dashParam:
+    Damage: 10
+    VFX_Height_Offset: {x: 0, y: 0, z: 0}
+  explosiveChargeParam:
+    Damage: 0
+    ChargeTime: 0
+    TriggerCount: 0
+    TriggerBetweenDelay: 0
+  PrerequisiteChargeSteps: 1
+  Title: 
+  Desc: 
+  Icon: {fileID: 21300000, guid: 10f10c0682266984f9694269028a81e0, type: 3}
+  CastType: 2
+  SelectablePattern: {fileID: 11400000, guid: c5353ecb2ebce4e47b7e3e1af046d01f, type: 2}
+  AoePattern: {fileID: 0}
+  Object_fx: {fileID: 1941226523401448535, guid: 931a0981b63291a4fbf4d358d91afbd0,
+    type: 3}
+  statusEffectsParam:
+    statusEffects: []
