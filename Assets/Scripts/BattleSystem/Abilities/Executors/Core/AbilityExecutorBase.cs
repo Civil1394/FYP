@@ -18,7 +18,7 @@ public abstract class AbilityExecutorBase : IAbilityExecutor
 		
 		HexDirection castDirection = BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(casterStandingCell, castCell);
 		
-		ExecuteAbilitySpecific(casterType, castDirection, castCell, casterStandingCell, casterObject);
+		ExecuteAbilitySpecific(casterType, castDirection, castCell, casterStandingCell, casterObject.transform);
 	}
 	
 	protected abstract void ExecuteAbilitySpecific(
@@ -26,5 +26,5 @@ public abstract class AbilityExecutorBase : IAbilityExecutor
 		HexDirection castDirection,
 		HexCellComponent castCell, 
 		HexCellComponent casterStandingCell, 
-		GameObject casterObject);
+		Transform casterTransform);
 }

@@ -15,17 +15,17 @@ public class ProjectileAbilityExecutor : AbilityExecutorBase
 		HexDirection castDirection,
 		HexCellComponent castCell, 
 		HexCellComponent casterStandingCell, 
-		GameObject casterObject)
+		Transform casterTransform)
 	{
 		// Instantiate projectile
 		GameObject bulletObject = UnityEngine.Object.Instantiate(
 			objectFx, 
-			castCell.transform.position + parameters.VFX_Height_Offset, 
+			casterTransform.position + parameters.VFX_Height_Offset, 
 			Quaternion.identity);
             
 		// Initialize projectile
 		ProjectileActor projectileActor = bulletObject.AddComponent<ProjectileActor>();
-		projectileActor.InitBullet(casterType, parameters, castDirection, castCell);
+		projectileActor.InitBullet(casterType, parameters, castDirection, castCell, casterTransform);
         
 		// Subscribe to OnHit event to apply hit status effects
 		projectileActor.OnHitApplyStatusEffect += (target) => 

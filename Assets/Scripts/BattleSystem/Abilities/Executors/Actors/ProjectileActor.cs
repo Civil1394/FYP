@@ -16,7 +16,8 @@ public class ProjectileActor : DamageActor
     private Quaternion targetRotation;
     private ProjectileBehavior behavior;
     public override event Action<GameObject> OnHitApplyStatusEffect;
-    public void InitBullet(CasterType casterType,ProjectileParameter parameter, HexDirection castingDirection, HexCellComponent casterCell)
+    public void InitBullet(CasterType casterType, ProjectileParameter parameter, HexDirection castingDirection,
+        HexCellComponent castDirectionCell, Transform casterObjectTransform)
     {
         this.casterType = casterType;
         this.gameObject.tag = "DamageActor";
@@ -28,7 +29,7 @@ public class ProjectileActor : DamageActor
         LifeTime = parameter.LifeTime;
         
         TargetDirection = castingDirection;
-        StandingPos = casterCell.CellData.Coordinates;
+        StandingPos = castDirectionCell.CellData.Coordinates;
         height_Offset = parameter.VFX_Height_Offset;
 
         HexCellComponent standingCell = BattleManager.Instance.hexgrid.GetCellInCoord(StandingPos);

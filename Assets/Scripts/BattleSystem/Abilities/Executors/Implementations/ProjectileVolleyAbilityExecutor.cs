@@ -16,16 +16,16 @@ public class ProjectileVolleyAbilityExecutor : AbilityExecutorBase
         HexDirection castDirection,
         HexCellComponent castCell, 
         HexCellComponent casterStandingCell, 
-        GameObject casterObject)
+        Transform casterTransform)
     {
-        FireVolleyAsync(casterType, castDirection, castCell).Forget();
+        FireVolleyAsync(casterType, castDirection, castCell,casterTransform).Forget();
     }
     
-    private async UniTask FireVolleyAsync(CasterType casterType, HexDirection castDirection, HexCellComponent castCell)
+    private async UniTask FireVolleyAsync(CasterType casterType, HexDirection castDirection, HexCellComponent castCell,Transform casterTransform)
     {
         for (int i = 0; i < parameters.BurstCount; i++)
         {
-            await Burst(casterType, castDirection, castCell);
+            await Burst(casterType, castDirection, castCell,casterTransform);
             
             // Wait for the delay between bursts (except after the last shot)
             if (i < parameters.BurstCount - 1)
@@ -35,7 +35,7 @@ public class ProjectileVolleyAbilityExecutor : AbilityExecutorBase
         }
     }
     
-    private async UniTask Burst(CasterType casterType, HexDirection castDirection, HexCellComponent castCell)
+    private async UniTask Burst(CasterType casterType, HexDirection castDirection, HexCellComponent castCell,Transform casterTransform)
     {
         for (int i = 0; i < parameters.ProjectilePerBurst; i++)
         {
@@ -46,16 +46,16 @@ public class ProjectileVolleyAbilityExecutor : AbilityExecutorBase
                 
             HexCellComponent spawnCell = BattleManager.Instance.hexgrid.GetCellByDirection(castCell, castDirection);
             
-            GameObject bulletObject = UnityEngine.Object.Instantiate(
+            GameObject projectileObject = UnityEngine.Object.Instantiate(
                 objectFx,
-                spawnCell.transform.position + parameters.ProjectileConfig.VFX_Height_Offset + randDelta, 
+                casterTransform.position + parameters.ProjectileConfig.VFX_Height_Offset + randDelta, 
                 Quaternion.identity);
                 
-            ProjectileActor bulletComponent = bulletObject.AddComponent<ProjectileActor>();
-            bulletComponent.InitBullet(casterType, parameters.ProjectileConfig, castDirection, spawnCell);
+            ProjectileActor projectileComponent = projectileObject.AddComponent<ProjectileActor>();
+            projectileComponent.InitBullet(casterType, parameters.ProjectileConfig, castDirection, spawnCell, casterTransform);
             
             // Subscribe to OnHit event to apply hit status effects
-            bulletComponent.OnHitApplyStatusEffect += (target) => 
+            projectileComponent.OnHitApplyStatusEffect += (target) => 
                 sourceAbility.ApplyStatusEffects(AbilityStatusApplicationType.OnHit, target);
             
             if (i < parameters.ProjectilePerBurst - 1)

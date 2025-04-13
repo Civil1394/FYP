@@ -15,7 +15,7 @@ public class BlastAbilityExecutor : AbilityExecutorBase
 		HexDirection castDirection,
 		HexCellComponent castCell, 
 		HexCellComponent casterStandingCell, 
-		GameObject casterObject)
+		Transform casterTransform)
 	{
 		// Create the blast handler
 		GameObject blastHandlerObject = new GameObject("BlastHandler");
