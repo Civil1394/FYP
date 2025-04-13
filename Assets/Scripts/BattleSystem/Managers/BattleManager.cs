@@ -119,7 +119,7 @@ public class BattleManager : Singleton<BattleManager>
 			playerCamera.LookAt = playerActor.transform;
 
 			PlayerActorInstance = playerActor;
-			MultipleCharacterControlSystem.charactersActorList.Add(playerActor);
+			//MultipleCharacterControlSystem.charactersActorList.Add(playerActor);
 			hexgrid.UpdatePlayerSixDirCellsSet(PlayerCell);
 		}
 		else

@@ -241,6 +241,18 @@ public class AIBrain : MonoBehaviour
         currentCell = cellToMove;
     }
 
+    public void Dash(HexCell cellToDash)
+    {
+        EnemyManager.Instance.ReleaseCell(this);
+        var nextGridPosition = cellToDash.ParentComponent.transform.position;
+        Vector3 directionToNextGrid = (nextGridPosition - transform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(directionToNextGrid);
+        transform.DOMove(cellToDash.ParentComponent.transform.position, enemyActor.ActionCooldown).SetEase(Ease.InElastic);
+        EnemyManager.Instance.OnMove(this, cellToDash.Coordinates);
+        transform.DORotateQuaternion(targetRotation, enemyActor.ActionCooldown);
+        currentCoord = cellToDash.Coordinates;
+        currentCell = cellToDash;
+    }
     public void PerformAttack()
     {
         //this attack need to rework by using the abilty data, the chase also need to rework

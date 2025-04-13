@@ -1,0 +1,62 @@
+using System;
+using UnityEngine;
+using System.Collections;
+
+public class DashActor : DamageActor 
+{
+	private ProjectileParameter parameter;
+
+	public HexCellComponent TargetCell{get; private set;}
+	public float DashSpeed { get; private set; }
+	public override event Action<GameObject> OnHitApplyStatusEffect;
+
+	public void InitDash(CasterType casterType, ProjectileParameter parameter, HexCellComponent targetCell,
+		TimedActor casterActor)
+	{
+		this.casterType = casterType;
+		this.gameObject.tag = "DamageActor";
+		this.parameter = parameter;
+        
+        
+		_damage = parameter.Damage;
+		DashSpeed = parameter.TravelSpeed;
+        
+		TargetCell = targetCell;
+		
+		if (targetCell != null)
+		{
+			//Launch when init 
+			switch (casterType)
+			{
+				case CasterType.Player:
+					PlayerActor playerCaster = casterActor as PlayerActor;
+					LaunchPlayer(playerCaster);
+					break;
+				case CasterType.Enemy:
+					EnemyActor enemyCaster = casterActor as EnemyActor;
+					LaunchEnemy(enemyCaster);
+					break;
+			}
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
+
+	IEnumerator LaunchEnemy(EnemyActor enemyActor)
+	{
+		enemyActor.ExecuteDash(TargetCell);
+		yield return null;
+	}
+
+	IEnumerator LaunchPlayer(PlayerActor playerActor)
+	{
+		playerActor.ExecuteDash(TargetCell);
+		yield return null;
+	}
+	public override void DoDamage(Action<float> damageAction, GameObject damagedTarget, GameObject source = null)
+	{
+		throw new NotImplementedException();
+	}
+}

@@ -21,6 +21,12 @@ public class PlayerMovement : MonoBehaviour
         this.transform.DOMove(targetCell.CalPosForAction(), 0.5f);
         this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
     }
+
+    public void Dash(HexCellComponent targetCell)
+    {
+        this.transform.DOMove(targetCell.CalPosForAction(), 0.5f).SetEase(Ease.InElastic);
+        this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
+    }
     void OnDrawGizmos()
     {
         Gizmos.color = gizmoColor;

@@ -28,6 +28,10 @@ public class EnemyActor : TimedActor, IDamagable
 		HealthText.text = currentHealth.ToString();
 	}
 
+	public void ExecuteDash(HexCellComponent targetCell)
+	{
+		aiBrain.Dash(targetCell.CellData);
+	}
 	protected override void Start()
 	{
 		aiBrain = gameObject.GetComponent<AIBrain>();

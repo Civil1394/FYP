@@ -1,7 +1,5 @@
 using System;
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 
 public class PlayerActor : TimedActor,IDamagable
@@ -158,6 +156,16 @@ public class PlayerActor : TimedActor,IDamagable
 		
 	}
 
+	public void ExecuteDash(HexCellComponent targetCell)
+	{
+		// Execute the actual movement
+		playerMovement.Dash(targetCell);
+		BattleManager.Instance.OnPlayerMove(this, standingCell, targetCell);
+		standingCell = targetCell;
+		TryChangeFacingDirection(FacingHexDirection);
+		// Update cell states
+		//onplayermoved
+	}
 	private void UpdateCellsStates()
 	{
 		// foreach (var c in attackPattern.GetPattern(playerCell.CellData))
