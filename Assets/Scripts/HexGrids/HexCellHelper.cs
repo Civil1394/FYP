@@ -42,6 +42,26 @@ public static class HexDirectionHelper
         
         return directions;
     }
+
+    public static float DeltaDegreeRotationForProjectile(HexDirection direction)
+    {
+        switch (direction)
+        {
+            case HexDirection.NW:
+                return -120;
+            case HexDirection.W:
+                return -180;
+            case HexDirection.SW:
+                return 120;
+            case HexDirection.SE:
+                return 60;
+            case HexDirection.E:
+                return 0;
+            case HexDirection.NE:
+                return -60;
+        }
+        return 0;
+    }
 }
 
 public enum CellType

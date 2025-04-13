@@ -13,7 +13,6 @@ public class ProjectileActor : DamageActor
     public Vector3 height_Offset { get; private set; }
     
     private ProjectileParameter parameter;
-    private Quaternion targetRotation;
     private ProjectileBehavior behavior;
     public override event Action<GameObject> OnHitApplyStatusEffect;
     public void InitBullet(CasterType casterType, ProjectileParameter parameter, HexDirection castingDirection,
@@ -38,7 +37,7 @@ public class ProjectileActor : DamageActor
         {
             Vector3 targetPosition = nextCellToMove.transform.position;
             targetPosition.y = transform.position.y; // Keep current y level
-            transform.LookAt(targetPosition);
+            this.transform.localRotation = Quaternion.Euler(0,HexDirectionHelper.DeltaDegreeRotationForProjectile(castingDirection),0);
             AddBehavior<LinearProjectileBehavior>();
             
             //Launch when init 
