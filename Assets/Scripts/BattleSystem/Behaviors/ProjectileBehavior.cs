@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 
@@ -72,8 +73,57 @@ public class LinearProjectileBehavior : ProjectileBehavior
 
 public class ParabolaProjectileBehavior : ProjectileBehavior
 {
+    public float arcHeight = 20f; 
+
     public override float UpdateBehavior()
     {
-        throw new System.NotImplementedException();
+        HexCellComponent finalDest = casterCell;
+        
+        // Find the final destination cell
+        for (int i = 0; i < lifeTime; i++)
+        {
+            HexCellComponent nextCell = BattleManager.Instance.hexgrid.GetCellByDirection(finalDest, castingDirection);
+            if (nextCell == null || nextCell.CellData.CellType == CellType.Invalid)
+            {
+                break;
+            }
+            finalDest = nextCell;
+        }
+
+        Vector3 startPos = casterCell.transform.position + height_offset;
+        Vector3 endPos = finalDest.transform.position + height_offset;
+        float distance = Vector3.Distance(startPos, endPos);
+        float travelTime = distance / speed;
+
+        // Start the parabolic movement
+        StartCoroutine(MoveInParabola(startPos, endPos, travelTime));
+
+        return travelTime; // Return the total travel time
+    }
+
+    private IEnumerator MoveInParabola(Vector3 start, Vector3 end, float time)
+    {
+        float elapsedTime = 0;
+        Vector3 direction = end - start;
+        Vector3 midPoint = (start + end) / 2f;
+        Vector3 arcVector = Vector3.up * arcHeight;
+
+        while (elapsedTime < time)
+        {
+            float t = elapsedTime / time;
+            Vector3 position = Vector3.Lerp(start, end, t);
+
+            // Calculate the parabolic arc
+            position += arcVector * (1 - 4 * (t - 0.5f) * (t - 0.5f));
+
+            transform.position = position;
+            
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the projectile ends exactly at the end position
+        transform.position = end;
+        Destroy(gameObject);
     }
 }

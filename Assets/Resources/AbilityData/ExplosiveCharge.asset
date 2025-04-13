@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: ExplosiveCharge
   m_EditorClassIdentifier: 
   id: 5
-  abilityType: 5
+  abilityType: 0
   projectileParam:
-    Damage: 0
-    TravelSpeed: 0
-    LifeTime: 0
-    VFX_Height_Offset: {x: 0, y: 3, z: 0}
+    BehaviorType: 1
+    Damage: 10
+    TravelSpeed: 10
+    LifeTime: 6
+    VFX_Height_Offset: {x: 0, y: 0, z: 0}
     IsSelfDestructOnCollision: 1
   projectileVolleyParam:
     ProjectileConfig:
+      BehaviorType: 0
       Damage: 0
       TravelSpeed: 0
       LifeTime: 0
@@ -46,9 +48,10 @@ MonoBehaviour:
   Title: 
   Desc: 
   Icon: {fileID: 21300000, guid: 2fee0c1bbed7b124293af147e323137e, type: 3}
-  CastType: 0
-  SelectablePattern: {fileID: 0}
+  CastType: 1
+  SelectablePattern: {fileID: 11400000, guid: dab54184426a9444080a2acd8142bb1a, type: 2}
   AoePattern: {fileID: 0}
-  Object_fx: {fileID: 0}
+  Object_fx: {fileID: 8780727661788297695, guid: 2b2b602744803fc43adcee8e62dfc983,
+    type: 3}
   statusEffectsParam:
     statusEffects: []
