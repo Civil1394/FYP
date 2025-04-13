@@ -9,7 +9,8 @@ public partial class AbilityData : ScriptableObject
 	public string id;
 	
 	[Header("Type")]
-	public AbilityType abilityType;              
+	public AbilityType abilityType;         
+	
 	[ConditionalField("abilityType", AbilityType.Projectile)]
 	public ProjectileParameter projectileParam;
 	

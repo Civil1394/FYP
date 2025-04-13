@@ -38,7 +38,7 @@ public class ProjectileActor : DamageActor
             Vector3 targetPosition = nextCellToMove.transform.position;
             targetPosition.y = transform.position.y; // Keep current y level
             this.transform.localRotation = Quaternion.Euler(0,HexDirectionHelper.DeltaDegreeRotationForProjectile(castingDirection),0);
-            AddBehavior<LinearProjectileBehavior>();
+            AddBehavior(parameter.BehaviorType);
             
             //Launch when init 
             StartCoroutine(Launch());
@@ -48,11 +48,24 @@ public class ProjectileActor : DamageActor
             Destroy(gameObject);
         }
     }
-    
+
+
     //init behaviors
-    private void AddBehavior<T>() where T : ProjectileBehavior
+    private void AddBehavior(ProjectileBehavior.BehaviorType behaviorType) 
     {
-        behavior = gameObject.AddComponent<T>();
+        switch (behaviorType)
+        {
+            case ProjectileBehavior.BehaviorType.Linear:
+                behavior = gameObject.AddComponent<LinearProjectileBehavior>();
+                break;
+            case ProjectileBehavior.BehaviorType.Parabola:
+                behavior = gameObject.AddComponent<ParabolaProjectileBehavior>();
+                break;
+            default:
+                Debug.LogErrorFormat("{0} is not a valid behavior type.", behaviorType);
+                break;
+        }
+        
         behavior.Init(this, StandingPos, TargetDirection, TravelSpeed,height_Offset, LifeTime);
     }
 

@@ -20,6 +20,7 @@ public class BlastParameter : AbilityParameter
 [System.Serializable]
 public class ProjectileParameter : AbilityParameter
 {
+	public ProjectileBehavior.BehaviorType BehaviorType;
 	public float Damage;
 	[Tooltip("Higher = Faster")]
 	public float TravelSpeed;

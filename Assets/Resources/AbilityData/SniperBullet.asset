@@ -15,13 +15,15 @@ MonoBehaviour:
   id: 1
   abilityType: 0
   projectileParam:
-    Damage: 10
-    TravelSpeed: 20
+    BehaviorType: 0
+    Damage: 20
+    TravelSpeed: 40
     LifeTime: 20
     VFX_Height_Offset: {x: 0, y: 3, z: 0}
     IsSelfDestructOnCollision: 1
   projectileVolleyParam:
     ProjectileConfig:
+      BehaviorType: 0
       Damage: 0
       TravelSpeed: 0
       LifeTime: 0

@@ -4,6 +4,11 @@ using DG.Tweening;
 
 public abstract class ProjectileBehavior : MonoBehaviour
 {
+    public enum BehaviorType
+    {
+        Linear,
+        Parabola
+    }
     protected ProjectileActor ProjectileActor;
     protected HexCellComponent casterCell;
     protected HexDirection castingDirection;
@@ -63,5 +68,12 @@ public class LinearProjectileBehavior : ProjectileBehavior
             });
         return 1;
     }
-    
+}
+
+public class ParabolaProjectileBehavior : ProjectileBehavior
+{
+    public override float UpdateBehavior()
+    {
+        throw new System.NotImplementedException();
+    }
 }
