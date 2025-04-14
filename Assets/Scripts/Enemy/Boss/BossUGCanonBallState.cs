@@ -7,11 +7,11 @@ public class BossUGCanonBallState : EnemyBaseState
 	private BossUGController bossUGController;
 	public bool isTurnComplete;
 
-	public BossUGCanonBallState(AIBrain enemyBrain, Animator animator, BossUGController bossUgController,
+	public BossUGCanonBallState(AIBrain enemyBrain, Animator animator,
 		AbilityData canonBallAD) : base(enemyBrain, animator)
 	{
 		canonBallAbilityData = canonBallAD;
-		this.bossUGController = bossUgController;
+		this.bossUGController = enemyBrain as BossUGController;
 	}
 
 	public override void OnEnter()

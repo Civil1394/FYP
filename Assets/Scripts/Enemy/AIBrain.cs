@@ -9,9 +9,9 @@ public class AIBrain : MonoBehaviour
     //Functional component
     [SerializeField] private PlayerDetector playerDetector;
     public EnemyActor enemyActor;
-    private StateMachine stateMachine;
-    private PathFinding pathFinding;
-    private IHexPatternHelper attackPattern;
+    protected StateMachine stateMachine;
+    protected PathFinding pathFinding;
+    protected IHexPatternHelper attackPattern;
 
     //Memory
     public Vector3Int currentCoord;
@@ -24,8 +24,8 @@ public class AIBrain : MonoBehaviour
     public Color mColor;
 
     //Stat
-    private IAttack attackStrategy;
-    private int attackDur = 2;
+    protected IAttack attackStrategy;
+    protected int attackDur = 2;
     
     //Control flag
     public bool isAttacking = false;

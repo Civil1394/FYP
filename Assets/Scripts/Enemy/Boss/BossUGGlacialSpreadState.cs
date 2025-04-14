@@ -7,11 +7,11 @@ public class BossUGGlacialSpreadState : EnemyBaseState
 	private BossUGController bossUGController;
 	public bool isTurnComplete;
 
-	public BossUGGlacialSpreadState(AIBrain enemyBrain, Animator animator, BossUGController bossUgController,
+	public BossUGGlacialSpreadState(AIBrain enemyBrain, Animator animator,
 		AbilityData glacialSpreadAD) : base(enemyBrain, animator)
 	{
 		glacialSpreadAbilityData = glacialSpreadAD;
-		this.bossUGController = bossUgController;
+		this.bossUGController = enemyBrain as BossUGController;
 	}
 
 	public override void OnEnter()
