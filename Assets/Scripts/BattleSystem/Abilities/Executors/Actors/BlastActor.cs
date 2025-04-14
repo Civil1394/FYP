@@ -21,7 +21,6 @@ public class BlastActor : DamageActor
 		this.BlastVFXObject = blast_VFX_Object;
 		AddBehavior<LinearBlastBehavior>(castingDirection,casterCell);
 		StartCoroutine(Launch());
-
 	}
 
 	private void AddBehavior<T>(HexDirection direction, HexCellComponent casterCell) where T : BlastBehavior

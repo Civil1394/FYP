@@ -13186,21 +13186,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04186952574ff4448bf35a433d9a49f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 2092199131291521800, guid: a80fd3e90f7ccab44bb229f4dd46a1d4,
+  enemyPrefab: {fileID: 517734194789252107, guid: b071bd8d22c7e584ea92a0e20db8bc4a,
     type: 3}
   spawnCoords:
   - {x: 25, y: 15}
-  - {x: 15, y: 8}
-  - {x: 6, y: 20}
-  - {x: 10, y: 17}
-  - {x: 23, y: 22}
-  - {x: 21, y: 20}
-  - {x: 12, y: 15}
-  - {x: 4, y: 20}
-  - {x: 21, y: 3}
-  - {x: 9, y: 3}
   enemyGroup: {fileID: 651916844}
-  IsSpawnEnemy: 0
+  IsSpawnEnemy: 1
   enemyWaveController: {fileID: 524400994}
 --- !u!1 &1734984158
 GameObject:
