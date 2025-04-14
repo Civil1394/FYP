@@ -39,7 +39,6 @@ public class AIBrain : MonoBehaviour
     {
         mColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 
-        playerDetector = GetComponent<PlayerDetector>();
         playerDetector.Init(this, enemyConfig.AngleOfRange, enemyConfig.DistanceOfRange, enemyConfig.InnerSphereRadius);
         pathFinding = new PathFinding();
         stateMachine = new StateMachine();

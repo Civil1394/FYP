@@ -8,23 +8,29 @@ public class BossUGExplosiveChargeState : EnemyBaseState
 	private AbilityData explosiveChargeAbilityData = null;
 	private BossUGController bossUGController;
 	public bool isTurnComplete;
+	private int progress = 0;
+	private int attackCount;
 	public BossUGExplosiveChargeState(AIBrain enemyBrain, Animator animator,
-		AbilityData sniperBulletAD) : base(enemyBrain, animator)
+		AbilityData sniperBulletAD, int attackCount) : base(enemyBrain, animator)
 	{
 		explosiveChargeAbilityData = sniperBulletAD;
 		this.bossUGController = enemyBrain as BossUGController;
+		this.attackCount = attackCount-1;
 	}
 
 	public override void OnEnter()
 	{
 		
-		//sniperBulletAbilityData.TriggerAbility(CasterType.Enemy,);
-		
 	}
 	public override void TurnAction()
 	{
+		if (progress >= attackCount)
+		{
+			isTurnComplete = true;
+			return;
+		}
 		explosiveChargeAbilityData.TriggerAbility(CasterType.Enemy, GetTargetCell(),
-			enemyBrain.currentCell.ParentComponent, enemyBrain.gameObject);
+			enemyBrain.currentCell.ParentComponent, bossUGController.gameObject);
 	}
 
 	private HexCellComponent GetTargetCell()

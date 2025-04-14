@@ -22,8 +22,15 @@ public class BossUGController : AIBrain
 	{
 		chaseState = new GridEnemyChase(this, null, pathFinding);
 		glacialSpreadState = new BossUGGlacialSpreadState(this,null,glacialSpread);
-		explosiveChargeState = new BossUGExplosiveChargeState(this,null,explosiveCharge);
-		canonBallState = new BossUGCanonBallState(this,null,canonBall);
-
+		explosiveChargeState = new BossUGExplosiveChargeState(this,null,explosiveCharge, 10);
+		canonBallState = new BossUGCanonBallState(this,null,canonBall,10);
+		stateMachine.AddTransition(chaseState, canonBallState, new FuncPredicate(
+			() => IsPlayerInAttackRange(4)//enter canon ball attack range
+			)
+		);
+		stateMachine.AddTransition(canonBallState, chaseState, new FuncPredicate(
+				() => canonBallState.isTurnComplete
+			)
+		);
 	}
 }
