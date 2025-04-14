@@ -24,7 +24,7 @@ public class EnemyManager : Singleton<EnemyManager>
 		OnMove += EnemyCatcher;
 	}
 
-	public void InstanciateEnemy(Vector2Int coord)
+	public void InstantiateEnemy(Vector2Int coord)
 	{
 		HexCellComponent cell = BattleManager.Instance.hexgrid.GetCellInCoord(new Vector3Int(coord.x, 0, coord.y));
 		if (cell.CellData.CellType == CellType.Empty)
@@ -72,7 +72,7 @@ public class EnemyManager : Singleton<EnemyManager>
 			}
 		}
 
-		StartCoroutine(enemyWaveController.EnemyWave(10, 10f));
+		//StartCoroutine(enemyWaveController.EnemyWave(10, 10f));
 	}
 
     public bool ReserveCell(AIBrain enemy, HexCell cell)

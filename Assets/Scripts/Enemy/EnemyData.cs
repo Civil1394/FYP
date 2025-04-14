@@ -12,7 +12,7 @@ public class EnemyData : ScriptableObject
     [SerializeField] private float innerSphereRadius;
 
     [Header("Attack Strategy")]
-    [SerializeField] private GameObject attackPrefab;
+    //[SerializeField] private GameObject attackPrefab;
     [SerializeField] private int attackRangeInCell;
     
     public float Health => health;
@@ -20,7 +20,7 @@ public class EnemyData : ScriptableObject
     public float DistanceOfRange => distanceOfRange;
     public float InnerSphereRadius => innerSphereRadius;
     //public AttackType AttackStrategy => attackType;
-    public GameObject AttackPrefab => attackPrefab;
+    //public GameObject AttackPrefab => attackPrefab;
 
     public int AttackRangeInCell => attackRangeInCell;
     public AbilityData AbilityData;
@@ -31,7 +31,9 @@ public class EnemyData : ScriptableObject
         Sniper,
         Boomer,
         Assassin,
-        Healer
+        Healer,
+        Boss,
+        Other
     }
 
     public EnemyType EnemyStateType => enemyStateType;

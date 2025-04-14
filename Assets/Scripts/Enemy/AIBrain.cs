@@ -24,7 +24,7 @@ public class AIBrain : MonoBehaviour
     public Color mColor;
 
     //Stat
-    protected IAttack attackStrategy;
+    //protected IAttack attackStrategy;
     protected int attackDur = 2;
     
     //Control flag
@@ -43,7 +43,6 @@ public class AIBrain : MonoBehaviour
         pathFinding = new PathFinding();
         stateMachine = new StateMachine();
         StateInitialization();
-        stateMachine.SetState(wanderState);
     }
 
     public virtual void  StateInitialization()
@@ -57,6 +56,7 @@ public class AIBrain : MonoBehaviour
                 SniperState();
                 break;
         }
+        stateMachine.SetState(wanderState);
     }
 
     void BerserkState()
@@ -234,19 +234,6 @@ public class AIBrain : MonoBehaviour
         transform.DORotateQuaternion(targetRotation, enemyActor.ActionCooldown);
         currentCoord = cellToDash.Coordinates;
         currentCell = cellToDash;
-    }
-    public void PerformAttack()
-    {
-        //this attack need to rework by using the abilty data, the chase also need to rework
-        attackDur = 6;
-        print("attacked");
-        //Need to use Opposite to reverse the direction from player toward enemy
-        //then it can be casting direction
-        // HexDirection castDirection = HexDirectionHelper.Opposite(
-        //     BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(
-        //         playerGrid, currentCell.ParentComponent
-        //     ));
-        // attackStrategy.Attack(castDirection, currentCell.ParentComponent);
     }
 
     private void OnDrawGizmos()

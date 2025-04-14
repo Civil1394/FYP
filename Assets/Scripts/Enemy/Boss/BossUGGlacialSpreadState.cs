@@ -33,7 +33,10 @@ public class BossUGGlacialSpreadState : EnemyBaseState
 		glacialSpreadAbilityData.TriggerAbility(CasterType.Enemy, cells[progress++],
 			bossUGController.currentCell.ParentComponent, bossUGController.gameObject);
 	}
-
+	public override void OnExit()
+	{
+		bossUGController.RandomizeAbilityIdx();
+	}
 	private List<HexCellComponent> GetTargetCell()
 	{
 		List<HexCellComponent> cellsList = BattleManager.Instance.hexgrid

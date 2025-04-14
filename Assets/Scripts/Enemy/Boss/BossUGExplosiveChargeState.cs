@@ -33,6 +33,11 @@ public class BossUGExplosiveChargeState : EnemyBaseState
 			enemyBrain.currentCell.ParentComponent, bossUGController.gameObject);
 	}
 
+	public override void OnExit()
+	{
+		bossUGController.RandomizeAbilityIdx();
+	}
+
 	private HexCellComponent GetTargetCell()
 	{
 		List<HexCellComponent> cellList = BattleManager.Instance.hexgrid

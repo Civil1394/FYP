@@ -20,18 +20,6 @@ public class GridEnemyChase : EnemyBaseState
         Debug.Log("start chase");
     }
 
-    public override void OnExit()
-    {
-    }
-
-    public override void Update()
-    {
-    }
-
-    public override void FixedUpdate()
-    {
-    }
-
     public override void TurnAction()
     {
         if (path == null) return;

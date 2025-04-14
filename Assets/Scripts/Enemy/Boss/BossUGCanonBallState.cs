@@ -29,6 +29,7 @@ public class BossUGCanonBallState : EnemyBaseState
 			isTurnComplete = true;
 			return;
 		}
+		progress++;
 		HexDirection dir =
 			BattleManager.Instance.hexgrid.GetFuzzyHexDirectionBy2Cell(bossUGController.currentCell.ParentComponent,
 				BattleManager.Instance.PlayerCell);
@@ -45,6 +46,10 @@ public class BossUGCanonBallState : EnemyBaseState
 			dir -= Random.Range(1, 2);
 		}
 		bossUGController.Move(bossUGController.currentCell.GetNeighbor(dir));
+	}
+	public override void OnExit()
+	{
+		bossUGController.RandomizeAbilityIdx();
 	}
 }
 

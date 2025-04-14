@@ -499,7 +499,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3769733371473473749}
-  - component: {fileID: 2092199131291521800}
   - component: {fileID: 517734194789252107}
   - component: {fileID: -6313553018507609414}
   - component: {fileID: 5997077565646246563}
@@ -529,32 +528,6 @@ Transform:
   - {fileID: 1221898866827648540}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2092199131291521800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8687973385347451744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a8005f2ed1c09041baf9101e40467ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyConfig: {fileID: 11400000, guid: 69b89e0a2def3724c987bb17c4d32eb8, type: 2}
-  playerDetector: {fileID: 0}
-  enemyActor: {fileID: -6313553018507609414}
-  currentCoord: {x: 0, y: 0, z: 0}
-  currentCell:
-    ID: 
-    Coordinates: {x: 0, y: 0, z: 0}
-    cellType: 0
-    cellActionType: 0
-  playerGrid: {fileID: 0}
-  attackTargetGrid: {fileID: 0}
-  gPath: []
-  mColor: {r: 0, g: 0, b: 0, a: 0}
-  isAttacking: 0
 --- !u!114 &517734194789252107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,9 +540,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021ab51b60873f24c8d6cc25edabbbe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyConfig: {fileID: 0}
-  playerDetector: {fileID: 0}
-  enemyActor: {fileID: 0}
+  enemyConfig: {fileID: 11400000, guid: 05649de78cac8fb429f63abc6fa15321, type: 2}
+  playerDetector: {fileID: 2361249848862247845}
+  enemyActor: {fileID: -6313553018507609414}
   currentCoord: {x: 0, y: 0, z: 0}
   currentCell:
     ID: 
@@ -584,6 +557,7 @@ MonoBehaviour:
   explosiveCharge: {fileID: 11400000, guid: 8ca1820676b92f049907c404102f2d4f, type: 2}
   glacialSpread: {fileID: 11400000, guid: 508e71a5d9770274a933dc9fb2268f80, type: 2}
   canonBall: {fileID: 11400000, guid: a383026f4335da6408fc15607aea6d16, type: 2}
+  abilityIdx: 0
 --- !u!114 &-6313553018507609414
 MonoBehaviour:
   m_ObjectHideFlags: 0

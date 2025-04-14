@@ -31,7 +31,7 @@ public class EnemyWaveController : MonoBehaviour
 		while (cnt>0)
 		{
 			Vector2Int pos = GetEnemySpawnPos();
-			EnemyManager.Instance.InstanciateEnemy(pos);
+			EnemyManager.Instance.InstantiateEnemy(pos);
 			cnt--;
 			yield return new WaitForSeconds(waveDuration/enemyCount);
 		}
