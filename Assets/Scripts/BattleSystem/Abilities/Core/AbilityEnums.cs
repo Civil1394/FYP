@@ -7,7 +7,7 @@ public enum AbilityType
 	ProjectileVolley = 1,
 	ParabolaProjectile = 2,
 	ExplosiveCharge = 5,
-	
+	LocationalProjectile = 6,
 	Blast = 10,
 	Dash = 20
 }

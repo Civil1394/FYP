@@ -17,6 +17,8 @@ public static class AbilityExecutorFactory
 				return new ProjectileVolleyAbilityExecutor(abilityData);
 			case AbilityType.Dash:
 				return new DashAbilityExecutor(abilityData);
+			case AbilityType.LocationalProjectile:
+				return new LocationalProjectileAbilityExecuter(abilityData);
 			default:
 				Debug.LogWarning($"No executor implemented for ability type: {abilityData.abilityType}");
 				return null;

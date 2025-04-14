@@ -67,8 +67,6 @@ public class ProjectileActor : DamageActor
                 Debug.LogErrorFormat("{0} is not a valid behavior type.", behaviorType);
                 break;
         }
-        
-        
     }
 
 

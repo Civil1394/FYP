@@ -11,7 +11,7 @@ public partial class AbilityData : ScriptableObject
 	[Header("Type")]
 	public AbilityType abilityType;         
 	
-	[ConditionalField("abilityType", AbilityType.Projectile)]
+	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.LocationalProjectile)]
 	public ProjectileParameter projectileParam;
 	
 	[ConditionalField("abilityType", AbilityType.ProjectileVolley)]
@@ -45,7 +45,7 @@ public partial class AbilityData : ScriptableObject
 	public HexPatternBase AoePattern;
 	
 	[Header("FX")]
-	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.ProjectileVolley,AbilityType.Blast,AbilityType.Dash)]
+	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.ProjectileVolley,AbilityType.Blast,AbilityType.Dash,AbilityType.LocationalProjectile)]
 	public GameObject Object_fx;
 	
 	public AbilityColorType ColorType{

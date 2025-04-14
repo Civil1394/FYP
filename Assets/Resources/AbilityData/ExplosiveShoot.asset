@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
-  m_Name: Dash
+  m_Name: ExplosiveShoot
   m_EditorClassIdentifier: 
-  id: 6
-  abilityType: 20
+  id: 7
+  abilityType: 6
   projectileParam:
     BehaviorType: 0
-    Damage: 0
+    Damage: 10
     TravelSpeed: 0
     LifeTime: 0
     VFX_Height_Offset: {x: 0, y: 3, z: 0}
-    IsSelfDestructOnCollision: 1
+    IsSelfDestructOnCollision: 0
     ParabolaBlastVFX: {fileID: 0}
   projectileVolleyParam:
     ProjectileConfig:
@@ -42,7 +42,7 @@ MonoBehaviour:
     BlastStepCount: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
   dashParam:
-    Damage: 10
+    Damage: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
   explosiveChargeParam:
     Damage: 0
@@ -52,11 +52,10 @@ MonoBehaviour:
   PrerequisiteChargeSteps: 1
   Title: 
   Desc: 
-  Icon: {fileID: 21300000, guid: 10f10c0682266984f9694269028a81e0, type: 3}
+  Icon: {fileID: 21300000, guid: 58ce5409aec0a5b46944c19c9231ff5c, type: 3}
   CastType: 2
-  SelectablePattern: {fileID: 11400000, guid: c5353ecb2ebce4e47b7e3e1af046d01f, type: 2}
+  SelectablePattern: {fileID: 0}
   AoePattern: {fileID: 0}
-  Object_fx: {fileID: 1941226523401448535, guid: 931a0981b63291a4fbf4d358d91afbd0,
-    type: 3}
+  Object_fx: {fileID: 0}
   statusEffectsParam:
     statusEffects: []
