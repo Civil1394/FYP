@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a050d4d414af0d040ba9e38915001584, type: 3}
   m_Name: ExplosiveShoot_HexagonPattern
   m_EditorClassIdentifier: 
-  range: 0
+  range: 5

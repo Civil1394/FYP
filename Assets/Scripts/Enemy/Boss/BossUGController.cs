@@ -4,22 +4,22 @@ using System.Collections;
 
 public class BossUGController : AIBrain
 {
-	private BossUGExplosiveChargeState explosiveChargeState;
+	private BossUGExplosiveShootState explosiveShootState;
 	private BossUGGlacialSpreadState glacialSpreadState;
 	private BossUGCanonBallState canonBallState;
 	private GridEnemyChase chaseState;
 	
-	public AbilityData explosiveCharge;
+	public AbilityData explosiveShoot;
 	public AbilityData glacialSpread;
 	public AbilityData canonBall;
 
-	public int abilityIdx = 1;
+	public int abilityIdx = 2;
 
 	public override void StateInitialization()
 	{
 		chaseState = new GridEnemyChase(this, null, pathFinding);
 		glacialSpreadState = new BossUGGlacialSpreadState(this,null,glacialSpread);
-		explosiveChargeState = new BossUGExplosiveChargeState(this,null,explosiveCharge, 3);
+		explosiveShootState = new BossUGExplosiveShootState(this,null,explosiveShoot, 10);
 		canonBallState = new BossUGCanonBallState(this,null,canonBall,3);
 		stateMachine.AddTransition(chaseState, canonBallState, new FuncPredicate(
 			() => IsPlayerInAttackRange(4) &&//enter canon ball attack range
@@ -41,13 +41,13 @@ public class BossUGController : AIBrain
 			)
 		);
 		
-		stateMachine.AddTransition(chaseState, explosiveChargeState, new FuncPredicate(
+		stateMachine.AddTransition(chaseState, explosiveShootState, new FuncPredicate(
 				() => IsPlayerInAttackRange(4) &&//enter canon ball attack range
 				      abilityIdx == 2
 			)
 		);
-		stateMachine.AddTransition(explosiveChargeState, chaseState, new FuncPredicate(
-				() => explosiveChargeState.isTurnComplete
+		stateMachine.AddTransition(explosiveShootState, chaseState, new FuncPredicate(
+				() => explosiveShootState.isTurnComplete
 			)
 		);
 		stateMachine.SetState(chaseState);

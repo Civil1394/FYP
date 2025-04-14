@@ -18,9 +18,7 @@ public class BossUGCanonBallState : EnemyBaseState
 
 	public override void OnEnter()
 	{
-		
-		//sniperBulletAbilityData.TriggerAbility(CasterType.Enemy,);
-		
+		progress = 0;
 	}
 	public override void TurnAction()
 	{

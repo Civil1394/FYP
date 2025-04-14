@@ -3,24 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class BossUGExplosiveChargeState : EnemyBaseState 
+public class BossUGExplosiveShootState : EnemyBaseState 
 {
-	private AbilityData explosiveChargeAbilityData = null;
+	private AbilityData explosiveShootAbilityData = null;
 	private BossUGController bossUGController;
 	public bool isTurnComplete;
 	private int progress = 0;
 	private int attackCount;
-	public BossUGExplosiveChargeState(AIBrain enemyBrain, Animator animator,
+	public BossUGExplosiveShootState(AIBrain enemyBrain, Animator animator,
 		AbilityData sniperBulletAD, int attackCount) : base(enemyBrain, animator)
 	{
-		explosiveChargeAbilityData = sniperBulletAD;
+		explosiveShootAbilityData = sniperBulletAD;
 		this.bossUGController = enemyBrain as BossUGController;
 		this.attackCount = attackCount-1;
 	}
 
 	public override void OnEnter()
 	{
-		
+		progress = 0;
 	}
 	public override void TurnAction()
 	{
@@ -29,8 +29,10 @@ public class BossUGExplosiveChargeState : EnemyBaseState
 			isTurnComplete = true;
 			return;
 		}
-		explosiveChargeAbilityData.TriggerAbility(CasterType.Enemy, GetTargetCell(),
+		explosiveShootAbilityData.TriggerAbility(CasterType.Enemy, GetTargetCell(),
 			enemyBrain.currentCell.ParentComponent, bossUGController.gameObject);
+		progress++;
+
 	}
 
 	public override void OnExit()
@@ -41,7 +43,7 @@ public class BossUGExplosiveChargeState : EnemyBaseState
 	private HexCellComponent GetTargetCell()
 	{
 		List<HexCellComponent> cellList = BattleManager.Instance.hexgrid
-			.GetCellsInRange(BattleManager.Instance.PlayerCell, 4).ToList();
+			.GetCellsInRange(BattleManager.Instance.PlayerCell, 2).ToList();
 		int randIdx = Random.Range(0, cellList.Count);
 		return cellList[randIdx];
 	}

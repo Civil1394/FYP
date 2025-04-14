@@ -54,8 +54,9 @@ MonoBehaviour:
   Desc: 
   Icon: {fileID: 21300000, guid: 58ce5409aec0a5b46944c19c9231ff5c, type: 3}
   CastType: 2
-  SelectablePattern: {fileID: 0}
+  SelectablePattern: {fileID: 11400000, guid: 0244eb24c2b91c3469f630c5c09e48bb, type: 2}
   AoePattern: {fileID: 0}
-  Object_fx: {fileID: 0}
+  Object_fx: {fileID: 8780727661788297695, guid: 2b2b602744803fc43adcee8e62dfc983,
+    type: 3}
   statusEffectsParam:
     statusEffects: []
