@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public class BossUGController : MonoBehaviour
+public class BossUGController : AIBrain
 {
 	private GridEnemyAttack sniperBulletState;
 	private GridEnemyAttack glacialSpreadState;
@@ -13,13 +13,12 @@ public class BossUGController : MonoBehaviour
 	public AbilityData glacialSpread;
 	public AbilityData canonBall;
 
-	public HexCellComponent standingCell;
 	private void Start()
 	{
 		throw new NotImplementedException();
 	}
 
-	void StateInitialization()
+	public override void StateInitialization()
 	{
 		
 	}

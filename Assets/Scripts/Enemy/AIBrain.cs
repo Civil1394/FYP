@@ -45,11 +45,9 @@ public class AIBrain : MonoBehaviour
         stateMachine = new StateMachine();
         StateInitialization();
         stateMachine.SetState(wanderState);
-
-        InitializeAttackStrategy();
     }
 
-    void StateInitialization()
+    public virtual void  StateInitialization()
     {
         switch (enemyConfig.EnemyStateType)
         {
@@ -212,21 +210,6 @@ public class AIBrain : MonoBehaviour
         stateMachine.OnTurnStart();
         attackDur--;
         //print(attackDur);
-    }
-    private void InitializeAttackStrategy()
-    {
-        switch (enemyConfig.AbilityData.CastType)
-        {
-            case AbilityCastType.Direction_targeted:
-                attackStrategy = new DirectionTargeting(transform, enemyConfig.AttackPrefab,enemyConfig.AbilityData,enemyActor.hourglass);
-                break;
-            // case EnemyData.AttackType.GroundTargetting:
-            //     attackStrategy = new GroundTargeting(transform, enemyConfig.AttackPrefab);
-            //     break;
-            // case EnemyData.AttackType.Dash:
-            //     attackStrategy = new DashAttack(transform, enemyConfig.DashSpeed);
-            //     break;
-        }
     }
     public void Move(HexCell cellToMove)
     {
