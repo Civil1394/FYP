@@ -1,9 +1,11 @@
 ﻿
+using System;
 using UnityEngine;
-using UnityEngine.Serialization;
-
-public abstract class AbilityParameter 
+[Serializable]
+public abstract class AbilityParameter
 {
+	public float Damage;
+	public AbilityColorType abilityColor;
 }
 
 
@@ -21,7 +23,6 @@ public class BlastParameter : AbilityParameter
 public class ProjectileParameter : AbilityParameter
 {
 	public ProjectileBehavior.BehaviorType BehaviorType;
-	public float Damage;
 	[Tooltip("Higher = Faster")]
 	public float TravelSpeed;
 	public float LifeTime;
@@ -56,7 +57,6 @@ public class ProjectileVolleyParameter : AbilityParameter
 [System.Serializable]
 public class ExplosiveChargeParameter : AbilityParameter
 {
-	public float Damage;
 	public float ChargeTime;
 	public int TriggerCount;
 	public float TriggerBetweenDelay;
@@ -65,7 +65,6 @@ public class ExplosiveChargeParameter : AbilityParameter
 [System.Serializable]
 public class DashParameter : AbilityParameter
 {
-	public float Damage;
 	public Vector3 VFX_Height_Offset;
 }
 [System.Serializable]

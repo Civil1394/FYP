@@ -43,9 +43,12 @@ public static class GameConstants
 
 public enum AbilityColorType
 {
-    Violet = 0,
-    Gold = 1,
-    Cyan = 2
+    Maroon = 0,
+    Green = 1,
+    Teal = 2,
+    Navy = 3,
+    Purple = 4,
+    Black = 5
 }
 
 public static class AbilityColorHelper
@@ -54,15 +57,18 @@ public static class AbilityColorHelper
     {
         switch (color)
         {
-            case AbilityColorType.Violet:
-                return HexToColor("#cd00d4"); // Violet
-
-            case AbilityColorType.Gold:
-                return HexToColor("#D4A200"); // Amber / Gold
-
-            case AbilityColorType.Cyan:
-                return HexToColor("#00b4d4"); // Muted Cyan
-
+            case AbilityColorType.Maroon:
+                return HexToColor("#800000"); // Violet
+            case AbilityColorType.Green:
+                return HexToColor("#008000"); // Amber / Gold
+            case AbilityColorType.Teal:
+                return HexToColor("#008080"); // Muted Cyan
+            case AbilityColorType.Navy:
+                return HexToColor("#000080"); // Muted Cyan
+            case AbilityColorType.Purple:
+                return HexToColor("#800080"); // Muted Cyan
+            case AbilityColorType.Black:
+                return HexToColor("#000000"); // Muted Cyan
             default:
                 return Color.white; // Default fallback color
         }

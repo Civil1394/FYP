@@ -69,9 +69,7 @@ public enum CellType
     Empty = 0,
     Player = 1,
     Enemy = 2,
-    Chest = 3,
-    Invalid = 4,
-   
+    Invalid = 3,
 }
 
 public enum CellActionType

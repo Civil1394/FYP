@@ -4912,6 +4912,7 @@ GameObject:
   - component: {fileID: 1941226523401448538}
   - component: {fileID: 1941226523401448537}
   - component: {fileID: 1436797295400702340}
+  - component: {fileID: -7190587971975499795}
   - component: {fileID: 5365597292816779903}
   m_Layer: 0
   m_Name: Projectiles_light
@@ -9825,9 +9826,32 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 1.2425
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &-7190587971975499795
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941226523401448535}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.2
+  m_Height: 10
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &5365597292816779903
 Rigidbody:

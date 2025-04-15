@@ -68,21 +68,24 @@ public partial class AbilityData : ScriptableObject
 
 		if (!isRandom)
 		{
-			ability.ColorType = color ?? (AbilityColorType)Random.Range(0, 3);
+			ability.ColorType = color ?? (AbilityColorType)Random.Range(0, 6);
 		}
 		else
 		{
-			ability.ColorType = (AbilityColorType)Random.Range(0, 3);	
+			ability.ColorType = (AbilityColorType)Random.Range(0, 6);	
 		}
 
 		return ability;
 	}
-	public void TriggerAbility(CasterType casterType, HexCellComponent castCell, HexCellComponent casterStandingCell,GameObject casterObject)
+
+	public void TriggerAbility(CasterType casterType, HexCellComponent castCell, HexCellComponent casterStandingCell,
+		GameObject casterObject)
+
 	{
 		IAbilityExecutor executor = AbilityExecutorFactory.CreateExecutor(this);
 		if (executor != null)
 		{
-			executor.Execute(casterType, castCell, casterStandingCell,casterObject);
+			executor.Execute(casterType, castCell, casterStandingCell, casterObject);
 		}
 		else
 		{

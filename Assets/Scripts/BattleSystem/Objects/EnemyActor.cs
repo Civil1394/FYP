@@ -11,6 +11,7 @@ public class EnemyActor : TimedActor, IDamagable
 	[SerializeField] private HourglassGlobalCanvasAnimator hourglassAnimator;
 	private AIBrain aiBrain;
 	private float currentHealth = 100f;
+	public AbilityColorType abilityColor;
 	public float Health
 	{
 		get { return currentHealth; }

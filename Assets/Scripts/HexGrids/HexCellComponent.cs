@@ -1,5 +1,8 @@
+using DG.Tweening;
 using UnityEngine;
 using TMPro;
+using UnityEditor;
+
 public class HexCellComponent : MonoBehaviour
 {
     public HexCell CellData;
@@ -15,7 +18,10 @@ public class HexCellComponent : MonoBehaviour
     [Header("Debug")]
     public TextMeshProUGUI DebugCoord;
     private Material customCellMat;
+    private bool isTweening = false;
 
+
+    private float originalY;
     public void Initialize(HexCell hexCell)
     {
         CellData = hexCell;
@@ -26,6 +32,7 @@ public class HexCellComponent : MonoBehaviour
         CellData.OnCellTypeChanged += UpdateMaterialColor;
         DebugCoord.text = CellData.Coordinates.ToString();
         DebugManager.Instance.CellsCoordGUI.Add(DebugCoord);
+        originalY = transform.localPosition.y;
     }
 
     private void OnDestroy()
@@ -64,7 +71,6 @@ public class HexCellComponent : MonoBehaviour
                 UpdateCellTypeColor();
                 break;
         }
-
         meshRenderer.material = customCellMat;
     }
 
@@ -85,6 +91,20 @@ public class HexCellComponent : MonoBehaviour
         }
     }
 
+    public void HighLightCell(AbilityColorType abilityColor)
+    {
+        if(isTweening) return;
+        isTweening = true;
+        customCellMat.color = AbilityColorHelper.GetAbilityColor(abilityColor);
+        transform.DOLocalMoveY(2, 0.1f);
+    }
+    public void UnhighLightCell()
+    {
+        if(!isTweening) return;
+        isTweening = false;
+        UpdateMaterialColor();
+        transform.DOLocalMoveY(originalY, 0.1f);
+    }
     public Vector3 CalPosForAction()
     {
         return new Vector3(transform.position.x, 0.9f, transform.position.z);

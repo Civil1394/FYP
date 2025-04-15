@@ -90,4 +90,21 @@ public class ProjectileActor : DamageActor
         OnHitApplyStatusEffect?.Invoke(damagedObject);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Cell"))
+        {
+            print("hit cell");
+            other.GetComponent<HexCellComponent>().HighLightCell(parameter.abilityColor);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Cell"))
+        {
+            other.GetComponent<HexCellComponent>().UnhighLightCell();
+        }
+    }
+    
 }
