@@ -15,17 +15,18 @@ MonoBehaviour:
   id: 6
   abilityType: 20
   projectileParam:
-    BehaviorType: 0
     Damage: 0
+    BehaviorType: 0
     TravelSpeed: 0
     LifeTime: 0
     VFX_Height_Offset: {x: 0, y: 3, z: 0}
     IsSelfDestructOnCollision: 1
     ParabolaBlastVFX: {fileID: 0}
   projectileVolleyParam:
+    Damage: 0
     ProjectileConfig:
-      BehaviorType: 0
       Damage: 0
+      BehaviorType: 0
       TravelSpeed: 0
       LifeTime: 0
       VFX_Height_Offset: {x: 0, y: 3, z: 0}
@@ -52,11 +53,14 @@ MonoBehaviour:
   PrerequisiteChargeSteps: 1
   Title: 
   Desc: 
-  Icon: {fileID: 21300000, guid: 10f10c0682266984f9694269028a81e0, type: 3}
+  Icon: {fileID: 21300000, guid: f135aeb31bdfaf14f93e681871d1cf6d, type: 3}
   CastType: 2
   SelectablePattern: {fileID: 11400000, guid: c5353ecb2ebce4e47b7e3e1af046d01f, type: 2}
   AoePattern: {fileID: 0}
   Object_fx: {fileID: 1941226523401448535, guid: 931a0981b63291a4fbf4d358d91afbd0,
     type: 3}
+  IsRandomColorType: 0
+  ColorType: 2
   statusEffectsParam:
+    Damage: 0
     statusEffects: []

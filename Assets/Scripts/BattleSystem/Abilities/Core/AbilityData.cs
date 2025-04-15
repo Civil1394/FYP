@@ -48,11 +48,10 @@ public partial class AbilityData : ScriptableObject
 	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.ProjectileVolley,AbilityType.Blast,AbilityType.Dash,AbilityType.LocationalProjectile)]
 	public GameObject Object_fx;
 	
-	public AbilityColorType ColorType{
-		get;
-		set;
-	}
-
+	public bool IsRandomColorType;
+	[Header("FX")]
+	[ConditionalField("IsRandomColorType", false)]
+	public AbilityColorType ColorType;
 	
 	/// <summary>
 	/// Creates a new AbilityData instance with a specified color type.
@@ -60,19 +59,14 @@ public partial class AbilityData : ScriptableObject
 	/// <param name="isRandom">If true, selects a random color type.</param>
 	/// <param name="color">Optional: Specifies the ability color. If null, a random color will be chosen.</param>
 	/// <returns>Returns a new instance of AbilityData.</returns>
-	public AbilityData Create(AbilityColorType? color = null)
+	public AbilityData Create()
 	{
 		AbilityData ability = Instantiate(this);
 
-		if (color == null)
-		{
-			ability.ColorType = color ?? (AbilityColorType)Random.Range(0, 6);
-		}
-		else
+		if (IsRandomColorType)
 		{
 			ability.ColorType = (AbilityColorType)Random.Range(0, 6);	
 		}
-
 		return ability;
 	}
 
