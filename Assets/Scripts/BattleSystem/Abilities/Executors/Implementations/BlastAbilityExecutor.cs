@@ -22,7 +22,7 @@ public class BlastAbilityExecutor : AbilityExecutorBase
 		BlastActor blastActor = blastHandlerObject.AddComponent<BlastActor>();
         
 		// Initialize the blast
-		blastActor.InitBlast(casterType, objectFx, parameters, castDirection, casterStandingCell);
+		blastActor.InitBlast(sourceAbility,casterType, objectFx, parameters, castDirection, casterStandingCell);
         
 		// Subscribe to OnHit event to apply hit status effects
 		blastActor.OnHitApplyStatusEffect += (target) => 

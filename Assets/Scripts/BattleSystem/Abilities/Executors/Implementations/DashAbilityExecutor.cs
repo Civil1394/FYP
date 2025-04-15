@@ -25,7 +25,7 @@ public class DashAbilityExecutor : AbilityExecutorBase
             
 		// Initialize projectile
 		DashActor projectileActor = dashObject.AddComponent<DashActor>();
-		projectileActor.InitDash(casterType, parameters, castCell, casterTransform.GetComponent<TimedActor>());
+		projectileActor.InitDash(sourceAbility,casterType, parameters, castCell, casterTransform.GetComponent<TimedActor>());
         
 		// Subscribe to OnHit event to apply hit status effects
 		projectileActor.OnHitApplyStatusEffect += (target) => 

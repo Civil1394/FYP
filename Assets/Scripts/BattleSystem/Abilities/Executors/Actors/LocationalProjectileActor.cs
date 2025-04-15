@@ -5,6 +5,8 @@ using DG.Tweening;
 
 public class LocationalProjectileActor : DamageActor 
 {
+	private AbilityData abilityData;
+
 	private ProjectileParameter parameter;
 	public HexCellComponent CasterCell{get; private set;}
 
@@ -12,8 +14,11 @@ public class LocationalProjectileActor : DamageActor
 
 	public override event Action<GameObject> OnHitApplyStatusEffect;
 
-	public void InitBullet(CasterType casterType, ProjectileParameter parameter, HexCellComponent casterCell, HexCellComponent targetCell)
+	public void InitBullet(AbilityData ad, CasterType casterType, ProjectileParameter parameter,
+		HexCellComponent casterCell, HexCellComponent targetCell)
 	{
+		abilityData = ad;
+
 		this.casterType = casterType;
 		this.gameObject.tag = "DamageActor";
 		this.parameter = parameter;

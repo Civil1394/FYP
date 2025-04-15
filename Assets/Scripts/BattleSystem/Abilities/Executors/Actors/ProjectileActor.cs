@@ -11,13 +11,14 @@ public class ProjectileActor : DamageActor
     public HexDirection TargetDirection { get; set; }
     public float LifeTime { get; private set; }
     public Vector3 height_Offset { get; private set; }
-    
+    private AbilityData abilityData;
     private ProjectileParameter parameter;
     private ProjectileBehavior behavior;
     public override event Action<GameObject> OnHitApplyStatusEffect;
-    public void InitBullet(CasterType casterType, ProjectileParameter parameter, HexDirection castingDirection,
+    public void InitBullet(AbilityData ad, CasterType casterType, ProjectileParameter parameter, HexDirection castingDirection,
         HexCellComponent castDirectionCell, Transform casterObjectTransform)
     {
+        abilityData = ad;
         this.casterType = casterType;
         this.gameObject.tag = "DamageActor";
         this.parameter = parameter;
@@ -95,7 +96,7 @@ public class ProjectileActor : DamageActor
         if (other.CompareTag("Cell"))
         {
             print("hit cell");
-            other.GetComponent<HexCellComponent>().HighLightCell(parameter.abilityColor);
+            other.GetComponent<HexCellComponent>().HighLightCell(abilityData.ColorType);
         }
     }
 

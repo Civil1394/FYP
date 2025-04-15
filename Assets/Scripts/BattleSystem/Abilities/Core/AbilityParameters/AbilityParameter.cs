@@ -5,14 +5,12 @@ using UnityEngine;
 public abstract class AbilityParameter
 {
 	public float Damage;
-	public AbilityColorType abilityColor;
 }
 
 
 [System.Serializable]
 public class BlastParameter : AbilityParameter
 {
-	public float Damage;
 	public int Width;
 	public float BlastStepDelay;
 	public int BlastStepCount;

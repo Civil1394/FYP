@@ -29,7 +29,7 @@ public static class EquippedAbilityManager
 	public static AbilityData CreateAbilityInstance()
 	{
 		var bp = currentDatabase.GetRandomAbilityFromList("2");
-		var newAbilityInstance = bp.Create(bp,true);
+		var newAbilityInstance = bp.Create();
 		if (newAbilityInstance == null)
 		{
 			Debug.LogError("AbilityData is null,fail to create ability instance");
@@ -54,7 +54,7 @@ public static class EquippedAbilityManager
         
 			// Create a new ability and insert it at the same position
 			var bp = currentDatabase.GetRandomAbilityFromList("2");
-			var newAbilityInstance = bp.Create(bp, true);
+			var newAbilityInstance = bp.Create();
         
 			if (newAbilityInstance == null)
 			{
