@@ -14772,7 +14772,7 @@ MonoBehaviour:
   handCardsSize: 2
   EnemyDatabase: {fileID: 11400000, guid: 61e251a700135d5469c5daab6d66bbc2, type: 2}
   IsBattleStarted: 0
-  abilityDatabase: {fileID: 11400000, guid: 20a19216682bd75438107f4ab748eb62, type: 2}
+  abilityDatabase: {fileID: 11400000, guid: ecbc105e026e6ed46b2ec29a65a5c1a2, type: 2}
   _inputHandler: {fileID: 1921585517}
   _multipleCharacterControlSystem: {fileID: 340252433}
   actionExecuted: 0

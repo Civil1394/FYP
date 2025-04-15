@@ -28,7 +28,7 @@ public static class EquippedAbilityManager
 	}
 	public static AbilityData CreateAbilityInstance()
 	{
-		var bp = currentDatabase.GetRandomAbilityFromList("2");
+		var bp = currentDatabase.GetRandomAbilityFromList("main");
 		var newAbilityInstance = bp.Create();
 		if (newAbilityInstance == null)
 		{
@@ -53,7 +53,7 @@ public static class EquippedAbilityManager
 			equippedAbilities.RemoveAt(index);
         
 			// Create a new ability and insert it at the same position
-			var bp = currentDatabase.GetRandomAbilityFromList("2");
+			var bp = currentDatabase.GetRandomAbilityFromList("main");
 			var newAbilityInstance = bp.Create();
         
 			if (newAbilityInstance == null)
