@@ -192,7 +192,7 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
         playerActor.DequeueMoveAction();
         SwitchToShowHudModels(false);
     }
-    private void SwitchToShowHudModels(bool isShow)
+    public void SwitchToShowHudModels(bool isShow)
     {
         //isShowHudModels = !isShowHudModels;
         foreach (var abilityModel in abilityModels)

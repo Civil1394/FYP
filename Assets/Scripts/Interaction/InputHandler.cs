@@ -166,6 +166,8 @@ public class InputHandler : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown(1))
 		{
+			PlayerActionHudController.Instance.SwitchToShowHudModels(true);
+			inputState = InputState.Move;
 			selectedAbilityDirection = HexDirection.NONE;
 		}
 	}
@@ -295,7 +297,7 @@ public class InputHandler : MonoBehaviour
 
 	void OnCtrlSixDirectionKeyPress()
 	{
-		if (inputState == InputState.Move)
+		if (inputState == InputState.Move||!Input.GetKey(KeyCode.LeftControl))
 		{
 			return;
 		}
