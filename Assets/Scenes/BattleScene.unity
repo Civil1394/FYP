@@ -13186,7 +13186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04186952574ff4448bf35a433d9a49f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 517734194789252107, guid: b071bd8d22c7e584ea92a0e20db8bc4a,
+    type: 3}
   spawnCoords:
   - {x: 25, y: 15}
   enemyGroup: {fileID: 651916844}
@@ -14771,7 +14772,7 @@ MonoBehaviour:
   handCardsSize: 2
   EnemyDatabase: {fileID: 11400000, guid: 61e251a700135d5469c5daab6d66bbc2, type: 2}
   IsBattleStarted: 0
-  abilityDatabase: {fileID: 11400000, guid: 8c4fe245a8ecd7149b81ddf403ff3fe5, type: 2}
+  abilityDatabase: {fileID: 11400000, guid: 20a19216682bd75438107f4ab748eb62, type: 2}
   _inputHandler: {fileID: 1921585517}
   _multipleCharacterControlSystem: {fileID: 340252433}
   actionExecuted: 0

@@ -95,9 +95,7 @@ public class ProjectileActor : DamageActor
         if (other.CompareTag("Cell"))
         {
             print("hit cell");
-            AbilityColorType c = AbilityColorTypeInitializer.GetAbilityColorType(parameter.AbilityType);
-            
-            other.GetComponent<HexCellComponent>().HighLightCell(c);
+            other.GetComponent<HexCellComponent>().HighLightCell(parameter.abilityColor);
         }
     }
 

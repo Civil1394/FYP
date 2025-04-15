@@ -16,13 +16,10 @@ public static class EquippedAbilityManager
 		currentDatabase = abilityDatabase;
 		equippedAbilities.Clear();
 	}
-	
+
 	public static void InitEquippedAbilities(int count)
 	{
 		equippedAbilities.Clear();
-		
-		AbilityColorTypeInitializer.InitAbilityColorType();
-		
 		for (int i = 0; i < count; i++)
 		{
 			CreateAbilityInstance();
@@ -31,8 +28,8 @@ public static class EquippedAbilityManager
 	}
 	public static AbilityData CreateAbilityInstance()
 	{
-		var bp = currentDatabase.GetRandomAbilityFromList("main");
-		var newAbilityInstance = bp.Create();
+		var bp = currentDatabase.GetRandomAbilityFromList("2");
+		var newAbilityInstance = bp.Create(bp,true);
 		if (newAbilityInstance == null)
 		{
 			Debug.LogError("AbilityData is null,fail to create ability instance");
@@ -56,8 +53,8 @@ public static class EquippedAbilityManager
 			equippedAbilities.RemoveAt(index);
         
 			// Create a new ability and insert it at the same position
-			var bp = currentDatabase.GetRandomAbilityFromList("main");
-			var newAbilityInstance = bp.Create();
+			var bp = currentDatabase.GetRandomAbilityFromList("2");
+			var newAbilityInstance = bp.Create(bp, true);
         
 			if (newAbilityInstance == null)
 			{
@@ -96,7 +93,7 @@ public static class EquippedAbilityManager
 			return null;
 		}
 	}
-	
+
 
 	
 }
