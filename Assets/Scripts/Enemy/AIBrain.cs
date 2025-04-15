@@ -49,7 +49,7 @@ public class AIBrain : MonoBehaviour
 
     public virtual void  StateInitialization()
     {
-        enemyAbility = enemyConfig.AbilityData.Create(enemyConfig.AbilityData, true);
+        enemyAbility = enemyConfig.AbilityData.Create();
         switch (enemyConfig.EnemyStateType)
         {
             case EnemyData.EnemyType.Berserk:

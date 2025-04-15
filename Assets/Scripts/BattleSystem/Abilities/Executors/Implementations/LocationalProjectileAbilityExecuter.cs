@@ -25,7 +25,7 @@ public class LocationalProjectileAbilityExecuter : AbilityExecutorBase
             
 		// Initialize projectile
 		LocationalProjectileActor projectileActor = bulletObject.AddComponent<LocationalProjectileActor>();
-		projectileActor.InitBullet(casterType, parameters, casterStandingCell, castCell);
+		projectileActor.InitBullet(sourceAbility,casterType, parameters, casterStandingCell, castCell);
         
 		// Subscribe to OnHit event to apply hit status effects
 		projectileActor.OnHitApplyStatusEffect += (target) => 

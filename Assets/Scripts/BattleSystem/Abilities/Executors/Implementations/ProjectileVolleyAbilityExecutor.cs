@@ -52,7 +52,7 @@ public class ProjectileVolleyAbilityExecutor : AbilityExecutorBase
                 Quaternion.identity);
                 
             ProjectileActor projectileComponent = projectileObject.AddComponent<ProjectileActor>();
-            projectileComponent.InitBullet(casterType, parameters.ProjectileConfig, castDirection, spawnCell, casterTransform);
+            projectileComponent.InitBullet(sourceAbility, casterType, parameters.ProjectileConfig, castDirection, spawnCell, casterTransform);
             
             // Subscribe to OnHit event to apply hit status effects
             projectileComponent.OnHitApplyStatusEffect += (target) => 

@@ -60,46 +60,17 @@ public partial class AbilityData : ScriptableObject
 	/// <param name="isRandom">If true, selects a random color type.</param>
 	/// <param name="color">Optional: Specifies the ability color. If null, a random color will be chosen.</param>
 	/// <returns>Returns a new instance of AbilityData.</returns>
-	public AbilityData Create(AbilityData bp, bool isRandom, AbilityColorType? color = null)
+	public AbilityData Create(AbilityColorType? color = null)
 	{
-		if (bp == null) return null;
-		
-		AbilityData ability = Instantiate(bp);
+		AbilityData ability = Instantiate(this);
 
-		if (!isRandom)
+		if (color == null)
 		{
 			ability.ColorType = color ?? (AbilityColorType)Random.Range(0, 6);
 		}
 		else
 		{
 			ability.ColorType = (AbilityColorType)Random.Range(0, 6);	
-		}
-
-		switch (abilityType)
-		{
-			case AbilityType.Projectile:
-				ability.projectileParam.abilityColor = ability.ColorType;
-				break;
-			case AbilityType.ProjectileVolley:
-				ability.projectileVolleyParam.abilityColor = ability.ColorType;
-				break;
-			case AbilityType.ParabolaProjectile:
-				ability.projectileParam.abilityColor = ability.ColorType;
-				break;
-			case AbilityType.ExplosiveCharge:
-				ability.explosiveChargeParam.abilityColor = ability.ColorType;
-				break;
-			case AbilityType.LocationalProjectile:
-				ability.projectileParam.abilityColor = ability.ColorType;
-				break;
-			case AbilityType.Blast:
-				ability.blastParam.abilityColor = ability.ColorType;
-				break;
-			case AbilityType.Dash:
-				ability.dashParam.abilityColor = ability.ColorType;
-				break;
-			default:
-				break;
 		}
 
 		return ability;

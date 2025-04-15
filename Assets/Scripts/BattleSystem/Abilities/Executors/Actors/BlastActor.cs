@@ -6,13 +6,18 @@ public class BlastActor : DamageActor
 {
 	
 	public GameObject BlastVFXObject { get; private set; }
-	
+	private AbilityData abilityData;
+
 	private BlastBehavior behavior;
 	private BlastParameter parameter;
 	
 	public override event Action<GameObject> OnHitApplyStatusEffect;
-	public void InitBlast(CasterType casterType,GameObject blast_VFX_Object,BlastParameter BlastParameter , HexDirection castingDirection, HexCellComponent casterCell)
+
+	public void InitBlast(AbilityData ad, CasterType casterType, GameObject blast_VFX_Object,
+		BlastParameter BlastParameter, HexDirection castingDirection, HexCellComponent casterCell)
 	{
+		abilityData = ad;
+
 		this.casterType = casterType;
 		this.gameObject.name = "BlastActor";
 		this.tag = "DamageActor";

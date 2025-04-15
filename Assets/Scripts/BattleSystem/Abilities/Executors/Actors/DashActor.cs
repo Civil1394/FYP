@@ -4,15 +4,19 @@ using System.Collections;
 
 public class DashActor : DamageActor 
 {
+	private AbilityData abilityData;
+
 	private DashParameter parameter;
 
 	public HexCellComponent TargetCell{get; private set;}
 	public float DashSpeed { get; private set; }
 	public override event Action<GameObject> OnHitApplyStatusEffect;
 
-	public void InitDash(CasterType casterType, DashParameter parameter, HexCellComponent targetCell,
+	public void InitDash(AbilityData ad, CasterType casterType, DashParameter parameter, HexCellComponent targetCell,
 		TimedActor casterActor)
 	{
+		abilityData = ad;
+
 		this.casterType = casterType;
 		this.gameObject.tag = "DamageActor";
 		this.parameter = parameter;
