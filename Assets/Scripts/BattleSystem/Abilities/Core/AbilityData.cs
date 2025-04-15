@@ -57,52 +57,12 @@ public partial class AbilityData : ScriptableObject
 	/// <summary>
 	/// Creates a new AbilityData instance with a specified color type.
 	/// </summary>
-	/// <param name="isRandom">If true, selects a random color type.</param>
-	/// <param name="color">Optional: Specifies the ability color. If null, a random color will be chosen.</param>
-	/// <returns>Returns a new instance of AbilityData.</returns>
-	public AbilityData Create(AbilityData bp, bool isRandom, AbilityColorType? color = null)
+	public AbilityData Create()
 	{
-		if (bp == null) return null;
-		
-		AbilityData ability = Instantiate(bp);
+		AbilityData instance = Instantiate(this);
 
-		if (!isRandom)
-		{
-			ability.ColorType = color ?? (AbilityColorType)Random.Range(0, 6);
-		}
-		else
-		{
-			ability.ColorType = (AbilityColorType)Random.Range(0, 6);	
-		}
-
-		switch (abilityType)
-		{
-			case AbilityType.Projectile:
-				ability.projectileParam.abilityColor = ability.ColorType;
-				break;
-			case AbilityType.ProjectileVolley:
-				ability.projectileVolleyParam.abilityColor = ability.ColorType;
-				break;
-			case AbilityType.ParabolaProjectile:
-				ability.projectileParam.abilityColor = ability.ColorType;
-				break;
-			case AbilityType.ExplosiveCharge:
-				ability.explosiveChargeParam.abilityColor = ability.ColorType;
-				break;
-			case AbilityType.LocationalProjectile:
-				ability.projectileParam.abilityColor = ability.ColorType;
-				break;
-			case AbilityType.Blast:
-				ability.blastParam.abilityColor = ability.ColorType;
-				break;
-			case AbilityType.Dash:
-				ability.dashParam.abilityColor = ability.ColorType;
-				break;
-			default:
-				break;
-		}
-
-		return ability;
+		instance.ColorType = AbilityColorTypeInitializer.GetAbilityColorType(abilityType);
+		return instance;
 	}
 
 	public void TriggerAbility(CasterType casterType, HexCellComponent castCell, HexCellComponent casterStandingCell,

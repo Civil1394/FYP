@@ -4,8 +4,8 @@ using UnityEngine;
 [Serializable]
 public abstract class AbilityParameter
 {
+	public abstract AbilityType AbilityType { get; }
 	public float Damage;
-	public AbilityColorType abilityColor;
 }
 
 
@@ -17,6 +17,7 @@ public class BlastParameter : AbilityParameter
 	public float BlastStepDelay;
 	public int BlastStepCount;
 	public Vector3 VFX_Height_Offset;
+	public override AbilityType AbilityType { get => AbilityType.Blast; }
 }
 
 [System.Serializable]
@@ -33,6 +34,8 @@ public class ProjectileParameter : AbilityParameter
 
 	[ConditionalField("BehaviorType", ProjectileBehavior.BehaviorType.Parabola)]
 	public GameObject ParabolaBlastVFX;
+
+	public override AbilityType AbilityType { get => AbilityType.Projectile; }
 }
 
 [System.Serializable]
@@ -52,6 +55,8 @@ public class ProjectileVolleyParameter : AbilityParameter
 
 	[Tooltip("Delay between each cast of the volley")]
 	public float DelayBetweenBurst = 0f;
+
+	public override AbilityType AbilityType { get => AbilityType.ProjectileVolley; }
 }
 
 [System.Serializable]
@@ -60,16 +65,18 @@ public class ExplosiveChargeParameter : AbilityParameter
 	public float ChargeTime;
 	public int TriggerCount;
 	public float TriggerBetweenDelay;
+	public override AbilityType AbilityType { get => AbilityType.ExplosiveCharge; }
 }
 
 [System.Serializable]
 public class DashParameter : AbilityParameter
 {
 	public Vector3 VFX_Height_Offset;
+	public override AbilityType AbilityType { get => AbilityType.Dash; }
 }
 [System.Serializable]
 public class UtilityParameter : AbilityParameter
 {
-	
+	public override AbilityType AbilityType { get => AbilityType.Utility; }
 }
 

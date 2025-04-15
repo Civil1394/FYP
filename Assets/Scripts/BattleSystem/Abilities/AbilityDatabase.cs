@@ -8,7 +8,7 @@ public class AbilityDatabase : ScriptableObject
 	[System.Serializable]
 	public class AbilityList
 	{
-		public string listName;
+		public string listName = "main";
 		public List<AbilityData> abilities;
 	}
 

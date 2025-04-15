@@ -28,6 +28,7 @@ public class StatusEffectsParameter : AbilityParameter
 {
     //list of the the applicable status effect of the ability
 	public List<StatusApplicationParameter> statusEffects = new List<StatusApplicationParameter>();
+    public override AbilityType AbilityType { get; }
 }
 
 //Extension Methods for Abilitydata
