@@ -22,7 +22,8 @@ public static class EquippedAbilityManager
 		equippedAbilities.Clear();
 		for (int i = 0; i < count; i++)
 		{
-			equippedAbilities.Add(CreateAbilityInstance());
+			CreateAbilityInstance();
+			//equippedAbilities.Add(CreateAbilityInstance());
 		}
 	}
 	public static AbilityData CreateAbilityInstance()

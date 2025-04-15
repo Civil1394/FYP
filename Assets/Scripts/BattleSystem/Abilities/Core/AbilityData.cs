@@ -75,6 +75,33 @@ public partial class AbilityData : ScriptableObject
 			ability.ColorType = (AbilityColorType)Random.Range(0, 6);	
 		}
 
+		switch (abilityType)
+		{
+			case AbilityType.Projectile:
+				ability.projectileParam.abilityColor = ability.ColorType;
+				break;
+			case AbilityType.ProjectileVolley:
+				ability.projectileVolleyParam.abilityColor = ability.ColorType;
+				break;
+			case AbilityType.ParabolaProjectile:
+				ability.projectileParam.abilityColor = ability.ColorType;
+				break;
+			case AbilityType.ExplosiveCharge:
+				ability.explosiveChargeParam.abilityColor = ability.ColorType;
+				break;
+			case AbilityType.LocationalProjectile:
+				ability.projectileParam.abilityColor = ability.ColorType;
+				break;
+			case AbilityType.Blast:
+				ability.blastParam.abilityColor = ability.ColorType;
+				break;
+			case AbilityType.Dash:
+				ability.dashParam.abilityColor = ability.ColorType;
+				break;
+			default:
+				break;
+		}
+
 		return ability;
 	}
 
