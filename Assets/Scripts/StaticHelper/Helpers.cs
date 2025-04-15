@@ -58,17 +58,17 @@ public static class AbilityColorHelper
         switch (color)
         {
             case AbilityColorType.Maroon:
-                return HexToColor("#800000"); // Violet
+                return HexToColor("#FF8080"); // Violet
             case AbilityColorType.Green:
-                return HexToColor("#008000"); // Amber / Gold
+                return HexToColor("#80FF80"); // Amber / Gold
             case AbilityColorType.Teal:
-                return HexToColor("#008080"); // Muted Cyan
+                return HexToColor("#80FFFF"); // Muted Cyan
             case AbilityColorType.Navy:
-                return HexToColor("#000080"); // Muted Cyan
+                return HexToColor("#8080FF"); // Muted Cyan
             case AbilityColorType.Purple:
-                return HexToColor("#800080"); // Muted Cyan
+                return HexToColor("#FF80FF"); // Muted Cyan
             case AbilityColorType.Black:
-                return HexToColor("#000000"); // Muted Cyan
+                return HexToColor("#FFFFFF"); // Muted Cyan
             default:
                 return Color.white; // Default fallback color
         }
