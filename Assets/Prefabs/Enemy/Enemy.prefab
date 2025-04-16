@@ -583,6 +583,7 @@ MonoBehaviour:
   hitVFX: {fileID: 1835174905073365006, guid: 1d7489525a7b07049bd0e89eac948c6b, type: 3}
   objectCollider: {fileID: 0}
   hourglassAnimator: {fileID: 5979856810094154544}
+  abilityColor: 0
   HealthText: {fileID: 38521961521666007}
 --- !u!136 &5997077565646246563
 CapsuleCollider:
@@ -809,7 +810,7 @@ PrefabInstance:
     - target: {fileID: 901698780807185004, guid: 332c13a7f60b80643bd003a13cdbba9a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 901698780807185004, guid: 332c13a7f60b80643bd003a13cdbba9a,
         type: 3}
@@ -830,39 +831,47 @@ PrefabInstance:
         type: 3}
       propertyPath: sand
       value: 
-      objectReference: {fileID: 1771622303774950927}
+      objectReference: {fileID: 0}
     - target: {fileID: 2480799137496571789, guid: 332c13a7f60b80643bd003a13cdbba9a,
         type: 3}
       propertyPath: hourGlass
       value: 
-      objectReference: {fileID: 8940300562761682641}
+      objectReference: {fileID: 0}
     - target: {fileID: 3496788213973212218, guid: 332c13a7f60b80643bd003a13cdbba9a,
         type: 3}
       propertyPath: m_Name
       value: GlobalCanvasHourGlass
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340665133507566296, guid: 332c13a7f60b80643bd003a13cdbba9a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747567683124593366, guid: 332c13a7f60b80643bd003a13cdbba9a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747567683124593366, guid: 332c13a7f60b80643bd003a13cdbba9a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6706077934737873850, guid: 332c13a7f60b80643bd003a13cdbba9a,
         type: 3}
       propertyPath: m_Name
       value: HourglassDisplayer
       objectReference: {fileID: 0}
+    - target: {fileID: 7496022384833628850, guid: 332c13a7f60b80643bd003a13cdbba9a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 332c13a7f60b80643bd003a13cdbba9a, type: 3}
---- !u!114 &1771622303774950927 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7496022384833628850, guid: 332c13a7f60b80643bd003a13cdbba9a,
-    type: 3}
-  m_PrefabInstance: {fileID: 8111310299770440893}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5979856810094154544 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2480799137496571789, guid: 332c13a7f60b80643bd003a13cdbba9a,

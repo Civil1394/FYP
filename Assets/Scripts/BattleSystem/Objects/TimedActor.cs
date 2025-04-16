@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using RainbowArt.CleanFlatUI;
 public abstract class TimedActor : MonoBehaviour
 {
     public Hourglass hourglass = null;
@@ -19,6 +20,7 @@ public abstract class TimedActor : MonoBehaviour
     
     [SerializeField] private bool startTimerOnAwake = true;
     [SerializeField] private TMP_Text actorHourglassData;
+    [SerializeField] private ProgressBarAuto progressBar;
     protected ObjectStatusEffectManager statusManager;
     
     #region Events
@@ -38,6 +40,8 @@ public abstract class TimedActor : MonoBehaviour
         ActionCooldown = this.hourglass.Sand;
         hourglass.IsOccupied = true;
         CheckTimerStatus();
+        if(progressBar != null) 
+            progressBar.InitLoadSpeed(hourglass.Sand);
     }
     protected virtual void Start()
     {

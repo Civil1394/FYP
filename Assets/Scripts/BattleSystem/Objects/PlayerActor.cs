@@ -6,7 +6,7 @@ public class PlayerActor : TimedActor,IDamagable
 {
 	public GameObject hitVFX;
 	[Header("Player Status")]
-	private float currentHealth = 100f;
+	private float currentHealth = 999f;
 	public float Health
 	{
 		get { return currentHealth; }
@@ -27,8 +27,7 @@ public class PlayerActor : TimedActor,IDamagable
 	private PlayerMovement playerMovement;
 	private ActionLogicHandler actionLogicHandler;
 	private PendingActionVisualizer pendingActionVisualizer;
-
-	private HourglassOnHudAnimator hourglassOnHudAnimator;
+	
 	#region events
 	public event Action<HexDirection> OnPlayerMoved;
 	public event Action<HexDirection> OnPlayerCast;
@@ -46,11 +45,10 @@ public class PlayerActor : TimedActor,IDamagable
 	{
 		base.Start();
 	}
-	public void Init(Hourglass hourglass,HexCellComponent initStandingCell, HourglassOnHudAnimator hourglassAnimator )
+	public void Init(Hourglass hourglass,HexCellComponent initStandingCell)
 	{
 		base.Init(hourglass);
 		this.standingCell = initStandingCell;
-		this.hourglassOnHudAnimator = hourglassAnimator;
 		
 		//Please init equipped abilities list first in the count of slots
 		EquippedAbilityManager.InitEquippedAbilities(GameConstants.AbilitySlotCount);
@@ -70,12 +68,9 @@ public class PlayerActor : TimedActor,IDamagable
 		{
 			//OnTimerStart += _ => QueueMoveAction();
 			OnTimerComplete += ExecutePendingAction;
+			
 		}
-
-		if (hourglassOnHudAnimator != null)
-		{
-			OnTimerStart += hourglassOnHudAnimator.CountTime;
-		}
+		
 		
 		HealthText.text = currentHealth.ToString();
 		
@@ -86,7 +81,7 @@ public class PlayerActor : TimedActor,IDamagable
 		if (hourglass != null)
 		{
 			OnTimerStart -= _ => QueueMoveAction();    
-			OnTimerStart -= hourglassOnHudAnimator.CountTime;
+
 			OnTimerComplete -= ExecutePendingAction;
 		}
 		

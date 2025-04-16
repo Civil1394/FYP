@@ -12,7 +12,6 @@ public class BattleManager : Singleton<BattleManager>
 	[SerializeField] private GameObject playerPrefab;
 	[SerializeField] private List<Vector2Int> playerSpawnCoord = new List<Vector2Int>();
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
-	[SerializeField] private HourglassOnHudAnimator hourglassOnHudAnimator;
 	public PlayerActor PlayerActorInstance;
 	public HexCellComponent PlayerCell;
 	
@@ -112,7 +111,7 @@ public class BattleManager : Singleton<BattleManager>
 			
 			PlayerActor playerActor = newInstance.GetComponent<PlayerActor>();
 			var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
-			playerActor.Init(hg,PlayerCell,hourglassOnHudAnimator);
+			playerActor.Init(hg,PlayerCell);
 			
 			cell.CellData.SetCell(playerActor.gameObject,CellType.Player);
 			playerCamera.Follow = playerActor.transform;
