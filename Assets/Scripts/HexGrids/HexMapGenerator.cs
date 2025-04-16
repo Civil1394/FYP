@@ -76,7 +76,6 @@ public class HexMapGenerator : MonoBehaviour
 
         BattleManager.Instance.hexgrid.Height = c;
         BattleManager.Instance.hexgrid.Width = r;
-        print(BattleManager.Instance.hexgrid.Height+" / "+BattleManager.Instance.hexgrid.Width);
     }
     
     Vector3 GetLeftTopCorner(Mesh mesh, Transform meshTransform)

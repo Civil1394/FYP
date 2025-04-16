@@ -1,18 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Random = UnityEngine.Random;
 
 public class ChestSpawner : MonoBehaviour
 {
 	public enum ChestType
 	{
-		Wood = 0,
-		Steel = 1,
-		Gold = 2,
-		Legend = 3
+		Steel = 0,
+		Gold = 1,
+		Legend = 2
 	}
-	
-	[Range(0,1)] public float woodChestRate;
+	[SerializeField] private GameObject steelChestPrefab;
 	[Range(0,1)] public float steelChestRate;
 	[Range(0,1)] public float goldChestRate;
 	[Range(0,1)] public float legendaryChestRate;
@@ -27,15 +26,13 @@ public class ChestSpawner : MonoBehaviour
 	public Dictionary<Vector2Int, ChestType> GetChestHeatMap(int width, int height)
 	{
 		Dictionary<Vector2Int, ChestType> chestMap = new Dictionary<Vector2Int, ChestType>();
-		float[,] rawChestMap = NoiseSystem.GenerateNoiseMap(width, height, 0.1f);
-		List<Vector2Int> rawChestLocations = NoiseSystem.GetCenterPosition(rawChestMap, 10, 5);
+		List<Vector2Int> rawChestLocations = NoiseSystem.GetPositions(maxChestCount, width, height);
 		foreach (Vector2Int pos in rawChestLocations)
 		{
-			int randValue = (int)Mathf.Floor(Random.value * 100);
+			int randValue = (int)Mathf.Floor(Random.value);
 			if(randValue <= legendaryChestRate) chestMap.Add(pos, ChestType.Legend);
-			else if(randValue<=goldChestRate) chestMap.Add(pos, ChestType.Gold);
-			else if(randValue<=steelChestRate) chestMap.Add(pos, ChestType.Steel);
-			else if(randValue<=woodChestRate) chestMap.Add(pos, ChestType.Wood);
+			else if (randValue <= goldChestRate) chestMap.Add(pos, ChestType.Gold);
+			else if (randValue <= steelChestRate) chestMap.Add(pos, ChestType.Steel);
 		}
 		return chestMap;
 	}
@@ -44,10 +41,14 @@ public class ChestSpawner : MonoBehaviour
 	{
 		int h = BattleManager.Instance.hexgrid.Height;
 		int w = BattleManager.Instance.hexgrid.Width;
-		print(h+" "+" "+w);
-		foreach (var p in GetChestHeatMap(w, h))
+		Dictionary<Vector2Int, ChestType> chestTypeMap = GetChestHeatMap(w, h);
+		foreach (var p in chestTypeMap)
 		{
+			//should spawn a chest on top of the cell and set the chest type to chest
+			print("Chest spawned");
 			var cell = BattleManager.Instance.hexgrid.GetCellInCoordVector2(p.Key);
+			GameObject tempChest = Instantiate(steelChestPrefab,cell.transform.position,Quaternion.identity);
+			tempChest.transform.SetParent(transform);
 			cell.CellData.SetGuiType(CellActionType.Chest);
 		}
 	}
