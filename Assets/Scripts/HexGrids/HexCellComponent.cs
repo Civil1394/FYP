@@ -23,7 +23,6 @@ public class HexCellComponent : MonoBehaviour
     private bool isTweening = false;
 
 
-    private float originalY;
     public void Initialize(HexCell hexCell)
     {
         CellData = hexCell;
@@ -34,7 +33,6 @@ public class HexCellComponent : MonoBehaviour
         CellData.OnCellTypeChanged += UpdateMaterialColor;
         DebugCoord.text = CellData.Coordinates.ToString();
         DebugManager.Instance.CellsCoordGUI.Add(DebugCoord);
-        originalY = transform.localPosition.y;
 
         // //hardcode duplicate
         underlyingMaterial = new Material(customCellMat);
@@ -109,14 +107,14 @@ public class HexCellComponent : MonoBehaviour
         isTweening = true;
         print(abilityColor.ToString());
         underlyingMaterial.DOColor(AbilityColorHelper.GetAbilityColor(abilityColor),0.1f);
-        underlyingCell.transform.DOLocalMoveY(2, 0.1f);
+        underlyingCell.transform.DOLocalMoveY(1, 0.1f);
     }
     public void UnhighLightCell()
     {
         if(!isTweening) return;
         isTweening = false;
         underlyingMaterial.DOColor(Color.clear, 0.1f);
-        underlyingCell.transform.DOLocalMoveY(originalY, 0.1f);
+        underlyingCell.transform.DOLocalMoveY(0, 0.1f);
     }
     public Vector3 CalPosForAction()
     {
