@@ -18,19 +18,21 @@ public class BossUGGlacialSpreadState : EnemyBaseState
 
 	public override void OnEnter()
 	{
+		isTurnComplete = false;
 		cells = GetTargetCell();
+		progress = cells.Count - 1;
 		//sniperBulletAbilityData.TriggerAbility(CasterType.Enemy,);
 
 	}
 	public override void TurnAction()
 	{
-		if (progress >= cells.Count-1)
+		if (progress < 0 || cells[progress].CellData == bossUGController.currentCell)
 		{
 			isTurnComplete = true;
 			return;
 		}
 
-		glacialSpreadAbilityData.TriggerAbility(CasterType.Enemy, cells[progress++],
+		glacialSpreadAbilityData.TriggerAbility(CasterType.Enemy, cells[progress--],
 			bossUGController.currentCell.ParentComponent, bossUGController.gameObject);
 	}
 	public override void OnExit()

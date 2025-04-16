@@ -13,11 +13,12 @@ public class BossUGCanonBallState : EnemyBaseState
 	{
 		canonBallAbilityData = canonBallAD;
 		this.bossUGController = enemyBrain as BossUGController;
-		this.attackCount = attackCount-1;
+		this.attackCount = attackCount;
 	}
 
 	public override void OnEnter()
 	{
+		isTurnComplete = false;
 		progress = 0;
 	}
 	public override void TurnAction()
@@ -27,7 +28,6 @@ public class BossUGCanonBallState : EnemyBaseState
 			isTurnComplete = true;
 			return;
 		}
-		progress++;
 		HexDirection dir =
 			BattleManager.Instance.hexgrid.GetFuzzyHexDirectionBy2Cell(bossUGController.currentCell.ParentComponent,
 				BattleManager.Instance.PlayerCell);
@@ -37,13 +37,20 @@ public class BossUGCanonBallState : EnemyBaseState
 			bossUGController.gameObject);
 		if (Random.Range(-1, 1) > 0)
 		{
-			dir += Random.Range(1, 2);
+			dir = (HexDirection)(((int)dir + 2) % 6);
 		}
 		else
 		{
-			dir -= Random.Range(1, 2);
+			dir = (HexDirection)(((int)dir - 2) % 6);
 		}
+
+		while((int)dir<0)
+		{
+			dir += 6;
+		}
+		Debug.Log(dir);
 		bossUGController.Move(bossUGController.currentCell.GetNeighbor(dir));
+		progress++;
 	}
 	public override void OnExit()
 	{

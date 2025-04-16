@@ -11,15 +11,16 @@ public class BossUGExplosiveShootState : EnemyBaseState
 	private int progress = 0;
 	private int attackCount;
 	public BossUGExplosiveShootState(AIBrain enemyBrain, Animator animator,
-		AbilityData sniperBulletAD, int attackCount) : base(enemyBrain, animator)
+		AbilityData explosiveShootAD, int attackCount) : base(enemyBrain, animator)
 	{
-		explosiveShootAbilityData = sniperBulletAD;
+		explosiveShootAbilityData = explosiveShootAD;
 		this.bossUGController = enemyBrain as BossUGController;
 		this.attackCount = attackCount-1;
 	}
 
 	public override void OnEnter()
 	{
+		isTurnComplete = false;
 		progress = 0;
 	}
 	public override void TurnAction()

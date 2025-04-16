@@ -34,6 +34,8 @@ public class LocationalProjectileActor : DamageActor
 
 	private void Launch()
 	{
+		var dir = TargetCell.transform.position - transform.position;
+		transform.right = dir;
 		var tempDis = Vector3Int.Distance(CasterCell.CellData.Coordinates, TargetCell.CellData.Coordinates);
 		transform.DOMove(TargetCell.transform.position, 0.2f * tempDis).SetEase(Ease.Linear).OnComplete(()=>Destroy(this.gameObject));
 	}
