@@ -8,7 +8,6 @@ public class EnemyActor : TimedActor, IDamagable
 {
 	public GameObject hitVFX;
 	[SerializeField] CapsuleCollider objectCollider;
-	[SerializeField] private HourglassGlobalCanvasAnimator hourglassAnimator;
 	private AIBrain aiBrain;
 	private float currentHealth = 100f;
 	public AbilityColorType abilityColor;
@@ -21,11 +20,7 @@ public class EnemyActor : TimedActor, IDamagable
 	public override void Init(Hourglass hourglass)
 	{
 		base.Init(hourglass);
-
-		if (hourglass == null)
-		{
-			OnTimerStart += hourglassAnimator.CountTime;
-		}
+		
 		HealthText.text = currentHealth.ToString();
 	}
 
@@ -43,7 +38,7 @@ public class EnemyActor : TimedActor, IDamagable
 
 	private void OnDestroy()
 	{
-		OnTimerStart -= hourglassAnimator.CountTime;
+		
 	}
 
 	protected override void Update()
