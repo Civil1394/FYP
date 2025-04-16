@@ -14,6 +14,8 @@ public class HexCellComponent : MonoBehaviour
     [SerializeField] private Color validAttackRangeColor;
     [SerializeField] private Color objectStandingColor;
 
+    [SerializeField] private GameObject underlyingCell;
+    private Material underlyingMaterial;
     
     [Header("Debug")]
     public TextMeshProUGUI DebugCoord;
@@ -33,6 +35,16 @@ public class HexCellComponent : MonoBehaviour
         DebugCoord.text = CellData.Coordinates.ToString();
         DebugManager.Instance.CellsCoordGUI.Add(DebugCoord);
         originalY = transform.localPosition.y;
+
+        // //hardcode duplicate
+        underlyingMaterial = new Material(customCellMat);
+        underlyingMaterial.color = Color.clear;
+        underlyingCell.GetComponent<MeshRenderer>().material = underlyingMaterial;
+        // underlyingCell = new GameObject("Underlying Mesh", typeof(HexCellMeshGenerator), typeof(MeshRenderer));
+        // underlyingMaterial = new Material(meshRenderer.material);
+        // underlyingCellRenderer = underlyingCell.GetComponent<MeshRenderer>();
+        // underlyingCellRenderer.material = underlyingMaterial;
+        // underlyingCell.transform.SetParent(transform);
     }
 
     private void OnDestroy()
@@ -96,15 +108,15 @@ public class HexCellComponent : MonoBehaviour
         if(isTweening) return;
         isTweening = true;
         print(abilityColor.ToString());
-        customCellMat.color = AbilityColorHelper.GetAbilityColor(abilityColor);
-        transform.DOLocalMoveY(2, 0.1f);
+        underlyingMaterial.DOColor(AbilityColorHelper.GetAbilityColor(abilityColor),0.1f);
+        underlyingCell.transform.DOLocalMoveY(2, 0.1f);
     }
     public void UnhighLightCell()
     {
         if(!isTweening) return;
         isTweening = false;
-        UpdateMaterialColor();
-        transform.DOLocalMoveY(originalY, 0.1f);
+        underlyingMaterial.DOColor(Color.clear, 0.1f);
+        underlyingCell.transform.DOLocalMoveY(originalY, 0.1f);
     }
     public Vector3 CalPosForAction()
     {

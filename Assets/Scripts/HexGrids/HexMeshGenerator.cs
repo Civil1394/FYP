@@ -78,7 +78,11 @@ public class HexCellMeshGenerator : MonoBehaviour
         mesh.triangles = triangles;
         mesh.RecalculateNormals();
 
-        this.GetComponent<MeshCollider>().sharedMesh = mesh;
+        if (this.TryGetComponent(out MeshCollider meshCollider))
+        {
+            meshCollider.sharedMesh = mesh;
+        }
+        //this.GetComponent<MeshCollider>().sharedMesh = mesh;
         return mesh;
     }
 
