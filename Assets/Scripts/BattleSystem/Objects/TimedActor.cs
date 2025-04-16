@@ -20,9 +20,9 @@ public abstract class TimedActor : MonoBehaviour
     
     [SerializeField] private bool startTimerOnAwake = true;
     [SerializeField] private TMP_Text actorHourglassData;
-    [SerializeField] private ProgressBarAuto progressBar;
-    protected ObjectStatusEffectManager statusManager;
+    [SerializeField] private ProgressBarAuto hourglassHalo;
     
+    protected ObjectStatusEffectManager statusManager;
     #region Events
 
     public event Action<float> OnTimerStart;
@@ -40,8 +40,8 @@ public abstract class TimedActor : MonoBehaviour
         ActionCooldown = this.hourglass.Sand;
         hourglass.IsOccupied = true;
         CheckTimerStatus();
-        if(progressBar != null) 
-            progressBar.InitLoadSpeed(hourglass.Sand);
+        if(hourglassHalo != null) hourglassHalo.InitLoadSpeed(hourglass.Sand);
+        else Debug.LogError("TimedActor Halo isn't initialized");
     }
     protected virtual void Start()
     {

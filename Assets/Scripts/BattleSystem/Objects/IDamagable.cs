@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using RainbowArt.CleanFlatUI;
 using TMPro;
 public interface IDamagable
 {

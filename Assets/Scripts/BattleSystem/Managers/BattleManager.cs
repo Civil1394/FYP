@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Cinemachine;
+using RainbowArt.CleanFlatUI;
 using Unity.Mathematics;
 
 public class BattleManager : Singleton<BattleManager>
@@ -12,6 +13,7 @@ public class BattleManager : Singleton<BattleManager>
 	[SerializeField] private GameObject playerPrefab;
 	[SerializeField] private List<Vector2Int> playerSpawnCoord = new List<Vector2Int>();
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
+	[SerializeField] private ProgressBarPattern PlayerHealthBar;
 	public PlayerActor PlayerActorInstance;
 	public HexCellComponent PlayerCell;
 	
@@ -111,7 +113,7 @@ public class BattleManager : Singleton<BattleManager>
 			
 			PlayerActor playerActor = newInstance.GetComponent<PlayerActor>();
 			var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
-			playerActor.Init(hg,PlayerCell);
+			playerActor.Init(hg,PlayerCell,PlayerHealthBar);
 			
 			cell.CellData.SetCell(playerActor.gameObject,CellType.Player);
 			playerCamera.Follow = playerActor.transform;

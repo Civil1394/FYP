@@ -1,4 +1,5 @@
 using System;
+using RainbowArt.CleanFlatUI;
 using UnityEngine;
 using TMPro;
 
@@ -11,6 +12,8 @@ public class PlayerActor : TimedActor,IDamagable
 	{
 		get { return currentHealth; }
 	}
+
+	private ProgressBarPattern HealthBar;
 
 	[SerializeField] TMP_Text HealthText;
 
@@ -45,7 +48,7 @@ public class PlayerActor : TimedActor,IDamagable
 	{
 		base.Start();
 	}
-	public void Init(Hourglass hourglass,HexCellComponent initStandingCell)
+	public void Init(Hourglass hourglass,HexCellComponent initStandingCell,ProgressBarPattern initHealthBarPattern)
 	{
 		base.Init(hourglass);
 		this.standingCell = initStandingCell;
@@ -73,7 +76,7 @@ public class PlayerActor : TimedActor,IDamagable
 		
 		
 		HealthText.text = currentHealth.ToString();
-		
+		HealthBar = initHealthBarPattern;
 	}
 
 	private void OnDestroy()

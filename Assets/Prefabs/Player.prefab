@@ -317,7 +317,7 @@ MonoBehaviour:
   ActionCooldownMultiplier: 1
   startTimerOnAwake: 1
   actorHourglassData: {fileID: 6218446944541944780}
-  progressBar: {fileID: 3399861008083348767}
+  hourglassHalo: {fileID: 3399861008083348767}
   hitVFX: {fileID: 1835174905073365006, guid: 1d7489525a7b07049bd0e89eac948c6b, type: 3}
   HealthText: {fileID: 8119235172557658939}
   standingCell: {fileID: 0}
@@ -1032,27 +1032,27 @@ PrefabInstance:
     - target: {fileID: 2483976544937858633, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
       propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2483976544937858633, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
-        type: 3}
-      propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2483976544937858633, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2483976544937858633, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
+        type: 3}
       propertyPath: m_FillAmount
-      value: 0.5343142
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4748610833974306021, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
       propertyPath: currentValue
-      value: 53.43142
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8143132780589765768, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
       propertyPath: m_text
-      value: 53%
+      value: 0%
       objectReference: {fileID: 0}
     - target: {fileID: 8143132780589765768, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}

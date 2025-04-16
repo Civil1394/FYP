@@ -227,7 +227,7 @@ namespace RainbowArt.CleanFlatUI
             // Since we're using Time.deltaTime * 100 in the update,
             // we need to adjust our calculation
             // The formula is: totalValueChange / (durationInSeconds * 100)
-            this.LoadSpeed = totalValueChange / (desiredDuration * 100);
+            loadSpeed = totalValueChange / (desiredDuration * 100);
             
         }
         void UpdateGUI()

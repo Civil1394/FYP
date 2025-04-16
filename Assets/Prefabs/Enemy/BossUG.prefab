@@ -701,11 +701,12 @@ MonoBehaviour:
   ActionCooldownMultiplier: 1
   startTimerOnAwake: 1
   actorHourglassData: {fileID: 488613096571010833}
-  progressBar: {fileID: 5173074527336068260}
+  hourglassHalo: {fileID: 5173074527336068260}
   hitVFX: {fileID: 1835174905073365006, guid: 1d7489525a7b07049bd0e89eac948c6b, type: 3}
   objectCollider: {fileID: 0}
   abilityColor: 0
   HealthText: {fileID: 38521961521666007}
+  HealthBar: {fileID: 908823534494530760}
 --- !u!136 &5997077565646246563
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -880,12 +881,12 @@ PrefabInstance:
     - target: {fileID: 2483976544937858633, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.015686275
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2483976544937858633, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.92156863
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2483976544937858633, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
@@ -895,17 +896,17 @@ PrefabInstance:
     - target: {fileID: 2483976544937858633, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
       propertyPath: m_FillAmount
-      value: 0.27371758
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4748610833974306021, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
       propertyPath: currentValue
-      value: 27.371758
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8143132780589765768, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
       propertyPath: m_text
-      value: 27%
+      value: 0%
       objectReference: {fileID: 0}
     - target: {fileID: 8143132780589765768, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
@@ -1088,7 +1089,7 @@ PrefabInstance:
     - target: {fileID: 1942935287692551405, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
       propertyPath: m_UVRect.x
-      value: 1268.4814
+      value: 1270.4814
       objectReference: {fileID: 0}
     - target: {fileID: 1942935287692551405, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
@@ -1245,6 +1246,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c17037e08cf43fa4ab0f8450658ab013, type: 3}
+--- !u!114 &908823534494530760 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6982091560392125151, guid: c17037e08cf43fa4ab0f8450658ab013,
+    type: 3}
+  m_PrefabInstance: {fileID: 7816442973312472599}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eff0490f8fc521e47b27172542628727, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5212273632156053832 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2606495908852442975, guid: c17037e08cf43fa4ab0f8450658ab013,

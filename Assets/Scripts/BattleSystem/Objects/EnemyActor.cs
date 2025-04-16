@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using RainbowArt.CleanFlatUI;
 using Random = UnityEngine.Random;
 using TMPro;
 
@@ -16,7 +17,7 @@ public class EnemyActor : TimedActor, IDamagable
 		get { return currentHealth; }
 	}
 	[SerializeField] TMP_Text HealthText;
-
+	[SerializeField] ProgressBarPattern HealthBar;
 	public override void Init(Hourglass hourglass)
 	{
 		base.Init(hourglass);
