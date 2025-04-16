@@ -234,7 +234,6 @@ public class PlayerActor : TimedActor,IDamagable
 			{
 				damageActor.DoDamage(TakeDamage, this.gameObject, other.gameObject);
 			}
-
 		}
 	}
 	public void TakeDamage(float damage)

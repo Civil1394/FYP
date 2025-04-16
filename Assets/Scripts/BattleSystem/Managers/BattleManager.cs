@@ -34,6 +34,11 @@ public class BattleManager : Singleton<BattleManager>
 	//InputHandler
 	[SerializeField] private InputHandler _inputHandler;
 	[SerializeField] private MultipleCharacterControlSystem _multipleCharacterControlSystem;
+
+	[Header("DM Related Ref")]
+	[SerializeField]private ChestController chestController;
+	[SerializeField]private EnemyWaveController enemyWaveController;
+	
 	public InputHandler InputHandler
 	{
 		get => _inputHandler;
@@ -144,7 +149,7 @@ public class BattleManager : Singleton<BattleManager>
 		
 		// Set new valid move ranges
 		UpdateValidMoveRange();
-		
+		CheckCellContainChest();
 		//Update Valid cells set of six direction from player
 		hexgrid.UpdatePlayerSixDirCellsSet(PlayerCell);
 		
@@ -170,7 +175,18 @@ public class BattleManager : Singleton<BattleManager>
 			}
 		}
 	}
-	
+
+	public void CheckCellContainChest()
+	{
+		HexCellComponent[] newNearbyCells = hexgrid.GetCellsInRange(hexgrid.GetCellByType(CellType.Player), validMoveRange);
+		foreach (var cell in newNearbyCells)
+		{
+			if (cell.CellData.CellActionType == CellActionType.Chest)
+			{
+				chestController.EnableChestUICanvas(cell.CellData);
+			}
+		}
+	}
 
 }
 

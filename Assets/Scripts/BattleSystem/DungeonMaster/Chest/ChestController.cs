@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.Mathematics;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class ChestSpawner : MonoBehaviour
+public class ChestController : MonoBehaviour
 {
 	public enum ChestType
 	{
@@ -11,6 +11,9 @@ public class ChestSpawner : MonoBehaviour
 		Gold = 1,
 		Legend = 2
 	}
+	[SerializeField] private Canvas ChestUICanvas;
+	[SerializeField] private List<OptionBehaviour> optionBehaviours;
+	public GameObject CurrentChest;
 	[SerializeField] private GameObject steelChestPrefab;
 	[Range(0,1)] public float steelChestRate;
 	[Range(0,1)] public float goldChestRate;
@@ -21,6 +24,10 @@ public class ChestSpawner : MonoBehaviour
 	private void Start()
 	{
 		SpawnChest();
+		foreach (var ob in optionBehaviours)
+		{
+			ob.btn.onClick.AddListener(DisableChestUICanvas);
+		}
 	}
 
 	public Dictionary<Vector2Int, ChestType> GetChestHeatMap(int width, int height)
@@ -50,6 +57,34 @@ public class ChestSpawner : MonoBehaviour
 			GameObject tempChest = Instantiate(steelChestPrefab,cell.transform.position,Quaternion.identity);
 			tempChest.transform.SetParent(transform);
 			cell.CellData.SetGuiType(CellActionType.Chest);
+			cell.CellData.SetCell(tempChest, CellType.Invalid);
 		}
+	}
+
+	void RandomizeOption()
+	{
+		foreach (var ob in optionBehaviours)
+		{
+			//ob.Set();
+		}
+	}
+	
+	public void EnableChestUICanvas(HexCell chestCell)
+	{
+		//pause the game time
+		CurrentChest = chestCell.StandingGameObject;
+		chestCell.SetCell(null, CellType.Empty);
+		ChestUICanvas.gameObject.SetActive(true);
+		RandomizeOption();
+		Time.timeScale = 0.1f;
+	}
+
+	public void DisableChestUICanvas()
+	{
+		//resume the game time
+		Destroy(CurrentChest);
+		CurrentChest = null;
+		ChestUICanvas.gameObject.SetActive(false);
+		Time.timeScale = 1;
 	}
 }
