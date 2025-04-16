@@ -19,8 +19,10 @@ namespace RainbowArt.CleanFlatUI
         SerializedProperty patternRect;
         SerializedProperty patternPlay;
         SerializedProperty patternSpeed;
+        SerializedProperty basePatternSpeed;
         SerializedProperty patternForward;
         SerializedProperty patternScale;
+        SerializedProperty basePatternScale;
         SerializedProperty hasText;
         SerializedProperty text;
 
@@ -33,8 +35,10 @@ namespace RainbowArt.CleanFlatUI
             patternRect = serializedObject.FindProperty("patternRect");
             patternPlay = serializedObject.FindProperty("patternPlay");
             patternSpeed = serializedObject.FindProperty("patternSpeed");
+            basePatternSpeed = serializedObject.FindProperty("basePatternSpeed");
             patternForward = serializedObject.FindProperty("patternForward");
             patternScale = serializedObject.FindProperty("patternScale");
+            basePatternScale = serializedObject.FindProperty("basePatternScale");
             hasText = serializedObject.FindProperty("hasText");
             text = serializedObject.FindProperty("text");    
         }
@@ -51,8 +55,10 @@ namespace RainbowArt.CleanFlatUI
             EditorGUILayout.PropertyField(patternPlay);
             if(patternPlay.boolValue == true)
             {
+                EditorGUILayout.PropertyField(basePatternSpeed);
                 EditorGUILayout.PropertyField(patternSpeed);
                 EditorGUILayout.PropertyField(patternForward);
+                EditorGUILayout.PropertyField(basePatternScale);
                 EditorGUILayout.PropertyField(patternScale);
             }
             EditorGUILayout.Separator();

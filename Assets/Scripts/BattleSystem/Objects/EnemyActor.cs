@@ -10,19 +10,31 @@ public class EnemyActor : TimedActor, IDamagable
 	public GameObject hitVFX;
 	[SerializeField] CapsuleCollider objectCollider;
 	private AIBrain aiBrain;
-	private float currentHealth = 100f;
 	public AbilityColorType abilityColor;
-	public float Health
+	
+	[Header("IDamagable References")]
+	private float currentHealth = 100f;
+	public float CurrentHealth
 	{
-		get { return currentHealth; }
+		get => currentHealth;
 	}
+	private float maxHealth = 100f;
+
+	public float MaxHealth
+	{
+		get => maxHealth; 
+		set => maxHealth = value;
+	}
+	
 	[SerializeField] TMP_Text HealthText;
 	[SerializeField] ProgressBarPattern HealthBar;
 	public override void Init(Hourglass hourglass)
 	{
 		base.Init(hourglass);
 		
+		currentHealth = maxHealth;
 		HealthText.text = currentHealth.ToString();
+		HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
 	}
 
 	public void ExecuteDash(HexCellComponent targetCell)
@@ -82,6 +94,7 @@ public class EnemyActor : TimedActor, IDamagable
 	{
 		currentHealth -= damage;
 		HealthText.text = currentHealth.ToString();
+		HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
 		Instantiate(hitVFX, transform.position, Quaternion.identity);
 		DeathCheck();
 	}
@@ -89,6 +102,12 @@ public class EnemyActor : TimedActor, IDamagable
 	public void HandleStatusEffectDamage(float damage)
 	{
 		TakeDamage(damage);
+	}
+
+	public float CalHealthBarGUIMultiplier()
+	{
+		float mult = MaxHealth/CurrentHealth;
+		return mult;
 	}
 
 	protected override void DeathCheck()

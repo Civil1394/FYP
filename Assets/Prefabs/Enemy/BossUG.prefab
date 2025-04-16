@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 1959054367296300163}
   - component: {fileID: 4978975839225640222}
   m_Layer: 0
-  m_Name: WorldCanvas (1)
+  m_Name: NonBillBoardWorldCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -368,7 +368,7 @@ GameObject:
   - component: {fileID: 3037682974649036991}
   - component: {fileID: 6313094651578510533}
   m_Layer: 0
-  m_Name: WorldCanvas
+  m_Name: BillBoardWorldCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1089,7 +1089,7 @@ PrefabInstance:
     - target: {fileID: 1942935287692551405, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
       propertyPath: m_UVRect.x
-      value: 1270.4814
+      value: 1276.5941
       objectReference: {fileID: 0}
     - target: {fileID: 1942935287692551405, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
@@ -1099,7 +1099,7 @@ PrefabInstance:
     - target: {fileID: 2606495908852442944, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
       propertyPath: m_Name
-      value: ProgressbarPattern_BasicComplex
+      value: HPBar
       objectReference: {fileID: 0}
     - target: {fileID: 2606495908852442975, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
@@ -1144,12 +1144,12 @@ PrefabInstance:
     - target: {fileID: 2606495908852442975, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.01
+      value: 0.015
       objectReference: {fileID: 0}
     - target: {fileID: 2606495908852442975, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.01
+      value: 0.015
       objectReference: {fileID: 0}
     - target: {fileID: 2606495908852442975, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
@@ -1219,11 +1219,31 @@ PrefabInstance:
     - target: {fileID: 2606495908852442975, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2606495909522940459, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
       propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2606495909560275070, guid: c17037e08cf43fa4ab0f8450658ab013,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.18431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 2606495909560275070, guid: c17037e08cf43fa4ab0f8450658ab013,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2606495909560275070, guid: c17037e08cf43fa4ab0f8450658ab013,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2606495909560275070, guid: c17037e08cf43fa4ab0f8450658ab013,
+        type: 3}
+      propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2606495909560275070, guid: c17037e08cf43fa4ab0f8450658ab013,
@@ -1240,6 +1260,21 @@ PrefabInstance:
         type: 3}
       propertyPath: patternScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6982091560392125151, guid: c17037e08cf43fa4ab0f8450658ab013,
+        type: 3}
+      propertyPath: patternSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6982091560392125151, guid: c17037e08cf43fa4ab0f8450658ab013,
+        type: 3}
+      propertyPath: basePatternScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6982091560392125151, guid: c17037e08cf43fa4ab0f8450658ab013,
+        type: 3}
+      propertyPath: basePatternSpeed
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

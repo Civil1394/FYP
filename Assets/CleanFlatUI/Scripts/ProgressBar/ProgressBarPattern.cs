@@ -61,12 +61,14 @@ namespace RainbowArt.CleanFlatUI
         [SerializeField]
         bool patternPlay = true;
 
+        [SerializeField] float basePatternSpeed = 1.0f;
         [SerializeField]
         float patternSpeed = 0.5f;
 
         [SerializeField]
         bool patternForward = true;
-        
+
+        [SerializeField] private float basePatternScale  = 1.0f;
         [SerializeField]
         float patternScale = 5;
 
@@ -169,6 +171,8 @@ namespace RainbowArt.CleanFlatUI
 
         void Start()
         {
+            patternSpeed = basePatternSpeed;
+            patternScale = basePatternScale;
             UpdateGUI();
         }
 
@@ -187,7 +191,12 @@ namespace RainbowArt.CleanFlatUI
                 }
             }   
         }
-         
+
+        public void UpdateGUIByHealthMultiplier(float multiplier)
+        {
+            patternSpeed = basePatternSpeed*multiplier;
+            patternScale = basePatternScale*multiplier;
+        }
         void UpdateGUI()
         {            
             UpdateForegroundAndPattern();  

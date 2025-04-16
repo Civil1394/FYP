@@ -89,5 +89,11 @@ public class DebugManager : Singleton<DebugManager>
 	// 		e.TriggerAbility(CasterType.Player,HexDirection.E,BattleManager.Instance.PlayerCell,BattleManager.Instance.gameObject,TimeType.Boost);
 	// 	}
 	// }
+
+	public void DebugPlayerTakeDamage()
+	{
+		var player = FindFirstObjectByType<PlayerActor>();
+		player.TakeDamage(1);
+	}
 }
 

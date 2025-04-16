@@ -7,10 +7,17 @@ public class PlayerActor : TimedActor,IDamagable
 {
 	public GameObject hitVFX;
 	[Header("Player Status")]
-	private float currentHealth = 999f;
-	public float Health
+	private float currentHealth = 100f;
+	public float CurrentHealth
 	{
-		get { return currentHealth; }
+		get => currentHealth;
+	}
+	private float maxHealth = 100f;
+
+	public float MaxHealth
+	{
+		get => maxHealth; 
+		set => maxHealth = value;
 	}
 
 	private ProgressBarPattern HealthBar;
@@ -22,7 +29,6 @@ public class PlayerActor : TimedActor,IDamagable
 	public HexDirection FacingHexDirection;
 	private HexCellComponent facingCell;
 	
-	public bool CanExecuteAction { get; private set; }
 	public IHexPatternHelper attackPattern;
 	
 	[Header("Hourglass trigger config")]
@@ -30,6 +36,10 @@ public class PlayerActor : TimedActor,IDamagable
 	private PlayerMovement playerMovement;
 	private ActionLogicHandler actionLogicHandler;
 	private PendingActionVisualizer pendingActionVisualizer;
+	
+	#region "DebugUse"
+	[SerializeField] bool isInvincible = false;
+	#endregion
 	
 	#region events
 	public event Action<HexDirection> OnPlayerMoved;
@@ -61,7 +71,7 @@ public class PlayerActor : TimedActor,IDamagable
 			actionLogicHandler,
 			_ => { }
 		);
-//direction => ExecuteCastAction(direction)
+
 		if (TryChangeFacingDirection(FacingHexDirection))
 		{ 
 			playerMovement.ChangeFacingDirection(facingCell);
@@ -69,14 +79,14 @@ public class PlayerActor : TimedActor,IDamagable
 		
 		if (hourglass != null)
 		{
-			//OnTimerStart += _ => QueueMoveAction();
 			OnTimerComplete += ExecutePendingAction;
 			
 		}
 		
-		
+		currentHealth = maxHealth;
 		HealthText.text = currentHealth.ToString();
 		HealthBar = initHealthBarPattern;
+		HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
 	}
 
 	private void OnDestroy()
@@ -225,6 +235,7 @@ public class PlayerActor : TimedActor,IDamagable
 
 #region IDamagable implementation
 
+	
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("DamageActor"))
@@ -236,11 +247,22 @@ public class PlayerActor : TimedActor,IDamagable
 			}
 		}
 	}
+	public float CalHealthBarGUIMultiplier()
+	{
+		float mult = maxHealth / currentHealth;
+		return mult;
+	}
 	public void TakeDamage(float damage)
 	{
+		if (isInvincible) return;
 		currentHealth -= damage;
+		
+		//Visual Update
 		HealthText.text = currentHealth.ToString();
+		HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
 		Instantiate(hitVFX, transform.position, Quaternion.identity);
+		CameraEffectManager.Instance.PlayHitReaction();
+		
 		DeathCheck();
 	}
 
