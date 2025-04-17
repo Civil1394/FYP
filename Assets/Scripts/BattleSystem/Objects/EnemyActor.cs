@@ -39,9 +39,9 @@ public class EnemyActor : TimedActor, IDamagable
 		HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
 	}
 
-	public void ExecuteDash(HexCellComponent targetCell)
+	public void ExecuteDash(HexCellComponent targetCell, Action onFinish)
 	{
-		aiBrain.Dash(targetCell.CellData);
+		aiBrain.Dash(targetCell.CellData, onFinish);
 	}
 	protected override void Start()
 	{

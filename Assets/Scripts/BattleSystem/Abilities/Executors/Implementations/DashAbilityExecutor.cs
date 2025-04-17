@@ -24,11 +24,11 @@ public class DashAbilityExecutor : AbilityExecutorBase
 			Quaternion.identity);
             
 		// Initialize projectile
-		DashActor projectileActor = dashObject.AddComponent<DashActor>();
-		projectileActor.InitDash(sourceAbility,casterType, parameters, castCell, casterTransform.GetComponent<TimedActor>());
+		DashActor dashActor = dashObject.AddComponent<DashActor>();
+		dashActor.InitDash(sourceAbility,casterType, parameters, castCell, casterTransform.GetComponent<TimedActor>());
         
 		// Subscribe to OnHit event to apply hit status effects
-		projectileActor.OnHitApplyStatusEffect += (target) => 
+		dashActor.OnHitApplyStatusEffect += (target) => 
 			sourceAbility.ApplyStatusEffects(AbilityStatusApplicationType.OnHit, target);
 	}
 }

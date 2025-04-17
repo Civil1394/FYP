@@ -47,12 +47,12 @@ public class DashActor : DamageActor
 
 	void LaunchEnemy(EnemyActor enemyActor)
 	{
-		enemyActor.ExecuteDash(TargetCell);
+		enemyActor.ExecuteDash(TargetCell, () => Destroy(gameObject));
 	}
 
 	void LaunchPlayer(PlayerActor playerActor)
 	{
-		playerActor.ExecuteDash(TargetCell);
+		playerActor.ExecuteDash(TargetCell, () => Destroy(gameObject));
 	}
 	public override void DoDamage(Action<float> damageAction, GameObject damagedTarget, GameObject source = null)
 	{

@@ -10,12 +10,12 @@ public class HexCellMeshGenerator : MonoBehaviour
     [SerializeField] private float outlineWidth = 0.05f;
     [SerializeField] private Color outlineColor = Color.black;
     [SerializeField] private Material outlineMaterial; // Reference to URP Unlit material
-
+    [SerializeField] private bool isAddOutline = true;
     private void Awake()
     {
         Mesh mesh = GenerateHexMesh();
         GetComponent<MeshFilter>().mesh = mesh;
-        AddOutline(mesh.vertices); // Add outline after generating the mesh
+        if(isAddOutline) AddOutline(mesh.vertices); // Add outline after generating the mesh
     }
     
     private void AddOutline(Vector3[] vertices)

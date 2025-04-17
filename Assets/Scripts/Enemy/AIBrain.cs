@@ -1,6 +1,8 @@
+using System;
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AIBrain : MonoBehaviour
 {
@@ -213,28 +215,32 @@ public class AIBrain : MonoBehaviour
         attackDur--;
         //print(attackDur);
     }
-    public void Move(HexCell cellToMove)
+    public void Move(HexCell cellToMove, Action onFinish = null)
     {
         EnemyManager.Instance.ReleaseCell(this);
         var nextGridPosition = cellToMove.ParentComponent.transform.position;
         Vector3 directionToNextGrid = (nextGridPosition - transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToNextGrid);
-        transform.DOMove(cellToMove.ParentComponent.transform.position, enemyActor.ActionCooldown);
+        Sequence sequence = DOTween.Sequence();
+        sequence.Insert(0, transform.DOMove(cellToMove.ParentComponent.transform.position, enemyActor.ActionCooldown));
+        sequence.Insert(0, transform.DORotateQuaternion(targetRotation, enemyActor.ActionCooldown));
+        sequence.OnComplete(onFinish.Invoke);
         EnemyManager.Instance.OnMove(this, cellToMove.Coordinates);
-        transform.DORotateQuaternion(targetRotation, enemyActor.ActionCooldown);
         currentCoord = cellToMove.Coordinates;
         currentCell = cellToMove;
     }
 
-    public void Dash(HexCell cellToDash)
+    public void Dash(HexCell cellToDash, Action onFinish)
     {
         EnemyManager.Instance.ReleaseCell(this);
         var nextGridPosition = cellToDash.ParentComponent.transform.position;
         Vector3 directionToNextGrid = (nextGridPosition - transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToNextGrid);
-        transform.DOMove(cellToDash.ParentComponent.transform.position, enemyActor.ActionCooldown).SetEase(Ease.InBack);
+        Sequence sequence = DOTween.Sequence();
+        sequence.Insert(0, transform.DOMove(cellToDash.ParentComponent.transform.position, enemyActor.ActionCooldown).SetEase(Ease.InBack));
+        sequence.Insert(0, transform.DORotateQuaternion(targetRotation, enemyActor.ActionCooldown));
+        sequence.OnComplete(onFinish.Invoke);
         EnemyManager.Instance.OnMove(this, cellToDash.Coordinates);
-        transform.DORotateQuaternion(targetRotation, enemyActor.ActionCooldown);
         currentCoord = cellToDash.Coordinates;
         currentCell = cellToDash;
     }

@@ -165,11 +165,15 @@ public class PlayerActor : TimedActor,IDamagable
 		
 	}
 
-	public void ExecuteDash(HexCellComponent targetCell)
+	public void ExecuteDash(HexCellComponent targetCell, Action onFinish)
 	{
 		print("player dash");
 		// Execute the actual movement
-		playerMovement.Dash(targetCell, BattleManager.Instance.CheckCellContainChest);
+		playerMovement.Dash(targetCell, () =>
+		{
+			BattleManager.Instance.CheckCellContainChest();
+			onFinish.Invoke();
+		});
 		BattleManager.Instance.OnPlayerMove(this, standingCell, targetCell);
 		standingCell = targetCell;
 		TryChangeFacingDirection(FacingHexDirection);
