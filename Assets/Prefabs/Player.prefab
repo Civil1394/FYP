@@ -322,7 +322,7 @@ MonoBehaviour:
   HealthText: {fileID: 8119235172557658939}
   standingCell: {fileID: 0}
   FacingHexDirection: 1
-  isInvincible: 0
+  isInvincible: 1
 --- !u!114 &4084432295781431589
 MonoBehaviour:
   m_ObjectHideFlags: 0

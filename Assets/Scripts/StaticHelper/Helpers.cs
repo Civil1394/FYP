@@ -73,6 +73,15 @@ public static class AbilityColorHelper
                 return Color.white; // Default fallback color
         }
     }
+    public static Color DarkenColor(Color color, float darkenFactor = 0.5f)
+    {
+        return new Color(
+            color.r * darkenFactor,
+            color.g * darkenFactor,
+            color.b * darkenFactor,
+            color.a * 0.8f
+        );
+    }
     
 
     private static Color HexToColor(string hex)

@@ -53,7 +53,7 @@ MonoBehaviour:
   PrerequisiteChargeSteps: 1
   Title: 
   Desc: 
-  Icon: {fileID: 21300000, guid: f135aeb31bdfaf14f93e681871d1cf6d, type: 3}
+  Icon: {fileID: 21300000, guid: 434e949ed56311a408108a1ac34aea27, type: 3}
   CastType: 2
   SelectablePattern: {fileID: 11400000, guid: c5353ecb2ebce4e47b7e3e1af046d01f, type: 2}
   AoePattern: {fileID: 0}

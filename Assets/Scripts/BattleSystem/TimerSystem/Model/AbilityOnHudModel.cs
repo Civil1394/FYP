@@ -9,8 +9,17 @@ using Image = UnityEngine.UI.Image;
 
 public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
 {
-    [SerializeField] private Image iconFill;
-    [SerializeField] private Image iconBg;
+    
+    [SerializeField] private Image bgMaskFrame;
+    [SerializeField] private Image bgMaskIcon;
+    
+    [SerializeField] private Image bgFrame;
+    [SerializeField] private Image bgIcon;
+    
+    
+    [SerializeField] private Image fgFrame;
+    [SerializeField] private Image fgIcon;
+    
     [SerializeField] private Button iconButton;
     [SerializeField] private float fillDuration = 0.5f;
 
@@ -37,15 +46,21 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         this.localAbilityData = ad;
         this.direction = hexDirection;
         this.maxChargeStepsCount = ad.PrerequisiteChargeSteps;
-        this.iconFill.sprite = ad.Icon;
-        this.iconBg.sprite = ad.Icon;
+        
+        bgMaskIcon.sprite = ad.Icon;
+        bgIcon.sprite = ad.Icon;
+        fgIcon.sprite = ad.Icon;
 
         Color abilityColor = AbilityColorHelper.GetAbilityColor(ad.ColorType);
-        this.iconFill.color = abilityColor;
-
-        abilityColor.a = 0.5f;
-        this.iconBg.color = abilityColor;
-
+        bgMaskFrame.color = abilityColor;
+        bgMaskIcon.color = abilityColor;
+        fgFrame.color = abilityColor;
+        
+        //transparent and darken for bgbase 
+        Color bgColor = AbilityColorHelper.DarkenColor(abilityColor);
+        bgFrame.color = bgColor;
+        bgIcon.color = bgColor;
+        
         onSelectAbility = OnSelectAbility;
         Reset();
     }
@@ -55,13 +70,6 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         currentZRotation = transform.rotation.z;
         iconButton.onClick.AddListener(OnAbilityUIButtonClick);
     }
-
-    // private void HandleChargeCompletion(Action<HexDirection> fullyChargedCallback)
-    // {
-    //     if (!fullyCharged) return;
-    //     fullyChargedCallback?.Invoke(direction);
-    //     Reset();
-    // }
     void OnAbilityUIButtonClick()
     {
         if (!fullyCharged)
@@ -82,21 +90,40 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         chargedSteps = Math.Clamp(chargedSteps + addOnSteps, 0, maxChargeStepsCount);
         float targetFill = (float)chargedSteps / maxChargeStepsCount;
 
-        DOTween.Kill(iconFill);
-        iconFill.DOFillAmount(targetFill, fillDuration)
+
+        DOTween.Kill(bgMaskIcon);
+        bgMaskIcon.DOFillAmount(targetFill, fillDuration)
             .SetEase(Ease.OutQuad).OnComplete((() =>
             {
-                if (chargedSteps >= maxChargeStepsCount) fullyCharged = true;
-                //HandleChargeCompletion(onSelectAbility);
+                if (chargedSteps >= maxChargeStepsCount)
+                {
+                    fullyCharged = true;
+                    iconButton.interactable = true;
+                }
             }));
+        
+        DOTween.Kill(bgMaskFrame);
+        bgMaskFrame.DOFillAmount(targetFill, fillDuration)
+            .SetEase(Ease.OutQuad).OnComplete((() =>
+            {
+                if (chargedSteps >= maxChargeStepsCount)
+                {
+                    fullyCharged = true;
+                    iconButton.interactable = true;
+                }
+            }));
+        
     }
     #region ChargeSteps
     public void Reset()
     {
         chargedSteps = 0;
-        iconFill.fillAmount = 0;
+        bgMaskFrame.fillAmount = 0;
+        bgMaskIcon.fillAmount = 0;
         fullyCharged = false;
-        DOTween.Kill(iconFill);
+        DOTween.Kill(bgMaskIcon);
+        DOTween.Kill(bgMaskFrame);
+        iconButton.interactable = false;
     }
     
     public int GetChargedSteps()
@@ -109,8 +136,11 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
         chargedSteps = Math.Clamp(steps, 0, maxChargeStepsCount);
         float targetFill = (float)chargedSteps / maxChargeStepsCount;
     
-        DOTween.Kill(iconFill);
-        iconFill.fillAmount = targetFill;
+        DOTween.Kill(bgMaskIcon);
+        DOTween.Kill(bgMaskFrame);
+        
+        bgMaskFrame.fillAmount = targetFill;
+        bgMaskIcon.fillAmount = targetFill;
     
         if (chargedSteps >= maxChargeStepsCount)
             fullyCharged = true;
@@ -119,9 +149,14 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
     {
         fullyCharged = true;
         chargedSteps = maxChargeStepsCount;
-        iconFill.fillAmount = 1.0f;
+        bgMaskFrame.fillAmount = 1.0f;
+        bgMaskIcon.fillAmount = 1.0f;
+        iconButton.interactable = true;
     }
     #endregion
+
+    #region Dragging
+
     public void ShowAttackPattern()
     {
         currentPattern = localAbilityData.SelectablePattern.GetPattern(BattleManager.Instance.PlayerCell.CellData).ToList();
@@ -257,4 +292,6 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
 
         return difference;
     }
+
+    #endregion
 }
