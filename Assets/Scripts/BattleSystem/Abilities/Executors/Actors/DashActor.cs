@@ -4,8 +4,6 @@ using System.Collections;
 
 public class DashActor : DamageActor 
 {
-	private AbilityData abilityData;
-
 	private DashParameter parameter;
 
 	public HexCellComponent TargetCell{get; private set;}

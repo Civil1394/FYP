@@ -142,6 +142,16 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
         abilityModels[(int)movedDirection].NotifyUpdate(1);
     }
 
+    public bool CheckParryCharge(AbilityColorType cType, HexDirection dir)
+    {
+        if(abilityModels[(int)dir] == null) return false;
+        if (abilityModels[(int)dir].localAbilityData.ColorType == cType)
+        {
+            abilityModels[(int)dir].NotifyUpdate(1);
+            return true;
+        }
+        return false;
+    }
     public HexDirection SelectAbility(int inputDirection)
     {
         if (!abilityModels[inputDirection].FullyCharged) return HexDirection.NONE;

@@ -6,7 +6,6 @@ public class BlastActor : DamageActor
 {
 	
 	public GameObject BlastVFXObject { get; private set; }
-	private AbilityData abilityData;
 
 	private BlastBehavior behavior;
 	private BlastParameter parameter;

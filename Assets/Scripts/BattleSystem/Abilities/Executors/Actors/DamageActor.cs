@@ -10,7 +10,8 @@ public abstract class DamageActor : MonoBehaviour
 	public abstract event Action<GameObject> OnHitApplyStatusEffect;
 
 	#endregion
-	
+	public AbilityData abilityData;
+
 	protected CasterType casterType;
 	public CasterType CasterType => casterType;
 	protected float _damage;
@@ -20,6 +21,10 @@ public abstract class DamageActor : MonoBehaviour
 	{
 		_damage = damage;
 	}
-	
+
+	public virtual Type GetActualType()
+	{
+		return null;
+	}
 	public abstract void DoDamage(Action<float> damageAction, GameObject damagedTarget,GameObject source = null);
 }

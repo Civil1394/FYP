@@ -249,6 +249,14 @@ public class PlayerActor : TimedActor,IDamagable
 			var damageActor = other.gameObject.GetComponentInParent<DamageActor>();
 			if (damageActor != null && damageActor.CasterType != CasterType.Player)
 			{
+				HexDirection tempDir =
+					BattleManager.Instance.hexgrid.GetFuzzyHexDirectionByCellAndPosition(standingCell,
+						other.transform.position);
+				if (PlayerActionHudController.Instance.CheckParryCharge(damageActor.abilityData.ColorType, tempDir))
+				{
+					Destroy(other.gameObject);
+					return;
+				}
 				damageActor.DoDamage(TakeDamage, this.gameObject, other.gameObject);
 				Shake();
 			}

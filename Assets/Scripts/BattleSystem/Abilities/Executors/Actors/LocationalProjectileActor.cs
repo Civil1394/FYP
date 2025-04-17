@@ -5,8 +5,6 @@ using DG.Tweening;
 
 public class LocationalProjectileActor : DamageActor 
 {
-	private AbilityData abilityData;
-
 	private ProjectileParameter parameter;
 	public HexCellComponent CasterCell{get; private set;}
 
@@ -37,10 +35,16 @@ public class LocationalProjectileActor : DamageActor
 		var dir = TargetCell.transform.position - transform.position;
 		transform.right = dir;
 		var tempDis = Vector3Int.Distance(CasterCell.CellData.Coordinates, TargetCell.CellData.Coordinates);
-		transform.DOMove(TargetCell.transform.position, 0.2f * tempDis).SetEase(Ease.Linear).OnComplete(()=>Destroy(this.gameObject));
+		TargetCell.HighLightCell(abilityData.ColorType);
+		transform.DOMove(TargetCell.transform.position, 0.05f * tempDis).SetEase(Ease.Linear).OnComplete(()=>Destroy(gameObject));
 	}
 	public override void DoDamage(Action<float> damageAction, GameObject damagedTarget, GameObject source = null)
 	{
 		throw new NotImplementedException();
+	}
+
+	private void OnDestroy()
+	{
+		TargetCell.UnhighLightCell();
 	}
 }
