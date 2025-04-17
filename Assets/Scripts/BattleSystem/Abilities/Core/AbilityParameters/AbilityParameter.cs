@@ -31,6 +31,8 @@ public class ProjectileParameter : AbilityParameter
 
 	[ConditionalField("BehaviorType", ProjectileBehavior.BehaviorType.Parabola)]
 	public GameObject ParabolaBlastVFX;
+
+	public float BlastDamage;
 }
 [System.Serializable]
 public class LocationalProjectileParameter : AbilityParameter

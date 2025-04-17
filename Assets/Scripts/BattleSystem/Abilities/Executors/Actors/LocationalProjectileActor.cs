@@ -45,7 +45,9 @@ public class LocationalProjectileActor : DamageActor
 	}
 	public override void DoDamage(Action<float> damageAction, GameObject damagedTarget, GameObject source = null)
 	{
-		throw new NotImplementedException();
+		damageAction?.Invoke(_damage);
+		Destroy(this);
+		OnHitApplyStatusEffect?.Invoke(damagedTarget);
 	}
 
 	private void OnDestroy()

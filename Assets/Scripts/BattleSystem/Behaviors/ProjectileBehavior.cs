@@ -17,9 +17,9 @@ public abstract class ProjectileBehavior : MonoBehaviour
     protected float speed;
     protected Vector3 height_offset;
     protected float lifeTime;
-    protected GameObject parabolaBlastVFX;
+
     public virtual void Init(ProjectileActor projectileActor, Vector3Int standingPos, HexDirection direction, float speed,
-        Vector3 height_offset, float lifeTime,[CanBeNull] GameObject ParabolaBlastVFX = null)
+        Vector3 height_offset, float lifeTime)
     {
         this.ProjectileActor = projectileActor;
         this.casterCell = BattleManager.Instance.hexgrid.GetCellInCoord(standingPos);
@@ -27,7 +27,6 @@ public abstract class ProjectileBehavior : MonoBehaviour
         this.speed = speed;
         this.height_offset = height_offset;
         this.lifeTime = lifeTime;
-        this.parabolaBlastVFX = ParabolaBlastVFX;
     }
 
     public abstract float UpdateBehavior();
@@ -76,8 +75,17 @@ public class LinearProjectileBehavior : ProjectileBehavior
 
 public class ParabolaProjectileBehavior : ProjectileBehavior
 {
-    public float arcHeight = 20f; 
+    public float arcHeight = 20f;
+    private GameObject parabolaBlastVFX;
+    private float parabolaBlastDamage;
+    private CasterType casterType;
 
+    public void InitParabolaBlast(GameObject vfx, float blastDamage,CasterType casterType)
+    {
+        parabolaBlastVFX = vfx;
+        parabolaBlastDamage = blastDamage;
+        this.casterType = casterType;
+    }
     public override float UpdateBehavior()
     {
         HexCellComponent finalDest = casterCell;
@@ -125,7 +133,10 @@ public class ParabolaProjectileBehavior : ProjectileBehavior
         }
         
         transform.position = end;
-        Instantiate(parabolaBlastVFX, end, Quaternion.identity);
+        GameObject explosiveObject = Instantiate(parabolaBlastVFX, end, Quaternion.identity);
+        var ea = explosiveObject.AddComponent<ExplosiveActor>();
+        ea.Init(parabolaBlastDamage);
+        ea.CasterType = this.casterType;
         Destroy(gameObject);
     }
 }

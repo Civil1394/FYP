@@ -13,15 +13,29 @@ public abstract class DamageActor : MonoBehaviour
 	public AbilityData abilityData;
 
 	protected CasterType casterType;
-	public CasterType CasterType => casterType;
+
+	public CasterType CasterType
+	{
+		get => casterType;
+		set
+		{
+			if(casterType == value)
+			{
+				return;
+			}
+			casterType = value;
+		}
+		
+	}
+
 	protected float _damage;
 	public float Damage => _damage;
 
 	public virtual void Init(float damage)
 	{
 		_damage = damage;
+		this.tag = "DamageActor";
 	}
-
 	public virtual Type GetActualType()
 	{
 		return null;

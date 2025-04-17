@@ -18,11 +18,12 @@ MonoBehaviour:
     Damage: 10
     BehaviorType: 1
     TravelSpeed: 10
-    LifeTime: 6
+    LifeTime: 4
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
     IsSelfDestructOnCollision: 1
     ParabolaBlastVFX: {fileID: 5013878782555061258, guid: a82d8dae73f11944ba1fa3bcbfdc6cda,
       type: 3}
+    BlastDamage: 50
   projectileVolleyParam:
     Damage: 0
     ProjectileConfig:
@@ -33,6 +34,7 @@ MonoBehaviour:
       VFX_Height_Offset: {x: 0, y: 3, z: 0}
       IsSelfDestructOnCollision: 1
       ParabolaBlastVFX: {fileID: 0}
+      BlastDamage: 0
     ProjectilePerBurst: 1
     DelayBetweenProjectiles: 0
     BurstCount: 1
