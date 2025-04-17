@@ -168,6 +168,8 @@ public class InputHandler : MonoBehaviour
 		{
 			PlayerActionHudController.Instance.SwitchToShowHudModels(true);
 			inputState = InputState.Move;
+			if (selectedAbilityDirection == HexDirection.NONE) return;
+			PlayerActionHudController.Instance.UnshowAbilityPreview(selectedAbilityDirection);
 			selectedAbilityDirection = HexDirection.NONE;
 		}
 	}

@@ -32,9 +32,13 @@ public class AbilityPreviewController : MonoBehaviour
 	{
 		foreach (var obj in active)
 		{
-			obj.transform.DOKill();
-			obj.gameObject.SetActive(false);
-			pool.Enqueue(obj);
+			obj.transform.DOMove(playerActor.standingCell.transform.position - Vector3.down, duration)
+				.SetEase(Ease.OutQuad).OnComplete(() =>
+				{
+					obj.transform.DOKill();
+					obj.gameObject.SetActive(false);
+					pool.Enqueue(obj);
+				});
 		}
 		active.Clear();
 	}

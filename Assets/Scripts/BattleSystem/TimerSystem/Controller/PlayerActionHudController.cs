@@ -218,4 +218,9 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
             }
         }
     }
+
+    public void UnshowAbilityPreview(HexDirection direction)
+    {
+        abilityModels[(int)direction].UnshownAttackPattern();
+    }
 }
