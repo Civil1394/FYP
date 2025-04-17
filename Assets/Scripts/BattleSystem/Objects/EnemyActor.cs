@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 using RainbowArt.CleanFlatUI;
 using Random = UnityEngine.Random;
 using TMPro;
@@ -11,7 +12,8 @@ public class EnemyActor : TimedActor, IDamagable
 	[SerializeField] CapsuleCollider objectCollider;
 	private AIBrain aiBrain;
 	public AbilityColorType abilityColor;
-	
+
+	public bool isTweening = false;
 	[Header("IDamagable References")]
 	private float currentHealth = 100f;
 	public float CurrentHealth
@@ -78,6 +80,12 @@ public class EnemyActor : TimedActor, IDamagable
 	
 #region IDamagable implementation
 
+	private void Shake()
+	{
+		if (isTweening)return;
+		isTweening = true;
+		transform.DOShakePosition(0.2f, 1f, 30).OnComplete(() => isTweening = false);
+	}
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("DamageActor"))
@@ -86,8 +94,8 @@ public class EnemyActor : TimedActor, IDamagable
 			if (damageActor != null && damageActor.CasterType != CasterType.Enemy)
 			{
 				damageActor.DoDamage(TakeDamage, this.gameObject,other.gameObject);
+				Shake();
 			}
-
 		}
 	}
 	public void TakeDamage(float damage)
