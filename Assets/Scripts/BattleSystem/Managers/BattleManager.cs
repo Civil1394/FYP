@@ -17,6 +17,9 @@ public class BattleManager : Singleton<BattleManager>
 	public PlayerActor PlayerActorInstance;
 	public HexCellComponent PlayerCell;
 	
+	[Header("Player Cast Action Related Ref")]
+	public AbilityPreviewController abilityPreviewController;
+	
 	[Header("HexGrid Related Ref")]
 	public HexGrid hexgrid = new HexGrid();
 	
@@ -125,6 +128,7 @@ public class BattleManager : Singleton<BattleManager>
 			playerCamera.LookAt = playerActor.transform;
 
 			PlayerActorInstance = playerActor;
+			abilityPreviewController.playerActor = playerActor;
 			//MultipleCharacterControlSystem.charactersActorList.Add(playerActor);
 			hexgrid.UpdatePlayerSixDirCellsSet(PlayerCell);
 		}

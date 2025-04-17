@@ -61,7 +61,7 @@ MonoBehaviour:
   Object_fx: {fileID: 8780727661788297695, guid: 2b2b602744803fc43adcee8e62dfc983,
     type: 3}
   IsRandomColorType: 0
-  ColorType: 0
+  ColorType: 4
   statusEffectsParam:
     Damage: 0
     statusEffects: []

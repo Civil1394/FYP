@@ -160,10 +160,7 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
     public void ShowAttackPattern()
     {
         currentPattern = localAbilityData.SelectablePattern.GetPattern(BattleManager.Instance.PlayerCell.CellData).ToList();
-        foreach (var cell in currentPattern)
-        {
-            cell.SetGuiType(CellActionType.ValidAttackCell);
-        }
+        BattleManager.Instance.abilityPreviewController.Show(currentPattern);
     }
     public void UseAbility(HexDirection abiltyDirection, HexCellComponent castCell)
     {
@@ -177,10 +174,7 @@ public class AbilityOnHudModel : MonoBehaviour, IEndDragHandler, IDragHandler
     
     public void UnshownAttackPattern()
     {
-        foreach (var cell in currentPattern)
-        {
-            cell.SetGuiType(CellActionType.Empty);
-        }
+        BattleManager.Instance.abilityPreviewController.Unshow();
         currentPattern.Clear();
     }
     public void OnEndDrag(PointerEventData eventData)

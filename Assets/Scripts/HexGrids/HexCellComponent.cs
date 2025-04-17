@@ -105,7 +105,6 @@ public class HexCellComponent : MonoBehaviour
     {
         if(isTweening) return;
         isTweening = true;
-        print(abilityColor.ToString());
         underlyingMaterial.DOColor(AbilityColorHelper.GetAbilityColor(abilityColor),0.1f);
         underlyingCell.transform.DOLocalMoveY(1, 0.1f);
     }

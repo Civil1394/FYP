@@ -52,7 +52,6 @@ public class ChestController : MonoBehaviour
 		foreach (var p in chestTypeMap)
 		{
 			//should spawn a chest on top of the cell and set the chest type to chest
-			print("Chest spawned");
 			var cell = BattleManager.Instance.hexgrid.GetCellInCoordVector2(p.Key);
 			GameObject tempChest = Instantiate(steelChestPrefab,cell.transform.position,Quaternion.identity);
 			tempChest.transform.SetParent(transform);
