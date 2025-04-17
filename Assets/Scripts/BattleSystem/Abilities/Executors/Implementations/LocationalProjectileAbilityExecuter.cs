@@ -3,11 +3,11 @@ using System.Collections;
 
 public class LocationalProjectileAbilityExecuter : AbilityExecutorBase 
 {
-	private readonly ProjectileParameter parameters;
+	private readonly LocationalProjectileParameter parameters;
     
 	public LocationalProjectileAbilityExecuter(AbilityData sourceAbility) : base(sourceAbility)
 	{
-		this.parameters = sourceAbility.projectileParam;
+		this.parameters = sourceAbility.locationalProjectileParam;
 	}
     
 	protected override void ExecuteAbilitySpecific(

@@ -22,6 +22,10 @@ MonoBehaviour:
     VFX_Height_Offset: {x: 0, y: 3, z: 0}
     IsSelfDestructOnCollision: 0
     ParabolaBlastVFX: {fileID: 0}
+  locationalProjectileParam:
+    Damage: 10
+    VFX_Height_Offset: {x: 0, y: 1, z: 0}
+    BlastVFX: {fileID: 161422, guid: 822847ee6d8c84e42bd041a4382edc53, type: 3}
   projectileVolleyParam:
     Damage: 0
     ProjectileConfig:

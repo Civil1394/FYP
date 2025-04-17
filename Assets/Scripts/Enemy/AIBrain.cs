@@ -215,7 +215,7 @@ public class AIBrain : MonoBehaviour
         attackDur--;
         //print(attackDur);
     }
-    public void Move(HexCell cellToMove, Action onFinish = null)
+    public void Move(HexCell cellToMove)
     {
         EnemyManager.Instance.ReleaseCell(this);
         var nextGridPosition = cellToMove.ParentComponent.transform.position;
@@ -224,7 +224,6 @@ public class AIBrain : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence.Insert(0, transform.DOMove(cellToMove.ParentComponent.transform.position, enemyActor.ActionCooldown));
         sequence.Insert(0, transform.DORotateQuaternion(targetRotation, enemyActor.ActionCooldown));
-        sequence.OnComplete(onFinish.Invoke);
         EnemyManager.Instance.OnMove(this, cellToMove.Coordinates);
         currentCoord = cellToMove.Coordinates;
         currentCell = cellToMove;

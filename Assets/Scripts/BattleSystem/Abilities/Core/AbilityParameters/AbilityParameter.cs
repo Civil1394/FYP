@@ -32,7 +32,12 @@ public class ProjectileParameter : AbilityParameter
 	[ConditionalField("BehaviorType", ProjectileBehavior.BehaviorType.Parabola)]
 	public GameObject ParabolaBlastVFX;
 }
-
+[System.Serializable]
+public class LocationalProjectileParameter : AbilityParameter
+{
+	public Vector3 VFX_Height_Offset;
+	public GameObject BlastVFX;
+}
 [System.Serializable]
 public class ProjectileVolleyParameter : AbilityParameter
 {

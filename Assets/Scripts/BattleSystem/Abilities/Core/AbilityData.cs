@@ -11,8 +11,11 @@ public partial class AbilityData : ScriptableObject
 	[Header("Type")]
 	public AbilityType abilityType;         
 	
-	[ConditionalField("abilityType", AbilityType.Projectile,AbilityType.LocationalProjectile)]
+	[ConditionalField("abilityType", AbilityType.Projectile)]
 	public ProjectileParameter projectileParam;
+	
+	[ConditionalField("abilityType", AbilityType.LocationalProjectile)]
+	public LocationalProjectileParameter locationalProjectileParam;
 	
 	[ConditionalField("abilityType", AbilityType.ProjectileVolley)]
 	public ProjectileVolleyParameter projectileVolleyParam;
