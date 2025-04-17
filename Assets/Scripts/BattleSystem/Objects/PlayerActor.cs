@@ -155,7 +155,7 @@ public class PlayerActor : TimedActor,IDamagable
 		if (pendingAction?.TargetCell == null) return;
 
 		// Execute the actual movement
-		playerMovement.Move(pendingAction.TargetCell);
+		playerMovement.Move(pendingAction.TargetCell,BattleManager.Instance.CheckCellContainChest);
         
 		// Update cell states
 		UpdateCellsStates();
@@ -169,7 +169,7 @@ public class PlayerActor : TimedActor,IDamagable
 	{
 		print("player dash");
 		// Execute the actual movement
-		playerMovement.Dash(targetCell);
+		playerMovement.Dash(targetCell, BattleManager.Instance.CheckCellContainChest);
 		BattleManager.Instance.OnPlayerMove(this, standingCell, targetCell);
 		standingCell = targetCell;
 		TryChangeFacingDirection(FacingHexDirection);

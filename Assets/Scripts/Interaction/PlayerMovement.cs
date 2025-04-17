@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -16,17 +17,20 @@ public class PlayerMovement : MonoBehaviour
     {
         this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
     }
-    public void Move(HexCellComponent targetCell)
+    public void Move(HexCellComponent targetCell, Action onFinished)
     {
-        transform.DOJump(targetCell.CalPosForAction(), 1f, 1, 0.5f).SetEase(Ease.InOutQuad);
-        //this.transform.DOMove(targetCell.CalPosForAction(), 0.5f);
-        this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
+        Sequence sequence = DOTween.Sequence();
+        sequence.Insert(0, transform.DOJump(targetCell.CalPosForAction(), 1f, 1, 0.5f).SetEase(Ease.InOutQuad));
+        sequence.Insert(0, transform.DOLookAt(targetCell.CalPosForAction(), 0.2f));
+        sequence.OnComplete(onFinished.Invoke);
     }
 
-    public void Dash(HexCellComponent targetCell)
+    public void Dash(HexCellComponent targetCell, Action onFinished)
     {
-        this.transform.DOMove(targetCell.CalPosForAction(), 0.5f).SetEase(Ease.InBack);
-        this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
+        Sequence sequence = DOTween.Sequence();
+        sequence.Insert(0, transform.DOMove(targetCell.CalPosForAction(), 0.5f).SetEase(Ease.InBack));
+        sequence.Insert(0, transform.DOLookAt(targetCell.CalPosForAction(), 0.2f));
+        sequence.OnComplete(onFinished.Invoke);
     }
     void OnDrawGizmos()
     {

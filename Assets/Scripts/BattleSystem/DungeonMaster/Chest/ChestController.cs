@@ -76,7 +76,7 @@ public class ChestController : MonoBehaviour
 		chestCell.SetCell(null, CellType.Empty);
 		ChestUICanvas.gameObject.SetActive(true);
 		RandomizeOption();
-		Time.timeScale = 0.1f;
+		Time.timeScale = 0;
 	}
 
 	public void DisableChestUICanvas()

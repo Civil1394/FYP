@@ -149,7 +149,6 @@ public class BattleManager : Singleton<BattleManager>
 		
 		// Set new valid move ranges
 		UpdateValidMoveRange();
-		CheckCellContainChest();
 		//Update Valid cells set of six direction from player
 		hexgrid.UpdatePlayerSixDirCellsSet(PlayerCell);
 		
