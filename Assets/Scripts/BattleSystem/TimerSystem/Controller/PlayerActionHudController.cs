@@ -210,10 +210,12 @@ public class PlayerActionHudController : Singleton<PlayerActionHudController>
             var c = abilityModel.GetComponent<CanvasGroup>();
             if (isShow)
             {
+                c.interactable = true;
                 c.alpha = 1;
             }
             else
             {
+                c.interactable = false;
                 c.alpha = 0;
             }
         }
