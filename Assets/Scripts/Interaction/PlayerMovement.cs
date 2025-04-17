@@ -18,7 +18,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Move(HexCellComponent targetCell)
     {
-        this.transform.DOMove(targetCell.CalPosForAction(), 0.5f);
+        transform.DOJump(targetCell.CalPosForAction(), 1f, 1, 0.5f).SetEase(Ease.InOutQuad);
+        //this.transform.DOMove(targetCell.CalPosForAction(), 0.5f);
         this.transform.DOLookAt(targetCell.CalPosForAction(), 0.2f);
     }
 

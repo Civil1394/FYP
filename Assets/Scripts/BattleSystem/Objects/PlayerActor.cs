@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using RainbowArt.CleanFlatUI;
 using UnityEngine;
 using TMPro;
@@ -19,7 +20,7 @@ public class PlayerActor : TimedActor,IDamagable
 		get => maxHealth; 
 		set => maxHealth = value;
 	}
-
+	public bool isTweening = false;
 	private ProgressBarPattern HealthBar;
 
 	[SerializeField] TMP_Text HealthText;
@@ -235,7 +236,12 @@ public class PlayerActor : TimedActor,IDamagable
 
 #region IDamagable implementation
 
-	
+	private void Shake()
+	{
+		if (isTweening)return;
+		isTweening = true;
+		transform.DOShakePosition(0.2f, 1f,30).OnComplete(() => isTweening = false);
+	}
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("DamageActor"))
@@ -244,6 +250,7 @@ public class PlayerActor : TimedActor,IDamagable
 			if (damageActor != null && damageActor.CasterType != CasterType.Player)
 			{
 				damageActor.DoDamage(TakeDamage, this.gameObject, other.gameObject);
+				Shake();
 			}
 		}
 	}

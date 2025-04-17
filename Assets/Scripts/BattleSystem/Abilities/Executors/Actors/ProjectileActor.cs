@@ -113,6 +113,6 @@ public class ProjectileActor : DamageActor
 
     private void OnDestroy()
     {
-        currentCell.UnhighLightCell();
+        currentCell?.UnhighLightCell();
     }
 }
