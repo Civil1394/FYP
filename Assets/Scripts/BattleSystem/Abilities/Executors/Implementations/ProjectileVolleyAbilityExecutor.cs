@@ -18,7 +18,6 @@ public class ProjectileVolleyAbilityExecutor : AbilityExecutorBase
         HexCellComponent casterStandingCell, 
         Transform casterTransform)
     {
-        castCell = casterStandingCell.CellData.GetNeighbor(castDirection).ParentComponent;
         FireVolleyAsync(casterType, castDirection, castCell,casterTransform).Forget();
     }
     

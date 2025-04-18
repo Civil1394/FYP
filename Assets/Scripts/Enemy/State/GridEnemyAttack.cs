@@ -32,10 +32,11 @@ public class GridEnemyAttack : EnemyBaseState
         {
             case AbilityType.Projectile:
             case AbilityType.Blast:
+            case AbilityType.ProjectileVolley:
                 DirectionAttack();
                 break;
-            case AbilityType.ProjectileVolley:
             case AbilityType.Dash:
+            case AbilityType.LocationalProjectile:
                 LocationalAttack();
                 break;
         }
