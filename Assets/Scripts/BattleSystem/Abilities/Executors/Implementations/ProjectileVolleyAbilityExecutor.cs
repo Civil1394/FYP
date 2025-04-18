@@ -45,14 +45,14 @@ public class ProjectileVolleyAbilityExecutor : AbilityExecutorBase
                 UnityEngine.Random.Range(-1f, 1f));
                 
             HexCellComponent spawnCell = BattleManager.Instance.hexgrid.GetCellByDirection(castCell, castDirection);
-            
+            HexCellComponent randomNeighbor = spawnCell.CellData.Neighbors[UnityEngine.Random.Range(0, spawnCell.CellData.Neighbors.Length)].ParentComponent;
             GameObject projectileObject = UnityEngine.Object.Instantiate(
                 objectFx,
                 casterTransform.position + parameters.ProjectileConfig.VFX_Height_Offset + randDelta, 
                 Quaternion.identity);
                 
             ProjectileActor projectileComponent = projectileObject.AddComponent<ProjectileActor>();
-            projectileComponent.InitBullet(sourceAbility, casterType, parameters.ProjectileConfig, castDirection, spawnCell, casterTransform);
+            projectileComponent.InitBullet(sourceAbility, casterType, parameters.ProjectileConfig, castDirection, randomNeighbor, casterTransform);
             
             // Subscribe to OnHit event to apply hit status effects
             projectileComponent.OnHitApplyStatusEffect += (target) => 

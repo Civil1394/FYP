@@ -22,6 +22,11 @@ MonoBehaviour:
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
     IsSelfDestructOnCollision: 0
     ParabolaBlastVFX: {fileID: 0}
+    BlastDamage: 0
+  locationalProjectileParam:
+    Damage: 0
+    VFX_Height_Offset: {x: 0, y: 0, z: 0}
+    BlastVFX: {fileID: 0}
   projectileVolleyParam:
     Damage: 0
     ProjectileConfig:
@@ -32,10 +37,11 @@ MonoBehaviour:
       VFX_Height_Offset: {x: 0, y: 3, z: 0}
       IsSelfDestructOnCollision: 1
       ParabolaBlastVFX: {fileID: 0}
-    ProjectilePerBurst: 5
-    DelayBetweenProjectiles: 0.05
+      BlastDamage: 0
+    ProjectilePerBurst: 20
+    DelayBetweenProjectiles: 0.01
     BurstCount: 3
-    DelayBetweenBurst: 0.2
+    DelayBetweenBurst: 0.1
   blastParam:
     Damage: 0
     Width: 0
@@ -57,7 +63,8 @@ MonoBehaviour:
   CastType: 1
   SelectablePattern: {fileID: 11400000, guid: dab54184426a9444080a2acd8142bb1a, type: 2}
   AoePattern: {fileID: 0}
-  Object_fx: {fileID: 193226, guid: cd01c6abe812d494684515011e1321b9, type: 3}
+  Object_fx: {fileID: 1941226523401448535, guid: 7a2aff5f9113cee468e83f5e4e68a84e,
+    type: 3}
   IsRandomColorType: 0
   ColorType: 1
   statusEffectsParam:
