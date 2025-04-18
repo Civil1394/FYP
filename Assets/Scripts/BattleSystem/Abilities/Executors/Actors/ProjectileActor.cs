@@ -70,7 +70,7 @@ public class ProjectileActor : DamageActor
                     parameter.BlastDamage,
                     casterType,
                     (target) => 
-                        abilityData.ApplyStatusEffects(AbilityStatusApplicationType.OnHit, target));
+                        abilityData.ApplyStatusEffects(AbilityStatusApplicationType.OverTime, target));
                 break;
             default:
                 Debug.LogErrorFormat("{0} is not a valid behavior type.", behaviorType);

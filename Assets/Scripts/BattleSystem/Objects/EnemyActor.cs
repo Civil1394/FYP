@@ -98,6 +98,8 @@ public class EnemyActor : TimedActor, IDamagable
 			}
 		}
 	}
+	
+
 	public void TakeDamage(float damage)
 	{
 		currentHealth -= damage;

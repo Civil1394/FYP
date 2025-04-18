@@ -17,7 +17,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   effectType: 1
   applicationRule: 1
-  duration: 4
+  duration: 5
   tickInterval: 1
   isPermanentUntilRemoved: 0
   visualEffect: {fileID: 8476858034194145137, guid: 428da0e836571ed4db35dd2c146af91c,
