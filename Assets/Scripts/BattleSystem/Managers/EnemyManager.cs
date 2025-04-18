@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -7,6 +8,8 @@ using Unity.Mathematics;
 public class EnemyManager : Singleton<EnemyManager>
 {
 	[SerializeField] private AIBrain enemyPrefab;
+	[SerializeField] private AIBrain bossPrefab;
+	[SerializeField] private EnemyData bossConfig;
 	[SerializeField] private List<Vector2Int> spawnCoords = new List<Vector2Int>();
 	[SerializeField] private Transform enemyGroup;
 
@@ -34,9 +37,12 @@ public class EnemyManager : Singleton<EnemyManager>
 			
 			var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
 			newInstance.gameObject.GetComponent<EnemyActor>().Init(hg);
-			
-			newInstance.currentCoord = cell.CellData.Coordinates;
-			newInstance.currentCell = cell.CellData;
+
+			if (BattleManager.Instance.EnemyDatabase == null)
+			{
+				print("database is null");
+			}
+			newInstance.Init(BattleManager.Instance.EnemyDatabase.GetRandomEnemyFromList("main"),cell.CellData);
 			enemiesDict.Add(newInstance,newInstance.currentCoord);
 			cell.CellData.SetCell(newInstance.gameObject,CellType.Enemy);
 		}
@@ -47,34 +53,72 @@ public class EnemyManager : Singleton<EnemyManager>
 	}
 	public void InitEnemies()
 	{
-		if (IsSpawnEnemy)
-		{
-			foreach (var coord in spawnCoords)
-			{
-				HexCellComponent cell = BattleManager.Instance.hexgrid.GetCellInCoord(new Vector3Int(coord.x, 0, coord.y));
-				if (cell.CellData.CellType == CellType.Empty)
-				{
-					AIBrain newInstance = Instantiate(enemyPrefab, cell.transform.position, quaternion.identity, enemyGroup);
-					var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
-					newInstance.gameObject.GetComponent<EnemyActor>().Init(hg);
-					
-					newInstance.currentCoord = cell.CellData.Coordinates;
-					newInstance.currentCell = cell.CellData;
-					enemiesDict.Add(newInstance,newInstance.currentCoord);
-					cell.CellData.SetCell(newInstance.gameObject,CellType.Enemy);
-				}
-				else
-				{
-					print(coord.ToString());
-					Debug.LogError("Not valid cell to spawn!");
-					continue;
-				}
-			}
-		}
+		StartCoroutine(enemyWaveController.EnemyWave(20, 40));
+		// if (IsSpawnEnemy)
+		// {
+		// 	foreach (var coord in spawnCoords)
+		// 	{
+		// 		HexCellComponent cell = BattleManager.Instance.hexgrid.GetCellInCoord(new Vector3Int(coord.x, 0, coord.y));
+		// 		if (cell.CellData.CellType == CellType.Empty)
+		// 		{
+		// 			AIBrain newInstance = Instantiate(enemyPrefab, cell.transform.position, quaternion.identity, enemyGroup);
+		// 			var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
+		// 			newInstance.gameObject.GetComponent<EnemyActor>().Init(hg);
+		// 			
+		// 			newInstance.currentCoord = cell.CellData.Coordinates;
+		// 			newInstance.currentCell = cell.CellData;
+		// 			enemiesDict.Add(newInstance,newInstance.currentCoord);
+		// 			cell.CellData.SetCell(newInstance.gameObject,CellType.Enemy);
+		// 		}
+		// 		else
+		// 		{
+		// 			print(coord.ToString());
+		// 			Debug.LogError("Not valid cell to spawn!");
+		// 			continue;
+		// 		}
+		// 	}
+		// }
 
 		//StartCoroutine(enemyWaveController.EnemyWave(10, 10f));
 	}
 
+	public IEnumerator EnemyMonitor()
+	{
+		while (enemyWaveController.waveCnt<4)
+		{
+			if (enemiesDict.Count<1)
+			{
+				if (enemyWaveController.waveCnt == 3)
+				{
+					StartCoroutine(enemyWaveController.BossEnemyWave(10, 5));
+				}
+				StartCoroutine(enemyWaveController.EnemyWave(20, 40));
+			}
+			yield return new WaitForSeconds(10);
+		}
+	}
+
+	public void InstantiateBoss()
+	{
+		Vector2Int coord = Vector2Int.zero;
+		HexCellComponent cell = BattleManager.Instance.hexgrid.GetCellInCoord(new Vector3Int(coord.x, 0, coord.y));
+		if (cell.CellData.CellType == CellType.Empty)
+		{
+			AIBrain newInstance = Instantiate(bossPrefab, cell.transform.position, quaternion.identity, enemyGroup);
+			ReserveCell(newInstance, cell.CellData);
+			
+			var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
+			newInstance.gameObject.GetComponent<EnemyActor>().Init(hg);
+			
+			newInstance.Init(bossConfig,cell.CellData);
+			enemiesDict.Add(newInstance,newInstance.currentCoord);
+			cell.CellData.SetCell(newInstance.gameObject,CellType.Enemy);
+		}
+		else
+		{
+			Debug.LogError("Not valid cell to spawn!");
+		}
+	}
     public bool ReserveCell(AIBrain enemy, HexCell cell)
     {
 		if (IsCellReserved(cell)) return false;
@@ -84,7 +128,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
     public void ReleaseCell(AIBrain enemy)
     {
-        enemyReservations.Remove(enemy);
+	    if(enemyReservations.ContainsKey(enemy)) enemyReservations.Remove(enemy);
     }
 
     public bool IsCellReserved(HexCell cell)
@@ -92,6 +136,10 @@ public class EnemyManager : Singleton<EnemyManager>
         return enemyReservations.ContainsValue(cell);
     }
 
+    public void UnregisterFromDict(AIBrain enemy)
+    {
+	    if(enemiesDict.ContainsKey(enemy)) enemiesDict.Remove(enemy);
+    }
     public void EnemyCatcher(AIBrain enemy,Vector3Int targetCoord)
 	{
 		HexCellComponent oldCell = BattleManager.Instance.hexgrid.GetCellInCoord(enemy.currentCoord);
@@ -113,5 +161,11 @@ public class EnemyManager : Singleton<EnemyManager>
 			var temp = BattleManager.Instance.hexgrid.GetCellInCoord(c.Value.Coordinates);
 			Gizmos.DrawCube(temp.transform.position, Vector3.one);
 		}
+    }
+
+    protected override void OnDestroy()
+    {
+	    base.OnDestroy();
+	    StopAllCoroutines();
     }
 }

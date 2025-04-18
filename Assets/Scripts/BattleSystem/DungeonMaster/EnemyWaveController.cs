@@ -7,33 +7,36 @@ using Random = UnityEngine.Random;
 public class EnemyWaveController : MonoBehaviour
 {
 	[SerializeField] int minSpawnDistance;
-
-	private void Start()
-	{
-	}
-
-	private Vector2Int GetEnemySpawnPos()
+	public int waveCnt = 0;
+	
+	public IEnumerator EnemyWave(int enemyCount, float waveDuration)
 	{
 		int h = BattleManager.Instance.hexgrid.Height;
 		int w = BattleManager.Instance.hexgrid.Width;
-		int randomX;
-		int randomY;
-		do
+		waveCnt++;
+		int cnt = enemyCount*waveCnt;
+		List<Vector2Int> posList = NoiseSystem.GetPositions(enemyCount,w,h);
+		foreach (var p in posList)
 		{
-			randomX = Random.Range(0, w);
-			randomY = Random.Range(0, h);
-		} while (!BattleManager.Instance.hexgrid.IsValidCell(new Vector2Int(randomX, randomY)));
-		return new Vector2Int(randomX, randomY);
-	}
-	public IEnumerator EnemyWave(int enemyCount, float waveDuration)
-	{
-		int cnt = enemyCount;
-		while (cnt>0)
-		{
-			Vector2Int pos = GetEnemySpawnPos();
-			EnemyManager.Instance.InstantiateEnemy(pos);
+			EnemyManager.Instance.InstantiateEnemy(p);
 			cnt--;
 			yield return new WaitForSeconds(waveDuration/enemyCount);
 		}
+	}
+	
+	public IEnumerator BossEnemyWave(int enemyCount, float waveDuration)
+	{
+		int h = BattleManager.Instance.hexgrid.Height;
+		int w = BattleManager.Instance.hexgrid.Width;
+		waveCnt++;
+		int cnt = enemyCount;
+		List<Vector2Int> posList = NoiseSystem.GetPositions(enemyCount,w,h);
+		foreach (var p in posList)
+		{
+			EnemyManager.Instance.InstantiateEnemy(p);
+			cnt--;
+			yield return new WaitForSeconds(waveDuration/enemyCount);
+		}
+		EnemyManager.Instance.InstantiateBoss();
 	}
 }
