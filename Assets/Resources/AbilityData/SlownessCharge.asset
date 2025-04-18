@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
-  m_Name: Glacial_Spread
+  m_Name: SlownessCharge
   m_EditorClassIdentifier: 
-  id: 3
-  abilityType: 10
+  id: 5
+  abilityType: 0
   projectileParam:
-    Damage: 3
-    BehaviorType: 0
-    TravelSpeed: 0
-    LifeTime: 0
+    Damage: 10
+    BehaviorType: 1
+    TravelSpeed: 10
+    LifeTime: 4
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
     IsSelfDestructOnCollision: 1
-    ParabolaBlastVFX: {fileID: 0}
-    BlastDamage: 0
+    ParabolaBlastVFX: {fileID: 3607185601950021820, guid: fa530e8cb24718841be81642550730d1,
+      type: 3}
+    BlastDamage: 50
   locationalProjectileParam:
     Damage: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
@@ -34,7 +35,7 @@ MonoBehaviour:
       BehaviorType: 0
       TravelSpeed: 0
       LifeTime: 0
-      VFX_Height_Offset: {x: 0, y: 0, z: 0}
+      VFX_Height_Offset: {x: 0, y: 3, z: 0}
       IsSelfDestructOnCollision: 1
       ParabolaBlastVFX: {fileID: 0}
       BlastDamage: 0
@@ -43,27 +44,27 @@ MonoBehaviour:
     BurstCount: 1
     DelayBetweenBurst: 0
   blastParam:
-    Damage: 10
-    Width: 3
-    BlastStepDelay: 0.1
-    BlastStepCount: 8
+    Damage: 0
+    Width: 0
+    BlastStepDelay: 0
+    BlastStepCount: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
   dashParam:
     Damage: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
   explosiveChargeParam:
-    Damage: 0
-    ChargeTime: 0
-    TriggerCount: 0
+    Damage: 50
+    ChargeTime: 0.5
+    TriggerCount: 1
     TriggerBetweenDelay: 0
-  PrerequisiteChargeSteps: 2
-  Title: Glacial Spread
+  PrerequisiteChargeSteps: 1
+  Title: 
   Desc: 
-  Icon: {fileID: 21300000, guid: 15c1103b6837fdf45b2e2c80dc255e01, type: 3}
+  Icon: {fileID: 21300000, guid: d970f6d1a951e664a9c4896fc28ffc0c, type: 3}
   CastType: 1
   SelectablePattern: {fileID: 11400000, guid: dab54184426a9444080a2acd8142bb1a, type: 2}
   AoePattern: {fileID: 0}
-  Object_fx: {fileID: 569846001531763723, guid: 92b48bce99d1e784f9e5302b587d87c7,
+  Object_fx: {fileID: 3607185601950021820, guid: fa530e8cb24718841be81642550730d1,
     type: 3}
   IsRandomColorType: 0
   ColorType: 3
@@ -74,4 +75,4 @@ MonoBehaviour:
       applicationType: 0
       initialStacks: 1
       applicationChance: 1
-      applyToSelf: 1
+      applyToSelf: 0

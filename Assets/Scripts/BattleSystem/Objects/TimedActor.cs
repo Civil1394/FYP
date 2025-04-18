@@ -40,7 +40,7 @@ public abstract class TimedActor : MonoBehaviour
         ActionCooldown = this.hourglass.Sand;
         hourglass.IsOccupied = true;
         CheckTimerStatus();
-        if(hourglassHalo != null) hourglassHalo.InitLoadSpeed(hourglass.Sand);
+        if(hourglassHalo != null) hourglassHalo.InitLoadSpeed(ActionCooldown);
         else Debug.LogError("TimedActor Halo isn't initialized");
     }
     protected virtual void Start()
@@ -71,8 +71,8 @@ public abstract class TimedActor : MonoBehaviour
                                                                  " / " +CurrentCooldown.ToString("F2") + 
                                                                  " / " + ActionCooldown.ToString("F1") +
                                                                  " / " + MaxThreshold.ToString("F1");
-        if(ActionCooldown <= MinThreshold) OverDrive();
-        if(ActionCooldown >= MaxThreshold) Collapse();
+        //if(ActionCooldown <= MinThreshold) OverDrive();
+        //if(ActionCooldown >= MaxThreshold) Collapse();
 
         
         CurrentCooldown -= Time.deltaTime;
@@ -98,6 +98,19 @@ public abstract class TimedActor : MonoBehaviour
         {
             CurrentCooldown *= multiplier;
         }
+    }
+
+    public void UpdateActionCooldownMultiplier(float multiplier, bool boost)
+    {
+        if (boost)
+        {
+            ActionCooldownMultiplier /= multiplier;
+        }
+        else
+        {
+            ActionCooldownMultiplier *= multiplier;
+        }
+        if(hourglassHalo != null) hourglassHalo.InitLoadSpeed(ActionCooldown);
     }
 
     public void PauseTimer()

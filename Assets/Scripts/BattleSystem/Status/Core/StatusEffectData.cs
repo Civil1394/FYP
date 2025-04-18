@@ -9,7 +9,7 @@ public enum StatusEffectId
     
     Poison = 5,
     
-    Frost = 10,
+    Slowness = 10,
 }
 public enum StatusEffectType
 {

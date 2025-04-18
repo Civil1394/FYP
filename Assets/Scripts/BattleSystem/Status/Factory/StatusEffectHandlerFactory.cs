@@ -12,7 +12,7 @@ public static class StatusEffectHandlerFactory
     {
         // Register default handlers
         RegisterHandler(StatusEffectId.Poison, typeof(PoisonInstance));
-        RegisterHandler(StatusEffectId.Frost, typeof(FrostInstance));
+        RegisterHandler(StatusEffectId.Slowness, typeof(FrostInstance));
         // Add other handlers as needed
     }
 

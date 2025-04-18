@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee8d9bc2cc423448beac62a8c54ddf1, type: 3}
+  m_Name: Slowness
+  m_EditorClassIdentifier: 
+  id: 10
+  displayName: Slowness
+  icon: {fileID: 0}
+  effectType: 1
+  applicationRule: 1
+  duration: 4
+  tickInterval: 1
+  isPermanentUntilRemoved: 0
+  visualEffect: {fileID: 8476858034194145137, guid: 428da0e836571ed4db35dd2c146af91c,
+    type: 3}
+  baseValue: 5
+  scalingFactor: 1
+  maxStacks: 1
+  description: 
