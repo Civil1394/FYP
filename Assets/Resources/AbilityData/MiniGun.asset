@@ -38,7 +38,7 @@ MonoBehaviour:
       IsSelfDestructOnCollision: 1
       ParabolaBlastVFX: {fileID: 0}
       BlastDamage: 0
-    ProjectilePerBurst: 20
+    ProjectilePerBurst: 5
     DelayBetweenProjectiles: 0.01
     BurstCount: 3
     DelayBetweenBurst: 0.1
