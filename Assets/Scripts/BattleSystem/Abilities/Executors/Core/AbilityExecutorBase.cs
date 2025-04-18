@@ -17,7 +17,7 @@ public abstract class AbilityExecutorBase : IAbilityExecutor
 		sourceAbility.ApplyStatusEffects(AbilityStatusApplicationType.OnCast, casterObject);
 		
 		HexDirection castDirection = BattleManager.Instance.hexgrid.GetHexDirectionBy2Cell(casterStandingCell, castCell);
-		
+		castCell = casterStandingCell.CellData.GetNeighbor(castDirection).ParentComponent;
 		ExecuteAbilitySpecific(casterType, castDirection, castCell, casterStandingCell, casterObject.transform);
 	}
 	
