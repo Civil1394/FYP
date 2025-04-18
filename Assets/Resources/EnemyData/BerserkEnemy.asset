@@ -18,7 +18,7 @@ MonoBehaviour:
   angleOfRange: 90
   distanceOfRange: 5
   innerSphereRadius: 3
-  attackPrefab: {fileID: 393574178736082098, guid: 8e633903a7d16f9459d64cced88583d8,
-    type: 3}
   attackRangeInCell: 1
-  AbilityData: {fileID: 11400000, guid: a624e44ea0ab57d44a239a3e6f5442e5, type: 2}
+  retreatActivateDistance: 0
+  retreatDistance: 0
+  AbilityData: {fileID: 11400000, guid: be571eccfb4ece345b7bd9097785517b, type: 2}

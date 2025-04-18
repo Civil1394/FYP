@@ -15,7 +15,7 @@ MonoBehaviour:
   enemyLists:
   - listName: main
     enemies:
+    - {fileID: 11400000, guid: 9a36a0418e6648840bef6fceea89bbe5, type: 2}
     - {fileID: 11400000, guid: f8af5a25b0974bd458e396b65e25a529, type: 2}
     - {fileID: 11400000, guid: a48363005bd36f6449e278d07f239dc9, type: 2}
     - {fileID: 11400000, guid: 69b89e0a2def3724c987bb17c4d32eb8, type: 2}
-    - {fileID: 11400000, guid: 9a36a0418e6648840bef6fceea89bbe5, type: 2}
