@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
@@ -76,15 +77,19 @@ public class LinearProjectileBehavior : ProjectileBehavior
 public class ParabolaProjectileBehavior : ProjectileBehavior
 {
     public float arcHeight = 20f;
+    private GameObject explosiveVFX;
+    private Action<GameObject> explosiveVFXCallback;
+
     private GameObject parabolaBlastVFX;
     private float parabolaBlastDamage;
     private CasterType casterType;
 
-    public void InitParabolaBlast(GameObject vfx, float blastDamage,CasterType casterType)
+    public void InitParabolaBlast(GameObject vfx, float blastDamage,CasterType casterType,Action<GameObject> statusEffectCallback)
     {
         parabolaBlastVFX = vfx;
         parabolaBlastDamage = blastDamage;
         this.casterType = casterType;
+        explosiveVFXCallback = statusEffectCallback;
     }
     public override float UpdateBehavior()
     {
@@ -133,10 +138,12 @@ public class ParabolaProjectileBehavior : ProjectileBehavior
         }
         
         transform.position = end;
+      
         GameObject explosiveObject = Instantiate(parabolaBlastVFX, end, Quaternion.identity);
         var ea = explosiveObject.AddComponent<ExplosiveActor>();
-        ea.Init(parabolaBlastDamage);
-        ea.CasterType = this.casterType;
+         ea.Init(parabolaBlastDamage);
+         ea.CasterType = this.casterType;
+         ea.OnHitApplyStatusEffect += explosiveVFXCallback;
         Destroy(gameObject);
     }
 }

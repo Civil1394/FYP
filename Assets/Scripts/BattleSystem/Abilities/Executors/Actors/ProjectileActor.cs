@@ -66,7 +66,11 @@ public class ProjectileActor : DamageActor
                 ParabolaProjectileBehavior parabolaProjectileBehavior = gameObject.AddComponent<ParabolaProjectileBehavior>();
                 behavior = parabolaProjectileBehavior;
                 behavior.Init(this, StandingPos, TargetDirection, TravelSpeed,height_Offset, LifeTime);
-                parabolaProjectileBehavior.InitParabolaBlast(parameter.ParabolaBlastVFX,parameter.BlastDamage,casterType);
+                parabolaProjectileBehavior.InitParabolaBlast(parameter.ParabolaBlastVFX,
+                    parameter.BlastDamage,
+                    casterType,
+                    (target) => 
+                        abilityData.ApplyStatusEffects(AbilityStatusApplicationType.OnHit, target));
                 break;
             default:
                 Debug.LogErrorFormat("{0} is not a valid behavior type.", behaviorType);

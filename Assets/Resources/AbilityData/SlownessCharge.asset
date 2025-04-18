@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 5
   abilityType: 0
   projectileParam:
-    Damage: 10
+    Damage: 0
     BehaviorType: 1
     TravelSpeed: 10
     LifeTime: 4
@@ -23,7 +23,7 @@ MonoBehaviour:
     IsSelfDestructOnCollision: 1
     ParabolaBlastVFX: {fileID: 3607185601950021820, guid: fa530e8cb24718841be81642550730d1,
       type: 3}
-    BlastDamage: 50
+    BlastDamage: 20
   locationalProjectileParam:
     Damage: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
