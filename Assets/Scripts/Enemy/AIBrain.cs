@@ -39,19 +39,22 @@ public class AIBrain : MonoBehaviour
     private GridEnemyRetreat retreatState;
     
     private AbilityData enemyAbility;
-    private void Start()
-    {
-        mColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 
+    public void Init(EnemyData ed, HexCell cell)
+    {
+        this.enemyConfig = ed;
+        currentCell = cell;
+        currentCoord = cell.Coordinates;
+        mColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         playerDetector.Init(this, enemyConfig.AngleOfRange, enemyConfig.DistanceOfRange, enemyConfig.InnerSphereRadius);
         pathFinding = new PathFinding();
-        stateMachine = new StateMachine();
         StateInitialization();
     }
 
     public virtual void  StateInitialization()
     {
         enemyAbility = enemyConfig.AbilityData.Create();
+        stateMachine = new StateMachine();
         switch (enemyConfig.EnemyStateType)
         {
             case EnemyData.EnemyType.Berserk:
@@ -59,6 +62,14 @@ public class AIBrain : MonoBehaviour
                 break;
             case EnemyData.EnemyType.Sniper:
                 SniperState(enemyAbility);
+                break;
+            case EnemyData.EnemyType.Assassin:
+                AssassinState(enemyAbility);
+                break;
+            case EnemyData.EnemyType.Boomer:
+                BoomerState(enemyAbility);
+                break;
+            default:
                 break;
         }
         stateMachine.SetState(wanderState);
@@ -98,7 +109,7 @@ public class AIBrain : MonoBehaviour
         wanderState = new GridEnemyWander(this, null, 10, pathFinding);
         chaseState = new GridEnemyChase(this, null, pathFinding);
         attackState = new GridEnemyAttack(this, null, ability);
-        retreatState = new GridEnemyRetreat(this, null, pathFinding, 10);
+        retreatState = new GridEnemyRetreat(this, null, pathFinding, enemyConfig.RetreatDistance);
         #region Set up state transition
 
         stateMachine.AddTransition(
@@ -123,14 +134,16 @@ public class AIBrain : MonoBehaviour
         stateMachine.AddAnyTransition(retreatState, new FuncPredicate(
                 () =>
                     (bool)playerGrid &&
-                    BattleManager.Instance.hexgrid.GetGridDistance(currentCell.ParentComponent, playerGrid) < 5
+                    BattleManager.Instance.hexgrid.GetGridDistance(currentCell.ParentComponent, playerGrid) <=
+                    enemyConfig.RetreatActivateDistance
             )
         );
         stateMachine.AddTransition(
             retreatState, chaseState, new FuncPredicate(
                 () =>
                     (bool)playerGrid &&
-                    BattleManager.Instance.hexgrid.GetGridDistance(currentCell.ParentComponent, playerGrid) >= 5
+                    retreatState.HasReachedDestination()
+                    //BattleManager.Instance.hexgrid.GetGridDistance(currentCell.ParentComponent, playerGrid) >= 5
             )
         );
         #endregion
@@ -169,7 +182,7 @@ public class AIBrain : MonoBehaviour
         wanderState = new GridEnemyWander(this, null, 10, pathFinding);
         chaseState = new GridEnemyChase(this, null, pathFinding);
         attackState = new GridEnemyAttack(this, null, ability);
-        retreatState = new GridEnemyRetreat(this, null, pathFinding, 3);
+        retreatState = new GridEnemyRetreat(this, null, pathFinding, enemyConfig.RetreatDistance);
         #region Set up state transition
 
         stateMachine.AddTransition(
@@ -193,25 +206,27 @@ public class AIBrain : MonoBehaviour
         stateMachine.AddAnyTransition(retreatState, new FuncPredicate(
                 () =>
                     (bool)playerGrid &&
-                    BattleManager.Instance.hexgrid.GetGridDistance(currentCell.ParentComponent, playerGrid) < 5
+                    BattleManager.Instance.hexgrid.GetGridDistance(currentCell.ParentComponent, playerGrid) <=
+                    enemyConfig.RetreatActivateDistance
             )
         );
         stateMachine.AddTransition(
             retreatState, chaseState, new FuncPredicate(
                 () =>
                     (bool)playerGrid &&
-                    BattleManager.Instance.hexgrid.GetGridDistance(currentCell.ParentComponent, playerGrid) >= 5
+                    retreatState.HasReachedDestination()
+                    //BattleManager.Instance.hexgrid.GetGridDistance(currentCell.ParentComponent, playerGrid) >= 5
             )
         );
         #endregion
     }
     private void Update()
     {
-        stateMachine.Update();
+        stateMachine?.Update();
     }
     public void TurnAction()
     {
-        stateMachine.OnTurnStart();
+        stateMachine?.OnTurnStart();
         attackDur--;
         //print(attackDur);
     }
@@ -271,5 +286,12 @@ public class AIBrain : MonoBehaviour
         }
         //print("probably out of range");
         return false;
+    }
+
+    private void OnDestroy()
+    {
+        EnemyManager.Instance.ReleaseCell(this);
+        EnemyManager.Instance.UnregisterFromDict(this);
+        DOTween.KillAll();
     }
 }
