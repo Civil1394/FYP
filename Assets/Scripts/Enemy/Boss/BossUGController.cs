@@ -13,10 +13,11 @@ public class BossUGController : AIBrain
 	public AbilityData glacialSpread;
 	public AbilityData canonBall;
 
-	public int abilityIdx = 2;
+	public int abilityIdx = 0;
 
 	public override void StateInitialization()
 	{
+		stateMachine = new StateMachine();
 		chaseState = new GridEnemyChase(this, null, pathFinding);
 		glacialSpreadState = new BossUGGlacialSpreadState(this,null,glacialSpread);
 		explosiveShootState = new BossUGExplosiveShootState(this,null,explosiveShoot, 10);

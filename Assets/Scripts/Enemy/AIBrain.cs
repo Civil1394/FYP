@@ -8,6 +8,7 @@ public class AIBrain : MonoBehaviour
 {
     public EnemyData enemyConfig;
 
+    [SerializeField] private MeshRenderer meshRenderer;
     //Functional component
     [SerializeField] private PlayerDetector playerDetector;
     public EnemyActor enemyActor;
@@ -51,9 +52,10 @@ public class AIBrain : MonoBehaviour
         StateInitialization();
     }
 
-    public virtual void  StateInitialization()
+    public virtual void StateInitialization()
     {
         enemyAbility = enemyConfig.AbilityData.Create();
+        meshRenderer.material.color = AbilityColorHelper.GetAbilityColor(enemyAbility.ColorType);
         stateMachine = new StateMachine();
         switch (enemyConfig.EnemyStateType)
         {

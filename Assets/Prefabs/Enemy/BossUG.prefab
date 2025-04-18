@@ -658,6 +658,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyConfig: {fileID: 11400000, guid: 05649de78cac8fb429f63abc6fa15321, type: 2}
+  meshRenderer: {fileID: 5138283437673708852}
   playerDetector: {fileID: 2361249848862247845}
   enemyActor: {fileID: -6313553018507609414}
   currentCoord: {x: 0, y: 0, z: 0}
@@ -887,27 +888,27 @@ PrefabInstance:
     - target: {fileID: 2483976544937858633, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
       propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2483976544937858633, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
-        type: 3}
-      propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2483976544937858633, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2483976544937858633, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
+        type: 3}
       propertyPath: m_FillAmount
-      value: 0.6089336
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4748610833974306021, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
       propertyPath: currentValue
-      value: 60.893364
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8143132780589765768, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
       propertyPath: m_text
-      value: 60%
+      value: 0%
       objectReference: {fileID: 0}
     - target: {fileID: 8143132780589765768, guid: 41f8aeb03ea8bfc4ab45bbf4cc4361c5,
         type: 3}
@@ -1049,6 +1050,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3239987304741101349}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &5138283437673708852 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1461304994638716399, guid: b472538f1d8a4af478fa93bee3dff1a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 3239987304741101349}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7816442973312472599
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1090,7 +1097,7 @@ PrefabInstance:
     - target: {fileID: 1942935287692551405, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
       propertyPath: m_UVRect.x
-      value: 1264.2872
+      value: 1264.0643
       objectReference: {fileID: 0}
     - target: {fileID: 1942935287692551405, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
