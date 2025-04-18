@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 028e20d9ac27cf740996d2ceaf1f03be, type: 3}
   m_Name: AssassinEnemy
   m_EditorClassIdentifier: 
-  health: 0
+  id: 
+  health: 100
   enemyStateType: 3
-  angleOfRange: 0
-  distanceOfRange: 0
+  angleOfRange: 240
+  distanceOfRange: 6
   innerSphereRadius: 7
-  attackPrefab: {fileID: 0}
-  attackRangeInCell: 0
-  AbilityData: {fileID: 0}
+  attackRangeInCell: 2
+  retreatActivateDistance: 1
+  retreatDistance: 4
+  AbilityData: {fileID: 11400000, guid: a383026f4335da6408fc15607aea6d16, type: 2}
