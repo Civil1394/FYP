@@ -99,10 +99,25 @@ public class ParabolaProjectileBehavior : ProjectileBehavior
         for (int i = 0; i < lifeTime; i++)
         {
             HexCellComponent nextCell = BattleManager.Instance.hexgrid.GetCellByDirection(finalDest, castingDirection);
-            if (nextCell == null || nextCell.CellData.CellType == CellType.Invalid)
+            if (nextCell == null)
             {
                 break;
             }
+            
+            if (nextCell.CellData.CellType == CellType.Invalid)
+            {
+                // Instead of breaking, continue searching in the same direction
+                // until we find a valid cell or reach the end
+                while (nextCell != null && nextCell.CellData.CellType == CellType.Invalid)
+                {
+                    nextCell = BattleManager.Instance.hexgrid.GetCellByDirection(nextCell, castingDirection);
+                }
+                if (nextCell == null)
+                {
+                    break;
+                }
+            }
+            
             finalDest = nextCell;
         }
 
