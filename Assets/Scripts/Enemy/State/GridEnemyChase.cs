@@ -79,7 +79,8 @@ public class GridEnemyChase : EnemyBaseState
         
         Vector3 directionToNextGrid = (lookPos - enemyBrain.transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToNextGrid);
-        enemyBrain.transform.DOMove(cellToMove.ParentComponent.transform.position, enemyBrain.enemyActor.ActionCooldown);
+        enemyBrain.transform.DOJump(cellToMove.ParentComponent.transform.position, 1, 1,
+            enemyBrain.enemyActor.ActionCooldown).SetEase(Ease.InOutQuad);
         EnemyManager.Instance.OnMove(enemyBrain, cellToMove.Coordinates);
         enemyBrain.transform.DORotateQuaternion(targetRotation, enemyBrain.enemyActor.ActionCooldown);
         enemyBrain.currentCoord = cellToMove.Coordinates;

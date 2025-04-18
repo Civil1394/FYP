@@ -239,7 +239,8 @@ public class AIBrain : MonoBehaviour
         Vector3 directionToNextGrid = (nextGridPosition - transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToNextGrid);
         Sequence sequence = DOTween.Sequence();
-        sequence.Insert(0, transform.DOMove(cellToMove.ParentComponent.transform.position, enemyActor.ActionCooldown));
+        sequence.Insert(0,
+            transform.DOJump(cellToMove.ParentComponent.transform.position, 1f, 1, enemyActor.ActionCooldown).SetEase(Ease.InOutQuad));
         sequence.Insert(0, transform.DORotateQuaternion(targetRotation, enemyActor.ActionCooldown));
         EnemyManager.Instance.OnMove(this, cellToMove.Coordinates);
         currentCoord = cellToMove.Coordinates;
