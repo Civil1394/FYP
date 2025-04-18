@@ -94,10 +94,7 @@ public abstract class TimedActor : MonoBehaviour
     #region TimerUtilities
     public void AdjustCurrentCooldown(float multiplier)
     {
-        if (IsTimerActive)
-        {
-            CurrentCooldown *= multiplier;
-        }
+        
     }
 
     public void UpdateActionCooldownMultiplier(float multiplier, bool boost)
@@ -105,12 +102,20 @@ public abstract class TimedActor : MonoBehaviour
         if (boost)
         {
             ActionCooldownMultiplier /= multiplier;
+            if (IsTimerActive)
+            {
+                CurrentCooldown /= multiplier;
+            }
         }
         else
         {
             ActionCooldownMultiplier *= multiplier;
+            if (IsTimerActive)
+            {
+                CurrentCooldown *= multiplier;
+            }
         }
-        if(hourglassHalo != null) hourglassHalo.InitLoadSpeed(ActionCooldown);
+        if(hourglassHalo != null) hourglassHalo.InitLoadSpeed(ActionCooldown,CurrentCooldown/ActionCooldown);
     }
 
     public void PauseTimer()

@@ -64,7 +64,7 @@ MonoBehaviour:
   CastType: 1
   SelectablePattern: {fileID: 11400000, guid: dab54184426a9444080a2acd8142bb1a, type: 2}
   AoePattern: {fileID: 0}
-  Object_fx: {fileID: 3607185601950021820, guid: fa530e8cb24718841be81642550730d1,
+  Object_fx: {fileID: 3814496778439236206, guid: e8cc01e1dce80074f816068847fb7eb7,
     type: 3}
   IsRandomColorType: 0
   ColorType: 3

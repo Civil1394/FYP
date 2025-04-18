@@ -219,7 +219,7 @@ namespace RainbowArt.CleanFlatUI
             }                
         }
 
-        public void InitLoadSpeed(float desiredDuration)
+        public void InitLoadSpeed(float desiredDuration,float currentValueAdjustor = 1)
         {
             // Total change in value
             float totalValueChange = maxValue - minValue;
@@ -228,6 +228,7 @@ namespace RainbowArt.CleanFlatUI
             // we need to adjust our calculation
             // The formula is: totalValueChange / (durationInSeconds * 100)
             loadSpeed = totalValueChange / (desiredDuration * 100);
+            currentValue *=  currentValueAdjustor;
             
         }
         void UpdateGUI()
