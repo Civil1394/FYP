@@ -87,7 +87,8 @@ public class BattleManager : Singleton<BattleManager>
 		//init player valid move range
 		UpdateValidMoveRange();
 		
-		
+		//chest
+		chestController.InitializeChests();
 		
 		
 	}

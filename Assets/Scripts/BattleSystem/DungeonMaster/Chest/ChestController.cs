@@ -23,13 +23,17 @@ public class ChestController : MonoBehaviour
 
 	private void Start()
 	{
+		
+	}
+
+	public void InitializeChests()
+	{
 		SpawnChest();
 		foreach (var ob in optionBehaviours)
 		{
 			ob.btn.onClick.AddListener(DisableChestUICanvas);
 		}
 	}
-
 	public Dictionary<Vector2Int, ChestType> GetChestHeatMap(int width, int height)
 	{
 		Dictionary<Vector2Int, ChestType> chestMap = new Dictionary<Vector2Int, ChestType>();
