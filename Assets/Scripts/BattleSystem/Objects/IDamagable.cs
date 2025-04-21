@@ -6,6 +6,7 @@ public interface IDamagable
 {
 	float CurrentHealth { get; }
 	float MaxHealth { get; }
+	void InitIDamagable(float MaxHealth);
 	void TakeDamage(float damage);
 	void HandleStatusEffectDamage(float damage);
 	float CalHealthBarGUIMultiplier();

@@ -34,9 +34,6 @@ public class EnemyActor : TimedActor, IDamagable
 	{
 		base.Init(hourglass);
 		
-		currentHealth = maxHealth;
-		HealthText.text = currentHealth.ToString();
-		HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
 	}
 
 	public void ExecuteDash(HexCellComponent targetCell, Action onFinish)
@@ -90,7 +87,13 @@ public class EnemyActor : TimedActor, IDamagable
 	{
 		if (other.CompareTag("DamageActor"))
 		{
+			
 			var damageActor = other.gameObject.GetComponentInParent<DamageActor>();
+			if (damageActor != null && damageActor.CasterType == CasterType.Environment)
+			{
+				damageActor.DoDamage(TakeDamage, this.gameObject,other.gameObject);
+				Shake();
+			}
 			if (damageActor != null && damageActor.CasterType != CasterType.Enemy)
 			{
 				damageActor.DoDamage(TakeDamage, this.gameObject,other.gameObject);
@@ -98,7 +101,15 @@ public class EnemyActor : TimedActor, IDamagable
 			}
 		}
 	}
-	
+
+
+	public void InitIDamagable(float MaxHealth)
+	{
+		this.maxHealth = MaxHealth;
+		currentHealth = maxHealth;
+		HealthText.text = currentHealth.ToString();
+		HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
+	}
 
 	public void TakeDamage(float damage)
 	{

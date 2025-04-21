@@ -10,10 +10,11 @@ public class BattleManager : Singleton<BattleManager>
 	[SerializeField] private int validMoveRange = 2;
 	
 	[Header("Player-related ref")] 
+	[SerializeField] private float playerMaxHealth = 100f;
 	[SerializeField] private GameObject playerPrefab;
 	[SerializeField] private List<Vector2Int> playerSpawnCoord = new List<Vector2Int>();
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
-	[SerializeField] private ProgressBarPattern PlayerHealthBar;
+	public ProgressBarPattern PlayerHealthBar;
 	public PlayerActor PlayerActorInstance;
 	public HexCellComponent PlayerCell;
 	
@@ -123,7 +124,6 @@ public class BattleManager : Singleton<BattleManager>
 			PlayerActor playerActor = newInstance.GetComponent<PlayerActor>();
 			var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
 			playerActor.Init(hg,PlayerCell,PlayerHealthBar);
-			
 			cell.CellData.SetCell(playerActor.gameObject,CellType.Player);
 			playerCamera.Follow = playerActor.transform;
 			playerCamera.LookAt = playerActor.transform;
@@ -132,6 +132,9 @@ public class BattleManager : Singleton<BattleManager>
 			abilityPreviewController.playerActor = playerActor;
 			//MultipleCharacterControlSystem.charactersActorList.Add(playerActor);
 			hexgrid.UpdatePlayerSixDirCellsSet(PlayerCell);
+			
+			IDamagable damagable = newInstance.GetComponent<IDamagable>();
+			damagable.InitIDamagable(playerMaxHealth);
 		}
 		else
 		{

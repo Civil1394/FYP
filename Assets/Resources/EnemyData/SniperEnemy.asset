@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SniperEnemy
   m_EditorClassIdentifier: 
   id: 
-  health: 10
+  health: 40
   enemyStateType: 1
   angleOfRange: 240
   distanceOfRange: 10

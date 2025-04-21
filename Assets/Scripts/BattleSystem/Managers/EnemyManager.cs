@@ -37,12 +37,14 @@ public class EnemyManager : Singleton<EnemyManager>
 			
 			var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
 			newInstance.gameObject.GetComponent<EnemyActor>().Init(hg);
-
 			if (BattleManager.Instance.EnemyDatabase == null)
 			{
 				print("database is null");
 			}
-			newInstance.Init(BattleManager.Instance.EnemyDatabase.GetRandomEnemyFromList("main"),cell.CellData);
+
+			var ed = BattleManager.Instance.EnemyDatabase.GetRandomEnemyFromList("main");
+			newInstance.Init(ed,cell.CellData);
+			newInstance.GetComponent<IDamagable>().InitIDamagable(ed.Health);
 			enemiesDict.Add(newInstance,newInstance.currentCoord);
 			cell.CellData.SetCell(newInstance.gameObject,CellType.Enemy);
 		}

@@ -84,10 +84,6 @@ public class PlayerActor : TimedActor,IDamagable
 			
 		}
 		
-		currentHealth = maxHealth;
-		HealthText.text = currentHealth.ToString();
-		HealthBar = initHealthBarPattern;
-		HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
 	}
 
 	private void OnDestroy()
@@ -240,6 +236,15 @@ public class PlayerActor : TimedActor,IDamagable
 
 #region IDamagable implementation
 
+	public void InitIDamagable(float MaxHealth)
+	{
+		maxHealth = MaxHealth;
+		currentHealth = maxHealth;
+		HealthText.text = currentHealth.ToString();
+		if (HealthBar == null) HealthBar = BattleManager.Instance.PlayerHealthBar;
+			else Debug.LogError("No Player HealthBar found");
+		HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
+	}
 	private void Shake()
 	{
 		if (isTweening)return;
@@ -251,6 +256,13 @@ public class PlayerActor : TimedActor,IDamagable
 		if (other.CompareTag("DamageActor"))
 		{
 			var damageActor = other.gameObject.GetComponentInParent<DamageActor>();
+			
+			if (damageActor != null && damageActor.CasterType == CasterType.Environment)
+			{
+				damageActor.DoDamage(TakeDamage, this.gameObject,other.gameObject);
+				Shake();
+			}
+			
 			if (damageActor != null && damageActor.CasterType != CasterType.Player)
 			{
 				HexDirection tempDir =

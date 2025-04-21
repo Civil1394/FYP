@@ -33,5 +33,6 @@ public enum CasterType
 {
 	Player,
 	Enemy,
+	Environment,
 	None
 }
