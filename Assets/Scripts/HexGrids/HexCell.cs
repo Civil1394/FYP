@@ -59,6 +59,7 @@ public class HexCell
     {
         StandingGameObject = standingGO;
         CellType = newCellType;
+        OnCellTypeChanged?.Invoke();
     }
     [Obsolete("SetType is deprecated, please use SetCell or ClearCell instead.", true)]
     public void SetType(CellType newCellType)

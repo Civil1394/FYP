@@ -234,7 +234,7 @@ public class AIBrain : MonoBehaviour
     }
     public void Move(HexCell cellToMove)
     {
-        EnemyManager.Instance.ReleaseCell(this);
+        EnemyManager.Instance.ReleaseReservationCell(this);
         var nextGridPosition = cellToMove.ParentComponent.transform.position;
         Vector3 directionToNextGrid = (nextGridPosition - transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToNextGrid);
@@ -249,7 +249,7 @@ public class AIBrain : MonoBehaviour
 
     public void Dash(HexCell cellToDash, Action onFinish)
     {
-        EnemyManager.Instance.ReleaseCell(this);
+        EnemyManager.Instance.ReleaseReservationCell(this);
         var nextGridPosition = cellToDash.ParentComponent.transform.position;
         Vector3 directionToNextGrid = (nextGridPosition - transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToNextGrid);
@@ -294,6 +294,7 @@ public class AIBrain : MonoBehaviour
     private void OnDestroy()
     {
         EnemyManager.Instance.ReleaseCell(this);
+        EnemyManager.Instance.ReleaseReservationCell(this);
         EnemyManager.Instance.UnregisterFromDict(this);
         DOTween.KillAll();
     }

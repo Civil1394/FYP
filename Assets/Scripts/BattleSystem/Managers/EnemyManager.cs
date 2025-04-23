@@ -142,7 +142,18 @@ public class EnemyManager : Singleton<EnemyManager>
 
     public void ReleaseCell(AIBrain enemy)
     {
-	    if(enemyReservations.ContainsKey(enemy)) enemyReservations.Remove(enemy);
+	    if (enemiesDict.ContainsKey(enemy))
+	    {
+		    HexCellComponent targetCell = BattleManager.Instance.hexgrid.GetCellInCoord(enemiesDict[enemy]);
+		    targetCell.CellData.SetCell(null, CellType.Empty);
+	    }
+    }
+    public void ReleaseReservationCell(AIBrain enemy)
+    {
+	    if (enemyReservations.ContainsKey(enemy))
+	    {
+		    enemyReservations.Remove(enemy);
+	    }
     }
 
     public bool IsCellReserved(HexCell cell)

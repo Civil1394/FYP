@@ -75,7 +75,7 @@ public class HexCellComponent : MonoBehaviour
                 customCellMat.color = validAttackRangeColor;
                 break;
             case CellActionType.Chest:
-                customCellMat.color = Color.green;
+                //customCellMat.color = Color.green;
                 break;
             case CellActionType.Empty:
                 UpdateCellTypeColor();

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b8a25a34bd4f10419c8a1bfe368dbe8, type: 3}
-  m_Name: CannonBall
+  m_Name: ElectricOrb
   m_EditorClassIdentifier: 
   id: 2
   abilityType: 0
@@ -18,10 +18,15 @@ MonoBehaviour:
     Damage: 50
     BehaviorType: 0
     TravelSpeed: 5
-    LifeTime: 10
+    LifeTime: 3
     VFX_Height_Offset: {x: 0, y: 3, z: 0}
-    IsSelfDestructOnCollision: 1
+    IsSelfDestructOnCollision: 0
     ParabolaBlastVFX: {fileID: 0}
+    BlastDamage: 0
+  locationalProjectileParam:
+    Damage: 0
+    VFX_Height_Offset: {x: 0, y: 0, z: 0}
+    BlastVFX: {fileID: 0}
   projectileVolleyParam:
     Damage: 0
     ProjectileConfig:
@@ -32,6 +37,7 @@ MonoBehaviour:
       VFX_Height_Offset: {x: 0, y: 0, z: 0}
       IsSelfDestructOnCollision: 1
       ParabolaBlastVFX: {fileID: 0}
+      BlastDamage: 0
     ProjectilePerBurst: 1
     DelayBetweenProjectiles: 0
     BurstCount: 1
@@ -50,14 +56,15 @@ MonoBehaviour:
     ChargeTime: 0
     TriggerCount: 0
     TriggerBetweenDelay: 0
-  PrerequisiteChargeSteps: 4
-  Title: CanonBall
+  PrerequisiteChargeSteps: 1
+  Title: ElectricOrb
   Desc: 
   Icon: {fileID: 21300000, guid: 101cd03d54763114ea18c1a65aa9b630, type: 3}
   CastType: 1
   SelectablePattern: {fileID: 11400000, guid: dab54184426a9444080a2acd8142bb1a, type: 2}
   AoePattern: {fileID: 0}
-  Object_fx: {fileID: 121798, guid: a1a393c51c7f41b4e8944f73a81f7e31, type: 3}
+  Object_fx: {fileID: 8251054824596030187, guid: bfbdc818650eda44fba8cadf2fa4c123,
+    type: 3}
   IsRandomColorType: 0
   ColorType: 4
   statusEffectsParam:

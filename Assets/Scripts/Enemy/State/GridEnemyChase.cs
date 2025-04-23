@@ -74,7 +74,7 @@ public class GridEnemyChase : EnemyBaseState
     }
     public void ChaseMove(HexCell cellToMove)
     {
-        EnemyManager.Instance.ReleaseCell(enemyBrain);
+        EnemyManager.Instance.ReleaseReservationCell(enemyBrain);
         var lookPos = enemyBrain.playerGrid.transform.position;
         
         Vector3 directionToNextGrid = (lookPos - enemyBrain.transform.position).normalized;

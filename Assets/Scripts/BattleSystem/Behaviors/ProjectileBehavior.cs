@@ -10,7 +10,7 @@ public abstract class ProjectileBehavior : MonoBehaviour
     public enum BehaviorType
     {
         Linear,
-        Parabola
+        Parabola,
     }
     protected ProjectileActor ProjectileActor;
     protected HexCellComponent casterCell;
