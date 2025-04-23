@@ -15,7 +15,7 @@ public class GridEnemyWander : EnemyBaseState
     }
     public override void OnEnter()
     {
-        Debug.Log("start wandering");
+        //Debug.Log("start wandering");
         RunPathfindingAsync();
     }
     public override void OnExit()

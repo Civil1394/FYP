@@ -254,7 +254,7 @@ public class HexGrid
             float tempDis = Vector3.Distance(originDir, tempDir);
             if (tempDis <= minDistance)
             {
-                Debug.Log((HexDirection)i+" "+tempDis);
+                //Debug.Log((HexDirection)i+" "+tempDis);
                 minDistance = tempDis;
                 closestDir = (HexDirection)i;
             }

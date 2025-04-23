@@ -9,7 +9,7 @@ public class HexMapGenerator : MonoBehaviour
     
     void Start()
     {
-        Debug.Log(GetRightBottomCorner(this.GetComponent<MeshFilter>().mesh, this.transform));
+        //Debug.Log(GetRightBottomCorner(this.GetComponent<MeshFilter>().mesh, this.transform));
         //CreateHexagonRow();
         AutoGenFullCoverHex();
         setCellDistance();

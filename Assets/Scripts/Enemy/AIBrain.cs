@@ -43,12 +43,12 @@ public class AIBrain : MonoBehaviour
 
     public void Init(EnemyData ed, HexCell cell)
     {
+        pathFinding = new PathFinding();
         this.enemyConfig = ed;
         currentCell = cell;
         currentCoord = cell.Coordinates;
         mColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         playerDetector.Init(this, enemyConfig.AngleOfRange, enemyConfig.DistanceOfRange, enemyConfig.InnerSphereRadius);
-        pathFinding = new PathFinding();
         StateInitialization();
     }
 

@@ -17,7 +17,7 @@ public class GridEnemyChase : EnemyBaseState
     public override void OnEnter()
     {
         RunPathfindingAsync();
-        Debug.Log("start chase");
+        //Debug.Log("start chase");
     }
 
     public override void TurnAction()
