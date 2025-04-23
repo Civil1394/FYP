@@ -16,15 +16,7 @@ public class GridEnemyAttack : EnemyBaseState
     }
     public override void OnExit()
     {
-
-    }
-    public override void Update()
-    {
-
-    }
-    public override void FixedUpdate()
-    {
-
+        enemyBrain.ResetAttackCD();
     }
     public override void TurnAction()
     {

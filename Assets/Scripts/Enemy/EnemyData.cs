@@ -16,6 +16,7 @@ public class EnemyData : ScriptableObject
     [SerializeField] private int attackRangeInCell;
     [SerializeField] private int retreatActivateDistance;
     [SerializeField] private int retreatDistance;
+    [SerializeField] private int coolDown;
     public float Health => health;
     public float AngleOfRange => angleOfRange;
     public float DistanceOfRange => distanceOfRange;
@@ -25,6 +26,7 @@ public class EnemyData : ScriptableObject
 
     public int AttackRangeInCell => attackRangeInCell;
     public int RetreatDistance => retreatDistance;
+    public int CoolDown => coolDown;
     public int RetreatActivateDistance => retreatActivateDistance;
     public AbilityData AbilityData;
 

@@ -21,4 +21,5 @@ MonoBehaviour:
   attackRangeInCell: 1
   retreatActivateDistance: 0
   retreatDistance: 0
+  coolDown: 1
   AbilityData: {fileID: 11400000, guid: be571eccfb4ece345b7bd9097785517b, type: 2}

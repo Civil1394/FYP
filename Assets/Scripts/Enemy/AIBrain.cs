@@ -232,6 +232,11 @@ public class AIBrain : MonoBehaviour
         attackDur--;
         //print(attackDur);
     }
+
+    public void ResetAttackCD()
+    {
+        attackDur = enemyConfig.CoolDown;
+    }
     public void Move(HexCell cellToMove)
     {
         EnemyManager.Instance.ReleaseReservationCell(this);
