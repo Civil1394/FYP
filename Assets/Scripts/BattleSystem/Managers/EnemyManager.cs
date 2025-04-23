@@ -22,6 +22,9 @@ public class EnemyManager : Singleton<EnemyManager>
     [SerializeField] private bool IsSpawnEnemy;
 
     [SerializeField] private EnemyWaveController enemyWaveController;
+
+    [Header("Wave setting")] [SerializeField]
+    private float waveDuration;
 	private void Start()
 	{
 		OnMove += EnemyCatcher;
@@ -55,7 +58,8 @@ public class EnemyManager : Singleton<EnemyManager>
 	}
 	public void InitEnemies()
 	{
-		StartCoroutine(enemyWaveController.EnemyWave(20, 40));
+		StartCoroutine(enemyWaveController.EnemyWave(5, waveDuration));
+		StartCoroutine(EnemyMonitor());
 		// if (IsSpawnEnemy)
 		// {
 		// 	foreach (var coord in spawnCoords)
@@ -86,16 +90,24 @@ public class EnemyManager : Singleton<EnemyManager>
 
 	public IEnumerator EnemyMonitor()
 	{
-		while (enemyWaveController.waveCnt<4)
+		float timeSinceLastWave = 0f;
+    
+		while (enemyWaveController.waveCnt < 4)
 		{
-			if (enemiesDict.Count<1)
+			timeSinceLastWave += 10f; 
+        
+			// Start a new wave if no enemies remain OR if we've waited too long
+			if (enemiesDict.Count < 1 || timeSinceLastWave >= waveDuration)
 			{
+				timeSinceLastWave = 0f;
+            
 				if (enemyWaveController.waveCnt == 3)
 				{
 					StartCoroutine(enemyWaveController.BossEnemyWave(10, 5));
 				}
 				StartCoroutine(enemyWaveController.EnemyWave(20, 40));
 			}
+        
 			yield return new WaitForSeconds(10);
 		}
 	}

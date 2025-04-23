@@ -606,8 +606,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ca700dd9f31f8459166c941ee810da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angleOfRange: 60
-  distanceOfRange: 10
+  angleOfRange: 90
+  distanceOfRange: 20
   innerSphereRadius: 3
 --- !u!1 &8843153847212249152
 GameObject:
@@ -886,7 +886,7 @@ PrefabInstance:
     - target: {fileID: 1942935287692551405, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
       propertyPath: m_UVRect.x
-      value: 1275.5201
+      value: 1274.8536
       objectReference: {fileID: 0}
     - target: {fileID: 1942935287692551405, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}

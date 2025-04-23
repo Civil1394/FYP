@@ -38,9 +38,7 @@ public class PlayerActor : TimedActor,IDamagable
 	private ActionLogicHandler actionLogicHandler;
 	private PendingActionVisualizer pendingActionVisualizer;
 	
-	#region "DebugUse"
-	[SerializeField] bool isInvincible = false;
-	#endregion
+
 	
 	#region events
 	public event Action<HexDirection> OnPlayerMoved;
@@ -285,12 +283,13 @@ public class PlayerActor : TimedActor,IDamagable
 	}
 	public void TakeDamage(float damage)
 	{
-		if (isInvincible) return;
-		currentHealth -= damage;
+		if (!BattleManager.Instance.IsPlayerInvincible)
+		{
+			currentHealth -= damage;
+			HealthText.text = currentHealth.ToString();
+			HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
+		}
 		
-		//Visual Update
-		HealthText.text = currentHealth.ToString();
-		HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
 		Instantiate(hitVFX, transform.position, Quaternion.identity);
 		CameraEffectManager.Instance.PlayHitReaction();
 		

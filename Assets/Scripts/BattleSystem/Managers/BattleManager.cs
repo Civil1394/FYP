@@ -17,6 +17,7 @@ public class BattleManager : Singleton<BattleManager>
 	public ProgressBarPattern PlayerHealthBar;
 	public PlayerActor PlayerActorInstance;
 	public HexCellComponent PlayerCell;
+	public bool IsPlayerInvincible = false;
 	
 	[Header("Player Cast Action Related Ref")]
 	public AbilityPreviewController abilityPreviewController;
@@ -32,6 +33,7 @@ public class BattleManager : Singleton<BattleManager>
 	public bool IsBattleStarted = false;
 	
 	[SerializeField] private AbilityDatabase abilityDatabase;
+	
 	#region Manager References
 	[Header("Managers Related Ref")]
 
