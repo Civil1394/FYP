@@ -38,13 +38,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _NoiseAmount: 0.049
+    - _NoiseAmount: 0.054
     - _NoiseScale: 100
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ScanningLines: 15
     - _ScanningLinesAmount: 0
-    - _ScanningLinesIntensity: 0
+    - _ScanningLinesIntensity: 0.012
     - _ScanningLinesSpeed: 1
     m_Colors:
     - _Color: {r: 0.759434, g: 1, b: 0.9618149, a: 1}

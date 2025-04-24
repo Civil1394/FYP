@@ -17,10 +17,10 @@ MonoBehaviour:
   projectileParam:
     Damage: 50
     BehaviorType: 0
-    TravelSpeed: 5
-    LifeTime: 3
+    TravelSpeed: 10
+    LifeTime: 10
     VFX_Height_Offset: {x: 0, y: 3, z: 0}
-    IsSelfDestructOnCollision: 0
+    IsSelfDestructOnCollision: 1
     ParabolaBlastVFX: {fileID: 0}
     BlastDamage: 0
   locationalProjectileParam:

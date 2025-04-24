@@ -64,12 +64,12 @@ public class LinearProjectileBehavior : ProjectileBehavior
         float distance = Vector3.Distance(startPos, endPos);
         float travelTime = distance / speed;
         
-        Tween currentMovement = this.transform.DOMove(endPos, travelTime)
+        this.transform.DOMove(endPos, travelTime)
             .SetEase(Ease.Linear)
             .OnComplete(()=>
             { 
                 Destroy(this.gameObject);
-            });
+            }); 
         return 1;
     }
 }
