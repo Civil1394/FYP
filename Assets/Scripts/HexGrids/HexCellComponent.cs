@@ -112,6 +112,7 @@ public class HexCellComponent : MonoBehaviour
     {
         if(!isTweening) return;
         isTweening = false;
+        transform.DOComplete();
         underlyingMaterial.DOColor(Color.clear, 0.1f);
         underlyingCell.transform.DOLocalMoveY(0, 0.1f);
     }

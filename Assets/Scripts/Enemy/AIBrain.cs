@@ -301,6 +301,6 @@ public class AIBrain : MonoBehaviour
         EnemyManager.Instance.ReleaseCell(this);
         EnemyManager.Instance.ReleaseReservationCell(this);
         EnemyManager.Instance.UnregisterFromDict(this);
-        DOTween.KillAll();
+        transform.DOKill();
     }
 }

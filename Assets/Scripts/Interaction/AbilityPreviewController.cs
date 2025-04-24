@@ -32,6 +32,7 @@ public class AbilityPreviewController : MonoBehaviour
 	{
 		foreach (var obj in active)
 		{
+			transform.DOComplete();
 			obj.transform.DOMove(playerActor.standingCell.transform.position - Vector3.down, duration)
 				.SetEase(Ease.OutQuad).OnComplete(() =>
 				{
