@@ -47,7 +47,9 @@ public class PlayerActor : TimedActor, IDamagable
 
 	#endregion
 
-	[Header("Sound")] [SerializeField] private AudioClip parryClip;
+	[Header("Sound")]
+	[SerializeField]private AudioClip parryClip;
+	[SerializeField] private AudioClip hitClip;
 
 	#region Mono
 
@@ -291,6 +293,7 @@ public class PlayerActor : TimedActor, IDamagable
 	{
 		if (!BattleManager.Instance.IsPlayerInvincible)
 		{
+			AudioSource.PlayClipAtPoint(hitClip,transform.position);
 			currentHealth -= damage;
 			HealthText.text = currentHealth.ToString();
 			HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
