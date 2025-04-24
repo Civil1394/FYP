@@ -70,7 +70,7 @@ public static class AbilityColorHelper
             color.r * darkenFactor,
             color.g * darkenFactor,
             color.b * darkenFactor,
-            color.a * 0.8f
+            color.a * 0.6f
         );
     }
     
