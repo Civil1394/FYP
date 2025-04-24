@@ -24,6 +24,10 @@ MonoBehaviour:
     ParabolaBlastVFX: {fileID: 5013878782555061258, guid: a82d8dae73f11944ba1fa3bcbfdc6cda,
       type: 3}
     BlastDamage: 50
+  locationalProjectileParam:
+    Damage: 0
+    VFX_Height_Offset: {x: 0, y: 0, z: 0}
+    BlastVFX: {fileID: 0}
   projectileVolleyParam:
     Damage: 0
     ProjectileConfig:
@@ -63,7 +67,7 @@ MonoBehaviour:
   Object_fx: {fileID: 8780727661788297695, guid: 2b2b602744803fc43adcee8e62dfc983,
     type: 3}
   IsRandomColorType: 0
-  ColorType: 4
+  ColorType: 0
   statusEffectsParam:
     Damage: 0
     statusEffects: []

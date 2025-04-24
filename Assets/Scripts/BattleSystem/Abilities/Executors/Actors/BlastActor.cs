@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BlastActor : DamageActor
 {
@@ -11,7 +12,7 @@ public class BlastActor : DamageActor
 	private BlastParameter parameter;
 	
 	public override event Action<GameObject> OnHitApplyStatusEffect;
-
+	private List<HexCellComponent> highlightedCells = new List<HexCellComponent>();
 	public void InitBlast(AbilityData ad, CasterType casterType, GameObject blast_VFX_Object,
 		BlastParameter BlastParameter, HexDirection castingDirection, HexCellComponent casterCell)
 	{
@@ -54,4 +55,5 @@ public class BlastActor : DamageActor
 		Destroy(sourceVFX);
 		OnHitApplyStatusEffect?.Invoke(damagedObject);
 	}
+	
 }

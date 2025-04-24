@@ -104,7 +104,7 @@ public class HexCellMeshGenerator : MonoBehaviour
     
     public bool CheckForCollisionAtCurrentPosition()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, INNER_RADIUS*collideOffset);
+        Collider[] colliders = Physics.OverlapSphere(transform.position + Vector3.up *0.1f, INNER_RADIUS*collideOffset);
         return colliders.Length > 1; // > 1 because it will detect its own collider
     }
     void OnDrawGizmosSelected()

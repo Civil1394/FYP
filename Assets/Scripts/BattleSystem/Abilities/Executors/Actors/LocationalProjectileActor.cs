@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using Unity.Mathematics;
 
@@ -10,7 +11,8 @@ public class LocationalProjectileActor : DamageActor
 	public HexCellComponent CasterCell{get; private set;}
 
 	public HexCellComponent TargetCell{get; private set;}
-
+	
+	private List<HexCellComponent> highlightedCells = new List<HexCellComponent>();
 	public override event Action<GameObject> OnHitApplyStatusEffect;
 
 	public void InitBullet(AbilityData ad, CasterType casterType, LocationalProjectileParameter parameter,
@@ -37,6 +39,7 @@ public class LocationalProjectileActor : DamageActor
 		transform.right = dir;
 		var tempDis = Vector3Int.Distance(CasterCell.CellData.Coordinates, TargetCell.CellData.Coordinates);
 		TargetCell.HighLightCell(abilityData.ColorType);
+		highlightedCells.Add(TargetCell);
 		transform.DOMove(TargetCell.transform.position, 0.1f * tempDis).SetEase(Ease.InQuad).OnComplete(() =>
 		{
 			Instantiate(parameter.BlastVFX,TargetCell.transform.position,Quaternion.identity);
@@ -52,6 +55,10 @@ public class LocationalProjectileActor : DamageActor
 
 	private void OnDestroy()
 	{
-		TargetCell.UnhighLightCell();
+
+		foreach (var c in highlightedCells)
+		{
+			c.UnhighLightCell();
+		}
 	}
 }

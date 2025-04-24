@@ -55,25 +55,16 @@ public static class AbilityColorHelper
 {
     public static Color GetAbilityColor(AbilityColorType color)
     {
-        switch (color)
-        {
-            case AbilityColorType.Red:
-                return HexToColor("#FF8080"); // Violet
-            case AbilityColorType.Green:
-                return HexToColor("#80FF80"); // Amber / Gold
-            case AbilityColorType.Teal:
-                return HexToColor("#80FFFF"); // Muted Cyan
-            case AbilityColorType.Blue:
-                return HexToColor("#8080FF"); // Muted Cyan
-            case AbilityColorType.Purple:
-                return HexToColor("#FF80FF"); // Muted Cyan
-            case AbilityColorType.Black:
-                return HexToColor("#FFFFFF"); // Muted Cyan
-            default:
-                return Color.white; // Default fallback color
-        }
+        switch (color) { case AbilityColorType.Red: return HexToColor("#FF3333"); // Bright Red
+                        case AbilityColorType.Green: return HexToColor("#33CC33"); // Vibrant Green
+                        case AbilityColorType.Teal: return HexToColor("#00B3B3"); // True Teal
+                        case AbilityColorType.Blue: return HexToColor("#3366FF"); // Royal Blue
+                        case AbilityColorType.Purple: return HexToColor("#9933CC"); // Rich Purple
+                        case AbilityColorType.Black: return HexToColor("#333333"); // Dark Gray (not white)
+                        default: return Color.white; // Default fallback color
+                        }
     }
-    public static Color DarkenColor(Color color, float darkenFactor = 0.5f)
+    public static Color DarkenColor(Color color, float darkenFactor = 0.8f)
     {
         return new Color(
             color.r * darkenFactor,

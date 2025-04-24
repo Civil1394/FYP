@@ -15,7 +15,7 @@ public class ProjectileActor : DamageActor
     private ProjectileBehavior behavior;
     public override event Action<GameObject> OnHitApplyStatusEffect;
     
-    private HexCellComponent currentCell;
+    private List<HexCellComponent> highlightedCells = new List<HexCellComponent>();
     public void InitBullet(AbilityData ad, CasterType casterType, ProjectileParameter parameter, HexDirection castingDirection,
         HexCellComponent castDirectionCell, Transform casterObjectTransform)
     {
@@ -103,9 +103,10 @@ public class ProjectileActor : DamageActor
     {
         if (other.CompareTag("Cell"))
         {
-            currentCell = other.GetComponent<HexCellComponent>();
+            var currentCell = other.GetComponent<HexCellComponent>();
             print("hit cell");
             currentCell.HighLightCell(abilityData.ColorType);
+            highlightedCells.Add(currentCell);
         }
     }
 
@@ -119,6 +120,9 @@ public class ProjectileActor : DamageActor
 
     private void OnDestroy()
     {
-        currentCell?.UnhighLightCell();
+        foreach (var c in highlightedCells)
+        {
+            c.UnhighLightCell();
+        }
     }
 }
