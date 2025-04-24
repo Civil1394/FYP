@@ -4,46 +4,51 @@ using RainbowArt.CleanFlatUI;
 using UnityEngine;
 using TMPro;
 
-public class PlayerActor : TimedActor,IDamagable
+public class PlayerActor : TimedActor, IDamagable
 {
 	public GameObject hitVFX;
-	[Header("Player Status")]
-	private float currentHealth = 100f;
+	[Header("Player Status")] private float currentHealth = 100f;
+
 	public float CurrentHealth
 	{
 		get => currentHealth;
 	}
+
 	private float maxHealth = 100f;
 
 	public float MaxHealth
 	{
-		get => maxHealth; 
+		get => maxHealth;
 		set => maxHealth = value;
 	}
+
 	public bool isTweening = false;
 	private ProgressBarPattern HealthBar;
 
 	[SerializeField] TMP_Text HealthText;
 
-	[Header("Facing Direction")]
-	public HexCellComponent standingCell;
+	[Header("Facing Direction")] public HexCellComponent standingCell;
 	public HexDirection FacingHexDirection;
 	private HexCellComponent facingCell;
-	
+
 	public IHexPatternHelper attackPattern;
-	
-	[Header("Hourglass trigger config")]
-	private PlayerAction pendingAction;
+
+	[Header("Hourglass trigger config")] private PlayerAction pendingAction;
 	private PlayerMovement playerMovement;
 	private ActionLogicHandler actionLogicHandler;
 	private PendingActionVisualizer pendingActionVisualizer;
-	
 
-	
+
+
 	#region events
+
 	public event Action<HexDirection> OnPlayerMoved;
 	public event Action<HexDirection> OnPlayerCast;
+
 	#endregion
+
+	[Header("Sound")] [SerializeField] private AudioClip parryClip;
+
 	#region Mono
 
 	protected void Awake()
@@ -84,16 +89,16 @@ public class PlayerActor : TimedActor,IDamagable
 		
 	}
 
-	private void OnDestroy()
-	{
-		if (hourglass != null)
+		private void OnDestroy()
 		{
-			OnTimerStart -= _ => QueueMoveAction();    
+			if (hourglass != null)
+			{
+				OnTimerStart -= _ => QueueMoveAction();    
 
-			OnTimerComplete -= ExecutePendingAction;
+				OnTimerComplete -= ExecutePendingAction;
+			}
+			
 		}
-		
-	}
 
 	#endregion
 	
@@ -268,6 +273,7 @@ public class PlayerActor : TimedActor,IDamagable
 						other.transform.position);
 				if (PlayerActionHudController.Instance.CheckParryCharge(damageActor.abilityData.ColorType, tempDir))
 				{
+					AudioSource.PlayClipAtPoint(parryClip,transform.position);
 					Destroy(other.gameObject);
 					return;
 				}

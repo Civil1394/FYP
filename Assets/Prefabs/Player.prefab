@@ -323,7 +323,7 @@ MonoBehaviour:
   HealthText: {fileID: 8119235172557658939}
   standingCell: {fileID: 0}
   FacingHexDirection: 1
-  isInvincible: 0
+  parryClip: {fileID: 8300000, guid: 9f1594a84b9cf394aa97a4fd540e5b8c, type: 3}
 --- !u!114 &4084432295781431589
 MonoBehaviour:
   m_ObjectHideFlags: 0
