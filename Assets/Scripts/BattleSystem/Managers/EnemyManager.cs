@@ -60,32 +60,8 @@ public class EnemyManager : Singleton<EnemyManager>
 	{
 		StartCoroutine(enemyWaveController.EnemyWave(5, waveDuration));
 		StartCoroutine(EnemyMonitor());
-		// if (IsSpawnEnemy)
-		// {
-		// 	foreach (var coord in spawnCoords)
-		// 	{
-		// 		HexCellComponent cell = BattleManager.Instance.hexgrid.GetCellInCoord(new Vector3Int(coord.x, 0, coord.y));
-		// 		if (cell.CellData.CellType == CellType.Empty)
-		// 		{
-		// 			AIBrain newInstance = Instantiate(enemyPrefab, cell.transform.position, quaternion.identity, enemyGroup);
-		// 			var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
-		// 			newInstance.gameObject.GetComponent<EnemyActor>().Init(hg);
-		// 			
-		// 			newInstance.currentCoord = cell.CellData.Coordinates;
-		// 			newInstance.currentCell = cell.CellData;
-		// 			enemiesDict.Add(newInstance,newInstance.currentCoord);
-		// 			cell.CellData.SetCell(newInstance.gameObject,CellType.Enemy);
-		// 		}
-		// 		else
-		// 		{
-		// 			print(coord.ToString());
-		// 			Debug.LogError("Not valid cell to spawn!");
-		// 			continue;
-		// 		}
-		// 	}
-		// }
-
-		//StartCoroutine(enemyWaveController.EnemyWave(10, 10f));
+		//StartCoroutine(enemyWaveController.BossEnemyWave(10, 5));
+		
 	}
 
 	public IEnumerator EnemyMonitor()
@@ -112,26 +88,20 @@ public class EnemyManager : Singleton<EnemyManager>
 		}
 	}
 
-	public void InstantiateBoss()
+	public void  InstantiateBoss()
 	{
-		Vector2Int coord = Vector2Int.zero;
+		Vector2Int coord = BattleManager.Instance.hexgrid.GetRandomEmptyCell();
 		HexCellComponent cell = BattleManager.Instance.hexgrid.GetCellInCoord(new Vector3Int(coord.x, 0, coord.y));
-		if (cell.CellData.CellType == CellType.Empty)
-		{
-			AIBrain newInstance = Instantiate(bossPrefab, cell.transform.position, quaternion.identity, enemyGroup);
-			ReserveCell(newInstance, cell.CellData);
+		
+		AIBrain newInstance = Instantiate(bossPrefab, cell.transform.position, quaternion.identity, enemyGroup);
+		ReserveCell(newInstance, cell.CellData);
 			
-			var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
-			newInstance.gameObject.GetComponent<EnemyActor>().Init(hg);
+		var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
+		newInstance.gameObject.GetComponent<EnemyActor>().Init(hg);
 			
-			newInstance.Init(bossConfig,cell.CellData);
-			enemiesDict.Add(newInstance,newInstance.currentCoord);
-			cell.CellData.SetCell(newInstance.gameObject,CellType.Enemy);
-		}
-		else
-		{
-			Debug.LogError("Not valid cell to spawn!");
-		}
+		newInstance.Init(bossConfig,cell.CellData);
+		enemiesDict.Add(newInstance,newInstance.currentCoord);
+		cell.CellData.SetCell(newInstance.gameObject,CellType.Enemy);
 	}
     public bool ReserveCell(AIBrain enemy, HexCell cell)
     {
