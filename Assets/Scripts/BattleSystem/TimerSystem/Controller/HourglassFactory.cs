@@ -20,17 +20,17 @@ public class HourglassFactory : Singleton<HourglassFactory>
 
 		for (int i = 0; i < num; i++)
 		{
-			int actualSand = isRandom ? Random.Range(1, 1) : sand.Value;
+			float actualSand = isRandom ? Random.Range(0.6f,0.8f) : sand.Value;
 			TimeType actualTimeType = isRandom 
 				? (TimeType)Random.Range(0, timeTypeCount-1) 
 				: timeType.Value;
-			int actualMaxThreshold = isRandom ? Random.Range(actualSand + 1, actualSand + 10) : MaxThreshold.Value;
+			float actualMaxThreshold = isRandom ? Random.Range(actualSand + 1, actualSand + 10) : MaxThreshold.Value;
 			hourglasses.Add(CreateSingleHourglass(actualSand, actualTimeType ,actualMaxThreshold));
 		}
 		return hourglasses;
 	}
 	
-	public Hourglass CreateSingleHourglass(int sand , TimeType timeType,int MaxThreshold)
+	public Hourglass CreateSingleHourglass(float sand , TimeType timeType,float MaxThreshold)
 	{
 		Hourglass hourglass = new Hourglass(sand, timeType, MaxThreshold,false);
 		return hourglass;

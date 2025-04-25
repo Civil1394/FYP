@@ -38,5 +38,6 @@ public class EnemyWaveController : MonoBehaviour
 			yield return new WaitForSeconds(waveDuration/enemyCount);
 		}
 		EnemyManager.Instance.InstantiateBoss();
+		SoundManager.Instance.ChangeBossBGM();
 	}
 }

@@ -3,14 +3,14 @@ using System.Collections;
 [System.Serializable]
 public class Hourglass
 {
-	public int Sand;
+	public float Sand;
 	public TimeType TimeType;
 	public string Id; // unique identifier 
 	
 	public float MinThreshold = 0f;
 	public float MaxThreshold = 3f;
 	public bool IsOccupied;
-	public Hourglass(int sand , TimeType timeTimeType,int MaxThreshold,bool IsOccupied)
+	public Hourglass(float sand , TimeType timeTimeType,float MaxThreshold,bool IsOccupied)
 	{
 		this.Sand = sand;
 		this.TimeType = timeTimeType;

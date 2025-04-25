@@ -327,6 +327,7 @@ MonoBehaviour:
   FacingHexDirection: 1
   parryClip: {fileID: 8300000, guid: 9f1594a84b9cf394aa97a4fd540e5b8c, type: 3}
   hitClip: {fileID: 8300000, guid: e61d0c13ce626a147b2bf1c6bc96edc2, type: 3}
+  moveClip: {fileID: 8300000, guid: 96aee04605a787f48b73f79100bfb4d3, type: 3}
 --- !u!114 &4084432295781431589
 MonoBehaviour:
   m_ObjectHideFlags: 0

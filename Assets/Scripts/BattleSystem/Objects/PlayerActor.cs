@@ -54,6 +54,7 @@ public class PlayerActor : TimedActor, IDamagable
 	[Header("Sound")]
 	[SerializeField]private AudioClip parryClip;
 	[SerializeField] private AudioClip hitClip;
+	[SerializeField] private AudioClip moveClip;
 	
 	private Coroutine parryCoroutine;
 	private GameObject parryObject;
@@ -164,7 +165,7 @@ public class PlayerActor : TimedActor, IDamagable
 
 		// Execute the actual movement
 		playerMovement.Move(pendingAction.TargetCell,BattleManager.Instance.CheckCellContainChest);
-        
+        SoundManager.Instance.PlaySFX(moveClip);
 		// Update cell states
 		UpdateCellsStates();
 		OnPlayerMoved?.Invoke(FacingHexDirection);
@@ -273,7 +274,7 @@ public class PlayerActor : TimedActor, IDamagable
 						other.transform.position);
 				if (PlayerActionHudController.Instance.CheckParryCharge(damageActor.abilityData.ColorType, tempDir))
 				{
-					AudioSource.PlayClipAtPoint(parryClip,transform.position);
+					SoundManager.Instance.PlaySFX(parryClip);
 					if(parryCoroutine !=null)StopCoroutine(parryCoroutine);
 					Destroy(parryObject);
 					parryCoroutine = StartCoroutine(ParryVFXCoroutine());
@@ -294,13 +295,12 @@ public class PlayerActor : TimedActor, IDamagable
 	{
 		if (!BattleManager.Instance.IsPlayerInvincible)
 		{
-			AudioSource.PlayClipAtPoint(hitClip,transform.position);
 			currentHealth -= damage;
 			HealthText.text = currentHealth.ToString();
 			HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
 		}
 		
-		
+		SoundManager.Instance.PlaySFX(hitClip);
 		CameraEffectManager.Instance.PlayHitReaction();
 		
 		DeathCheck();

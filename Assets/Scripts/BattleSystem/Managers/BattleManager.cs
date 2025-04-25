@@ -96,7 +96,7 @@ public class BattleManager : Singleton<BattleManager>
 
 	private void InitHourglasses()
 	{
-		HourglassInventory.Instance.hourglassesList = HourglassFactory.Instance.CreateHourglasses(50, true,null,null,null);
+		HourglassInventory.Instance.hourglassesList = HourglassFactory.Instance.CreateHourglasses(99, true,null,null,null);
 		
 		//int slotsAmount = HourglassesUIContainer.Instance.hourglassSlotsCount;
 		// Hourglass[] hourglassesArray = new Hourglass[slotsAmount];

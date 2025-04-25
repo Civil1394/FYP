@@ -31,6 +31,10 @@ public class EnemyActor : TimedActor, IDamagable
 	
 	[SerializeField] TMP_Text HealthText;
 	[SerializeField] ProgressBarPattern HealthBar;
+	
+	[Header("Sound")]
+	[SerializeField]private AudioClip parryClip;
+	[SerializeField] private AudioClip hitClip;
 	public override void Init(Hourglass hourglass)
 	{
 		base.Init(hourglass);
@@ -117,6 +121,7 @@ public class EnemyActor : TimedActor, IDamagable
 		currentHealth -= damage;
 		HealthText.text = currentHealth.ToString();
 		HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
+		SoundManager.Instance.PlaySFX(hitClip);
 		Instantiate(hitVFX, transform.position, Quaternion.identity);
 		DeathCheck();
 	}

@@ -571,6 +571,8 @@ MonoBehaviour:
   isTweening: 0
   HealthText: {fileID: 4509833973654327497}
   HealthBar: {fileID: 3901269582076645961}
+  parryClip: {fileID: 0}
+  hitClip: {fileID: 8300000, guid: 4f8799db1e4e3094f87a07c32509db50, type: 3}
 --- !u!136 &5997077565646246563
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -886,7 +888,7 @@ PrefabInstance:
     - target: {fileID: 1942935287692551405, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
       propertyPath: m_UVRect.x
-      value: 1274.5204
+      value: 1274.1771
       objectReference: {fileID: 0}
     - target: {fileID: 1942935287692551405, guid: c17037e08cf43fa4ab0f8450658ab013,
         type: 3}
