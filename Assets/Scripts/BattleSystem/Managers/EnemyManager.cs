@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Mathematics;
 
 
@@ -25,6 +26,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
     [Header("Wave setting")] [SerializeField]
     private float waveDuration;
+    
 	private void Start()
 	{
 		OnMove += EnemyCatcher;
@@ -67,7 +69,7 @@ public class EnemyManager : Singleton<EnemyManager>
 	public IEnumerator EnemyMonitor()
 	{
 		float timeSinceLastWave = 0f;
-    
+       
 		while (enemyWaveController.waveCnt < 4)
 		{
 			timeSinceLastWave += 10f; 
