@@ -319,6 +319,8 @@ MonoBehaviour:
   actorHourglassData: {fileID: 6218446944541944780}
   hourglassHalo: {fileID: 3399861008083348767}
   hitVFX: {fileID: 1835174905073365006, guid: 1d7489525a7b07049bd0e89eac948c6b, type: 3}
+  parryVFX: {fileID: 4631137236932131032, guid: af29caeffacf88c42ad97556f58d90c1,
+    type: 3}
   isTweening: 0
   HealthText: {fileID: 8119235172557658939}
   standingCell: {fileID: 0}

@@ -12,7 +12,7 @@ public class BattleManager : Singleton<BattleManager>
 	[Header("Player-related ref")] 
 	[SerializeField] private float playerMaxHealth = 100f;
 	[SerializeField] private GameObject playerPrefab;
-	[SerializeField] private List<Vector2Int> playerSpawnCoord = new List<Vector2Int>();
+	[System.NonSerialized] public Vector2Int playerSpawnPosition;
 	[SerializeField] private CinemachineVirtualCamera playerCamera;
 	public ProgressBarPattern PlayerHealthBar;
 	public PlayerActor PlayerActorInstance;
@@ -77,10 +77,8 @@ public class BattleManager : Singleton<BattleManager>
 		InitHourglasses();
 		
 		//InitPlayer
-		foreach (Vector2Int p in playerSpawnCoord)
-		{
-			InitPlayer(p);
-		}
+		playerSpawnPosition = hexgrid.GetRandomEmptyCell();
+		InitPlayer(playerSpawnPosition);
 		
 		//InitEnemies
 		EnemyManager.Instance.InitEnemies();

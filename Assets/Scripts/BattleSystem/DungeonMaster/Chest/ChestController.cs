@@ -41,10 +41,16 @@ public class ChestController : MonoBehaviour
 		List<Vector2Int> rawChestLocations = NoiseSystem.GetPositions(maxChestCount, width, height);
 		foreach (Vector2Int pos in rawChestLocations)
 		{
-			int randValue = (int)Mathf.Floor(Random.value);
-			if(randValue <= legendaryChestRate) chestMap.Add(pos, ChestType.Legend);
-			else if (randValue <= goldChestRate) chestMap.Add(pos, ChestType.Gold);
-			else if (randValue <= steelChestRate) chestMap.Add(pos, ChestType.Steel);
+			var b = BattleManager.Instance;
+			var c = b.hexgrid.GetCellInCoordVector2(pos);
+			if (!b.hexgrid.CheckCellInRange(b.PlayerCell, c, 1))
+			{
+				int randValue = (int)Mathf.Floor(Random.value);
+				if(randValue <= legendaryChestRate) chestMap.Add(pos, ChestType.Legend);
+				else if (randValue <= goldChestRate) chestMap.Add(pos, ChestType.Gold);
+				else if (randValue <= steelChestRate) chestMap.Add(pos, ChestType.Steel);
+			}
+			
 		}
 		return chestMap;
 	}

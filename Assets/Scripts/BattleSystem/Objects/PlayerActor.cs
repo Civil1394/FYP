@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Threading;
 using DG.Tweening;
 using RainbowArt.CleanFlatUI;
@@ -9,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class PlayerActor : TimedActor, IDamagable
 {
 	public GameObject hitVFX;
+	public GameObject parryVFX;
 	[Header("Player Status")] private float currentHealth = 100f;
 
 	public float CurrentHealth
@@ -52,6 +54,9 @@ public class PlayerActor : TimedActor, IDamagable
 	[Header("Sound")]
 	[SerializeField]private AudioClip parryClip;
 	[SerializeField] private AudioClip hitClip;
+	
+	private Coroutine parryCoroutine;
+	private GameObject parryObject;
 
 	#region Mono
 
@@ -180,22 +185,13 @@ public class PlayerActor : TimedActor, IDamagable
 		BattleManager.Instance.OnPlayerMove(this, standingCell, targetCell);
 		standingCell = targetCell;
 		TryChangeFacingDirection(FacingHexDirection);
-		// Update cell states
-		//onplayermoved
+
 	}
 	private void UpdateCellsStates()
 	{
-		// foreach (var c in attackPattern.GetPattern(playerCell.CellData))
-		// {
-		// 	c.SetGuiType(CellActionType.Empty);
-		// }
 		BattleManager.Instance.OnPlayerMove(this, standingCell, pendingAction.TargetCell);
 		standingCell = pendingAction.TargetCell;
 		TryChangeFacingDirection(FacingHexDirection);
-		// foreach (var c in attackPattern.GetPattern(pendingAction.TargetCell.CellData))
-		// {
-		// 	c.SetGuiType(CellActionType.ValidAttackCell);
-		// }
 	}
 
 	public void ExecuteCastAction(HexDirection abiltyDirection, HexCellComponent castCell)
@@ -278,6 +274,9 @@ public class PlayerActor : TimedActor, IDamagable
 				if (PlayerActionHudController.Instance.CheckParryCharge(damageActor.abilityData.ColorType, tempDir))
 				{
 					AudioSource.PlayClipAtPoint(parryClip,transform.position);
+					if(parryCoroutine !=null)StopCoroutine(parryCoroutine);
+					Destroy(parryObject);
+					parryCoroutine = StartCoroutine(ParryVFXCoroutine());
 					Destroy(other.gameObject);
 					return;
 				}
@@ -301,12 +300,19 @@ public class PlayerActor : TimedActor, IDamagable
 			HealthBar.UpdateGUIByHealthMultiplier(CalHealthBarGUIMultiplier());
 		}
 		
-		Instantiate(hitVFX, transform.position, Quaternion.identity);
+		
 		CameraEffectManager.Instance.PlayHitReaction();
 		
 		DeathCheck();
 	}
 
+	private IEnumerator ParryVFXCoroutine()
+	{
+		parryObject =Instantiate(parryVFX, transform.position, Quaternion.identity);
+		yield return new WaitForSeconds(0.5f);
+		Destroy(parryObject);
+		parryCoroutine = null;
+	}
 	public void HandleStatusEffectDamage(float damage)
 	{
 		TakeDamage(damage);

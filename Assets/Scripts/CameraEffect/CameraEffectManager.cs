@@ -15,6 +15,8 @@ public class CameraEffectManager : Singleton<CameraEffectManager>
 	{
 		if(!volumeProfile) throw new System.NullReferenceException(nameof(UnityEngine.Rendering.VolumeProfile));
 		if(!volumeProfile.TryGet(out vignette)) throw new System.NullReferenceException(nameof(vignette));
+		vignette.intensity.value = 0.2f;
+		vignette.color.value = Color.black;
 	}
 	public void PlayHitReaction()
 	{

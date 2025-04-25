@@ -358,4 +358,24 @@ public class HexGrid
         }
        
     }
+
+    public Vector2Int GetRandomEmptyCell()
+    {
+        // Filter cells to find only empty ones
+        var emptyCells = cells.Values.Where(c => c.CellData.CellType == CellType.Empty).ToList();
+
+        // Check if we have any empty cells
+        if (emptyCells.Count == 0)
+            return Vector2Int.zero; // Return zero or throw an exception if no empty cells exist
+
+        // Get a random index
+        int randomIndex = UnityEngine.Random.Range(0, emptyCells.Count);
+    
+        // Get the selected cell
+        var selectedCell = emptyCells[randomIndex];
+    
+        // Get the position of the cell and convert to Vector2Int (x, z)
+        Vector3Int cellPos = selectedCell.CellData.Coordinates;
+        return new Vector2Int(cellPos.x, cellPos.z);
+    }
 }
