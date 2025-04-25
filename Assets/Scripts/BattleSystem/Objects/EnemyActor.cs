@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Threading;
 using DG.Tweening;
 using RainbowArt.CleanFlatUI;
 using Random = UnityEngine.Random;
@@ -35,6 +36,8 @@ public class EnemyActor : TimedActor, IDamagable
 	[Header("Sound")]
 	[SerializeField]private AudioClip parryClip;
 	[SerializeField] private AudioClip hitClip;
+
+	public bool isBoss = false;
 	public override void Init(Hourglass hourglass)
 	{
 		base.Init(hourglass);
@@ -144,7 +147,10 @@ public class EnemyActor : TimedActor, IDamagable
 
 	protected override void OnDeath()
 	{
+		
 		Destroy(gameObject);
+		Thread.Sleep(1000);
+		BattleManager.Instance.WinGame();
 	}
 #endregion
 }

@@ -45,6 +45,8 @@ public class BattleManager : Singleton<BattleManager>
 	[SerializeField]private ChestController chestController;
 	[SerializeField]private EnemyWaveController enemyWaveController;
 	
+	[SerializeField] private GameObject winMenuUI;
+	[SerializeField] private GameObject loseMenuUI;
 	public InputHandler InputHandler
 	{
 		get => _inputHandler;
@@ -196,6 +198,17 @@ public class BattleManager : Singleton<BattleManager>
 		}
 	}
 
+	public void WinGame()
+	{
+		winMenuUI.SetActive(true);
+		Time.timeScale = 0;
+	}
+
+	public void LoseGame()
+	{
+		loseMenuUI.SetActive(true);
+		Time.timeScale = 0;
+	}
 }
 
 

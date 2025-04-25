@@ -327,7 +327,7 @@ public class PlayerActor : TimedActor, IDamagable
 	{
 		Destroy(gameObject);
 		Thread.Sleep(1000);
-		SceneManager.LoadScene(0);
+		BattleManager.Instance.LoseGame();
 	}
 #endregion
 

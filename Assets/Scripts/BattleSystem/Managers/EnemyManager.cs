@@ -100,7 +100,7 @@ public class EnemyManager : Singleton<EnemyManager>
 			
 		var hg = HourglassInventory.Instance.GetRandomUnoccupiedHourglassFromInventory();
 		newInstance.gameObject.GetComponent<EnemyActor>().Init(hg);
-			
+		newInstance.gameObject.GetComponent<EnemyActor>().isBoss = true;
 		newInstance.Init(bossConfig,cell.CellData);
 		enemiesDict.Add(newInstance,newInstance.currentCoord);
 		cell.CellData.SetCell(newInstance.gameObject,CellType.Enemy);
