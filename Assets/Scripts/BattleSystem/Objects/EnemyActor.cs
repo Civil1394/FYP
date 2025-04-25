@@ -149,8 +149,10 @@ public class EnemyActor : TimedActor, IDamagable
 	{
 		
 		Destroy(gameObject);
-		Thread.Sleep(1000);
-		BattleManager.Instance.WinGame();
+		
+		if(isBoss)
+			//Thread.Sleep(1000);
+			BattleManager.Instance.WinGame();
 	}
 #endregion
 }

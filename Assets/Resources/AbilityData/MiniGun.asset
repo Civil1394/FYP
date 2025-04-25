@@ -30,7 +30,7 @@ MonoBehaviour:
   projectileVolleyParam:
     Damage: 0
     ProjectileConfig:
-      Damage: 2
+      Damage: 3
       BehaviorType: 0
       TravelSpeed: 20
       LifeTime: 5

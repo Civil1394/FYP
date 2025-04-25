@@ -326,7 +326,7 @@ public class PlayerActor : TimedActor, IDamagable
 	protected override void OnDeath()
 	{
 		Destroy(gameObject);
-		Thread.Sleep(1000);
+		//Thread.Sleep(1000);
 		BattleManager.Instance.LoseGame();
 	}
 #endregion

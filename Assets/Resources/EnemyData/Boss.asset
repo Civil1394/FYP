@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Boss
   m_EditorClassIdentifier: 
   id: 
-  health: 100
+  health: 200
   enemyStateType: 5
   angleOfRange: 999
   distanceOfRange: 999
   innerSphereRadius: 999
   attackRangeInCell: 4
+  retreatActivateDistance: 0
+  retreatDistance: 0
+  coolDown: 0
   AbilityData: {fileID: 0}

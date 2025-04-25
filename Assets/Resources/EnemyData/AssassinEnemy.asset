@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AssassinEnemy
   m_EditorClassIdentifier: 
   id: 
-  health: 100
+  health: 60
   enemyStateType: 3
   angleOfRange: 240
   distanceOfRange: 6

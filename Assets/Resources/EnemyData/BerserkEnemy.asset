@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BerserkEnemy
   m_EditorClassIdentifier: 
   id: 
-  health: 60
+  health: 30
   enemyStateType: 0
   angleOfRange: 90
   distanceOfRange: 5

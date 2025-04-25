@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 2
   abilityType: 0
   projectileParam:
-    Damage: 50
+    Damage: 35
     BehaviorType: 0
     TravelSpeed: 10
     LifeTime: 10

@@ -43,7 +43,7 @@ MonoBehaviour:
     BurstCount: 1
     DelayBetweenBurst: 0
   blastParam:
-    Damage: 10
+    Damage: 20
     Width: 3
     BlastStepDelay: 0.1
     BlastStepCount: 8

@@ -37,7 +37,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                         internal_instance.MonoInstance = singleton.AddComponent<T>();
                         singleton.name = $"(singleton) {typeof(T)}";
 
-                        DontDestroyOnLoad(singleton);
+                        //DontDestroyOnLoad(singleton);
 
                         Debug.Log($"[Singleton] An instance of {typeof(T)} is needed in the scene, so '{singleton}' was created with DontDestroyOnLoad.");
                     }

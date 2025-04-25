@@ -23,7 +23,7 @@ MonoBehaviour:
     IsSelfDestructOnCollision: 1
     ParabolaBlastVFX: {fileID: 3607185601950021820, guid: fa530e8cb24718841be81642550730d1,
       type: 3}
-    BlastDamage: 20
+    BlastDamage: 10
   locationalProjectileParam:
     Damage: 0
     VFX_Height_Offset: {x: 0, y: 0, z: 0}
