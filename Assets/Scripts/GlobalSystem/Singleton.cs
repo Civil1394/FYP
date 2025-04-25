@@ -57,7 +57,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         if (MonoSingletonInternal.Instance.MonoInstance == null)
         {
             MonoSingletonInternal.Instance.MonoInstance = this as T;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else if (MonoSingletonInternal.Instance.MonoInstance != this)
         {
