@@ -156,10 +156,11 @@ public class ParabolaProjectileBehavior : ProjectileBehavior
       
         GameObject explosiveObject = Instantiate(parabolaBlastVFX, end, Quaternion.identity);
         var ea = explosiveObject.AddComponent<ExplosiveActor>();
-         ea.Init(parabolaBlastDamage);
-         ea.CasterType = CasterType.Environment;
-         ea.OnHitApplyStatusEffect += explosiveVFXCallback;
-         yield return new WaitForSeconds(0.5f);
-         Destroy(gameObject);
+        ea.abilityData = ProjectileActor.abilityData;
+        ea.Init(parabolaBlastDamage);
+        ea.CasterType = CasterType.Environment;
+        ea.OnHitApplyStatusEffect += explosiveVFXCallback;
+        yield return new WaitForSeconds(0.5f);
+        Destroy(gameObject);
     }
 }

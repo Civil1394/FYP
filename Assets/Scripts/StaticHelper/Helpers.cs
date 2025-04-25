@@ -55,12 +55,12 @@ public static class AbilityColorHelper
 {
     public static Color GetAbilityColor(AbilityColorType color)
     {
-        switch (color) { case AbilityColorType.Red: return HexToColor("#FF3333"); // Bright Red
-                        case AbilityColorType.Green: return HexToColor("#0ADD08"); // Vibrant Green
-                        case AbilityColorType.Teal: return HexToColor("#02d9d9"); // True Teal
-                        case AbilityColorType.Blue: return HexToColor("#265cff"); // Royal Blue
-                        case AbilityColorType.Purple: return HexToColor("#a422e6"); // Rich Purple
-                        case AbilityColorType.Black: return HexToColor("#333333"); // Dark Gray (not white)
+        switch (color) { case AbilityColorType.Red: return HexToColor("#FF333388"); // Bright Red
+                        case AbilityColorType.Green: return HexToColor("#0ADD0888"); // Vibrant Green
+                        case AbilityColorType.Teal: return HexToColor("#02d9d988"); // True Teal
+                        case AbilityColorType.Blue: return HexToColor("#265cff88"); // Royal Blue
+                        case AbilityColorType.Purple: return HexToColor("#a422e688"); // Rich Purple
+                        case AbilityColorType.Black: return HexToColor("#33333388"); // Dark Gray (not white)
                         default: return Color.white; // Default fallback color
                         }
     }
