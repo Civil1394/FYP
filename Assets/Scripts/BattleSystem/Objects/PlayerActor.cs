@@ -1,8 +1,10 @@
 using System;
+using System.Threading;
 using DG.Tweening;
 using RainbowArt.CleanFlatUI;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerActor : TimedActor, IDamagable
 {
@@ -318,6 +320,8 @@ public class PlayerActor : TimedActor, IDamagable
 	protected override void OnDeath()
 	{
 		Destroy(gameObject);
+		Thread.Sleep(1000);
+		SceneManager.LoadScene(0);
 	}
 #endregion
 

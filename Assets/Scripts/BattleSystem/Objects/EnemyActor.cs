@@ -5,6 +5,7 @@ using DG.Tweening;
 using RainbowArt.CleanFlatUI;
 using Random = UnityEngine.Random;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class EnemyActor : TimedActor, IDamagable
 {

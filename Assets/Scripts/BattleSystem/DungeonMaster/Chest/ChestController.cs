@@ -13,6 +13,7 @@ public class ChestController : MonoBehaviour
 	}
 	[SerializeField] private Canvas ChestUICanvas;
 	[SerializeField] private List<OptionBehaviour> optionBehaviours;
+	[SerializeField] private Image IconOfBeReplacedAbility;
 	public GameObject CurrentChest;
 	[SerializeField] private GameObject steelChestPrefab;
 	[Range(0,1)] public float steelChestRate;
@@ -64,21 +65,45 @@ public class ChestController : MonoBehaviour
 		}
 	}
 
-	void RandomizeOption()
+	void RandomizeOption(HexDirection enterDirection)
 	{
+		List<AbilityData> selectedAbilities = new List<AbilityData>();
+    
 		foreach (var ob in optionBehaviours)
 		{
-			//ob.Set();
+			AbilityData a = null;
+			int attempts = 0;
+        
+			while ((a == null || selectedAbilities.Contains(a)) && attempts < 10)
+			{
+				a = BattleManager.Instance.abilityDatabase.GetRandomAbilityFromList("main");
+				attempts++;
+			}
+			
+			if (a != null && !selectedAbilities.Contains(a) || selectedAbilities.Count >= 3)
+			{
+				if (!selectedAbilities.Contains(a))
+				{
+					selectedAbilities.Add(a);
+				}
+				
+				ob.Set(a.Icon, a.Title, a.Desc, () =>
+				{
+					EquippedAbilityManager.RemoveAndReplaceAbilityInDirection(enterDirection,a);
+					PlayerActionHudController.Instance.RefreshHUD();
+				});
+			}
 		}
 	}
 	
-	public void EnableChestUICanvas(HexCell chestCell)
+	public void EnableChestUICanvas(HexCell chestCell,HexDirection enterDirection)
 	{
 		//pause the game time
 		CurrentChest = chestCell.StandingGameObject;
 		chestCell.SetCell(null, CellType.Empty);
 		ChestUICanvas.gameObject.SetActive(true);
-		RandomizeOption();
+		IconOfBeReplacedAbility.sprite = EquippedAbilityManager.GetEquippedAbilityData(enterDirection).Icon;
+		RandomizeOption(enterDirection);
 		Time.timeScale = 0;
 	}
 
@@ -88,6 +113,7 @@ public class ChestController : MonoBehaviour
 		Destroy(CurrentChest);
 		CurrentChest = null;
 		ChestUICanvas.gameObject.SetActive(false);
+		BattleManager.Instance.UpdateValidMoveRange();
 		Time.timeScale = 1;
 	}
 }

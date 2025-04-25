@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 public static class EquippedAbilityManager 
 {
@@ -38,7 +39,7 @@ public static class EquippedAbilityManager
 		return newAbilityInstance;
 	}
 
-	public static void RemoveAndReplaceAbilityInDirection(HexDirection direction)
+	public static void RemoveAndReplaceAbilityInDirection(HexDirection direction,[CanBeNull] AbilityData provideAbility=null)
 	{
 		if (equippedAbilities.Count == 0)
 		{
@@ -51,9 +52,17 @@ public static class EquippedAbilityManager
 		{
 			// Remove the ability at the specified direction
 			equippedAbilities.RemoveAt(index);
-        
-			// Create a new ability and insert it at the same position
-			var bp = currentDatabase.GetRandomAbilityFromList("main");
+			AbilityData bp = new AbilityData();
+			if (provideAbility != null)
+			{
+				bp = provideAbility;
+			}
+			else
+			{
+				// Create a new ability and insert it at the same position
+				 bp = currentDatabase.GetRandomAbilityFromList("main");
+				
+			}
 			var newAbilityInstance = bp.Create();
         
 			if (newAbilityInstance == null)
@@ -64,6 +73,7 @@ public static class EquippedAbilityManager
         
 			// Insert the new ability at the same index
 			equippedAbilities.Insert(index, newAbilityInstance);
+			
 		}
 	}
 	public static void RemoveAbilityInDirection(HexDirection direction)
@@ -90,6 +100,16 @@ public static class EquippedAbilityManager
 		else
 		{
 			Debug.LogError($"Invalid ability index: {index}");
+			return null;
+		}
+	}
+	public static AbilityData GetEquippedAbilityData(HexDirection direction)
+	{
+		var a = equippedAbilities[(int) direction];
+		if (a != null) return a;
+		else
+		{
+			Debug.LogError($"Invalid ability Direction: {direction}");
 			return null;
 		}
 	}

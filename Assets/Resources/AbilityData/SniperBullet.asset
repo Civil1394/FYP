@@ -57,7 +57,7 @@ MonoBehaviour:
     TriggerCount: 0
     TriggerBetweenDelay: 0
   PrerequisiteChargeSteps: 1
-  Title: 2
+  Title: SniperBullet
   Desc: 
   Icon: {fileID: 21300000, guid: 29778d8cfd99c4a458376b5904e0c263, type: 3}
   CastType: 1

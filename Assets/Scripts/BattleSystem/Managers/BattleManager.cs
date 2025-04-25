@@ -32,7 +32,7 @@ public class BattleManager : Singleton<BattleManager>
 	public EnemyDatabase EnemyDatabase;
 	public bool IsBattleStarted = false;
 	
-	[SerializeField] private AbilityDatabase abilityDatabase;
+	public AbilityDatabase abilityDatabase;
 	
 	#region Manager References
 	[Header("Managers Related Ref")]
@@ -192,7 +192,8 @@ public class BattleManager : Singleton<BattleManager>
 		{
 			if (cell.CellData.CellActionType == CellActionType.Chest)
 			{
-				chestController.EnableChestUICanvas(cell.CellData);
+				var d = hexgrid.CheckNeigborCellDirection(hexgrid.GetCellByType(CellType.Player), cell);
+				chestController.EnableChestUICanvas(cell.CellData,d);
 			}
 		}
 	}

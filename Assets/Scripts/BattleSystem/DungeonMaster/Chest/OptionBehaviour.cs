@@ -17,21 +17,22 @@ public class OptionBehaviour : MonoBehaviour
 
 	public void Select()
 	{
-		if (clickAction != null)
+		try
 		{
-			clickAction();
+			clickAction?.Invoke();
 			clickAction = null;
 		}
-		else
+		catch (Exception e)
 		{
-			print("the click actin is lost");
+			Console.WriteLine(e);
+			throw;
 		}
 	}
-	public void Set(Image icon, TMP_Text titleText, TMP_Text descriptionText, Action clickAction)
+	public void Set(Sprite iconSprite, String titleText, String descriptionText, Action clickAction)
 	{
-		this.icon = icon;
-		this.titleText = titleText;
-		this.descriptionText = descriptionText;
+		this.icon.sprite = iconSprite;
+		this.titleText.text = titleText;
+		this.descriptionText.text = descriptionText;
 		this.clickAction = clickAction;
 	}
 }

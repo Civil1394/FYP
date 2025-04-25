@@ -58,7 +58,7 @@ MonoBehaviour:
     TriggerCount: 1
     TriggerBetweenDelay: 0
   PrerequisiteChargeSteps: 1
-  Title: 
+  Title: ExplosiveCharge
   Desc: 
   Icon: {fileID: 21300000, guid: d970f6d1a951e664a9c4896fc28ffc0c, type: 3}
   CastType: 1
